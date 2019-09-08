@@ -1,0 +1,18 @@
+{
+  "name": "react-refresh-webpack-plugin",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "author": "Michael Mok",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/lodash.debounce": "^4.0.6",
+    "@types/webpack": "^4.39.1",
+    "prettier": "^1.18.2",
+    "typescript": "^3.6.2"
+  },
+  "dependencies": {
+    "lodash.debounce": "^4.0.8",
+    "react-refresh": "^0.4.1",
+    "webpack": "^4.39.3"
+  }
+}
