@@ -3,7 +3,7 @@ import { Entry, EntryFunc } from 'webpack';
 type StaticEntry = string | string[] | Entry;
 type WebpackEntry = StaticEntry | EntryFunc;
 
-const injectEntry = (originalEntry?: WebpackEntry): WebpackEntry => {
+const injectRefreshEntry = (originalEntry?: WebpackEntry): WebpackEntry => {
   const ReactRefreshEntry = require.resolve('./ReactRefreshEntry');
 
   // Single string entry point
@@ -19,7 +19,7 @@ const injectEntry = (originalEntry?: WebpackEntry): WebpackEntry => {
     return Object.entries(originalEntry).reduce(
       (acc, [curKey, curEntry]) => ({
         ...acc,
-        [curKey]: injectEntry(curEntry),
+        [curKey]: injectRefreshEntry(curEntry),
       }),
       {}
     );
@@ -28,11 +28,11 @@ const injectEntry = (originalEntry?: WebpackEntry): WebpackEntry => {
   if (typeof originalEntry === 'function') {
     return async (...args: Parameters<typeof originalEntry>) => {
       const resolvedEntry = await originalEntry(...args);
-      return injectEntry(resolvedEntry) as StaticEntry;
+      return injectRefreshEntry(resolvedEntry) as StaticEntry;
     };
   }
 
   throw new Error('Failed to parse the webpack `entry` object!');
 };
 
-export default injectEntry;
+export default injectRefreshEntry;

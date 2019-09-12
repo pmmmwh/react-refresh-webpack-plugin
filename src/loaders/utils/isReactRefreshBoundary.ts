@@ -4,7 +4,7 @@ import Refresh from 'react-refresh/runtime';
  * This implementation is cherry-picked from Metro.
  * Ref: https://github.com/facebook/metro/blob/febdba2383113c88296c61e28e4ef6a7f4939fda/packages/metro/src/lib/polyfills/require.js#L748-L774
  */
-const isReactRefreshBoundary = (moduleExports: any): boolean => {
+function isReactRefreshBoundary(moduleExports: any): boolean {
   if (Refresh.isLikelyComponentType(moduleExports)) {
     return true;
   }
@@ -33,6 +33,6 @@ const isReactRefreshBoundary = (moduleExports: any): boolean => {
   }
 
   return hasExports && areAllExportsComponents;
-};
+}
 
 export default isReactRefreshBoundary;
