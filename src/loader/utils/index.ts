@@ -1,7 +1,2 @@
-import enqueueUpdate from './enqueueUpdate';
-import isReactRefreshBoundary from './isReactRefreshBoundary';
-
-export default {
-  enqueueUpdate,
-  isReactRefreshBoundary,
-};
+export { default as enqueueUpdate } from './enqueueUpdate';
+export { default as isReactRefreshBoundary } from './isReactRefreshBoundary';
