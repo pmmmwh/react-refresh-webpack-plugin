@@ -9,8 +9,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "declaration": true,
-    "outDir": "./dist",
-    "jsx": "react"
+    "outDir": "./dist"
   },
   "include": ["src"],
   "exclude": ["dist", "node_modules"]
