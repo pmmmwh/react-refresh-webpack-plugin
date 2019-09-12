@@ -4,8 +4,14 @@
   "main": "dist/index.js",
   "author": "Michael Mok",
   "license": "MIT",
+  "scripts": {
+    "build": "tsc",
+    "lint": "prettier --check \"**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
+  },
   "devDependencies": {
     "@types/webpack": "^4.39.1",
+    "@types/webpack-env": "^1.14.0",
     "prettier": "^1.18.2",
     "typescript": "^3.6.2"
   },
