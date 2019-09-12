@@ -2,10 +2,22 @@ import { Compiler } from 'webpack';
 import createRefreshTemplate from './helpers/createRefreshTemplate';
 import injectRefreshEntry from './helpers/injectRefreshEntry';
 
+interface ReactRefreshPluginOptions {
+  forceEnable?: boolean;
+}
+
 export class ReactRefreshPlugin {
+  public options: ReactRefreshPluginOptions;
+
+  constructor(options: ReactRefreshPluginOptions) {
+    this.options = options || {};
+  }
+
   public apply(compiler: Compiler): void {
-    // Skip processing on production mode
-    if (process.env.NODE_ENV === 'production') {
+    // Webpack does not set process.env.NODE_ENV
+    // Ref: https://github.com/webpack/webpack/issues/7074
+    // Skip processing on non-development mode, but allow manual force-enabling
+    if (compiler.options.mode !== 'development' && !this.options.forceEnable) {
       return;
     }
 
