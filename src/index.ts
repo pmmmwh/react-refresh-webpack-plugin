@@ -18,9 +18,10 @@ export class ReactRefreshPlugin {
         if (
           // TODO: Remove this line on publish
           !/dist/.test(data.resource) &&
-          /\.\.([jt]sx?|flow)$/.test(data.resource) &&
+          /\.([jt]sx?|flow)$/.test(data.resource) &&
           !/node_modules/.test(data.resource)
         ) {
+          console.log(data.source, data._source);
           data.loaders.unshift({
             loader: require.resolve('./loader'),
           });
