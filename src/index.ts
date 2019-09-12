@@ -18,12 +18,11 @@ export class ReactRefreshPlugin {
         if (
           // TODO: Remove this line on publish
           !/dist/.test(data.resource) &&
-          (/\.[jt]sx?$/.test(data.resource) || /^javascript/.test(data.type)) &&
+          /\.\.([jt]sx?|flow)$/.test(data.resource) &&
           !/node_modules/.test(data.resource)
         ) {
-          console.log(data.resource);
           data.loaders.unshift({
-            loader: require.resolve('./loaders'),
+            loader: require.resolve('./loader'),
           });
         }
 
@@ -37,6 +36,17 @@ export class ReactRefreshPlugin {
       compilation.mainTemplate.hooks.require.tap(
         this.constructor.name,
         createRefreshTemplate
+      );
+
+      compilation.hooks.normalModuleLoader.tap(
+        this.constructor.name,
+        context => {
+          if (!context.hot) {
+            throw Error(
+              'Hot Module Replacement (HMR) is not enabled! React-refresh requires HMR to function properly.'
+            );
+          }
+        }
       );
     });
   }
