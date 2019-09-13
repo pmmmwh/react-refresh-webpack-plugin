@@ -1,6 +1,6 @@
 import Refresh from 'react-refresh/runtime';
 
-function enqueueUpdate() {
+function enqueueUpdate(): void {
   let refreshTimeout: ReturnType<typeof setTimeout> | undefined = undefined;
 
   function _execute() {
