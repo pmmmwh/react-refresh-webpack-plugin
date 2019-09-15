@@ -1,4 +1,4 @@
-import { compilation, Template } from 'webpack';
+const { Template } = require('webpack');
 
 const beforeModule = `
 var cleanup = function NoOp() {};
@@ -16,12 +16,17 @@ const afterModule = `
 }
 `;
 
-function createRefreshTemplate(source: string, chunk: compilation.Chunk) {
+/**
+ * Creates a module wrapped by a refresh template.
+ * @param {string} source The source code of a module.
+ * @param {import('webpack').compilation.Chunk} chunk A webpack chunk.
+ */
+function createRefreshTemplate(source, chunk) {
   // If a chunk is injected with the plugin,
   // our custom entry musts be injected
   if (
     !chunk.entryModule ||
-    !/ReactRefreshEntry/.test(chunk.entryModule._identifier!)
+    !/ReactRefreshEntry/.test(chunk.entryModule._identifier || '')
   ) {
     return source;
   }
@@ -42,4 +47,4 @@ function createRefreshTemplate(source: string, chunk: compilation.Chunk) {
   ]);
 }
 
-export default createRefreshTemplate;
+module.exports = createRefreshTemplate;

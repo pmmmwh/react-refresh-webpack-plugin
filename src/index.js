@@ -1,19 +1,20 @@
-import { Compiler } from 'webpack';
-import createRefreshTemplate from './helpers/createRefreshTemplate';
-import injectRefreshEntry from './helpers/injectRefreshEntry';
+const { createRefreshTemplate, injectRefreshEntry } = require('./helpers');
 
-interface ReactRefreshPluginOptions {
-  forceEnable?: boolean;
-}
-
-export class ReactRefreshPlugin {
-  public options: ReactRefreshPluginOptions;
-
-  constructor(options: ReactRefreshPluginOptions) {
+class ReactRefreshPlugin {
+  /**
+   * @param {Object} options Options for react-refresh-plugin.
+   * @param {boolean} [options.forceEnable] A flag to enable the plugin forcefully.
+   */
+  constructor(options) {
     this.options = options || {};
   }
 
-  public apply(compiler: Compiler): void {
+  /**
+   * Applies the plugin
+   * @param {import('webpack').Compiler} compiler A webpack compiler object.
+   * @returns {void}
+   */
+  apply(compiler) {
     // Webpack does not set process.env.NODE_ENV
     // Ref: https://github.com/webpack/webpack/issues/7074
     // Skip processing on non-development mode, but allow manual force-enabling
@@ -28,8 +29,6 @@ export class ReactRefreshPlugin {
       nmf.hooks.afterResolve.tap(this.constructor.name, data => {
         // Inject refresh loader to all JavaScript-like files
         if (
-          // TODO: Remove this line on publish
-          !/dist/.test(data.resource) &&
           /\.([jt]sx?|flow)$/.test(data.resource) &&
           !/node_modules/.test(data.resource)
         ) {
@@ -43,8 +42,6 @@ export class ReactRefreshPlugin {
     });
 
     compiler.hooks.compilation.tap(this.constructor.name, compilation => {
-      // @ts-ignore
-      // The types are missing this hook
       compilation.mainTemplate.hooks.require.tap(
         this.constructor.name,
         createRefreshTemplate
@@ -64,4 +61,5 @@ export class ReactRefreshPlugin {
   }
 }
 
-export default ReactRefreshPlugin;
+module.exports.ReactRefreshPlugin = ReactRefreshPlugin;
+module.exports = ReactRefreshPlugin;

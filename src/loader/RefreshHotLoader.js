@@ -18,12 +18,17 @@ if (
   }
 
   module.hot.accept(hotErrorHandler);
-  RefreshUtils.enqueueUpdate()
+  RefreshUtils.enqueueUpdate();
 }
 `;
 
-function RefreshHotLoader(source: string) {
+/**
+ * A webpack loader to inject react-refresh into modules.
+ * @param {string} source The original module source code.
+ * @returns {string} The injected module source code.
+ */
+function RefreshHotLoader(source) {
   return source + RefreshInjection;
 }
 
-export default RefreshHotLoader;
+module.exports = RefreshHotLoader;

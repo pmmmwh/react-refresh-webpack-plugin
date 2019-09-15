@@ -1,23 +1,22 @@
 {
   "name": "react-refresh-webpack-plugin",
   "version": "0.1.0",
-  "main": "dist/index.js",
+  "main": "src/index.js",
   "author": "Michael Mok",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "lint": "prettier --check \"**/*.{js,jsx,ts,tsx}\"",
-    "lint:fix": "prettier --write \"**/*.{js,jsx,ts,tsx}\""
+    "lint": "prettier --check \"**/*.{js,jsx}\"",
+    "lint:fix": "prettier --write \"**/*.{js,jsx}\""
   },
   "devDependencies": {
-    "@types/webpack": "^4.39.1",
-    "@types/webpack-env": "^1.14.0",
     "prettier": "^1.18.2",
     "react-refresh": "^0.4.2",
-    "typescript": "3.6.3",
     "webpack": "^4.40.0"
   },
   "peerDependencies": {
     "react-refresh": "*"
+  },
+  "engines": {
+    "node": "8.x || 9.x || 10.x || 11.x || 12.x"
   }
 }
