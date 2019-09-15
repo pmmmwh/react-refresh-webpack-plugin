@@ -5,7 +5,7 @@
   "author": "Michael Mok",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --hot --mode development --open",
+    "start": "webpack-dev-server --hot --mode development",
     "build": "webpack --mode production"
   },
   "dependencies": {
