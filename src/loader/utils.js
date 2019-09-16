@@ -3,7 +3,7 @@ const Refresh = require('react-refresh/runtime');
 /**
  * Performs a delayed React refresh.
  */
-function enqueueUpdate() {
+function debounceUpdate() {
   /**
    * A cached setTimeout handler.
    * @type {number | void}
@@ -13,7 +13,7 @@ function enqueueUpdate() {
   /**
    * Caches the refresh timer.
    */
-  function _execute() {
+  function _refresh() {
     if (refreshTimeout === undefined) {
       refreshTimeout = setTimeout(() => {
         refreshTimeout = undefined;
@@ -22,7 +22,7 @@ function enqueueUpdate() {
     }
   }
 
-  return _execute();
+  return _refresh;
 }
 
 /**
@@ -45,16 +45,16 @@ function isReactRefreshBoundary(moduleExports) {
   let areAllExportsComponents = true;
   for (const key in moduleExports) {
     hasExports = true;
+
+    // This is the ES Module indicator flag set by webpack
     if (key === '__esModule') {
       continue;
     }
 
-    const desc = Object.getOwnPropertyDescriptor(moduleExports, key);
-    if (desc && desc.get) {
-      // Don't invoke getters as they may have side effects.
-      return false;
-    }
-
+    // We can (and have to) safely execute getters here,
+    // as webpack manually assigns harmony exports to getters,
+    // without any side-effects attached.
+    // Ref: https://github.com/webpack/webpack/blob/b93048643fe74de2a6931755911da1212df55897/lib/MainTemplate.js#L281
     const exportValue = moduleExports[key];
     if (!Refresh.isLikelyComponentType(exportValue)) {
       areAllExportsComponents = false;
@@ -64,5 +64,5 @@ function isReactRefreshBoundary(moduleExports) {
   return hasExports && areAllExportsComponents;
 }
 
-module.exports.enqueueUpdate = enqueueUpdate;
+module.exports.enqueueUpdate = debounceUpdate();
 module.exports.isReactRefreshBoundary = isReactRefreshBoundary;

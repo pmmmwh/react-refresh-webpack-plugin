@@ -1,5 +1,8 @@
-// HMR Error Recovery
-// Ref: https://github.com/webpack/webpack/issues/418#issuecomment-490296365
+/**
+ * Code injected to each JS-like module for react-refresh capabilities.
+ *
+ * [Reference for HMR Error Recovery](https://github.com/webpack/webpack/issues/418#issuecomment-490296365)
+ */
 // TODO: Is it possible to move this into a file?
 const RefreshInjection = `
 const RefreshUtils = require('${require.resolve('./utils')}');

@@ -1,15 +1,23 @@
 const { Template } = require('webpack');
 
+/**
+ * Code to run before each module, sets up react-refresh.
+ *
+ * `module.i` is injected by webpack and should always exist.
+ *
+ * [Ref](https://github.com/webpack/webpack/blob/master/lib/MainTemplate.js#L233)
+ */
 const beforeModule = `
 var cleanup = function NoOp() {};
 
 if (window && window.__RefreshModule) {
-  cleanup = window.__RefreshModule(moduleId);
+  cleanup = window.__RefreshModule(module.i);
 }
 
 try {
 `;
 
+/** Code to run after each module, sets up react-refresh */
 const afterModule = `
 } finally {
   cleanup();
