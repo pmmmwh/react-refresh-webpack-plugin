@@ -47,13 +47,16 @@ module.exports = {
         // for TypeScript, change the following to "tsx?"
         test: /\.jsx?$/,
         exclude: /node_modules/,
-        use: {
-          loader: require.resolve('babel-loader'),
-          options: {
-            // ... other options
-+           plugins: ['react-refresh/babel'],
+        use: [
+          // ... other loaders
+          {
+            loader: require.resolve('babel-loader'),
+            options: {
+              // ... other options
++             plugins: ['react-refresh/babel'],
+            },
           },
-        },
+        ],
       },
     ],
   },
