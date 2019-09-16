@@ -30,7 +30,7 @@ function debounceUpdate() {
  *
  * This implementation is cherry-picked from [Metro](https://github.com/facebook/metro/blob/febdba2383113c88296c61e28e4ef6a7f4939fda/packages/metro/src/lib/polyfills/require.js#L748-L774).
  *
- * @param {*} moduleExports A webpack module.exports object.
+ * @param {*} moduleExports A Webpack module.exports object.
  * @returns {boolean} Whether the exports are React component like.
  */
 function isReactRefreshBoundary(moduleExports) {
@@ -46,13 +46,13 @@ function isReactRefreshBoundary(moduleExports) {
   for (const key in moduleExports) {
     hasExports = true;
 
-    // This is the ES Module indicator flag set by webpack
+    // This is the ES Module indicator flag set by Webpack
     if (key === '__esModule') {
       continue;
     }
 
     // We can (and have to) safely execute getters here,
-    // as webpack manually assigns harmony exports to getters,
+    // as Webpack manually assigns harmony exports to getters,
     // without any side-effects attached.
     // Ref: https://github.com/webpack/webpack/blob/b93048643fe74de2a6931755911da1212df55897/lib/MainTemplate.js#L281
     const exportValue = moduleExports[key];

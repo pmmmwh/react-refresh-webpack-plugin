@@ -3,7 +3,7 @@
 
 /**
  * Injects an entry to the bundle for react-refresh.
- * @param {WebpackEntry} [originalEntry] A webpack entry object.
+ * @param {WebpackEntry} [originalEntry] A Webpack entry object.
  * @returns {WebpackEntry} An injected entry object.
  */
 const injectRefreshEntry = originalEntry => {
@@ -35,7 +35,7 @@ const injectRefreshEntry = originalEntry => {
       );
   }
 
-  throw new Error('Failed to parse the webpack `entry` object!');
+  throw new Error('Failed to parse the Webpack `entry` object!');
 };
 
 module.exports = injectRefreshEntry;

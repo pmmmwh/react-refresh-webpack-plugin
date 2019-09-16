@@ -3,7 +3,7 @@ const { Template } = require('webpack');
 /**
  * Code to run before each module, sets up react-refresh.
  *
- * `module.i` is injected by webpack and should always exist.
+ * `module.i` is injected by Webpack and should always exist.
  *
  * [Ref](https://github.com/webpack/webpack/blob/master/lib/MainTemplate.js#L233)
  */
@@ -27,7 +27,7 @@ const afterModule = `
 /**
  * Creates a module wrapped by a refresh template.
  * @param {string} source The source code of a module.
- * @param {import('webpack').compilation.Chunk} chunk A webpack chunk.
+ * @param {import('webpack').compilation.Chunk} chunk A Webpack chunk.
  */
 function createRefreshTemplate(source, chunk) {
   // If a chunk is injected with the plugin,

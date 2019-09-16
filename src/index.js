@@ -22,7 +22,7 @@ class ReactRefreshPlugin {
       return;
     }
 
-    // Inject react-refresh context to all webpack entry points
+    // Inject react-refresh context to all Webpack entry points
     compiler.options.entry = injectRefreshEntry(compiler.options.entry);
 
     compiler.hooks.normalModuleFactory.tap(this.constructor.name, nmf => {

@@ -26,7 +26,7 @@ if (
 `;
 
 /**
- * A webpack loader to inject react-refresh into modules.
+ * A simple Webpack loader to inject react-refresh code into modules.
  * @param {string} source The original module source code.
  * @returns {string} The injected module source code.
  */
