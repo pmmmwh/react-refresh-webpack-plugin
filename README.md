@@ -40,21 +40,23 @@ In your webpack configuration, alter as follows:
 
 module.exports = {
   // ... other configurations
-  rules: [
-    // ... other rules
-    {
-      // for TypeScript, change the following to "tsx?"
-      test: /\.jsx?$/,
-      exclude: /node_modules/,
-      use: {
-        loader: require.resolve('babel-loader'),
-        options: {
-          // ... other options
-+         plugins: ['react-refresh/babel'],
+  module: {
+    rules: [
+      // ... other rules
+      {
+        // for TypeScript, change the following to "tsx?"
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: require.resolve('babel-loader'),
+          options: {
+            // ... other options
++           plugins: ['react-refresh/babel'],
+          },
         },
       },
-    },
-  ],
+    ],
+  },
   plugins: [
     // ... other plugins
 +   new ReactRefreshPlugin(),
