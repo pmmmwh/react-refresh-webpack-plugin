@@ -15,7 +15,7 @@ if (
   )
 ) {
   function hotErrorHandler(error) {
-    console.warn('[HMR] Error Occurred!');
+    console.warn('[HMR] An error occurred!');
     console.error(error);
     require.cache[module.id].hot.accept(hotErrorHandler);
   }

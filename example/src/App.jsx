@@ -1,10 +1,16 @@
 import * as React from 'react';
-import Header from './Header';
+import ClassDefault from './ClassDefault';
+import { ClassNamed } from './ClassNamed';
+import FunctionDefault from './FunctionDefault';
+import { FunctionNamed } from './FunctionNamed';
 
 function App() {
   return (
     <div>
-      <Header>React refresh plugin successfully loaded!</Header>
+      <ClassDefault />
+      <ClassNamed />
+      <FunctionDefault />
+      <FunctionNamed />
     </div>
   );
 }

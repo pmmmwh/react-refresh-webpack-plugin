@@ -2,7 +2,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ReactRefreshPlugin = require('../src');
 
 module.exports = {
-  entry: './src/index.jsx',
+  entry: './src/index.js',
   module: {
     rules: [
       {
