@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
    * @param {number} moduleId An ID of a module.
    * @returns {function(): void} A function to restore handlers to their previous state.
    */
-  window.__RefreshModule = moduleId => {
+  window.__SetupRefreshModule = moduleId => {
     // Capture previous refresh state
     const prevRefreshReg = window.$RefreshReg$;
     const prevRefreshSig = window.$RefreshSig$;
@@ -35,7 +35,7 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
      */
     window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
 
-    // Restore to previous functions after refresh
+    // Restore to previous refresh functions after initialization
     return () => {
       window.$RefreshReg$ = prevRefreshReg;
       window.$RefreshSig$ = prevRefreshSig;

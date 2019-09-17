@@ -10,8 +10,8 @@ const { Template } = require('webpack');
 const beforeModule = `
 var cleanup = function NoOp() {};
 
-if (window && window.__RefreshModule) {
-  cleanup = window.__RefreshModule(module.i);
+if (window && window.__SetupRefreshModule) {
+  cleanup = window.__SetupRefreshModule(module.i);
 }
 
 try {
