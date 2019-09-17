@@ -1,6 +1,15 @@
 const Refresh = require('react-refresh/runtime');
 
 /**
+ * Extracts exports from a webpack module object.
+ * @param {*} module A Webpack module object.
+ * @returns {*} An exports object from the module.
+ */
+function getModuleExports(module) {
+  return module.exports || module.__proto__.exports;
+}
+
+/**
  * Performs a delayed React refresh.
  */
 function debounceUpdate() {
@@ -26,14 +35,15 @@ function debounceUpdate() {
 }
 
 /**
- * Checks if exports are likely a React component.
+ * Checks if all exports are likely a React component.
  *
- * This implementation is cherry-picked from [Metro](https://github.com/facebook/metro/blob/febdba2383113c88296c61e28e4ef6a7f4939fda/packages/metro/src/lib/polyfills/require.js#L748-L774).
- *
- * @param {*} moduleExports A Webpack module.exports object.
+ * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/febdba2383113c88296c61e28e4ef6a7f4939fda/packages/metro/src/lib/polyfills/require.js#L748-L774).
+ * @param {*} module A Webpack module object.
  * @returns {boolean} Whether the exports are React component like.
  */
-function isReactRefreshBoundary(moduleExports) {
+function isReactRefreshBoundary(module) {
+  const moduleExports = getModuleExports(module);
+
   if (Refresh.isLikelyComponentType(moduleExports)) {
     return true;
   }
@@ -64,5 +74,41 @@ function isReactRefreshBoundary(moduleExports) {
   return hasExports && areAllExportsComponents;
 }
 
+/**
+ * Checks if exports are likely a React component and registers them.
+ *
+ * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/febdba2383113c88296c61e28e4ef6a7f4939fda/packages/metro/src/lib/polyfills/require.js#L818-L835).
+ * @param {*} module A Webpack module object.
+ * @returns {void}
+ */
+function registerExportsForReactRefresh(module) {
+  const moduleExports = getModuleExports(module);
+  const moduleId = module.id;
+
+  if (Refresh.isLikelyComponentType(moduleExports)) {
+    // Register module.exports if it is likely a component
+    Refresh.register(moduleExports, moduleId + ' %exports%');
+  }
+
+  if (moduleExports === null || typeof moduleExports !== 'object') {
+    // Exit if we can't iterate over the exports.
+    return;
+  }
+
+  for (const key in moduleExports) {
+    // Skip registering the Webpack ES Module indicator
+    if (key === '__esModule') {
+      continue;
+    }
+
+    const exportValue = moduleExports[key];
+    if (Refresh.isLikelyComponentType(exportValue)) {
+      const typeID = moduleId + ' %exports% ' + key;
+      Refresh.register(exportValue, typeID);
+    }
+  }
+}
+
 module.exports.enqueueUpdate = debounceUpdate();
 module.exports.isReactRefreshBoundary = isReactRefreshBoundary;
+module.exports.registerExportsForReactRefresh = registerExportsForReactRefresh;
