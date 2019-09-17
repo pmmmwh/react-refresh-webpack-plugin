@@ -7,15 +7,11 @@
 const RefreshInjection = `
 const RefreshUtils = require('${require.resolve('./utils')}');
 
-if (
-  module.hot &&
-  RefreshUtils.isReactRefreshBoundary(
-    module.exports
-    || module.__proto__.exports
-  )
-) {
+RefreshUtils.registerExportsForReactRefresh(module);
+
+if (module.hot && RefreshUtils.isReactRefreshBoundary(module)) {
   function hotErrorHandler(error) {
-    console.warn('[HMR] An error occurred!');
+    console.warn("[HMR] An error occurred!");
     console.error(error);
     require.cache[module.id].hot.accept(hotErrorHandler);
   }
