@@ -25,8 +25,8 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
      * @returns {void}
      */
     window.$RefreshReg$ = (type, id) => {
-      const fullId = moduleId + ' ' + id;
-      Refresh.register(type, fullId);
+      const typeId = moduleId + ' ' + id;
+      Refresh.register(type, typeId);
     };
 
     /**
