@@ -2,8 +2,9 @@ const { createRefreshTemplate, injectRefreshEntry } = require('./helpers');
 
 class ReactRefreshPlugin {
   /**
-   * @param {Object} options Options for react-refresh-plugin.
+   * @param {*} options Options for react-refresh-plugin.
    * @param {boolean} [options.forceEnable] A flag to enable the plugin forcefully.
+   * @returns {void}
    */
   constructor(options) {
     this.options = options || {};

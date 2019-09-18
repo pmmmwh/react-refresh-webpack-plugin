@@ -11,6 +11,7 @@ function getModuleExports(module) {
 
 /**
  * Performs a delayed React refresh.
+ * @returns {void}
  */
 function debounceUpdate() {
   /**

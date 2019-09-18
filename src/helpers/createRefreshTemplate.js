@@ -28,6 +28,7 @@ const afterModule = `
  * Creates a module wrapped by a refresh template.
  * @param {string} source The source code of a module.
  * @param {import('webpack').compilation.Chunk} chunk A Webpack chunk.
+ * @returns {string} A refresh-wrapped module.
  */
 function createRefreshTemplate(source, chunk) {
   // If a chunk is injected with the plugin,
