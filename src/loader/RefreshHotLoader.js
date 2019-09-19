@@ -5,19 +5,14 @@
  */
 // TODO: Is it possible to move this into a file?
 const RefreshInjection = `
-const RefreshUtils = require('${require.resolve('./utils')}');
+const $RefreshUtils$ = require('${require.resolve('./utils')}');
 
-RefreshUtils.registerExportsForReactRefresh(module);
+$RefreshUtils$.registerExportsForReactRefresh(module);
 
-if (module.hot && RefreshUtils.isReactRefreshBoundary(module)) {
-  function hotErrorHandler(error) {
-    console.warn("[HMR] An error occurred!");
-    console.error(error);
-    require.cache[module.id].hot.accept(hotErrorHandler);
-  }
-
-  module.hot.accept(hotErrorHandler);
-  RefreshUtils.enqueueUpdate();
+if (module.hot && $RefreshUtils$.isReactRefreshBoundary(module)) {
+  module.hot.accept($RefreshUtils$.createHotErrorHandler(module.id));
+  $RefreshUtils$.performFullRefreshIfNeeded();
+  $RefreshUtils$.enqueueUpdate();
 }
 `;
 
