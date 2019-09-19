@@ -10,6 +10,16 @@ function getModuleExports(module) {
 }
 
 /**
+ * Creates self-recovering an error handler for webpack hot.
+ * @returns {function(string): void} A webpack hot error handler.
+ */
+function createHotErrorHandler(moduleId) {
+  return function hotErrorHandler() {
+    require.cache[moduleId].hot.accept(hotErrorHandler);
+  };
+}
+
+/**
  * Performs a delayed React refresh.
  * @returns {function(): void} A debounced React refresh function.
  */
