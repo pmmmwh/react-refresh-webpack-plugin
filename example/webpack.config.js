@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ReactRefreshPlugin = require('react-refresh-webpack-plugin');
+const ReactRefreshPlugin = require('../src');
 
 module.exports = {
   entry: './src/index.js',
@@ -12,6 +12,12 @@ module.exports = {
       },
     ],
   },
+  // devServer: {
+  //   overlay: {
+  //     warnings: true,
+  //     errors: true,
+  //   },
+  // },
   plugins: [
     new ReactRefreshPlugin(),
     new HtmlWebpackPlugin({

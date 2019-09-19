@@ -11,7 +11,7 @@ function getModuleExports(module) {
 
 /**
  * Performs a delayed React refresh.
- * @returns {void}
+ * @returns {function(): void} A debounced React refresh function.
  */
 function debounceUpdate() {
   /**
@@ -22,6 +22,7 @@ function debounceUpdate() {
 
   /**
    * Caches the refresh timer.
+   * @returns {void}
    */
   function _refresh() {
     if (refreshTimeout === undefined) {
@@ -76,6 +77,16 @@ function isReactRefreshBoundary(module) {
 }
 
 /**
+ * Performs a full refresh if React has unrecoverable errors.
+ * @returns {void}
+ */
+function performFullRefreshIfNeeded() {
+  if (Refresh.hasUnrecoverableErrors()) {
+    window.location.reload();
+  }
+}
+
+/**
  * Checks if exports are likely a React component and registers them.
  *
  * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/febdba2383113c88296c61e28e4ef6a7f4939fda/packages/metro/src/lib/polyfills/require.js#L818-L835).
@@ -110,6 +121,9 @@ function registerExportsForReactRefresh(module) {
   }
 }
 
-module.exports.enqueueUpdate = debounceUpdate();
+module.exports.createHotErrorHandler = createHotErrorHandler;
 module.exports.isReactRefreshBoundary = isReactRefreshBoundary;
+module.exports.performFullRefreshIfNeeded = performFullRefreshIfNeeded;
 module.exports.registerExportsForReactRefresh = registerExportsForReactRefresh;
+
+module.exports.enqueueUpdate = debounceUpdate();
