@@ -7,7 +7,7 @@
  * @returns {WebpackEntry} An injected entry object.
  */
 const injectRefreshEntry = originalEntry => {
-  const ReactRefreshEntry = require.resolve('./ReactRefreshEntry');
+  const ReactRefreshEntry = require.resolve('../runtime/ReactRefreshEntry');
 
   // Single string entry point
   if (typeof originalEntry === 'string') {
