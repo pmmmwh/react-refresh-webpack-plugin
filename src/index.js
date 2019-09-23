@@ -1,4 +1,6 @@
+const webpack = require('webpack');
 const { createRefreshTemplate, injectRefreshEntry } = require('./helpers');
+const { runtimeUtils } = require('./runtime/globals');
 
 class ReactRefreshPlugin {
   /**
@@ -25,6 +27,12 @@ class ReactRefreshPlugin {
 
     // Inject react-refresh context to all Webpack entry points
     compiler.options.entry = injectRefreshEntry(compiler.options.entry);
+
+    // Inject refresh utilities to Webpack global scope
+    const providePlugin = new webpack.ProvidePlugin({
+      [runtimeUtils]: require.resolve('./runtime/utils'),
+    });
+    providePlugin.apply(compiler);
 
     compiler.hooks.normalModuleFactory.tap(this.constructor.name, nmf => {
       nmf.hooks.afterResolve.tap(this.constructor.name, data => {
