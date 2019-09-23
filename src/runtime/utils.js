@@ -1,4 +1,6 @@
+const ErrorOverlay = require('react-error-overlay');
 const Refresh = require('react-refresh/runtime');
+const { runtimeGlobalHook } = require('./globals');
 
 /**
  * Extracts exports from a webpack module object.
