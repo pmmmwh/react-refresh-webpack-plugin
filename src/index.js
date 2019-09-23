@@ -41,9 +41,7 @@ class ReactRefreshPlugin {
           /\.([jt]sx?|flow)$/.test(data.resource) &&
           !/node_modules/.test(data.resource)
         ) {
-          data.loaders.unshift({
-            loader: require.resolve('./loader'),
-          });
+          data.loaders.unshift(require.resolve('./loader'));
         }
 
         return data;
