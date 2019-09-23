@@ -7,15 +7,16 @@
  * @returns {WebpackEntry} An injected entry object.
  */
 const injectRefreshEntry = originalEntry => {
-  const ReactRefreshEntry = require.resolve('./ReactRefreshEntry');
+  const ErrorOverlayEntry = require.resolve('../runtime/ErrorOverlayEntry');
+  const ReactRefreshEntry = require.resolve('../runtime/ReactRefreshEntry');
 
   // Single string entry point
   if (typeof originalEntry === 'string') {
-    return [ReactRefreshEntry, originalEntry];
+    return [ReactRefreshEntry, ErrorOverlayEntry, originalEntry];
   }
   // Single array entry point
   if (Array.isArray(originalEntry)) {
-    return [ReactRefreshEntry, ...originalEntry];
+    return [ReactRefreshEntry, ErrorOverlayEntry, ...originalEntry];
   }
   // Multiple entry points
   if (typeof originalEntry === 'object') {
