@@ -28,7 +28,7 @@ function debounceUpdate() {
    * A cached setTimeout handler.
    * @type {number | void}
    */
-  let refreshTimeout = undefined;
+  var refreshTimeout = undefined;
 
   /**
    * Caches the refresh timer.
@@ -36,9 +36,12 @@ function debounceUpdate() {
    */
   function _refresh() {
     if (refreshTimeout === undefined) {
-      refreshTimeout = setTimeout(() => {
+      refreshTimeout = setTimeout(function() {
         refreshTimeout = undefined;
         Refresh.performReactRefresh();
+        if (window[runtimeGlobalHook].hasRuntimeError) {
+          ErrorOverlay.dismissRuntimeErrors();
+        }
       }, 30);
     }
   }
@@ -63,9 +66,9 @@ function isReactRefreshBoundary(module) {
     return false;
   }
 
-  let hasExports = false;
-  let areAllExportsComponents = true;
-  for (const key in moduleExports) {
+  var hasExports = false;
+  var areAllExportsComponents = true;
+  for (var key in moduleExports) {
     hasExports = true;
 
     // This is the ES Module indicator flag set by Webpack
@@ -77,7 +80,7 @@ function isReactRefreshBoundary(module) {
     // as Webpack manually assigns harmony exports to getters,
     // without any side-effects attached.
     // Ref: https://github.com/webpack/webpack/blob/b93048643fe74de2a6931755911da1212df55897/lib/MainTemplate.js#L281
-    const exportValue = moduleExports[key];
+    var exportValue = moduleExports[key];
     if (!Refresh.isLikelyComponentType(exportValue)) {
       areAllExportsComponents = false;
     }
@@ -104,8 +107,8 @@ function performFullRefreshIfNeeded() {
  * @returns {void}
  */
 function registerExportsForReactRefresh(module) {
-  const moduleExports = getModuleExports(module);
-  const moduleId = module.id;
+  var moduleExports = getModuleExports(module);
+  var moduleId = module.id;
 
   if (Refresh.isLikelyComponentType(moduleExports)) {
     // Register module.exports if it is likely a component
@@ -117,23 +120,24 @@ function registerExportsForReactRefresh(module) {
     return;
   }
 
-  for (const key in moduleExports) {
+  for (var key in moduleExports) {
     // Skip registering the Webpack ES Module indicator
     if (key === '__esModule') {
       continue;
     }
 
-    const exportValue = moduleExports[key];
+    var exportValue = moduleExports[key];
     if (Refresh.isLikelyComponentType(exportValue)) {
-      const typeID = moduleId + ' %exports% ' + key;
+      var typeID = moduleId + ' %exports% ' + key;
       Refresh.register(exportValue, typeID);
     }
   }
 }
 
-module.exports.createHotErrorHandler = createHotErrorHandler;
-module.exports.isReactRefreshBoundary = isReactRefreshBoundary;
-module.exports.performFullRefreshIfNeeded = performFullRefreshIfNeeded;
-module.exports.registerExportsForReactRefresh = registerExportsForReactRefresh;
-
-module.exports.enqueueUpdate = debounceUpdate();
+module.exports = Object.freeze({
+  createHotErrorHandler,
+  enqueueUpdate: debounceUpdate(),
+  isReactRefreshBoundary,
+  performFullRefreshIfNeeded,
+  registerExportsForReactRefresh,
+});

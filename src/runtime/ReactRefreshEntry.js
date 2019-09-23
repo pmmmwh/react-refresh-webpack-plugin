@@ -5,15 +5,19 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
   Refresh.injectIntoGlobalHook(window);
 
   // Setup placeholder functions
-  window.$RefreshReg$ = () => {};
-  window.$RefreshSig$ = () => type => type;
+  window.$RefreshReg$ = function() {};
+  window.$RefreshSig$ = function() {
+    return function(type) {
+      return type;
+    };
+  };
 
   /**
    * Setup module refresh.
    * @param {number} moduleId An ID of a module.
    * @returns {function(): void} A function to restore handlers to their previous state.
    */
-  window.__SetupRefreshModule = moduleId => {
+  window.$RefreshSetup$ = function setupModuleRefresh(moduleId) {
     // Capture previous refresh state
     const prevRefreshReg = window.$RefreshReg$;
     const prevRefreshSig = window.$RefreshSig$;
@@ -24,7 +28,7 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
      * @param {number} [id] An ID of a module.
      * @returns {void}
      */
-    window.$RefreshReg$ = (type, id) => {
+    window.$RefreshReg$ = function(type, id) {
       const typeId = moduleId + ' ' + id;
       Refresh.register(type, typeId);
     };
@@ -36,7 +40,7 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
     window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
 
     // Restore to previous refresh functions after initialization
-    return () => {
+    return function cleanup() {
       window.$RefreshReg$ = prevRefreshReg;
       window.$RefreshSig$ = prevRefreshSig;
     };
