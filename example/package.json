@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server --hot --mode development",
-    "build": "webpack --mode production"
+    "build": "cross-env NODE_ENV=production webpack --mode production"
   },
   "dependencies": {
     "react": "^16.9.0",
@@ -17,6 +17,7 @@
     "@babel/preset-env": "^7.6.0",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.6",
+    "cross-env": "^6.0.3",
     "html-webpack-plugin": "^3.2.0",
     "react-refresh": "^0.4.2",
     "react-refresh-webpack-plugin": "https://github.com/pmmmwh/react-refresh-webpack-plugin#master",
