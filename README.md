@@ -53,6 +53,7 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               // ... other options
+              // DON'T apply the plugin in production mode!
 +             plugins: ['react-refresh/babel'],
             },
           },
