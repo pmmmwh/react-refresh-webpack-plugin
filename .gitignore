@@ -4,7 +4,7 @@
 *node_modules
 
 # distribution
-/dist
+*dist
 
 # misc
 .DS_Store
