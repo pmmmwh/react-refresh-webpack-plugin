@@ -15,7 +15,7 @@ module.exports = function() {
 
   if (module.hot && $RefreshUtils$.isReactRefreshBoundary(module)) {
     module.hot.accept($RefreshUtils$.createHotErrorHandler(module.id));
-    $RefreshUtils$.performFullRefreshIfNeeded();
+    module.hot.dispose($RefreshUtils$.performFullRefreshIfNeeded);
     $RefreshUtils$.enqueueUpdate();
   }
 };
