@@ -11,19 +11,25 @@ function getModuleExports(module) {
 
 /**
  * Creates self-recovering an error handler for webpack hot.
- * @returns {function(string): void} A webpack hot error handler.
+ * @returns {hotErrorHandler} A webpack hot error handler.
  */
 function createHotErrorHandler(moduleId) {
-  return function hotErrorHandler() {
+  /*
+   * An error handler to allow self-recovering behaviours.
+   * @returns {void}
+   */
+  function hotErrorHandler() {
     require.cache[moduleId].hot.accept(hotErrorHandler);
-  };
+  }
+
+  return hotErrorHandler;
 }
 
 /**
- * Performs a delayed React refresh.
- * @returns {function(): void} A debounced React refresh function.
+ * Creates a helper that performs a delayed React refresh.
+ * @returns {enqueueUpdate} A debounced React refresh function.
  */
-function debounceUpdate() {
+function createDebounceUpdate() {
   /**
    * A cached setTimeout handler.
    * @type {number | void}
@@ -31,10 +37,10 @@ function debounceUpdate() {
   var refreshTimeout = undefined;
 
   /**
-   * Caches the refresh timer.
+   * Performs react refresh on a delay.
    * @returns {void}
    */
-  function _refresh() {
+  function enqueueUpdate() {
     if (refreshTimeout === undefined) {
       refreshTimeout = setTimeout(function() {
         refreshTimeout = undefined;
@@ -43,7 +49,7 @@ function debounceUpdate() {
     }
   }
 
-  return _refresh;
+  return enqueueUpdate;
 }
 
 /**
@@ -133,7 +139,7 @@ function registerExportsForReactRefresh(module) {
 
 module.exports = Object.freeze({
   createHotErrorHandler,
-  enqueueUpdate: debounceUpdate(),
+  enqueueUpdate: createDebounceUpdate(),
   isReactRefreshBoundary,
   performFullRefreshIfNeeded,
   registerExportsForReactRefresh,
