@@ -60,12 +60,13 @@ function createDebounceUpdate() {
  * @returns {boolean} Whether the exports are React component like.
  */
 function isReactRefreshBoundary(module) {
-  const moduleExports = getModuleExports(module);
+  var moduleExports = getModuleExports(module);
 
   if (Refresh.isLikelyComponentType(moduleExports)) {
     return true;
   }
   if (moduleExports === null || typeof moduleExports !== 'object') {
+    // Exit if we can't iterate over exports.
     return false;
   }
 
