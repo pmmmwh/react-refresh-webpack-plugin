@@ -1,3 +1,4 @@
+const path = require('path');
 const webpack = require('webpack');
 const { createRefreshTemplate, injectRefreshEntry } = require('./helpers');
 const { runtimeUtils } = require('./runtime/globals');
@@ -38,8 +39,13 @@ class ReactRefreshPlugin {
       nmf.hooks.afterResolve.tap(this.constructor.name, data => {
         // Inject refresh loader to all JavaScript-like files
         if (
+          // Test for known (and popular) JavaScript-like extensions
           /\.([jt]sx?|flow)$/.test(data.resource) &&
-          !/node_modules/.test(data.resource)
+          // Skip all files from node_modules
+          !/node_modules/.test(data.resource) &&
+          // Skip runtime refresh utilities (to prevent self-referencing)
+          // This is useful when using the plugin as a direct dependency
+          data.resource !== path.join(__dirname, './runtime/utils')
         ) {
           data.loaders.unshift(require.resolve('./loader'));
         }
