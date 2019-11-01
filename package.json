@@ -10,8 +10,8 @@
   },
   "devDependencies": {
     "prettier": "^1.18.2",
-    "react-refresh": "^0.4.2",
-    "webpack": "^4.40.0"
+    "react-refresh": "^0.6.0",
+    "webpack": "^4.41.2"
   },
   "peerDependencies": {
     "react-refresh": "*"

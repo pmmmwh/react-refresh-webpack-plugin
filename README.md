@@ -27,7 +27,7 @@ But, if you are adventurous, the steps for installation are as follows:
    npm install -D react-refresh babel-loader
 
    # if you prefer yarn
-   yarn add -D react-refresh
+   yarn add -D react-refresh babel-loader
    ```
 
 ## Usage
@@ -54,7 +54,7 @@ module.exports = {
             options: {
               // ... other options
               // DON'T apply the plugin in production mode!
-+             plugins: ['react-refresh/babel'],
++             plugins: [require.resolve('react-refresh/babel')],
             },
           },
         ],
