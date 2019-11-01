@@ -65,7 +65,11 @@ function isReactRefreshBoundary(module) {
   if (Refresh.isLikelyComponentType(moduleExports)) {
     return true;
   }
-  if (moduleExports === null || typeof moduleExports !== 'object') {
+  if (
+    moduleExports === undefined ||
+    moduleExports === null ||
+    typeof moduleExports !== 'object'
+  ) {
     // Exit if we can't iterate over exports.
     return false;
   }
@@ -119,7 +123,11 @@ function registerExportsForReactRefresh(module) {
     Refresh.register(moduleExports, moduleId + ' %exports%');
   }
 
-  if (moduleExports === null || typeof moduleExports !== 'object') {
+  if (
+    moduleExports === undefined ||
+    moduleExports === null ||
+    typeof moduleExports !== 'object'
+  ) {
     // Exit if we can't iterate over the exports.
     return;
   }
