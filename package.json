@@ -16,13 +16,13 @@
   },
   "devDependencies": {
     "prettier": "^1.18.2",
-    "react-refresh": "^0.4.2",
-    "webpack": "^4.40.0"
+    "react-refresh": "^0.6.0",
+    "webpack": "^4.41.2"
   },
   "peerDependencies": {
     "react-refresh": "*"
   },
   "engines": {
-    "node": "8.x || 9.x || 10.x || 11.x || 12.x"
+    "node": "8.x || 9.x || 10.x || 11.x || 12.x || 13.x"
   }
 }

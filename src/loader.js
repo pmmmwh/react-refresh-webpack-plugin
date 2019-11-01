@@ -9,9 +9,9 @@ const { runtimeUtils } = require('./runtime/globals');
 function RefreshHotLoader(source) {
   return (
     source +
-    Template.getFunctionContent(
-      require('./runtime/RefreshModuleRuntime')
-    ).replace(/\$RefreshUtils\$/g, runtimeUtils)
+    Template.getFunctionContent(require('./runtime/RefreshModuleRuntime'))
+      .trim()
+      .replace(/\$RefreshUtils\$/g, runtimeUtils)
   );
 }
 
