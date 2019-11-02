@@ -29,11 +29,27 @@ class ReactRefreshPlugin {
     // Inject react-refresh context to all Webpack entry points
     compiler.options.entry = injectRefreshEntry(compiler.options.entry);
 
-    // Inject refresh utilities to Webpack global scope
+    // Inject refresh utilities to Webpack's global scope
     const providePlugin = new webpack.ProvidePlugin({
       [runtimeUtils]: require.resolve('./runtime/utils'),
     });
     providePlugin.apply(compiler);
+
+    compiler.hooks.beforeRun.tap(this.constructor.name, compiler => {
+      // Check for existence of HotModuleReplacementPlugin in the plugin list
+      // It is the foundation to this plugin working correctly
+      if (
+        !compiler.options.plugins.find(
+          // It's validated with the name rather than the constructor reference
+          // because a project might contain multiple references to Webpack
+          plugin => plugin.constructor.name === 'HotModuleReplacementPlugin'
+        )
+      ) {
+        throw new Error(
+          'Hot Module Replacement (HMR) is not enabled! React-refresh requires HMR to function properly.'
+        );
+      }
+    });
 
     compiler.hooks.normalModuleFactory.tap(this.constructor.name, nmf => {
       nmf.hooks.afterResolve.tap(this.constructor.name, data => {
@@ -57,18 +73,8 @@ class ReactRefreshPlugin {
     compiler.hooks.compilation.tap(this.constructor.name, compilation => {
       compilation.mainTemplate.hooks.require.tap(
         this.constructor.name,
+        // Constructs the correct module template for react-refresh
         createRefreshTemplate
-      );
-
-      compilation.hooks.normalModuleLoader.tap(
-        this.constructor.name,
-        context => {
-          if (!context.hot) {
-            throw Error(
-              'Hot Module Replacement (HMR) is not enabled! React-refresh requires HMR to function properly.'
-            );
-          }
-        }
       );
     });
   }
