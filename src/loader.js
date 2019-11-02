@@ -1,5 +1,5 @@
 const { Template } = require('webpack');
-const { runtimeUtils } = require('./runtime/globals');
+const { refreshUtils } = require('./runtime/globals');
 
 /**
  * A simple Webpack loader to inject react-refresh HMR code into modules.
@@ -11,7 +11,7 @@ function RefreshHotLoader(source) {
     source +
     Template.getFunctionContent(require('./runtime/RefreshModuleRuntime'))
       .trim()
-      .replace(/\$RefreshUtils\$/g, runtimeUtils)
+      .replace(/\$RefreshUtils\$/g, refreshUtils)
   );
 }
 

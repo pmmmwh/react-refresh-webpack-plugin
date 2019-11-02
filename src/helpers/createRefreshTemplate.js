@@ -32,7 +32,7 @@ const afterModule = `
  */
 function createRefreshTemplate(source, chunk) {
   // If a chunk is injected with the plugin,
-  // our custom entry musts be injected
+  // our custom entry for react-refresh musts be injected
   if (
     !chunk.entryModule ||
     !/ReactRefreshEntry/.test(chunk.entryModule._identifier || '')
@@ -42,7 +42,7 @@ function createRefreshTemplate(source, chunk) {
 
   const lines = source.split('\n');
 
-  // Webpack generates this line whenever mainTemplate is called
+  // Webpack generates this line whenever the mainTemplate is called
   const moduleInitializationLineNumber = lines.findIndex(line =>
     line.startsWith('modules[moduleId].call')
   );
