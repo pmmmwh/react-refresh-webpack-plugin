@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const { createRefreshTemplate, injectRefreshEntry } = require('./helpers');
-const { runtimeUtils } = require('./runtime/globals');
+const { refreshUtils } = require('./runtime/globals');
 
 class ReactRefreshPlugin {
   /**
@@ -31,7 +31,7 @@ class ReactRefreshPlugin {
 
     // Inject refresh utilities to Webpack's global scope
     const providePlugin = new webpack.ProvidePlugin({
-      [runtimeUtils]: require.resolve('./runtime/utils'),
+      [refreshUtils]: require.resolve('./runtime/utils'),
     });
     providePlugin.apply(compiler);
 

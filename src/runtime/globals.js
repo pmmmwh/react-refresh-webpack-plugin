@@ -1,1 +1,1 @@
-module.exports.runtimeUtils = '__react_refresh_utils__';
+module.exports.refreshUtils = '__react_refresh_utils__';
