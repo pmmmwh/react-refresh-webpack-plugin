@@ -61,7 +61,7 @@ class ReactRefreshPlugin {
           !/node_modules/.test(data.resource) &&
           // Skip runtime refresh utilities (to prevent self-referencing)
           // This is useful when using the plugin as a direct dependency
-          data.resource !== path.join(__dirname, './runtime/utils')
+          data.resource !== path.join(__dirname, './runtime/utils.js')
         ) {
           data.loaders.unshift(require.resolve('./loader'));
         }
