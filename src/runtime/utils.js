@@ -47,8 +47,9 @@ function createDebounceUpdate() {
       refreshTimeout = setTimeout(function() {
         refreshTimeout = undefined;
         Refresh.performReactRefresh();
-        if (window[runtimeGlobalHook].hasRuntimeError) {
+        if (window[runtimeGlobalHook].hasRuntimeErrors) {
           ErrorOverlay.dismissRuntimeErrors();
+          delete window[runtimeGlobalHook].hasRuntimeErrors;
         }
       }, 30);
     }
