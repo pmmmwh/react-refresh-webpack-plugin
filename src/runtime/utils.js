@@ -10,7 +10,35 @@ function getModuleExports(module) {
 }
 
 /**
+ * Calculates the signature of a React refresh boundary.
+ * If this signature changes, it's unsafe to accept the boundary.
+ *
+ * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/907d6af22ac6ebe58572be418e9253a90665ecbd/packages/metro/src/lib/polyfills/require.js#L795-L816).
+ */
+function getReactRefreshBoundarySignature(moduleExports) {
+  const signature = [];
+  signature.push(Refresh.getFamilyByType(moduleExports));
+
+  if (moduleExports == null || typeof moduleExports !== 'object') {
+    // Exit if we can't iterate over exports.
+    return signature;
+  }
+
+  for (var key in moduleExports) {
+    if (key === '__esModule') {
+      continue;
+    }
+
+    signature.push(key);
+    signature.push(Refresh.getFamilyByType(moduleExports[key]));
+  }
+
+  return signature;
+}
+
+/**
  * Creates self-recovering an error handler for webpack hot.
+ * @param {string} moduleId A unique ID for a Webpack module.
  * @returns {hotErrorHandler} A webpack hot error handler.
  */
 function createHotErrorHandler(moduleId) {
@@ -146,10 +174,37 @@ function registerExportsForReactRefresh(module) {
   }
 }
 
+/**
+ * Compares previous and next module objects to check for mutated boundaries.
+ *
+ * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/907d6af22ac6ebe58572be418e9253a90665ecbd/packages/metro/src/lib/polyfills/require.js#L776-L792).
+ */
+function shouldInvalidateReactRefreshBoundary(prevModule, nextModule) {
+  const prevSignature = getReactRefreshBoundarySignature(
+    getModuleExports(prevModule)
+  );
+  const nextSignature = getReactRefreshBoundarySignature(
+    getModuleExports(nextModule)
+  );
+
+  if (prevSignature.length !== nextSignature.length) {
+    return true;
+  }
+
+  for (let i = 0; i < nextSignature.length; i++) {
+    if (prevSignature[i] !== nextSignature[i]) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 module.exports = Object.freeze({
   createHotErrorHandler,
   enqueueUpdate: createDebounceUpdate(),
   isReactRefreshBoundary,
   performFullRefreshIfNeeded,
+  shouldInvalidateReactRefreshBoundary,
   registerExportsForReactRefresh,
 });
