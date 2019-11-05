@@ -37,6 +37,30 @@ function getReactRefreshBoundarySignature(moduleExports) {
 }
 
 /**
+ * Creates conditional full refresh dispose handler for Webpack hot.
+ * @param {*} module A Webpack module object.
+ * @returns {hotDisposeCallback} A webpack hot dispose callback.
+ */
+function createHotDisposeCallback(module) {
+  /**
+   * A callback to performs a full refresh if React has unrecoverable errors,
+   * and also caches the to-be-disposed module.
+   * @param {*} data A hot module data object from Webpack HMR.
+   * @returns {void}
+   */
+  function hotDisposeCallback(data) {
+    if (Refresh.hasUnrecoverableErrors()) {
+      window.location.reload();
+    }
+
+    // We have to mutate the data object to get data registered and cached
+    data.module = module;
+  }
+
+  return hotDisposeCallback;
+}
+
+/**
  * Creates self-recovering an error handler for webpack hot.
  * @param {string} moduleId A unique ID for a Webpack module.
  * @returns {hotErrorHandler} A webpack hot error handler.
@@ -126,16 +150,6 @@ function isReactRefreshBoundary(module) {
 }
 
 /**
- * Performs a full refresh if React has unrecoverable errors.
- * @returns {void}
- */
-function performFullRefreshIfNeeded() {
-  if (Refresh.hasUnrecoverableErrors()) {
-    window.location.reload();
-  }
-}
-
-/**
  * Checks if exports are likely a React component and registers them.
  *
  * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/febdba2383113c88296c61e28e4ef6a7f4939fda/packages/metro/src/lib/polyfills/require.js#L818-L835).
@@ -201,10 +215,10 @@ function shouldInvalidateReactRefreshBoundary(prevModule, nextModule) {
 }
 
 module.exports = Object.freeze({
+  createHotDisposeCallback,
   createHotErrorHandler,
   enqueueUpdate: createDebounceUpdate(),
   isReactRefreshBoundary,
-  performFullRefreshIfNeeded,
   shouldInvalidateReactRefreshBoundary,
   registerExportsForReactRefresh,
 });
