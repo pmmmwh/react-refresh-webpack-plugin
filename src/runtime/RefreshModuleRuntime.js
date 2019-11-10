@@ -26,8 +26,7 @@ module.exports = function() {
       ) {
         window.location.reload();
       }
+      $RefreshUtils$.enqueueUpdate();
     }
-
-    $RefreshUtils$.enqueueUpdate();
   }
 };
