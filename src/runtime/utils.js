@@ -26,7 +26,7 @@ function getReactRefreshBoundarySignature(moduleExports) {
     return signature;
   }
 
-  for (var key in moduleExports) {
+  for (const key in moduleExports) {
     if (key === '__esModule') {
       continue;
     }
@@ -68,7 +68,7 @@ function createHotDisposeCallback(module) {
  * @returns {hotErrorHandler} A webpack hot error handler.
  */
 function createHotErrorHandler(moduleId) {
-  /*
+  /**
    * An error handler to allow self-recovering behaviours.
    * @returns {void}
    */
@@ -88,7 +88,7 @@ function createDebounceUpdate() {
    * A cached setTimeout handler.
    * @type {number | void}
    */
-  var refreshTimeout = undefined;
+  let refreshTimeout = undefined;
 
   /**
    * Performs react refresh on a delay.
@@ -118,7 +118,7 @@ function createDebounceUpdate() {
  * @returns {boolean} Whether the exports are React component like.
  */
 function isReactRefreshBoundary(module) {
-  var moduleExports = getModuleExports(module);
+  const moduleExports = getModuleExports(module);
 
   if (Refresh.isLikelyComponentType(moduleExports)) {
     return true;
@@ -132,9 +132,9 @@ function isReactRefreshBoundary(module) {
     return false;
   }
 
-  var hasExports = false;
-  var areAllExportsComponents = true;
-  for (var key in moduleExports) {
+  let hasExports = false;
+  let areAllExportsComponents = true;
+  for (const key in moduleExports) {
     hasExports = true;
 
     // This is the ES Module indicator flag set by Webpack
@@ -146,7 +146,7 @@ function isReactRefreshBoundary(module) {
     // as Webpack manually assigns harmony exports to getters,
     // without any side-effects attached.
     // Ref: https://github.com/webpack/webpack/blob/b93048643fe74de2a6931755911da1212df55897/lib/MainTemplate.js#L281
-    var exportValue = moduleExports[key];
+    const exportValue = moduleExports[key];
     if (!Refresh.isLikelyComponentType(exportValue)) {
       areAllExportsComponents = false;
     }
@@ -163,8 +163,8 @@ function isReactRefreshBoundary(module) {
  * @returns {void}
  */
 function registerExportsForReactRefresh(module) {
-  var moduleExports = getModuleExports(module);
-  var moduleId = module.id;
+  const moduleExports = getModuleExports(module);
+  const moduleId = module.id;
 
   if (Refresh.isLikelyComponentType(moduleExports)) {
     // Register module.exports if it is likely a component
@@ -180,15 +180,15 @@ function registerExportsForReactRefresh(module) {
     return;
   }
 
-  for (var key in moduleExports) {
+  for (const key in moduleExports) {
     // Skip registering the Webpack ES Module indicator
     if (key === '__esModule') {
       continue;
     }
 
-    var exportValue = moduleExports[key];
+    const exportValue = moduleExports[key];
     if (Refresh.isLikelyComponentType(exportValue)) {
-      var typeID = moduleId + ' %exports% ' + key;
+      const typeID = moduleId + ' %exports% ' + key;
       Refresh.register(exportValue, typeID);
     }
   }
@@ -211,7 +211,7 @@ function shouldInvalidateReactRefreshBoundary(prevModule, nextModule) {
     return true;
   }
 
-  for (let i = 0; i < nextSignature.length; i++) {
+  for (let i = 0; i < nextSignature.length; i += 1) {
     if (prevSignature[i] !== nextSignature[i]) {
       return true;
     }

@@ -4,7 +4,7 @@ const url = require('url');
 
 // This adds support for custom WDS socket transportModes
 // In the future, we should add support for custom clients to better support WDM
-var SocketClient;
+let SocketClient;
 if (typeof __webpack_dev_server_client__ !== 'undefined') {
   SocketClient = __webpack_dev_server_client__;
 } else {
