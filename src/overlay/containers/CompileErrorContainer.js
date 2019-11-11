@@ -15,7 +15,7 @@ const entities = new Html5Entities();
  */
 
 /**
- *
+ * A container to render Webpack compilation errors with source trace.
  * @param {Document} document
  * @param {HTMLElement} root
  * @param {CompileErrorContainerProps} props
@@ -36,7 +36,6 @@ function CompileErrorContainer(document, root, props) {
     title: 'Failed to compile.',
     theme: theme,
   });
-
   root.insertAdjacentHTML(
     'beforeend',
     ansiHTML(entities.encode(errorParts.join('\n')))

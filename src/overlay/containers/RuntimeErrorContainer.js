@@ -15,7 +15,7 @@ const removeAllChildren = require('../utils/removeAllChildren');
  */
 
 /**
- *
+ * A container to render runtime errors with stack trace.
  * @param {Document} document
  * @param {HTMLElement} root
  * @param {RuntimeErrorContainerProps} props
