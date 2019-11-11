@@ -11,6 +11,10 @@ if (typeof __webpack_dev_server_client__ !== 'undefined') {
   SocketClient = require('sockjs-client');
 }
 
+/**
+ * Creates a socket server for HMR according to the user's Webpack configuration.
+ * @param {function(*): void} messageHandler A handler to consume Webpack compilation messages.
+ */
 function createSocket(messageHandler) {
   const connection = new SocketClient(
     // TODO: Dynamically generate this to handle resourceQuery
