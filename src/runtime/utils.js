@@ -1,5 +1,5 @@
-const ErrorOverlay = require('react-error-overlay');
 const Refresh = require('react-refresh/runtime');
+const ErrorOverlay = require('../overlay');
 const { runtimeGlobalHook } = require('./globals');
 
 /**
@@ -100,7 +100,7 @@ function createDebounceUpdate() {
         refreshTimeout = undefined;
         Refresh.performReactRefresh();
         if (window[runtimeGlobalHook].hasRuntimeErrors) {
-          ErrorOverlay.dismissRuntimeErrors();
+          ErrorOverlay.clearRuntimeErrors();
           delete window[runtimeGlobalHook].hasRuntimeErrors;
         }
       }, 30);
