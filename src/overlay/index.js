@@ -56,7 +56,8 @@ let currentRuntimeErrors = [];
  */
 
 /**
- *
+ * Creates the main `iframe` the overlay will attach to.
+ * Accepts a callback to be ran after iframe is initialized.
  * @param {Document} document
  * @param {HTMLElement} root
  * @param {IframeProps} props
@@ -86,7 +87,7 @@ function IframeRoot(document, root, props) {
 }
 
 /**
- *
+ * Creates the main `div` element for the overlay to render.
  * @param {Document} document
  * @param {HTMLElement} root
  * @returns {HTMLDivElement}
@@ -125,7 +126,8 @@ function OverlayRoot(document, root) {
 }
 
 /**
- *
+ * Ensures the iframe root and the overlay root are both initialized before render.
+ * If check fails, render will be deferred until both roots are initialized.
  * @param {RenderFn} render
  * @returns {void}
  */
@@ -161,7 +163,7 @@ function ensureRootExists(render) {
 }
 
 /**
- *
+ * Destroys the state of the overlay.
  * @returns {void}
  */
 function cleanup() {
@@ -174,7 +176,7 @@ function cleanup() {
 }
 
 /**
- *
+ * Clears Webpack compilation errors and dismisses the compile error overlay.
  * @returns {void}
  */
 function clearCompileError() {
@@ -187,7 +189,7 @@ function clearCompileError() {
 }
 
 /**
- *
+ * Clears runtime error records and dismisses the runtime error overlay.
  * @returns {void}
  */
 function clearRuntimeErrors() {
@@ -201,7 +203,7 @@ function clearRuntimeErrors() {
 }
 
 /**
- *
+ * Shows the compile error overlay with the specific Webpack error message.
  * @param {string} message
  * @returns {void}
  */
@@ -224,7 +226,7 @@ function showCompileError(message) {
 }
 
 /**
- *
+ * Shows the runtime error overlay with the specific error records.
  * @param {Error[]} errors
  * @returns {void}
  */
