@@ -180,7 +180,7 @@ function cleanup() {
  * @returns {void}
  */
 function clearCompileError() {
-  if (!root || currentMode !== 'compileError') {
+  if (!root || currentMode !== 'compileError' || !currentCompileErrorMessage) {
     return;
   }
 
@@ -193,7 +193,7 @@ function clearCompileError() {
  * @returns {void}
  */
 function clearRuntimeErrors() {
-  if (!root || currentMode !== 'runtimeError') {
+  if (!root || currentMode !== 'runtimeError' || !currentRuntimeErrors.length) {
     return;
   }
 

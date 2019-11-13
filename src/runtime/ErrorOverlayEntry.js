@@ -9,10 +9,6 @@ const {
   error: registerErrorHandler,
   unhandledRejection: registerUnhandledRejectionHandler,
 } = require('./errorEventHandlers');
-const { runtimeGlobalHook } = require('./globals');
-
-// Setup Global Hook
-window[runtimeGlobalHook] = window[runtimeGlobalHook] || {};
 
 // Setup error states
 let isHotReload = false;
@@ -106,9 +102,6 @@ function compileMessageHandler(message) {
  * @returns {void}
  */
 function runtimeErrorHandler(context) {
-  if (!window[runtimeGlobalHook].hasRuntimeErrors) {
-    window[runtimeGlobalHook].hasRuntimeErrors = true;
-  }
   if (
     context &&
     !isWebpackCompileError(context) &&

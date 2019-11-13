@@ -1,6 +1,5 @@
 const Refresh = require('react-refresh/runtime');
 const ErrorOverlay = require('../overlay');
-const { runtimeGlobalHook } = require('./globals');
 
 /**
  * Extracts exports from a webpack module object.
@@ -99,10 +98,7 @@ function createDebounceUpdate() {
       refreshTimeout = setTimeout(function() {
         refreshTimeout = undefined;
         Refresh.performReactRefresh();
-        if (window[runtimeGlobalHook].hasRuntimeErrors) {
-          ErrorOverlay.clearRuntimeErrors();
-          delete window[runtimeGlobalHook].hasRuntimeErrors;
-        }
+        ErrorOverlay.clearRuntimeErrors();
       }, 30);
     }
   }
