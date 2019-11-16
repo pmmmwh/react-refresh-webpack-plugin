@@ -39,7 +39,8 @@ function RuntimeErrorStack(document, root, props) {
         ':' +
         currentStack.lineNumber +
         ':' +
-        currentStack.columnNumber
+        currentStack.columnNumber +
+        ')'
     );
 
     if (i < errorStacks.length - 1) {
@@ -47,19 +48,7 @@ function RuntimeErrorStack(document, root, props) {
     }
   }
 
-  root.insertAdjacentText(
-    'beforeend',
-    formatFilename(errorStacks[0].fileName) +
-      '\n' +
-      props.error.name +
-      ': ' +
-      props.error.message +
-      ' (' +
-      errorStacks[0].lineNumber +
-      ':' +
-      errorStacks[0].columnNumber +
-      ')'
-  );
+  root.insertAdjacentText('beforeend', formatFilename(errorStacks[0].fileName));
   root.appendChild(stackContainer);
 }
 

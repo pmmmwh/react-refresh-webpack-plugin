@@ -26,13 +26,6 @@ function RuntimeErrorContainer(document, root, props) {
 
   const currentError = props.errors[props.activeErrorIndex];
 
-  let errorTitle = 'Caught ' + props.errors.length;
-  if (props.errors.length === 1) {
-    errorTitle += ' error.';
-  } else {
-    errorTitle += ' errors.';
-  }
-
   CloseButton(document, root, {
     onClick: props.onClickCloseButton,
   });
@@ -44,7 +37,7 @@ function RuntimeErrorContainer(document, root, props) {
     theme: theme,
   });
   PageHeader(document, root, {
-    title: errorTitle,
+    title: currentError.name + ': ' + currentError.message,
     theme: theme,
   });
   ErrorStack(document, root, {
