@@ -13,8 +13,7 @@
     "error-stack-parser": "^2.0.4",
     "html-entities": "^1.2.1",
     "react-dev-utils": "^9.0.3",
-    "sockjs-client": "^1.4.0",
-    "strip-ansi": "^5.2.0"
+    "sockjs-client": "^1.4.0"
   },
   "devDependencies": {
     "prettier": "^1.18.2",
