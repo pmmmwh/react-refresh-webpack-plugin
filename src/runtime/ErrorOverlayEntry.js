@@ -2,7 +2,6 @@
 /* global __resourceQuery */
 
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const stripAnsi = require('strip-ansi');
 const ErrorOverlay = require('../overlay');
 const createSocket = require('./createSocket');
 const {
@@ -13,16 +12,6 @@ const {
 // Setup error states
 let isHotReload = false;
 let hasCompileErrors = false;
-let runtimeErrors = [];
-
-/**
- * Detects if an error is a Webpack compilation error.
- * @param {Error} error The error of interest.
- * @returns {boolean} If the error is a Webpack compilation error.
- */
-function isWebpackCompileError(error) {
-  return /Module [A-z ]+\(from/.test(error.message);
-}
 
 /**
  * Try dismissing the compile error overlay.
@@ -30,9 +19,6 @@ function isWebpackCompileError(error) {
  * @returns {void}
  */
 function tryDismissCompileErrorOverlay() {
-  if (runtimeErrors.length) {
-    runtimeErrors = [];
-  }
   if (!hasCompileErrors) {
     ErrorOverlay.clearCompileError();
   }
@@ -68,10 +54,6 @@ function handleCompileErrors(errors) {
   // Only show the first error
   ErrorOverlay.showCompileError(formatted.errors[0]);
 
-  for (let i = 0; i < formatted.errors.length; i += 1) {
-    console.error(stripAnsi(formatted.errors[i]));
-  }
-
   // Do not attempt to reload now.
   // We will reload on next success instead.
 }
@@ -95,25 +77,8 @@ function compileMessageHandler(message) {
   }
 }
 
-/**
- * Handles runtime error contexts captured with EventListeners.
- * Integrates with a runtime error overlay.
- * @param {error} context A valid error object.
- * @returns {void}
- */
-function runtimeErrorHandler(context) {
-  if (
-    context &&
-    !isWebpackCompileError(context) &&
-    runtimeErrors.indexOf(context) === -1
-  ) {
-    runtimeErrors = runtimeErrors.concat(context);
-  }
-  ErrorOverlay.showRuntimeErrors(runtimeErrors);
-}
-
 // Registers handlers for compile errors
 createSocket(compileMessageHandler);
 // Registers handlers for runtime errors
-registerErrorHandler(runtimeErrorHandler);
-registerUnhandledRejectionHandler(runtimeErrorHandler);
+registerErrorHandler(ErrorOverlay.handleRuntimeError);
+registerUnhandledRejectionHandler(ErrorOverlay.handleRuntimeError);

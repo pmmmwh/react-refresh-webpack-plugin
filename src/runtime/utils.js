@@ -64,18 +64,29 @@ function createHotDisposeCallback(module) {
 /**
  * Creates self-recovering an error handler for webpack hot.
  * @param {string} moduleId A unique ID for a Webpack module.
- * @returns {hotErrorHandler} A webpack hot error handler.
+ * @returns {selfAcceptingHotErrorHandler} A self-accepting webpack hot error handler.
  */
 function createHotErrorHandler(moduleId) {
   /**
-   * An error handler to allow self-recovering behaviours.
+   * An error handler to show a module evaluation error with an error overlay.
+   * @param {Error} error An error occurred during evaluation of a module.
    * @returns {void}
    */
-  function hotErrorHandler() {
+  function hotErrorHandler(error) {
+    ErrorOverlay.handleRuntimeError(error);
+  }
+
+  /**
+   * An error handler to allow self-recovering behaviours.
+   * @param {Error} error An error occurred during evaluation of a module.
+   * @returns {void}
+   */
+  function selfAcceptingHotErrorHandler(error) {
+    hotErrorHandler(error);
     require.cache[moduleId].hot.accept(hotErrorHandler);
   }
 
-  return hotErrorHandler;
+  return selfAcceptingHotErrorHandler;
 }
 
 /**
@@ -90,7 +101,7 @@ function createDebounceUpdate() {
   let refreshTimeout = undefined;
 
   /**
-   * Performs react refresh on a delay.
+   * Performs react refresh on a delay and clears the error overlay.
    * @returns {void}
    */
   function enqueueUpdate() {

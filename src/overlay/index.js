@@ -1,11 +1,6 @@
 const CompileErrorContainer = require('./containers/CompileErrorContainer');
 const RuntimeErrorContainer = require('./containers/RuntimeErrorContainer');
 
-/**
- * @callback RenderFn
- * @returns {void}
- */
-
 /* ===== Cached elements for DOM manipulations ===== */
 /**
  * The iframe that contains the overlay.
@@ -29,11 +24,6 @@ let root = null;
 let scheduledRenderFn = null;
 
 /* ===== Overlay State ===== */
-/**
- * The type of error handled by the overlay currently.
- * @type {'compileError' | 'runtimeError'}
- */
-let currentMode = 'compileError';
 /**
  * The latest error message from Webpack compilation.
  * @type {string}
@@ -163,13 +153,46 @@ function ensureRootExists(render) {
 }
 
 /**
+ * Creates the main `div` element for the overlay to render.
+ * @returns {void}
+ */
+function render() {
+  ensureRootExists(function() {
+    if (currentCompileErrorMessage) {
+      CompileErrorContainer(rootDocument, root, {
+        errorMessage: currentCompileErrorMessage,
+      });
+    } else if (currentRuntimeErrors.length) {
+      RuntimeErrorContainer(rootDocument, root, {
+        activeErrorIndex: currentRuntimeErrorIndex,
+        errors: currentRuntimeErrors,
+        onClickCloseButton: clearRuntimeErrors,
+        onClickNextButton: function onNext() {
+          if (currentRuntimeErrorIndex === currentRuntimeErrors.length - 1) {
+            return;
+          }
+          currentRuntimeErrorIndex += 1;
+          ensureRootExists(render);
+        },
+        onClickPrevButton: function onPrev() {
+          if (currentRuntimeErrorIndex === 0) {
+            return;
+          }
+          currentRuntimeErrorIndex -= 1;
+          ensureRootExists(render);
+        },
+      });
+    }
+  });
+}
+
+/**
  * Destroys the state of the overlay.
  * @returns {void}
  */
 function cleanup() {
   // Clean up and reset all internal state.
   document.body.removeChild(iframeRoot);
-  currentMode = 'compileError';
   scheduledRenderFn = null;
   root = null;
   iframeRoot = null;
@@ -180,7 +203,7 @@ function cleanup() {
  * @returns {void}
  */
 function clearCompileError() {
-  if (!root || currentMode !== 'compileError' || !currentCompileErrorMessage) {
+  if (!root || !currentCompileErrorMessage) {
     return;
   }
 
@@ -193,7 +216,7 @@ function clearCompileError() {
  * @returns {void}
  */
 function clearRuntimeErrors() {
-  if (!root || currentMode !== 'runtimeError' || !currentRuntimeErrors.length) {
+  if (!root || !currentRuntimeErrors.length) {
     return;
   }
 
@@ -212,17 +235,9 @@ function showCompileError(message) {
     return;
   }
 
-  currentMode = 'compileError';
   currentCompileErrorMessage = message;
 
-  /** @type {RenderFn} */
-  function render() {
-    CompileErrorContainer(rootDocument, root, {
-      errorMessage: currentCompileErrorMessage,
-    });
-  }
-
-  ensureRootExists(render);
+  render();
 }
 
 /**
@@ -235,38 +250,41 @@ function showRuntimeErrors(errors) {
     return;
   }
 
-  currentMode = 'runtimeError';
   currentRuntimeErrors = errors;
 
-  /** @type {RenderFn} */
-  function render() {
-    RuntimeErrorContainer(rootDocument, root, {
-      activeErrorIndex: currentRuntimeErrorIndex,
-      errors: currentRuntimeErrors,
-      onClickCloseButton: clearRuntimeErrors,
-      onClickNextButton: function onNext() {
-        if (currentRuntimeErrorIndex === currentRuntimeErrors.length - 1) {
-          return;
-        }
-        currentRuntimeErrorIndex += 1;
-        ensureRootExists(render);
-      },
-      onClickPrevButton: function onPrev() {
-        if (currentRuntimeErrorIndex === 0) {
-          return;
-        }
-        currentRuntimeErrorIndex -= 1;
-        ensureRootExists(render);
-      },
-    });
-  }
+  render();
+}
 
-  ensureRootExists(render);
+/**
+ * Detects if an error is a Webpack compilation error.
+ * @param {Error} error The error of interest.
+ * @returns {boolean} If the error is a Webpack compilation error.
+ */
+function isWebpackCompileError(error) {
+  return /Module [A-z ]+\(from/.test(error.message);
+}
+
+/**
+ * Handles runtime error contexts captured with EventListeners.
+ * Integrates with a runtime error overlay.
+ * @param {Error} error A valid error object.
+ * @returns {void}
+ */
+function handleRuntimeError(error) {
+  if (
+    error &&
+    !isWebpackCompileError(error) &&
+    currentRuntimeErrors.indexOf(error) === -1
+  ) {
+    currentRuntimeErrors = currentRuntimeErrors.concat(error);
+  }
+  showRuntimeErrors(currentRuntimeErrors);
 }
 
 module.exports = Object.freeze({
   clearCompileError,
   clearRuntimeErrors,
+  handleRuntimeError,
   showCompileError,
   showRuntimeErrors,
 });
