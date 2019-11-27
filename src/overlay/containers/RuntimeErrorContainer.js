@@ -22,7 +22,7 @@ const removeAllChildren = require('../utils/removeAllChildren');
  * @returns {void}
  */
 function RuntimeErrorContainer(document, root, props) {
-  removeAllChildren(root);
+  removeAllChildren(root, 2);
 
   const currentError = props.errors[props.activeErrorIndex];
 
