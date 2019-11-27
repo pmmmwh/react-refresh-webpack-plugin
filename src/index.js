@@ -63,7 +63,10 @@ class ReactRefreshPlugin {
           // This is useful when using the plugin as a direct dependency
           !data.resource.includes(path.join(__dirname, './runtime'))
         ) {
-          data.loaders.unshift(require.resolve('./loader'));
+          data.loaders.unshift({
+            loader: require.resolve('./loader'),
+            options: undefined,
+          });
         }
 
         return data;

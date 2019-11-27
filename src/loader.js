@@ -1,3 +1,4 @@
+const path = require('path');
 const { Template } = require('webpack');
 const { refreshUtils } = require('./runtime/globals');
 
@@ -10,9 +11,13 @@ const reactModule = /['"]react['"]/;
  * @returns {string} The injected module source code.
  */
 function RefreshHotLoader(source) {
+  // Add dependency to allow caching and invalidations
+  this.addDependency(path.resolve('./runtime/RefreshModuleRuntime'));
+
   // Only apply transform if the source code contains a React import
   return reactModule.test(source)
     ? source +
+        '\n' +
         Template.getFunctionContent(require('./runtime/RefreshModuleRuntime'))
           .trim()
           .replace(/\$RefreshUtils\$/g, refreshUtils)
