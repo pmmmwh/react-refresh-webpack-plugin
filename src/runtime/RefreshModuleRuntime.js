@@ -19,6 +19,7 @@ module.exports = function() {
 
     if (!!module.hot.data) {
       if (
+        !module.hot.data.module ||
         $RefreshUtils$.shouldInvalidateReactRefreshBoundary(
           module.hot.data.module,
           module
