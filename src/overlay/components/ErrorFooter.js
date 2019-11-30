@@ -19,10 +19,9 @@ function ErrorFooter(document, root, props) {
   footer.style.backgroundColor = '#' + props.theme.darkgrey;
   footer.style.bottom = '0';
   footer.style.left = '0';
-  footer.style.fontSize = '0.6875rem';
   footer.style.padding = '0.5rem 2rem';
   footer.style.position = 'fixed';
-  footer.style.width = '100vw';
+  footer.style.width = 'calc(100vw - 4rem)';
   footer.style.zIndex = '2';
 
   if (props.errors.length > 1) {
@@ -37,7 +36,8 @@ function ErrorFooter(document, root, props) {
       button.style.border = 'none';
       button.style.color = '#' + props.theme.red;
       button.style.cursor = 'pointer';
-      button.style.padding = '0.25rem 0.5rem';
+      button.style.fontSize = 'inherit';
+      button.style.padding = '0.5rem 0.75rem';
 
       if (i === 0) {
         button.style.borderRadius = '4px 0 0 4px';
