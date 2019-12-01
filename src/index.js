@@ -3,14 +3,25 @@ const webpack = require('webpack');
 const { createRefreshTemplate, injectRefreshEntry } = require('./helpers');
 const { refreshUtils } = require('./runtime/globals');
 
+/**
+ * @typedef {Object} ReactRefreshPluginOptions
+ * @property {boolean} [disableRefreshCheck] A flag to disable detection of the react-refresh Babel plugin.
+ * @property {boolean} [forceEnable] A flag to enable the plugin forcefully.
+ */
+
+/** @type {ReactRefreshPluginOptions} */
+const defaultOptions = {
+  disableRefreshCheck: false,
+  forceEnable: false,
+};
+
 class ReactRefreshPlugin {
   /**
-   * @param {*} [options] Options for react-refresh-plugin.
-   * @param {boolean} [options.forceEnable] A flag to enable the plugin forcefully.
+   * @param {ReactRefreshPluginOptions} [options] Options for react-refresh-plugin.
    * @returns {void}
    */
   constructor(options) {
-    this.options = options || {};
+    this.options = Object.assign(defaultOptions, options);
   }
 
   /**
@@ -79,6 +90,31 @@ class ReactRefreshPlugin {
         // Constructs the correct module template for react-refresh
         createRefreshTemplate
       );
+
+      compilation.hooks.finishModules.tap(this.constructor.name, modules => {
+        if (!this.options.disableRefreshCheck) {
+          const refreshPluginInjection = /\$RefreshReg\$/;
+          const RefreshDetectionModule = modules.find(
+            module =>
+              module.resource === require.resolve('./runtime/TestComponent.js')
+          );
+
+          // Check for the function transform by the Babel plugin.
+          if (
+            !refreshPluginInjection.test(
+              RefreshDetectionModule._source.source()
+            )
+          ) {
+            throw new Error(
+              [
+                'The plugin is unable to detect transformed code from react-refresh.',
+                'Did you forget to include "react-refresh/babel" in your list of Babel plugins?',
+                'Note: you can disable this check by setting "disableRefreshCheck: true".',
+              ].join(' ')
+            );
+          }
+        }
+      });
     });
   }
 }
