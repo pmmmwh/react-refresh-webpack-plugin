@@ -96,8 +96,16 @@ class ReactRefreshPlugin {
           const refreshPluginInjection = /\$RefreshReg\$/;
           const RefreshDetectionModule = modules.find(
             module =>
-              module.resource === require.resolve('./runtime/TestComponent.js')
+              module.resource ===
+              require.resolve('./runtime/BabelDetectComponent.js')
           );
+
+          // In most cases, if we cannot find the injected detection module,
+          // there are other compilation instances injected by other plugins.
+          // We will have to bail out in those cases.
+          if (!RefreshDetectionModule) {
+            return;
+          }
 
           // Check for the function transform by the Babel plugin.
           if (

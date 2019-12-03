@@ -5,3 +5,6 @@
 function BabelDetectComponent() {
   return 'BabelDetectComponent';
 }
+
+// Call the function to prevent tree-shaking
+BabelDetectComponent();
