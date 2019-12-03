@@ -5,7 +5,8 @@ An **EXPERIMENTAL** Webpack plugin to enable "Fast Refresh" (also known as _Hot 
 ## Installation
 
 First - this plugin is not ready and is currently not compliant to the "Fast Refresh" branding.
-Please **DO NOT** us it in any important apps.
+It works pretty reliably, but you will hit edge cases fairly easily.
+Please **DO NOT** use it in any important apps.
 
 But, if you are adventurous, the steps for installation are as follows:
 
@@ -22,7 +23,7 @@ But, if you are adventurous, the steps for installation are as follows:
 2. Install the peer dependencies of this plugin
 
    ```sh
-   # exclude babel-loader if you already installed it
+   # exclude babel-loader if you have already installed it
    # if you prefer npm
    npm install -D react-refresh babel-loader
 
@@ -32,7 +33,7 @@ But, if you are adventurous, the steps for installation are as follows:
 
 ## Usage
 
-In your webpack configuration, alter as follows:
+In your webpack configuration, alter it as follows:
 
 ```diff
 + const ReactRefreshPlugin = require('react-refresh-webpack-plugin');
@@ -44,7 +45,7 @@ module.exports = {
     rules: [
       // ... other rules
       {
-        // for TypeScript, change the following to "tsx?"
+        // for TypeScript, change the following to "\.[jt]sx?"
         test: /\.jsx?$/,
         exclude: /node_modules/,
         use: [
