@@ -68,7 +68,7 @@ module.exports = {
 
 **.babelrc** (if you choose to extract the config)
 
-```json
+```json5
 {
   "plugins": ["react-refresh/babel"]
 }
