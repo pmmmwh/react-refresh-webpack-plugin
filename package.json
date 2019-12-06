@@ -12,7 +12,8 @@
     "ansi-html": "^0.0.7",
     "error-stack-parser": "^2.0.4",
     "html-entities": "^1.2.1",
-    "react-dev-utils": "^9.0.3",
+    "lodash.debounce": "^4.0.8",
+    "react-dev-utils": "^9.1.0",
     "sockjs-client": "^1.4.0"
   },
   "devDependencies": {
@@ -21,7 +22,7 @@
     "webpack": "^4.41.2"
   },
   "peerDependencies": {
-    "react-refresh": "*"
+    "react-refresh": ">= 0.7"
   },
   "engines": {
     "node": ">= 8.x"
