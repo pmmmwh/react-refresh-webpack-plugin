@@ -1,5 +1,15 @@
+const debounce = require('lodash.debounce');
+const RuntimeErrorFooter = require('./components/RuntimeErrorFooter');
+const RuntimeErrorHeader = require('./components/RuntimeErrorHeader');
 const CompileErrorContainer = require('./containers/CompileErrorContainer');
 const RuntimeErrorContainer = require('./containers/RuntimeErrorContainer');
+const theme = require('./theme');
+const removeAllChildren = require('./utils/removeAllChildren');
+
+/**
+ * @callback RenderFn
+ * @returns {void}
+ */
 
 /* ===== Cached elements for DOM manipulations ===== */
 /**
@@ -18,7 +28,7 @@ let rootDocument = null;
  */
 let root = null;
 /**
- * A Cached function to allow deferred render
+ * A Cached function to allow deferred render.
  * @type {RenderFn | null}
  */
 let scheduledRenderFn = null;
@@ -39,6 +49,11 @@ let currentRuntimeErrorIndex = 0;
  * @type {Error[]}
  */
 let currentRuntimeErrors = [];
+/**
+ * The render mode the overlay is currently in.
+ * @type {'compileError' | 'runtimeError' | null}
+ */
+let currentMode = null;
 
 /**
  * @typedef {Object} IframeProps
@@ -87,28 +102,26 @@ function OverlayRoot(document, root) {
   div.id = 'react-refresh-overlay-error';
 
   // Style the contents container
-  div.style.backgroundColor = 'rgba(0, 0, 0, 0.95)';
+  div.style.backgroundColor = '#' + theme.grey;
   div.style.boxSizing = 'border-box';
-  div.style.color = '#ffffff';
+  div.style.color = '#' + theme.white;
   div.style.fontFamily = [
-    '"Operator Mono SSm"',
-    '"Operator Mono"',
-    '"Fira Code Retina"',
-    '"Fira Code"',
-    '"FiraCode-Retina"',
-    '"Andale Mono"',
-    '"Lucida Console"',
-    'Menlo',
-    'Consolas',
-    'Monaco',
-    'monospace',
+    '-apple-system',
+    'BlinkMacSystemFont',
+    '"Segoe UI"',
+    '"Helvetica Neue"',
+    'Helvetica',
+    'Arial',
+    'sans-serif',
+    '"Apple Color Emoji"',
+    '"Segoe UI Emoji"',
+    'Segoe UI Symbol',
   ].join(', ');
-  div.style.fontSize = '0.8125rem';
+  div.style.fontSize = '0.875rem';
   div.style.height = '100vh';
-  div.style.lineHeight = '1.2';
+  div.style.lineHeight = '1.3';
   div.style.overflow = 'auto';
-  div.style.padding = '2rem 2rem 0';
-  div.style.whiteSpace = 'pre-wrap';
+  div.style.padding = '1rem 1.5rem 0';
   div.style.width = '100vw';
 
   root.appendChild(div);
@@ -118,19 +131,19 @@ function OverlayRoot(document, root) {
 /**
  * Ensures the iframe root and the overlay root are both initialized before render.
  * If check fails, render will be deferred until both roots are initialized.
- * @param {RenderFn} render
+ * @param {RenderFn} renderFn A function that triggers a DOM render.
  * @returns {void}
  */
-function ensureRootExists(render) {
+function ensureRootExists(renderFn) {
   if (root) {
     // Overlay root is ready, we can render right away.
-    render();
+    renderFn();
     return;
   }
 
   // Creating an iframe may be asynchronous so we'll defer render.
   // In case of multiple calls, function from the last call will be used.
-  scheduledRenderFn = render;
+  scheduledRenderFn = renderFn;
 
   if (iframeRoot) {
     // Iframe is already ready, it will fire the load event.
@@ -158,15 +171,36 @@ function ensureRootExists(render) {
  */
 function render() {
   ensureRootExists(function() {
+    const currentFocus = rootDocument.activeElement;
+    let currentFocusId;
+    if (currentFocus.localName === 'button' && currentFocus.id) {
+      currentFocusId = currentFocus.id;
+    }
+
+    removeAllChildren(root);
+
     if (currentCompileErrorMessage) {
+      currentMode = 'compileError';
+
       CompileErrorContainer(rootDocument, root, {
         errorMessage: currentCompileErrorMessage,
       });
     } else if (currentRuntimeErrors.length) {
+      currentMode = 'runtimeError';
+
+      RuntimeErrorHeader(rootDocument, root, {
+        currentErrorIndex: currentRuntimeErrorIndex,
+        totalErrors: currentRuntimeErrors.length,
+      });
       RuntimeErrorContainer(rootDocument, root, {
-        activeErrorIndex: currentRuntimeErrorIndex,
-        errors: currentRuntimeErrors,
-        onClickCloseButton: clearRuntimeErrors,
+        currentError: currentRuntimeErrors[currentRuntimeErrorIndex],
+      });
+      RuntimeErrorFooter(rootDocument, root, {
+        initialFocus: currentFocusId,
+        multiple: currentRuntimeErrors.length > 1,
+        onClickCloseButton: function onClose() {
+          clearRuntimeErrors();
+        },
         onClickNextButton: function onNext() {
           if (currentRuntimeErrorIndex === currentRuntimeErrors.length - 1) {
             return;
@@ -203,26 +237,32 @@ function cleanup() {
  * @returns {void}
  */
 function clearCompileError() {
-  if (!root || !currentCompileErrorMessage) {
+  if (!root || currentMode !== 'compileError') {
     return;
   }
 
   currentCompileErrorMessage = '';
+  currentMode = null;
   cleanup();
 }
 
 /**
  * Clears runtime error records and dismisses the runtime error overlay.
+ * @param {boolean} [dismissOverlay] Whether to dismiss the overlay or not.
  * @returns {void}
  */
-function clearRuntimeErrors() {
-  if (!root || !currentRuntimeErrors.length) {
+function clearRuntimeErrors(dismissOverlay) {
+  if (!root || currentMode !== 'runtimeError') {
     return;
   }
 
   currentRuntimeErrorIndex = 0;
   currentRuntimeErrors = [];
-  cleanup();
+
+  if (typeof dismissOverlay === 'undefined' || dismissOverlay) {
+    currentMode = null;
+    cleanup();
+  }
 }
 
 /**
@@ -256,6 +296,14 @@ function showRuntimeErrors(errors) {
 }
 
 /**
+ * The debounced version of `showRuntimeErrors` to prevent frequent renders
+ * due to rapid firing listeners.
+ * @param {Error[]} errors
+ * @returns {void}
+ */
+const debouncedShowRuntimeErrors = debounce(showRuntimeErrors, 30);
+
+/**
  * Detects if an error is a Webpack compilation error.
  * @param {Error} error The error of interest.
  * @returns {boolean} If the error is a Webpack compilation error.
@@ -271,14 +319,10 @@ function isWebpackCompileError(error) {
  * @returns {void}
  */
 function handleRuntimeError(error) {
-  if (
-    error &&
-    !isWebpackCompileError(error) &&
-    currentRuntimeErrors.indexOf(error) === -1
-  ) {
+  if (error && !isWebpackCompileError(error) && currentRuntimeErrors.indexOf(error) === -1) {
     currentRuntimeErrors = currentRuntimeErrors.concat(error);
   }
-  showRuntimeErrors(currentRuntimeErrors);
+  debouncedShowRuntimeErrors(currentRuntimeErrors);
 }
 
 module.exports = Object.freeze({
