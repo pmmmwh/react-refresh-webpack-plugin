@@ -12,16 +12,18 @@ const {
 // Setup error states
 let isHotReload = false;
 let hasCompileErrors = false;
+let hasRuntimeErrors = false;
 
 /**
  * Try dismissing the compile error overlay.
- * This will also reset runtime error records because we have new source to evaluate.
+ * This will also reset runtime error records (if any),
+ * because we have new source to evaluate.
  * @returns {void}
  */
-function tryDismissCompileErrorOverlay() {
-  if (!hasCompileErrors) {
-    ErrorOverlay.clearCompileError();
-  }
+function tryDismissErrorOverlay() {
+  ErrorOverlay.clearCompileError();
+  ErrorOverlay.clearRuntimeErrors(!hasRuntimeErrors);
+  hasRuntimeErrors = false;
 }
 
 /**
@@ -33,7 +35,7 @@ function handleCompileSuccess() {
   hasCompileErrors = false;
 
   if (isHotReload) {
-    tryDismissCompileErrorOverlay();
+    tryDismissErrorOverlay();
   }
 }
 
@@ -53,9 +55,6 @@ function handleCompileErrors(errors) {
 
   // Only show the first error
   ErrorOverlay.showCompileError(formatted.errors[0]);
-
-  // Do not attempt to reload now.
-  // We will reload on next success instead.
 }
 
 /**
@@ -80,5 +79,11 @@ function compileMessageHandler(message) {
 // Registers handlers for compile errors
 createSocket(compileMessageHandler);
 // Registers handlers for runtime errors
-registerErrorHandler(ErrorOverlay.handleRuntimeError);
-registerUnhandledRejectionHandler(ErrorOverlay.handleRuntimeError);
+registerErrorHandler(function handleError(error) {
+  hasRuntimeErrors = true;
+  ErrorOverlay.handleRuntimeError(error);
+});
+registerUnhandledRejectionHandler(function handleUnhandledPromiseRejection(error) {
+  hasRuntimeErrors = true;
+  ErrorOverlay.handleRuntimeError(error);
+});
