@@ -19,6 +19,7 @@ function PageHeader(document, root, props) {
   const pageHeaderContainer = document.createElement('div');
   pageHeaderContainer.style.background = '#' + theme.dimgrey;
   pageHeaderContainer.style.boxShadow = '0 1px 4px rgba(0, 0, 0, 0.3)';
+  pageHeaderContainer.style.color = '#' + theme.white;
   pageHeaderContainer.style.left = '0';
   pageHeaderContainer.style.padding = '1rem 1.5rem';
   pageHeaderContainer.style.position = 'fixed';
@@ -38,6 +39,7 @@ function PageHeader(document, root, props) {
 
     const message = document.createElement('span');
     message.innerText = props.message;
+    message.style.color = '#' + theme.white;
     message.style.wordBreak = 'break-word';
     pageHeaderContainer.appendChild(message);
   }

@@ -64,6 +64,7 @@ function RuntimeErrorFooter(document, root, props) {
     button.tabIndex = 1;
     button.style.backgroundColor = '#' + theme.dimgrey;
     button.style.border = 'none';
+    button.style.color = '#' + theme.white;
     button.style.cursor = 'pointer';
     button.style.fontSize = 'inherit';
     button.style.height = '100%';

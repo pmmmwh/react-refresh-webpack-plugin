@@ -17,6 +17,7 @@ const formatFilename = require('../utils/formatFilename');
 function RuntimeErrorStack(document, root, props) {
   const stackTitle = document.createElement('h4');
   stackTitle.innerText = 'Call Stack';
+  stackTitle.style.color = '#' + theme.white;
   stackTitle.style.fontSize = '1.0625rem';
   stackTitle.style.fontWeight = '500';
   stackTitle.style.lineHeight = '1.3';
@@ -25,7 +26,6 @@ function RuntimeErrorStack(document, root, props) {
   const stackContainer = document.createElement('div');
   stackContainer.style.fontSize = '0.8125rem';
   stackContainer.style.lineHeight = '1.3';
-  stackContainer.style.margin = '0.25rem 0 0';
   stackContainer.style.whiteSpace = 'pre-wrap';
 
   const errorStacks = ErrorStackParser.parse(props.error);
@@ -33,6 +33,7 @@ function RuntimeErrorStack(document, root, props) {
     const currentStack = errorStacks[i];
 
     const functionName = document.createElement('code');
+    functionName.innerHTML = '&emsp;' + currentStack.functionName || '(anonymous function)';
     functionName.style.color = '#' + theme.yellow;
     functionName.style.fontFamily = [
       '"Operator Mono SSm"',
@@ -47,7 +48,6 @@ function RuntimeErrorStack(document, root, props) {
       'Monaco',
       'monospace',
     ].join(', ');
-    functionName.innerHTML = '&emsp;' + currentStack.functionName || '(anonymous function)';
 
     const fileName = document.createElement('div');
     fileName.innerHTML =
@@ -57,6 +57,7 @@ function RuntimeErrorStack(document, root, props) {
       currentStack.lineNumber +
       ':' +
       currentStack.columnNumber;
+    fileName.style.color = '#' + theme.white;
     fileName.style.fontSize = '0.6875rem';
     fileName.style.marginBottom = '0.25rem';
 
