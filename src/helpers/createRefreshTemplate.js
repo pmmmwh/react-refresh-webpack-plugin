@@ -33,10 +33,7 @@ const afterModule = `
 function createRefreshTemplate(source, chunk) {
   // If a chunk is injected with the plugin,
   // our custom entry for react-refresh musts be injected
-  if (
-    !chunk.entryModule ||
-    !/ReactRefreshEntry/.test(chunk.entryModule._identifier || '')
-  ) {
+  if (!chunk.entryModule || !/ReactRefreshEntry/.test(chunk.entryModule._identifier || '')) {
     return source;
   }
 

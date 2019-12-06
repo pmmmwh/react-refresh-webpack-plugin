@@ -130,11 +130,7 @@ function isReactRefreshBoundary(module) {
   if (Refresh.isLikelyComponentType(moduleExports)) {
     return true;
   }
-  if (
-    moduleExports === undefined ||
-    moduleExports === null ||
-    typeof moduleExports !== 'object'
-  ) {
+  if (moduleExports === undefined || moduleExports === null || typeof moduleExports !== 'object') {
     // Exit if we can't iterate over exports.
     return false;
   }
@@ -178,11 +174,7 @@ function registerExportsForReactRefresh(module) {
     Refresh.register(moduleExports, moduleId + ' %exports%');
   }
 
-  if (
-    moduleExports === undefined ||
-    moduleExports === null ||
-    typeof moduleExports !== 'object'
-  ) {
+  if (moduleExports === undefined || moduleExports === null || typeof moduleExports !== 'object') {
     // Exit if we can't iterate over the exports.
     return;
   }
@@ -207,12 +199,8 @@ function registerExportsForReactRefresh(module) {
  * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/907d6af22ac6ebe58572be418e9253a90665ecbd/packages/metro/src/lib/polyfills/require.js#L776-L792).
  */
 function shouldInvalidateReactRefreshBoundary(prevModule, nextModule) {
-  const prevSignature = getReactRefreshBoundarySignature(
-    getModuleExports(prevModule)
-  );
-  const nextSignature = getReactRefreshBoundarySignature(
-    getModuleExports(nextModule)
-  );
+  const prevSignature = getReactRefreshBoundarySignature(getModuleExports(prevModule));
+  const nextSignature = getReactRefreshBoundarySignature(getModuleExports(nextModule));
 
   if (prevSignature.length !== nextSignature.length) {
     return true;

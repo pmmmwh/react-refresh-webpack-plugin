@@ -95,9 +95,7 @@ class ReactRefreshPlugin {
         if (!this.options.disableRefreshCheck) {
           const refreshPluginInjection = /\$RefreshReg\$/;
           const RefreshDetectionModule = modules.find(
-            module =>
-              module.resource ===
-              require.resolve('./runtime/BabelDetectComponent.js')
+            module => module.resource === require.resolve('./runtime/BabelDetectComponent.js')
           );
 
           // In most cases, if we cannot find the injected detection module,
@@ -108,11 +106,7 @@ class ReactRefreshPlugin {
           }
 
           // Check for the function transform by the Babel plugin.
-          if (
-            !refreshPluginInjection.test(
-              RefreshDetectionModule._source.source()
-            )
-          ) {
+          if (!refreshPluginInjection.test(RefreshDetectionModule._source.source())) {
             throw new Error(
               [
                 'The plugin is unable to detect transformed code from react-refresh.',

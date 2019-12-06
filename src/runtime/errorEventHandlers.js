@@ -92,8 +92,5 @@ function createWindowEventHandler(eventType, createHandler) {
 
 module.exports = {
   error: createWindowEventHandler('error', createErrorHandler),
-  unhandledRejection: createWindowEventHandler(
-    'unhandledrejection',
-    createRejectionHandler
-  ),
+  unhandledRejection: createWindowEventHandler('unhandledrejection', createRejectionHandler),
 };
