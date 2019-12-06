@@ -70,7 +70,7 @@ module.exports = {
 
 ```json5
 {
-  "plugins": ["react-refresh/babel"]
+  plugins: ['react-refresh/babel'],
 }
 ```
 
