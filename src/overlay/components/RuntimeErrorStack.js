@@ -1,54 +1,71 @@
 const ErrorStackParser = require('error-stack-parser');
+const theme = require('../theme');
 const formatFilename = require('../utils/formatFilename');
 
 /**
  * @typedef {Object} RuntimeErrorStackProps
  * @property {Error} error
- * @property {import("../theme").Theme} theme
  */
 
 /**
- * A formatter that turns runtime error stacks into highlighted HTML.
+ * A formatter that turns runtime error stacks into highlighted HTML stacks.
  * @param {Document} document
  * @param {HTMLElement} root
  * @param {RuntimeErrorStackProps} props
  * @returns {void}
  */
 function RuntimeErrorStack(document, root, props) {
+  const stackTitle = document.createElement('h4');
+  stackTitle.innerText = 'Call Stack';
+  stackTitle.style.color = '#' + theme.white;
+  stackTitle.style.fontSize = '1.0625rem';
+  stackTitle.style.fontWeight = '500';
+  stackTitle.style.lineHeight = '1.3';
+  stackTitle.style.margin = '0 0 0.5rem';
+
   const stackContainer = document.createElement('div');
-  stackContainer.style.fontSize = '0.75rem';
-  stackContainer.style.marginBottom = '2rem';
-  stackContainer.style.marginTop = '0.25rem';
+  stackContainer.style.fontSize = '0.8125rem';
+  stackContainer.style.lineHeight = '1.3';
+  stackContainer.style.margin = '0.25rem 0 0';
+  stackContainer.style.whiteSpace = 'pre-wrap';
 
   const errorStacks = ErrorStackParser.parse(props.error);
-
   for (let i = 0; i < Math.min(errorStacks.length, 10); i += 1) {
     const currentStack = errorStacks[i];
-    stackContainer.insertAdjacentHTML('beforeend', '&emsp;&emsp;at ');
 
-    const functionName = document.createElement('span');
-    functionName.style.color = '#' + props.theme.cyan;
-    functionName.innerText =
-      currentStack.functionName || '(anonymous function)';
+    const functionName = document.createElement('code');
+    functionName.style.color = '#' + theme.yellow;
+    functionName.style.fontFamily = [
+      '"Operator Mono SSm"',
+      '"Operator Mono"',
+      '"Fira Code Retina"',
+      '"Fira Code"',
+      '"FiraCode-Retina"',
+      '"Andale Mono"',
+      '"Lucida Console"',
+      'Menlo',
+      'Consolas',
+      'Monaco',
+      'monospace',
+    ].join(', ');
+    functionName.innerHTML = '&emsp;' + currentStack.functionName || '(anonymous function)';
+
+    const fileName = document.createElement('div');
+    fileName.innerHTML =
+      '&emsp;&emsp;' +
+      formatFilename(currentStack.fileName) +
+      ':' +
+      currentStack.lineNumber +
+      ':' +
+      currentStack.columnNumber;
+    fileName.style.fontSize = '0.6875rem';
+    fileName.style.marginBottom = '0.25rem';
+
     stackContainer.appendChild(functionName);
-
-    stackContainer.insertAdjacentText(
-      'beforeend',
-      ' (' +
-        formatFilename(currentStack.fileName) +
-        ':' +
-        currentStack.lineNumber +
-        ':' +
-        currentStack.columnNumber +
-        ')'
-    );
-
-    if (i < errorStacks.length - 1) {
-      stackContainer.insertAdjacentText('beforeend', '\n');
-    }
+    stackContainer.appendChild(fileName);
   }
 
-  root.insertAdjacentText('beforeend', formatFilename(errorStacks[0].fileName));
+  root.appendChild(stackTitle);
   root.appendChild(stackContainer);
 }
 
