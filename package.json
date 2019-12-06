@@ -5,8 +5,8 @@
   "author": "Michael Mok",
   "license": "MIT",
   "scripts": {
-    "lint": "prettier --check \"**/*.{js,jsx}\"",
-    "lint:fix": "prettier --write \"**/*.{js,jsx}\""
+    "lint": "prettier --check \"**/*.{js,jsx,md}\"",
+    "lint:fix": "prettier --write \"**/*.{js,jsx,md}\""
   },
   "dependencies": {
     "ansi-html": "^0.0.7",
