@@ -1,12 +1,37 @@
 {
-  "name": "react-refresh-webpack-plugin",
+  "name": "@pmmmwh/react-refresh-webpack-plugin",
   "version": "0.1.0",
-  "main": "src/index.js",
-  "author": "Michael Mok",
+  "description": "An **EXPERIMENTAL** Webpack plugin to enable \"Fast Refresh\" (also previously known as _Hot Reloading_) for React components.",
+  "keywords": [
+    "react",
+    "javascript",
+    "webpack",
+    "refresh",
+    "hmr",
+    "hotreload",
+    "livereload",
+    "live",
+    "edit",
+    "hot",
+    "reload"
+  ],
+  "homepage": "https://github.com/pmmmwh/react-refresh-webpack-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/pmmmwh/react-refresh-webpack-plugin/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmmmwh/react-refresh-webpack-plugin.git"
+  },
   "license": "MIT",
+  "author": "Michael Mok",
+  "main": "src/index.js",
+  "files": [
+    "src"
+  ],
   "scripts": {
-    "lint": "prettier --check \"**/*.{js,jsx,md}\"",
-    "lint:fix": "prettier --write \"**/*.{js,jsx,md}\""
+    "lint": "prettier --check \"**/*.{js,jsx,json,md}\"",
+    "lint:fix": "prettier --write \"**/*.{js,jsx,json,md}\""
   },
   "dependencies": {
     "ansi-html": "^0.0.7",
