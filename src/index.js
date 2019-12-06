@@ -5,8 +5,8 @@ const { refreshUtils } = require('./runtime/globals');
 
 /**
  * @typedef {Object} ReactRefreshPluginOptions
- * @property {boolean} [disableRefreshCheck] A flag to disable detection of the react-refresh Babel plugin.
- * @property {boolean} [forceEnable] A flag to enable the plugin forcefully.
+ * @property {boolean} [disableRefreshCheck] Disables detection of react-refresh's Babel plugin.
+ * @property {boolean} [forceEnable] Enables the plugin forcefully.
  */
 
 /** @type {ReactRefreshPluginOptions} */
