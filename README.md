@@ -13,7 +13,7 @@ Please **DO NOT** use it if you cannot afford to face breaking changes in the fu
 npm install -D @pmmmwh/react-refresh-webpack-plugin react-refresh
 
 # if you prefer yarn
-yarn add -D @/react-refresh-webpack-plugin react-refresh
+yarn add -D @pmmmwh/react-refresh-webpack-plugin react-refresh
 ```
 
 ## Usage
