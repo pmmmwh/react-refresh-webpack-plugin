@@ -17,7 +17,6 @@ const formatFilename = require('../utils/formatFilename');
 function RuntimeErrorStack(document, root, props) {
   const stackTitle = document.createElement('h4');
   stackTitle.innerText = 'Call Stack';
-  stackTitle.style.color = '#' + theme.white;
   stackTitle.style.fontSize = '1.0625rem';
   stackTitle.style.fontWeight = '500';
   stackTitle.style.lineHeight = '1.3';

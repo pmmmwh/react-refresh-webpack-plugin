@@ -8,7 +8,7 @@ ansiHTML.setColors(theme);
 const entities = new Html5Entities();
 
 /**
- * @typedef {Object} CompileErrorTrace
+ * @typedef {Object} CompileErrorTraceProps
  * @property {string} errorMessage
  */
 
@@ -16,7 +16,7 @@ const entities = new Html5Entities();
  * A formatter that turns Webpack compile error messages into highlighted HTML source traces.
  * @param {Document} document
  * @param {HTMLElement} root
- * @param {CompileErrorTrace} props
+ * @param {CompileErrorTraceProps} props
  * @returns {void}
  */
 function CompileErrorTrace(document, root, props) {

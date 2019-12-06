@@ -38,7 +38,6 @@ function PageHeader(document, root, props) {
 
     const message = document.createElement('span');
     message.innerText = props.message;
-    message.style.color = '#' + theme.white;
     message.style.wordBreak = 'break-word';
     pageHeaderContainer.appendChild(message);
   }

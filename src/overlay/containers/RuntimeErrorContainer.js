@@ -8,7 +8,7 @@ const Spacer = require('../components/Spacer');
  */
 
 /**
- * A container to render runtime errors with stack trace.
+ * A container to render runtime error messages with stack trace.
  * @param {Document} document
  * @param {HTMLElement} root
  * @param {RuntimeErrorContainerProps} props

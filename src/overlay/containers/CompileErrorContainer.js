@@ -8,7 +8,7 @@ const Spacer = require('../components/Spacer');
  */
 
 /**
- * A container to render Webpack compilation errors with source trace.
+ * A container to render Webpack compilation error messages with source trace.
  * @param {Document} document
  * @param {HTMLElement} root
  * @param {CompileErrorContainerProps} props
