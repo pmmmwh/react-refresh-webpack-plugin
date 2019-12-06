@@ -17,17 +17,14 @@ module.exports = function() {
     module.hot.dispose($RefreshUtils$.createHotDisposeCallback(module));
     module.hot.accept($RefreshUtils$.createHotErrorHandler(module.id));
 
-    if (!!module.hot.data) {
+    if (!!module.hot.data && !!Object.keys(module.hot.data).length) {
       if (
-        $RefreshUtils$.shouldInvalidateReactRefreshBoundary(
-          module.hot.data.module,
-          module
-        )
+        !module.hot.data.module ||
+        $RefreshUtils$.shouldInvalidateReactRefreshBoundary(module.hot.data.module, module)
       ) {
         window.location.reload();
       }
+      $RefreshUtils$.enqueueUpdate();
     }
-
-    $RefreshUtils$.enqueueUpdate();
   }
 };

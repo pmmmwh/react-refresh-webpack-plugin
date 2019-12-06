@@ -8,15 +8,23 @@
     "lint": "prettier --check \"**/*.{js,jsx}\"",
     "lint:fix": "prettier --write \"**/*.{js,jsx}\""
   },
+  "dependencies": {
+    "ansi-html": "^0.0.7",
+    "error-stack-parser": "^2.0.4",
+    "html-entities": "^1.2.1",
+    "lodash.debounce": "^4.0.8",
+    "react-dev-utils": "^9.1.0",
+    "sockjs-client": "^1.4.0"
+  },
   "devDependencies": {
     "prettier": "^1.18.2",
-    "react-refresh": "^0.6.0",
+    "react-refresh": "^0.7.0",
     "webpack": "^4.41.2"
   },
   "peerDependencies": {
-    "react-refresh": "*"
+    "react-refresh": ">= 0.7"
   },
   "engines": {
-    "node": "8.x || 9.x || 10.x || 11.x || 12.x || 13.x"
+    "node": ">= 8.x"
   }
 }

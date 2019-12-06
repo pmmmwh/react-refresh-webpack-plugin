@@ -7,15 +7,22 @@
  * @returns {WebpackEntry} An injected entry object.
  */
 const injectRefreshEntry = originalEntry => {
-  const ReactRefreshEntry = require.resolve('../runtime/ReactRefreshEntry');
+  const entryInjects = [
+    // React-refresh runtime
+    require.resolve('../runtime/ReactRefreshEntry'),
+    // Error overlay runtime
+    require.resolve('../runtime/ErrorOverlayEntry'),
+    // React-refresh Babel transform detection
+    require.resolve('../runtime/BabelDetectComponent'),
+  ];
 
   // Single string entry point
   if (typeof originalEntry === 'string') {
-    return [ReactRefreshEntry, originalEntry];
+    return [...entryInjects, originalEntry];
   }
   // Single array entry point
   if (Array.isArray(originalEntry)) {
-    return [ReactRefreshEntry, ...originalEntry];
+    return [...entryInjects, ...originalEntry];
   }
   // Multiple entry points
   if (typeof originalEntry === 'object') {

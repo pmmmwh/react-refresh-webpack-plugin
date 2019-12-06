@@ -3,14 +3,25 @@ const webpack = require('webpack');
 const { createRefreshTemplate, injectRefreshEntry } = require('./helpers');
 const { refreshUtils } = require('./runtime/globals');
 
+/**
+ * @typedef {Object} ReactRefreshPluginOptions
+ * @property {boolean} [disableRefreshCheck] A flag to disable detection of the react-refresh Babel plugin.
+ * @property {boolean} [forceEnable] A flag to enable the plugin forcefully.
+ */
+
+/** @type {ReactRefreshPluginOptions} */
+const defaultOptions = {
+  disableRefreshCheck: false,
+  forceEnable: false,
+};
+
 class ReactRefreshPlugin {
   /**
-   * @param {*} [options] Options for react-refresh-plugin.
-   * @param {boolean} [options.forceEnable] A flag to enable the plugin forcefully.
+   * @param {ReactRefreshPluginOptions} [options] Options for react-refresh-plugin.
    * @returns {void}
    */
   constructor(options) {
-    this.options = options || {};
+    this.options = Object.assign(defaultOptions, options);
   }
 
   /**
@@ -59,11 +70,14 @@ class ReactRefreshPlugin {
           /\.([jt]sx?|flow)$/.test(data.resource) &&
           // Skip all files from node_modules
           !/node_modules/.test(data.resource) &&
-          // Skip runtime refresh utilities (to prevent self-referencing)
+          // Skip files related to refresh runtime (to prevent self-referencing)
           // This is useful when using the plugin as a direct dependency
-          data.resource !== path.join(__dirname, './runtime/utils.js')
+          !data.resource.includes(path.join(__dirname, './runtime'))
         ) {
-          data.loaders.unshift(require.resolve('./loader'));
+          data.loaders.unshift({
+            loader: require.resolve('./loader'),
+            options: undefined,
+          });
         }
 
         return data;
@@ -76,6 +90,33 @@ class ReactRefreshPlugin {
         // Constructs the correct module template for react-refresh
         createRefreshTemplate
       );
+
+      compilation.hooks.finishModules.tap(this.constructor.name, modules => {
+        if (!this.options.disableRefreshCheck) {
+          const refreshPluginInjection = /\$RefreshReg\$/;
+          const RefreshDetectionModule = modules.find(
+            module => module.resource === require.resolve('./runtime/BabelDetectComponent.js')
+          );
+
+          // In most cases, if we cannot find the injected detection module,
+          // there are other compilation instances injected by other plugins.
+          // We will have to bail out in those cases.
+          if (!RefreshDetectionModule) {
+            return;
+          }
+
+          // Check for the function transform by the Babel plugin.
+          if (!refreshPluginInjection.test(RefreshDetectionModule._source.source())) {
+            throw new Error(
+              [
+                'The plugin is unable to detect transformed code from react-refresh.',
+                'Did you forget to include "react-refresh/babel" in your list of Babel plugins?',
+                'Note: you can disable this check by setting "disableRefreshCheck: true".',
+              ].join(' ')
+            );
+          }
+        }
+      });
     });
   }
 }

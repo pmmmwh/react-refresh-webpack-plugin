@@ -8,7 +8,7 @@ const { Template } = require('webpack');
  * [Ref](https://github.com/webpack/webpack/blob/master/lib/MainTemplate.js#L233)
  */
 const beforeModule = `
-var cleanup = function NoOp() {};
+let cleanup = function NoOp() {};
 
 if (window && window.$RefreshSetup$) {
   cleanup = window.$RefreshSetup$(module.i);
@@ -33,10 +33,7 @@ const afterModule = `
 function createRefreshTemplate(source, chunk) {
   // If a chunk is injected with the plugin,
   // our custom entry for react-refresh musts be injected
-  if (
-    !chunk.entryModule ||
-    !/ReactRefreshEntry/.test(chunk.entryModule._identifier || '')
-  ) {
+  if (!chunk.entryModule || !/ReactRefreshEntry/.test(chunk.entryModule._identifier || '')) {
     return source;
   }
 

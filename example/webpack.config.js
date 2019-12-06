@@ -1,5 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ReactRefreshPlugin = require('react-refresh-webpack-plugin');
+const ReactRefreshPlugin = require('../src');
 
 module.exports = {
   entry: './src/index.js',
