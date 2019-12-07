@@ -50,6 +50,7 @@ function createHotDisposeCallback(module) {
    * @returns {void}
    */
   function hotDisposeCallback(data) {
+    console.log('>>>', Refresh.hasUnrecoverableErrors());
     if (Refresh.hasUnrecoverableErrors()) {
       window.location.reload();
     }
@@ -170,6 +171,7 @@ function registerExportsForReactRefresh(module) {
   const moduleId = module.id;
 
   if (Refresh.isLikelyComponentType(moduleExports)) {
+    console.log('1. registering', moduleExports);
     // Register module.exports if it is likely a component
     Refresh.register(moduleExports, moduleId + ' %exports%');
   }
@@ -188,6 +190,7 @@ function registerExportsForReactRefresh(module) {
     const exportValue = moduleExports[key];
     if (Refresh.isLikelyComponentType(exportValue)) {
       const typeID = moduleId + ' %exports% ' + key;
+      console.log('2. registering', typeID);
       Refresh.register(exportValue, typeID);
     }
   }
@@ -201,6 +204,8 @@ function registerExportsForReactRefresh(module) {
 function shouldInvalidateReactRefreshBoundary(prevModule, nextModule) {
   const prevSignature = getReactRefreshBoundarySignature(getModuleExports(prevModule));
   const nextSignature = getReactRefreshBoundarySignature(getModuleExports(nextModule));
+
+  console.log({ prevSignature, nextSignature });
 
   if (prevSignature.length !== nextSignature.length) {
     return true;

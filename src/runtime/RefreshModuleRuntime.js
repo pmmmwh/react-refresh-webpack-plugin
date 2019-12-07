@@ -22,9 +22,12 @@ module.exports = function() {
         !module.hot.data.module ||
         $RefreshUtils$.shouldInvalidateReactRefreshBoundary(module.hot.data.module, module)
       ) {
+        console.log('realoding');
         window.location.reload();
+      } else {
+        console.log('enqueuiong update');
+        $RefreshUtils$.enqueueUpdate();
       }
-      $RefreshUtils$.enqueueUpdate();
     }
   }
 };
