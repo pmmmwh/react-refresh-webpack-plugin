@@ -101,6 +101,7 @@ class ReactRefreshPlugin {
         if (!this.options.disableRefreshCheck) {
           for (const module of modules) {
             const refreshPluginInjection = /\$RefreshReg\$/;
+            /** @type {undefined | null | string} */
             const moduleSource = module._source && module._source.source();
 
             // Some module might not have the _source property,
@@ -127,6 +128,7 @@ class ReactRefreshPlugin {
               // Warnings/Errors will get swallowed unless we explicitly push it to the stack.
               compilation.warnings.push(transformNotDetectedError);
 
+              // Early exit for performance
               break;
             }
           }
