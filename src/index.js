@@ -30,10 +30,16 @@ class ReactRefreshPlugin {
    * @returns {void}
    */
   apply(compiler) {
-    // Webpack does not set process.env.NODE_ENV
-    // Ref: https://github.com/webpack/webpack/issues/7074
     // Skip processing on non-development mode, but allow manual force-enabling
-    if (compiler.options.mode !== 'development' && !this.options.forceEnable) {
+    if (
+      // Webpack do not set process.env.NODE_ENV, so we need to check for mode.
+      // Ref: https://github.com/webpack/webpack/issues/7074
+      (compiler.options.mode !== 'development' ||
+        // We also check for production process.env.NODE_ENV,
+        // in case it was set and mode is non-development (e.g. 'none')
+        (process.env.NODE_ENV && process.env.NODE_ENV === 'production')) &&
+      !this.options.forceEnable
+    ) {
       return;
     }
 
@@ -93,27 +99,38 @@ class ReactRefreshPlugin {
 
       compilation.hooks.finishModules.tap(this.constructor.name, modules => {
         if (!this.options.disableRefreshCheck) {
-          const refreshPluginInjection = /\$RefreshReg\$/;
-          const RefreshDetectionModule = modules.find(
-            module => module.resource === require.resolve('./runtime/BabelDetectComponent.js')
-          );
+          for (const module of modules) {
+            const refreshPluginInjection = /\$RefreshReg\$/;
+            /** @type {undefined | null | string} */
+            const moduleSource = module._source && module._source.source();
 
-          // In most cases, if we cannot find the injected detection module,
-          // there are other compilation instances injected by other plugins.
-          // We will have to bail out in those cases.
-          if (!RefreshDetectionModule) {
-            return;
-          }
+            // Some module might not have the _source property,
+            // so we have to gracefully skip them.
+            if (!moduleSource) {
+              continue;
+            }
 
-          // Check for the function transform by the Babel plugin.
-          if (!refreshPluginInjection.test(RefreshDetectionModule._source.source())) {
-            throw new Error(
-              [
-                'The plugin is unable to detect transformed code from react-refresh.',
-                'Did you forget to include "react-refresh/babel" in your list of Babel plugins?',
-                'Note: you can disable this check by setting "disableRefreshCheck: true".',
-              ].join(' ')
-            );
+            // Check for the function transform by the Babel plugin.
+            if (
+              module.resource === require.resolve('./runtime/BabelDetectComponent.js') &&
+              !refreshPluginInjection.test(moduleSource)
+            ) {
+              const transformNotDetectedError = new Error(
+                [
+                  'React Refresh Plugin:',
+                  'The plugin is unable to detect transformed code from react-refresh.',
+                  'Did you forget to include "react-refresh/babel" in your list of Babel plugins?',
+                  'Note: you can disable this check by setting "disableRefreshCheck: true".',
+                ].join(' ')
+              );
+
+              // We cannot throw here as it will halt compilation.
+              // Warnings/Errors will get swallowed unless we explicitly push it to the stack.
+              compilation.warnings.push(transformNotDetectedError);
+
+              // Early exit for performance
+              break;
+            }
           }
         }
       });
