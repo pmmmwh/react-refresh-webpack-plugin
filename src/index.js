@@ -99,27 +99,36 @@ class ReactRefreshPlugin {
 
       compilation.hooks.finishModules.tap(this.constructor.name, modules => {
         if (!this.options.disableRefreshCheck) {
-          const refreshPluginInjection = /\$RefreshReg\$/;
-          const RefreshDetectionModule = modules.find(
-            module => module.resource === require.resolve('./runtime/BabelDetectComponent.js')
-          );
+          for (const module of modules) {
+            const refreshPluginInjection = /\$RefreshReg\$/;
+            const moduleSource = module._source && module._source.source();
 
-          // In most cases, if we cannot find the injected detection module,
-          // there are other compilation instances injected by other plugins.
-          // We will have to bail out in those cases.
-          if (!RefreshDetectionModule) {
-            return;
-          }
+            // Some module might not have the _source property,
+            // so we have to gracefully skip them.
+            if (!moduleSource) {
+              continue;
+            }
 
-          // Check for the function transform by the Babel plugin.
-          if (!refreshPluginInjection.test(RefreshDetectionModule._source.source())) {
-            throw new Error(
-              [
-                'The plugin is unable to detect transformed code from react-refresh.',
-                'Did you forget to include "react-refresh/babel" in your list of Babel plugins?',
-                'Note: you can disable this check by setting "disableRefreshCheck: true".',
-              ].join(' ')
-            );
+            // Check for the function transform by the Babel plugin.
+            if (
+              module.resource === require.resolve('./runtime/BabelDetectComponent.js') &&
+              !refreshPluginInjection.test(moduleSource)
+            ) {
+              const transformNotDetectedError = new Error(
+                [
+                  'React Refresh Plugin:',
+                  'The plugin is unable to detect transformed code from react-refresh.',
+                  'Did you forget to include "react-refresh/babel" in your list of Babel plugins?',
+                  'Note: you can disable this check by setting "disableRefreshCheck: true".',
+                ].join(' ')
+              );
+
+              // We cannot throw here as it will halt compilation.
+              // Warnings/Errors will get swallowed unless we explicitly push it to the stack.
+              compilation.warnings.push(transformNotDetectedError);
+
+              break;
+            }
           }
         }
       });
