@@ -30,10 +30,16 @@ class ReactRefreshPlugin {
    * @returns {void}
    */
   apply(compiler) {
-    // Webpack does not set process.env.NODE_ENV
-    // Ref: https://github.com/webpack/webpack/issues/7074
     // Skip processing on non-development mode, but allow manual force-enabling
-    if (compiler.options.mode !== 'development' && !this.options.forceEnable) {
+    if (
+      // Webpack do not set process.env.NODE_ENV, so we need to check for mode.
+      // Ref: https://github.com/webpack/webpack/issues/7074
+      (compiler.options.mode !== 'development' ||
+        // We also check for production process.env.NODE_ENV,
+        // in case it was set and mode is non-development (e.g. 'none')
+        (process.env.NODE_ENV && process.env.NODE_ENV === 'production')) &&
+      !this.options.forceEnable
+    ) {
       return;
     }
 
