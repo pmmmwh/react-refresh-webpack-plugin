@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 /* global __resourceQuery, __webpack_dev_server_client__ */
 
 const url = require('url');

@@ -1,4 +1,5 @@
 // TODO: Implement handling of this
+// eslint-disable-next-line no-unused-vars
 /* global __resourceQuery */
 
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
@@ -11,7 +12,6 @@ const {
 
 // Setup error states
 let isHotReload = false;
-let hasCompileErrors = false;
 let hasRuntimeErrors = false;
 
 /**
@@ -32,7 +32,6 @@ function tryDismissErrorOverlay() {
  */
 function handleCompileSuccess() {
   isHotReload = true;
-  hasCompileErrors = false;
 
   if (isHotReload) {
     tryDismissErrorOverlay();
@@ -46,7 +45,6 @@ function handleCompileSuccess() {
  */
 function handleCompileErrors(errors) {
   isHotReload = true;
-  hasCompileErrors = true;
 
   const formatted = formatWebpackMessages({
     errors: errors,
