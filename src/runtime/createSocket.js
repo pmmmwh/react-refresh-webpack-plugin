@@ -8,7 +8,7 @@ let SocketClient;
 if (typeof __webpack_dev_server_client__ !== 'undefined') {
   SocketClient = __webpack_dev_server_client__;
 } else {
-  SocketClient = require('sockjs-client');
+  SocketClient = require('./SockJSClient');
 }
 
 /**
