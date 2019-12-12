@@ -27,9 +27,13 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 // ... your other imports
 
 module.exports = {
+  // It is suggested to run the plugin in development mode only
+  mode: 'development',
   // ... other configurations
   plugins: [
     // ... other plugins
+    // You could also keep the plugin in your production config,
+    // It will simply do nothing.
     new ReactRefreshWebpackPlugin(),
   ],
 };
@@ -42,6 +46,8 @@ This can either be done in your Webpack config (via options of `babel-loader`), 
 
 ```js
 module.exports = {
+  // DO NOT apply the plugin in production mode!
+  mode: 'development',
   module: {
     rules: [
       // ... other rules
@@ -55,7 +61,7 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               // ... other options
-              // DO NOT apply the plugin in production mode!
+              // DO NOT apply the Babel plugin in production mode!
               plugins: [require.resolve('react-refresh/babel')],
             },
           },
@@ -66,12 +72,21 @@ module.exports = {
 };
 ```
 
-**.babelrc** (if you choose to extract the config)
+**.babelrc.js** (if you choose to extract the config)
 
-```json5
-{
-  plugins: ['react-refresh/babel'],
-}
+```js
+module.exports = api => {
+  // This caches the Babel config.
+  api.cache.using(() => process.env.NODE_ENV);
+  return {
+    // ... other options
+    plugins: [
+      // ... other plugins
+      // Applies the react-refresh Babel plugin on development modes only
+      ...(api.env('development') ? ['react-refresh/babel'] : []),
+    ],
+  };
+};
 ```
 
 ## Options
@@ -79,10 +94,10 @@ module.exports = {
 This plugin accepts a few options that are specifically targeted for advanced users.
 The allowed values are as follows:
 
-|           Name            |   Type    | Default | Description                                                                                                                      |
-| :-----------------------: | :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------- |
-| **`disableRefreshCheck`** | `boolean` | `false` | Disables detection of react-refresh's Babel plugin. Useful if you have a Babel setup that is not entirely controlled by Webpack. |
-|     **`forceEnable`**     | `boolean` | `false` | Enables the plugin forcefully. Useful if you want to use the plugin in production, for example.                                  |
+|           Name            |   Type    | Default | Description                                                                                                                                                                     |
+| :-----------------------: | :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **`disableRefreshCheck`** | `boolean` | `false` | Disables detection of react-refresh's Babel plugin. Useful if you do not parse JS files within `node_modules`, or if you have a Babel setup not entirely controlled by Webpack. |
+|     **`forceEnable`**     | `boolean` | `false` | Enables the plugin forcefully. Useful if you want to use the plugin in production, for example.                                                                                 |
 
 ## Related Work
 
