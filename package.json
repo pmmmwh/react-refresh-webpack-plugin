@@ -42,6 +42,8 @@
     "sockjs-client": "^1.4.0"
   },
   "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-config-prettier": "^6.7.0",
     "prettier": "^1.18.2",
     "react-refresh": "^0.7.0",
     "webpack": "^4.41.2"
