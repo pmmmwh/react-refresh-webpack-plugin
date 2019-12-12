@@ -18,6 +18,7 @@ const reactModule = /['"]react['"]/;
 function RefreshHotLoader(source, inputSourceMap) {
   // Add dependency to allow caching and invalidations
   this.addDependency(path.resolve('./runtime/RefreshModuleRuntime'));
+  this.cacheable();
 
   // Use callback to allow source maps to pass through
   this.callback(
