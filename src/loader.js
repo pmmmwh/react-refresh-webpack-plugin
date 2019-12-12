@@ -1,6 +1,7 @@
-const path = require('path');
 const { Template } = require('webpack');
 const { refreshUtils } = require('./runtime/globals');
+const RefreshModuleRuntime = require('./runtime/RefreshModuleRuntime');
+const RefreshModuleRuntimeString = Template.getFunctionContent(RefreshModuleRuntime);
 
 /** A token to match code statements similar to a React import. */
 const reactModule = /['"]react['"]/;
@@ -16,9 +17,6 @@ const reactModule = /['"]react['"]/;
  * @returns {string} The injected module source code.
  */
 function RefreshHotLoader(source, inputSourceMap) {
-  // Add dependency to allow caching and invalidations
-  this.addDependency(path.resolve('./runtime/RefreshModuleRuntime'));
-
   // Use callback to allow source maps to pass through
   this.callback(
     null,
@@ -26,8 +24,7 @@ function RefreshHotLoader(source, inputSourceMap) {
     reactModule.test(source)
       ? source +
           '\n\n' +
-          Template.getFunctionContent(require('./runtime/RefreshModuleRuntime'))
-            .trim()
+          RefreshModuleRuntimeString.trim()
             .replace(/^ {2}/gm, '')
             .replace(/\$RefreshUtils\$/g, refreshUtils)
       : source,
