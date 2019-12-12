@@ -1,0 +1,5 @@
+*dist/
+*node_modules/
+
+# Ignore examples because they might have custom ESLint configurations
+examples/*
