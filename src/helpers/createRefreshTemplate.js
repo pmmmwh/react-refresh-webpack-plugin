@@ -31,12 +31,6 @@ const afterModule = `
  * @returns {string} A refresh-wrapped module.
  */
 function createRefreshTemplate(source, chunk) {
-  // If a chunk is injected with the plugin,
-  // our custom entry for react-refresh musts be injected
-  if (!chunk.entryModule || !/ReactRefreshEntry/.test(chunk.entryModule._identifier || '')) {
-    return source;
-  }
-
   const lines = source.split('\n');
 
   // Webpack generates this line whenever the mainTemplate is called
