@@ -1,20 +1,22 @@
 /** @typedef {string | string[] | import('webpack').Entry} StaticEntry */
 /** @typedef {StaticEntry | import('webpack').EntryFunc} WebpackEntry */
+/** @typedef {import('../index').ReactRefreshPluginOptions} ReactRefreshPluginOptions */
 
 /**
  * Injects an entry to the bundle for react-refresh.
  * @param {WebpackEntry} [originalEntry] A Webpack entry object.
+ * @param {ReactRefreshPluginOptions} [options]
  * @returns {WebpackEntry} An injected entry object.
  */
-const injectRefreshEntry = originalEntry => {
+const injectRefreshEntry = (originalEntry, options) => {
   const entryInjects = [
     // React-refresh runtime
     require.resolve('../runtime/ReactRefreshEntry'),
     // Error overlay runtime
-    require.resolve('../runtime/ErrorOverlayEntry'),
+    options.useErrorOverlay && require.resolve('../runtime/ErrorOverlayEntry'),
     // React-refresh Babel transform detection
     require.resolve('../runtime/BabelDetectComponent'),
-  ];
+  ].filter(Boolean);
 
   // Single string entry point
   if (typeof originalEntry === 'string') {

@@ -7,12 +7,14 @@ const { refreshUtils } = require('./runtime/globals');
  * @typedef {Object} ReactRefreshPluginOptions
  * @property {boolean} [disableRefreshCheck] Disables detection of react-refresh's Babel plugin.
  * @property {boolean} [forceEnable] Enables the plugin forcefully.
+ * @property {boolean} [useErrorOverlay] Enables the error overlay
  */
 
 /** @type {ReactRefreshPluginOptions} */
 const defaultOptions = {
   disableRefreshCheck: false,
   forceEnable: false,
+  useErrorOverlay: false,
 };
 
 class ReactRefreshPlugin {
@@ -44,7 +46,7 @@ class ReactRefreshPlugin {
     }
 
     // Inject react-refresh context to all Webpack entry points
-    compiler.options.entry = injectRefreshEntry(compiler.options.entry);
+    compiler.options.entry = injectRefreshEntry(compiler.options.entry, this.options);
 
     // Inject refresh utilities to Webpack's global scope
     const providePlugin = new webpack.ProvidePlugin({
