@@ -70,9 +70,9 @@ module.exports = {
         exclude: /node_modules/,
         include: [
           // ... other inclusions
-					// this file is used to check if react-refresh/babel is loaded.  you need to transform this or disableRefreshCheck
-					require.resolve('@pmmmwh/react-refresh-webpack-plugin/src/runtime/BabelDetectComponent.js')
-				],
+          // this file is used to check if react-refresh/babel is loaded.  you need to transform this or disableRefreshCheck
+          require.resolve('@pmmmwh/react-refresh-webpack-plugin/src/runtime/BabelDetectComponent.js')
+        ],
         use: [
           // ... other loaders
           {
