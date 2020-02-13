@@ -50,7 +50,8 @@
     "eslint-config-prettier": "^6.7.0",
     "prettier": "^1.18.2",
     "react-refresh": "^0.7.0",
-    "webpack": "^4.41.2"
+    "webpack": "^4.41.2",
+    "webpack-hot-middleware": "^2.25.0"
   },
   "peerDependencies": {
     "react-refresh": ">= 0.7"

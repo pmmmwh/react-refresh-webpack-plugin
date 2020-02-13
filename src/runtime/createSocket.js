@@ -2,7 +2,7 @@
 /* global __resourceQuery, __webpack_dev_server_client__ */
 
 const url = require('url');
-const tryLoadingWHMEventSource = require('./loadWHMEventSource');
+const loadWHMEventSource = require('./WHMEventSource');
 
 // This adds support for custom WDS socket transportModes
 // In the future, we should add support for custom clients to better support WDM
@@ -18,7 +18,8 @@ if (typeof __webpack_dev_server_client__ !== 'undefined') {
  * @param {function(*): void} messageHandler A handler to consume Webpack compilation messages.
  */
 function createSocket(messageHandler) {
-  tryLoadingWHMEventSource();
+  const loadedWHMEventSource = loadWHMEventSource(messageHandler);
+  if (loadedWHMEventSource) return;
 
   const connection = new SocketClient(
     // TODO: Dynamically generate this to handle resourceQuery
@@ -37,7 +38,6 @@ function createSocket(messageHandler) {
   });
   connection.onMessage(function onSocketMessage(data) {
     const message = JSON.parse(data);
-    console.log(message);
     messageHandler(message);
   });
 }
