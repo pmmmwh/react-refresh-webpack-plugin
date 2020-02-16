@@ -1,6 +1,6 @@
 /*
  * If the consumers setup is to use webpack-hot-middleware with a custom express server
- * we want to bind onto the EventSource for our updates.
+ * we want to bind onto the EventSource for error tracking
  */
 
 module.exports = function loadWHMEventSource(messageHandler) {
@@ -9,8 +9,8 @@ module.exports = function loadWHMEventSource(messageHandler) {
   client.useCustomOverlay({
     showProblems(type, data) {
       const error = {
-        type: 'errors',
-        data: data,
+        type,
+        data,
       };
 
       messageHandler(error);
