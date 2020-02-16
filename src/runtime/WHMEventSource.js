@@ -4,12 +4,7 @@
  */
 
 module.exports = function loadWHMEventSource(messageHandler) {
-  let client;
-  try {
-    client = require('webpack-hot-middleware/client');
-  } catch (e) {
-    return false;
-  }
+  const client = require('webpack-hot-middleware/client');
 
   client.useCustomOverlay({
     showProblems(type, data) {

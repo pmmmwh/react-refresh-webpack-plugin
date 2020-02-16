@@ -9,8 +9,8 @@ const loadWHMEventSource = require('./WHMEventSource');
 let SocketClient;
 if (typeof __webpack_dev_server_client__ !== 'undefined') {
   SocketClient = __webpack_dev_server_client__;
-} else {
-  SocketClient = require('./SockJSClient');
+  // } else {
+  //   SocketClient = require('./SockJSClient');
 }
 
 /**
@@ -18,8 +18,10 @@ if (typeof __webpack_dev_server_client__ !== 'undefined') {
  * @param {function(*): void} messageHandler A handler to consume Webpack compilation messages.
  */
 function createSocket(messageHandler) {
-  const loadedWHMEventSource = loadWHMEventSource(messageHandler);
-  if (loadedWHMEventSource) return;
+  if (!SocketClient) {
+    loadWHMEventSource(messageHandler);
+    return;
+  }
 
   const connection = new SocketClient(
     // TODO: Dynamically generate this to handle resourceQuery
