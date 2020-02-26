@@ -7,7 +7,7 @@
  * @param {ReactRefreshPluginOptions} [options] Configuration options for this plugin
  * @returns {WebpackEntry} An injected entry object.
  */
-const injectRefreshEntry = (originalEntry, options) => {
+const injectRefreshEntry = (originalEntry, options = {}) => {
   const entryInjects = [
     options.useLegacyWebsockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
     // React-refresh runtime
