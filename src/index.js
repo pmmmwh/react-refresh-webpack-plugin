@@ -96,7 +96,37 @@ class ReactRefreshPlugin {
       compilation.mainTemplate.hooks.require.tap(
         this.constructor.name,
         // Constructs the correct module template for react-refresh
-        createRefreshTemplate
+        (source, chunk, hash) => {
+          const mainTemplate = compilation.mainTemplate;
+
+          // Check for the output filename
+          // This is to ensure we are processing a JS-related chunk
+          let filename = mainTemplate.outputOptions.filename;
+          if (typeof filename === 'function') {
+            // Only usage of the `chunk` property is documented by Webpack.
+            // However, some internal Webpack plugins uses other properties,
+            // so we also pass them through to be on the safe side.
+            filename = filename({
+              chunk,
+              hash,
+              //  TODO: Figure out whether we need to stub the following properties, probably no
+              contentHashType: 'javascript',
+              hashWithLength: length => mainTemplate.renderCurrentHashCode(hash, length),
+              noChunkHash: mainTemplate.useChunkHash(chunk),
+            });
+          }
+
+          // Check whether the current compilation is outputting to JS,
+          // since other plugins can trigger compilations for other file types too.
+          // If we apply the transform to them, their compilation will break fatally.
+          // One prominent example of this is the HTMLWebpackPlugin.
+          // If filename is falsy, something is terribly wrong and there's nothing we can do.
+          if (!filename || !filename.includes('.js')) {
+            return source;
+          }
+
+          return createRefreshTemplate(source, chunk);
+        }
       );
 
       compilation.hooks.finishModules.tap(this.constructor.name, modules => {

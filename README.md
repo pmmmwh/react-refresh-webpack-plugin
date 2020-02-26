@@ -1,5 +1,8 @@
 # React Refresh Webpack Plugin
 
+[![NPM Version](https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin)](https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin)
+[![License](https://img.shields.io/github/license/pmmmwh/react-refresh-webpack-plugin)](./LICENSE)
+
 An **EXPERIMENTAL** Webpack plugin to enable "Fast Refresh" (also previously known as _Hot Reloading_) for React components.
 
 ## Installation
@@ -26,16 +29,24 @@ First, apply the plugin in your Webpack configuration as follows:
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 // ... your other imports
 
+// You can tie this to whatever mechanisms you are using to detect a development environment.
+// For example, as shown here, is to tie that to `NODE_ENV` -
+// Then if you run `NODE_ENV=production webpack`, the constant will be set to false.
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 module.exports = {
   // It is suggested to run the plugin in development mode only
-  mode: 'development',
+  // If you are an advanced user and would like to setup Webpack yourselves,
+  // you can also use the `none` mode,
+  // but you will need to set `forceEnable: true` in the plugin options.
+  mode: isDevelopment ? 'development' : 'production',
   // ... other configurations
   plugins: [
     // ... other plugins
     // You could also keep the plugin in your production config,
     // It will simply do nothing.
-    new ReactRefreshWebpackPlugin(),
-  ],
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
 };
 ```
 
@@ -45,9 +56,11 @@ This can either be done in your Webpack config (via options of `babel-loader`), 
 **webpack.config.js** (if you choose to inline the config)
 
 ```js
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 module.exports = {
   // DO NOT apply the plugin in production mode!
-  mode: 'development',
+  mode: isDevelopment ? 'development' : 'production',
   module: {
     rules: [
       // ... other rules
@@ -62,7 +75,7 @@ module.exports = {
             options: {
               // ... other options
               // DO NOT apply the Babel plugin in production mode!
-              plugins: [require.resolve('react-refresh/babel')],
+              plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
             },
           },
         ],
@@ -76,15 +89,15 @@ module.exports = {
 
 ```js
 module.exports = api => {
-  // This caches the Babel config.
+  // This caches the Babel config by environment.
   api.cache.using(() => process.env.NODE_ENV);
   return {
     // ... other options
     plugins: [
       // ... other plugins
       // Applies the react-refresh Babel plugin on development modes only
-      ...(api.env('development') ? ['react-refresh/babel'] : []),
-    ],
+      api.env('development') && 'react-refresh/babel',
+    ].filter(Boolean),
   };
 };
 ```
@@ -97,7 +110,7 @@ The allowed values are as follows:
 |           Name            |   Type    | Default | Description                                                                                                                                                                     |
 | :-----------------------: | :-------: | :-----: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **`disableRefreshCheck`** | `boolean` | `false` | Disables detection of react-refresh's Babel plugin. Useful if you do not parse JS files within `node_modules`, or if you have a Babel setup not entirely controlled by Webpack. |
-|     **`forceEnable`**     | `boolean` | `false` | Enables the plugin forcefully. Useful if you want to use the plugin in production, for example.                                                                                 |
+|     **`forceEnable`**     | `boolean` | `false` | Enables the plugin forcefully. Useful if you want to use the plugin in production, or if you are using Webpack's `none` mode without `NODE_ENV`, for example.                   |
 | **`useLegacyWDSSockets`** | `boolean` | `false` | Set this to true if you are using a webpack-dev-server version prior to 3.8 as it requires a custom SocketJS implementation.                                                    |
 
 ## Related Work
