@@ -13,6 +13,7 @@ const { refreshUtils } = require('./runtime/globals');
 const defaultOptions = {
   disableRefreshCheck: false,
   forceEnable: false,
+  useLegacyWebsockets: false,
 };
 
 class ReactRefreshPlugin {
@@ -44,7 +45,7 @@ class ReactRefreshPlugin {
     }
 
     // Inject react-refresh context to all Webpack entry points
-    compiler.options.entry = injectRefreshEntry(compiler.options.entry);
+    compiler.options.entry = injectRefreshEntry(compiler.options.entry, this.options);
 
     // Inject refresh utilities to Webpack's global scope
     const providePlugin = new webpack.ProvidePlugin({
