@@ -7,13 +7,14 @@ const { refreshUtils } = require('./runtime/globals');
  * @typedef {Object} ReactRefreshPluginOptions
  * @property {boolean} [disableRefreshCheck] Disables detection of react-refresh's Babel plugin.
  * @property {boolean} [forceEnable] Enables the plugin forcefully.
+ * @property {boolean} [useLegacyWDSSockets] Uses a custom SocketJS implementation for older versions of webpack-dev-server
  */
 
 /** @type {ReactRefreshPluginOptions} */
 const defaultOptions = {
   disableRefreshCheck: false,
   forceEnable: false,
-  useLegacyWebsockets: false,
+  useLegacyWDSSockets: false,
 };
 
 class ReactRefreshPlugin {

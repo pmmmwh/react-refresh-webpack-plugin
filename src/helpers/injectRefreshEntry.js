@@ -9,7 +9,7 @@
  */
 const injectRefreshEntry = (originalEntry, options) => {
   const entryInjects = [
-    options.useLegacyWebsockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
+    options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
     // React-refresh runtime
     require.resolve('../runtime/ReactRefreshEntry'),
     // Error overlay runtime
