@@ -1,0 +1,29 @@
+{
+  "name": "whm-kitchen-sink",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "Michael Mok",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./server",
+    "build": "cross-env NODE_ENV=production webpack --mode production"
+  },
+  "dependencies": {
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "babel-loader": "^8.0.6",
+    "cross-env": "^6.0.3",
+    "express": "^4.17.1",
+    "html-webpack-plugin": "^3.2.0",
+    "react-refresh": "^0.7.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.1.1",
+    "webpack": "^4.41.2",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0"
+  }
+}

@@ -4,17 +4,19 @@
 /**
  * Injects an entry to the bundle for react-refresh.
  * @param {WebpackEntry} [originalEntry] A Webpack entry object.
+ * @param {ReactRefreshPluginOptions} [options] Configuration options for this plugin
  * @returns {WebpackEntry} An injected entry object.
  */
-const injectRefreshEntry = originalEntry => {
+const injectRefreshEntry = (originalEntry, options) => {
   const entryInjects = [
+    options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
     // React-refresh runtime
     require.resolve('../runtime/ReactRefreshEntry'),
     // Error overlay runtime
     require.resolve('../runtime/ErrorOverlayEntry'),
     // React-refresh Babel transform detection
     require.resolve('../runtime/BabelDetectComponent'),
-  ];
+  ].filter(Boolean);
 
   // Single string entry point
   if (typeof originalEntry === 'string') {
@@ -29,7 +31,7 @@ const injectRefreshEntry = originalEntry => {
     return Object.entries(originalEntry).reduce(
       (acc, [curKey, curEntry]) => ({
         ...acc,
-        [curKey]: injectRefreshEntry(curEntry),
+        [curKey]: injectRefreshEntry(curEntry, options),
       }),
       {}
     );
@@ -38,7 +40,7 @@ const injectRefreshEntry = originalEntry => {
   if (typeof originalEntry === 'function') {
     return (...args) =>
       Promise.resolve(originalEntry(...args)).then(resolvedEntry =>
-        injectRefreshEntry(resolvedEntry)
+        injectRefreshEntry(resolvedEntry, options)
       );
   }
 
