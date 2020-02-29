@@ -71,6 +71,7 @@ connection.onmessage = function(e) {
       break;
     case 'still-ok':
     case 'ok':
+    case 'warnings':
       handleSuccess();
       break;
     case 'content-changed':
