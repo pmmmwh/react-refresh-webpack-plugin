@@ -104,7 +104,7 @@ module.exports = api => {
 
 **Create React App**
 
-See [the CRA example]([./examples/cra-kitchen-sink]).
+See [the CRA example](./examples/cra-kitchen-sink).
 
 Setting this up mostly relies on
 
