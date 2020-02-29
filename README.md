@@ -102,6 +102,22 @@ module.exports = api => {
 };
 ```
 
+**Create React App**
+
+See [the CRA example]([./examples/cra-kitchen-sink]).
+
+Setting this up mostly relies on
+
+- [Setting up `react-app-rewired` and `customize-cra`](https://github.com/arackaf/customize-cra).
+- [Applying the modifications in `config-overrides.js`](./examples/cra-kitchen-sink/config-overrides.js).
+
+Alternatively if you are ejected from CRA, add the webpack and babel-plugins to you `webpack.config.js`.
+
+- The `{ disableRefreshCheck: true }` option may be required when instantiating `ReactRefreshPlugin`.
+- You will need to change the `react-dev-utils/webpackHotDevClient` entry for the customized one from this repo.
+
+  [`require.resolve('@pmmmwh/react-refresh-webpack-plugin')`](./src/webpackHotDevClient.js)
+
 ## Options
 
 This plugin accepts a few options that are specifically targeted for advanced users.
