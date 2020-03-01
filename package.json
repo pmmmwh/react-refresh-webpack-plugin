@@ -30,12 +30,10 @@
     "src"
   ],
   "scripts": {
-    "lint": "yarn run lint:eslint && yarn run lint:prettier",
-    "lint:fix": "yarn run lint:eslint:fix && yarn run lint:prettier:fix",
-    "lint:eslint": "eslint --report-unused-disable-directives \"**/*.js\"",
-    "lint:eslint:fix": "yarn run lint:eslint --fix",
-    "lint:prettier": "prettier --check \"**/*.{js,jsx,json,md}\"",
-    "lint:prettier:fix": "prettier --write \"**/*.{js,jsx,json,md}\""
+    "lint": "eslint --report-unused-disable-directives \"**/*.js\"",
+    "lint:fix": "yarn run lint:eslint --fix",
+    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "format:heck": "prettier --check \"**/*.{js,jsx,json,md}\""
   },
   "dependencies": {
     "ansi-html": "^0.0.7",
@@ -54,7 +52,13 @@
     "webpack-hot-middleware": "^2.25.0"
   },
   "peerDependencies": {
-    "react-refresh": ">= 0.7"
+    "react-refresh": ">= 0.7",
+    "webpack-hot-middleware": "^2.25.0"
+  },
+  "peerDependenciesMeta": {
+    "webpack-hot-middleware": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">= 8.x"
