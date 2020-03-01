@@ -14,7 +14,7 @@ const injectRefreshEntry = (originalEntry, options) => {
     // React-refresh runtime
     require.resolve('../runtime/ReactRefreshEntry'),
     // Error overlay runtime
-    require.resolve('../runtime/ErrorOverlayEntry'),
+    options.overlay && options.overlay.entry,
     // React-refresh Babel transform detection
     require.resolve('../runtime/BabelDetectComponent'),
   ].filter(Boolean);
