@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const { createRefreshTemplate, injectRefreshEntry, validateOptions } = require('./helpers');
-const { refreshUtils } = require('./runtime/globals');
+const { errorOverlay, refreshUtils } = require('./runtime/globals');
 
 class ReactRefreshPlugin {
   /**
@@ -36,6 +36,7 @@ class ReactRefreshPlugin {
 
     // Inject refresh utilities to Webpack's global scope
     const providePlugin = new webpack.ProvidePlugin({
+      [errorOverlay]: this.options.overlay && require.resolve(this.options.overlay.module),
       [refreshUtils]: require.resolve('./runtime/utils'),
     });
     providePlugin.apply(compiler);
