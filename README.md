@@ -105,13 +105,71 @@ module.exports = api => {
 ## Options
 
 This plugin accepts a few options that are specifically targeted for advanced users.
-The allowed values are as follows:
 
-|           Name            |   Type    | Default | Description                                                                                                                                                                                                       |
-| :-----------------------: | :-------: | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`disableRefreshCheck`** | `boolean` | `false` | Disables detection of react-refresh's Babel plugin. Useful if you do not parse JS files within `node_modules`, or if you have a Babel setup not entirely controlled by Webpack.                                   |
-|     **`forceEnable`**     | `boolean` | `false` | Enables the plugin forcefully. Useful if you want to use the plugin in production, or if you are using Webpack's `none` mode without `NODE_ENV`, for example.                                                     |
-| **`useLegacyWDSSockets`** | `boolean` | `false` | Set this to true if you are using a webpack-dev-server version prior to 3.8 as it requires a custom SocketJS implementation. If you use this, you will also need to install `sockjs-client` as a peer depencency. |
+### `options.disableRefreshCheck`
+
+Type: `boolean`
+Default: `false`
+
+Disables detection of react-refresh's Babel plugin.
+Useful if you do not parse JS files within `node_modules`, or if you have a Babel setup not entirely controlled by Webpack.
+
+### `options.forceEnable`
+
+Type: `boolean`
+Default: `false`
+
+Enables the plugin forcefully.
+Useful if you want to use the plugin in production, or if you are using Webpack's `none` mode without `NODE_ENV`, for example.
+
+### `options.overlay`
+
+Type: `boolean | ErrorOverlayOptions`
+Default: `undefined`
+
+Modifies how the error overlay integration works in the plugin.
+
+- If `options.overlay` is not provided or is `true`, the plugin will use the bundled error overlay interation.
+- If `options.overlay` is `false`, it will disable the error overlay integration.
+- If an `ErrorOverlayOptions` object is provided:
+  (**NOTE**: This is an advanced option that exists mostly for tools like `create-react-app` or `Next.js`)
+
+  - A `module` property must be defined.
+    It should reference a JS file that exports at least two functions with footprints as follows:
+
+    ```ts
+    function handleRuntimeError(error: Error) {}
+    function clearRuntimeErrors() {}
+    ```
+
+  - An optional `entry` property could also be defined, which should also reference a JS file that contains code needed to set up your custom error overlay integration.
+    If it is not defined, the bundled error overlay entry will be used.
+    It expects the `module` file to export two more functions:
+
+    ```ts
+    function showCompileError(webpackErrorMessage: string) {}
+    function clearCompileErrors() {}
+    ```
+
+    Note that `webpackErrorMessage` is ANSI encoded, so you will need logic to parse it.
+
+  - An example configuration:
+    ```js
+    const options = {
+      overlay: {
+        entry: 'some-webpack-entry-file',
+        module: 'some-error-overlay-module',
+      },
+    };
+    ```
+
+### `options.useLegacyWDSSockets`
+
+Type: `boolean`
+Default: `false`
+
+Set this to true if you are using a `webpack-dev-server` version prior to 3.8 as it requires a custom SockJS implementation.
+If you use this feature, you will also need to install `sockjs-client` as a peer dependency.
 
 ## Related Work
 
