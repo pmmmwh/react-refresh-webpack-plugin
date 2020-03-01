@@ -4,11 +4,12 @@
 /**
  * Injects an entry to the bundle for react-refresh.
  * @param {WebpackEntry} [originalEntry] A Webpack entry object.
- * @param {ReactRefreshPluginOptions} [options] Configuration options for this plugin
+ * @param {import('../types').ReactRefreshPluginOptions} [options] Configuration options for this plugin.
  * @returns {WebpackEntry} An injected entry object.
  */
 const injectRefreshEntry = (originalEntry, options) => {
   const entryInjects = [
+    // Legacy WDS SockJS integration
     options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
     // React-refresh runtime
     require.resolve('../runtime/ReactRefreshEntry'),
