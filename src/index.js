@@ -9,7 +9,7 @@ class ReactRefreshPlugin {
    * @returns {void}
    */
   constructor(options) {
-    this.options = Object.assign(defaultOptions, options);
+    this.options = validateOptions(options);
   }
 
   /**
