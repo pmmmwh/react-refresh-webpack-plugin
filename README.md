@@ -95,8 +95,8 @@ module.exports = api => {
     // ... other options
     plugins: [
       // ... other plugins
-      // Applies the react-refresh Babel plugin on development modes only
-      api.env('development') && 'react-refresh/babel',
+      // Applies the react-refresh Babel plugin on non-production modes only
+      !api.env('production') && 'react-refresh/babel',
     ].filter(Boolean),
   };
 };

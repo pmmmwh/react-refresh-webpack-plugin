@@ -1,7 +1,6 @@
+const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
-const ReactRefreshPlugin = require('../../src');
-const path = require('path');
 
 module.exports = {
   entry: {
@@ -13,7 +12,6 @@ module.exports = {
     filename: 'bundle.js',
   },
   mode: 'development',
-  target: 'web',
   module: {
     rules: [
       {
