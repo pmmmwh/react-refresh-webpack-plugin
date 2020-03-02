@@ -9,9 +9,19 @@ const { Template } = require('webpack');
  */
 const beforeModule = `
 let cleanup = function NoOp() {};
+let check = function (it) {
+  return it && it.Math == Math && it;
+};
 
-if (window && window.$RefreshSetup$) {
-  cleanup = window.$RefreshSetup$(module.i);
+let safeThis =  
+  check(typeof globalThis == 'object' && globalThis) ||
+  check(typeof window == 'object' && window) ||
+  check(typeof self == 'object' && self) ||
+  check(typeof global == 'object' && global) ||
+  Function('return this')();
+
+if (safeThis && safeThis.$RefreshSetup$) {
+  cleanup = safeThis.$RefreshSetup$(module.i);
 }
 
 try {
