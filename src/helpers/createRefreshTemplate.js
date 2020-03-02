@@ -9,11 +9,12 @@ const { Template } = require('webpack');
  */
 const beforeModule = `
 let cleanup = function NoOp() {};
-let check = function (it) {
+
+const check = function(it) {
   return it && it.Math == Math && it;
 };
 
-let safeThis =  
+const safeThis =
   check(typeof globalThis == 'object' && globalThis) ||
   check(typeof window == 'object' && window) ||
   check(typeof self == 'object' && self) ||
@@ -37,10 +38,9 @@ const afterModule = `
 /**
  * Creates a module wrapped by a refresh template.
  * @param {string} source The source code of a module.
- * @param {import('webpack').compilation.Chunk} chunk A Webpack chunk.
  * @returns {string} A refresh-wrapped module.
  */
-function createRefreshTemplate(source, chunk) {
+function createRefreshTemplate(source) {
   const lines = source.split('\n');
 
   // Webpack generates this line whenever the mainTemplate is called
