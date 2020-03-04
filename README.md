@@ -102,6 +102,8 @@ module.exports = api => {
 };
 ```
 
+If you use TypeScript as a transpiler (without Babel) see this [example project](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/master/examples/ts-without-babel).
+
 ## Options
 
 This plugin accepts a few options that are specifically targeted for advanced users.
