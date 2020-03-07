@@ -13,14 +13,13 @@ module.exports = {
       {
         test: /\.tsx?$/,
         include: path.join(__dirname, 'src'),
-        use: isDevelopment ? [
-          {
+        use: [
+          isDevelopment && {
             loader: 'babel-loader',
             options: { plugins: ['react-refresh/babel'] }
           },
           'awesome-typescript-loader'
-        ]
-        : 'awesome-typescript-loader'
+        ].filter(Boolean)      
       },
     ]
   },
@@ -35,6 +34,5 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
-    modules: ['.', 'node_modules']
   },
 };
