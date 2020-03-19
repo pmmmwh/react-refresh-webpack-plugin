@@ -8,23 +8,32 @@
  * @returns {WebpackEntry} An injected entry object.
  */
 const injectRefreshEntry = (originalEntry, options) => {
-  const entryInjects = [
-    options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
-    // React-refresh runtime
-    require.resolve('../runtime/ReactRefreshEntry'),
-    // Error overlay runtime
-    require.resolve('../runtime/ErrorOverlayEntry'),
-    // React-refresh Babel transform detection
-    require.resolve('../runtime/BabelDetectComponent'),
-  ].filter(Boolean);
+  const getEntryInjects = ({ webpackHotMiddlewareEntry } = {}) =>
+    [
+      options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
+      // React-refresh runtime
+      require.resolve('../runtime/ReactRefreshEntry'),
+      // webpack-hot-middleware client
+      webpackHotMiddlewareEntry && webpackHotMiddlewareEntry,
+      // Error overlay runtime
+      require.resolve('../runtime/ErrorOverlayEntry'),
+      // React-refresh Babel transform detection
+      require.resolve('../runtime/BabelDetectComponent'),
+    ].filter(Boolean);
 
   // Single string entry point
   if (typeof originalEntry === 'string') {
-    return [...entryInjects, originalEntry];
+    return [...getEntryInjects(), originalEntry];
   }
   // Single array entry point
   if (Array.isArray(originalEntry)) {
-    return [...entryInjects, ...originalEntry];
+    const webpackHotMiddlewareEntry = originalEntry.find(entry =>
+      entry.includes('webpack-hot-middleware/client')
+    );
+    return [
+      ...getEntryInjects({ webpackHotMiddlewareEntry }),
+      ...originalEntry.filter(entry => !entry.includes('webpack-hot-middleware/client')),
+    ];
   }
   // Multiple entry points
   if (typeof originalEntry === 'object') {
