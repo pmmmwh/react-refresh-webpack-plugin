@@ -28,11 +28,11 @@ const injectRefreshEntry = (originalEntry, options) => {
   // Single array entry point
   if (Array.isArray(originalEntry)) {
     const webpackHotMiddlewareEntry = originalEntry.find(entry =>
-      entry.includes('webpack-hot-middleware/client')
+      entry.includes('webpack-hot-middleware')
     );
     return [
       ...getEntryInjects({ webpackHotMiddlewareEntry }),
-      ...originalEntry.filter(entry => !entry.includes('webpack-hot-middleware/client')),
+      ...originalEntry.filter(entry => !entry.includes('webpack-hot-middleware')),
     ];
   }
   // Multiple entry points
