@@ -107,11 +107,13 @@ module.exports = api => {
 This plugin accepts a few options that are specifically targeted for advanced users.
 The allowed values are as follows:
 
-|           Name            |   Type    | Default | Description                                                                                                                                                                                                       |
-| :-----------------------: | :-------: | :-----: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **`disableRefreshCheck`** | `boolean` | `false` | Disables detection of react-refresh's Babel plugin. Useful if you do not parse JS files within `node_modules`, or if you have a Babel setup not entirely controlled by Webpack.                                   |
-|     **`forceEnable`**     | `boolean` | `false` | Enables the plugin forcefully. Useful if you want to use the plugin in production, or if you are using Webpack's `none` mode without `NODE_ENV`, for example.                                                     |
-| **`useLegacyWDSSockets`** | `boolean` | `false` | Set this to true if you are using a webpack-dev-server version prior to 3.8 as it requires a custom SocketJS implementation. If you use this, you will also need to install `sockjs-client` as a peer depencency. |
+|           Name            |   Type    |   Default   | Description                                                                                                                                                                                                       |
+| :-----------------------: | :-------: | :---------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`disableRefreshCheck`** | `boolean` |   `false`   | Disables detection of react-refresh's Babel plugin. Useful if you do not parse JS files within `node_modules`, or if you have a Babel setup not entirely controlled by Webpack.                                   |
+|     **`forceEnable`**     | `boolean` |   `false`   | Enables the plugin forcefully. Useful if you want to use the plugin in production, or if you are using Webpack's `none` mode without `NODE_ENV`, for example.                                                     |
+|      **`sockHost`**       | `string`  | `undefined` | Set this to have the socket connect to a different host than `window.location.hostname`                                                                                                                           |
+|      **`sockPort`**       | `number`  | `undefined` | Set this to connect to a different port than `window.location.port`                                                                                                                                               |
+| **`useLegacyWDSSockets`** | `boolean` |   `false`   | Set this to true if you are using a webpack-dev-server version prior to 3.8 as it requires a custom SocketJS implementation. If you use this, you will also need to install `sockjs-client` as a peer depencency. |
 
 ## Related Work
 

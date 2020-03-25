@@ -1,5 +1,3 @@
-// TODO: Implement handling of this
-// eslint-disable-next-line no-unused-vars
 /* global __resourceQuery */
 
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
@@ -74,8 +72,13 @@ function compileMessageHandler(message) {
   }
 }
 
+let overrides = {};
+if (__resourceQuery) {
+  overrides = require('querystring').parse(__resourceQuery.slice(1));
+}
+
 // Registers handlers for compile errors
-createSocket(compileMessageHandler);
+createSocket(compileMessageHandler, overrides);
 // Registers handlers for runtime errors
 registerErrorHandler(function handleError(error) {
   hasRuntimeErrors = true;
