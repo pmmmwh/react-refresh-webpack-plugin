@@ -25,8 +25,8 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshPlugin(),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
       filename: './index.html',
+      template: './public/index.html',
     }),
     new webpack.NoEmitOnErrorsPlugin(),
   ],

@@ -17,8 +17,8 @@ module.exports = {
   plugins: [
     new ReactRefreshPlugin(),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
       filename: './index.html',
+      template: './public/index.html',
     }),
   ],
   resolve: {
