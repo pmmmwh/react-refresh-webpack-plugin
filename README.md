@@ -103,6 +103,8 @@ module.exports = api => {
 };
 ```
 
+If you are using TypeScript (instead of Babel) as a transpiler, you will still need to setup `babel-loader` to process your source code. Check out this [example project](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/master/examples/ts-without-babel) on how to set this up.
+
 ## Options
 
 This plugin accepts a few options that are specifically targeted for advanced users.

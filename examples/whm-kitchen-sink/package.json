@@ -1,8 +1,6 @@
 {
   "name": "whm-kitchen-sink",
   "version": "0.1.0",
-  "author": "Michael Mok",
-  "license": "MIT",
   "private": true,
   "dependencies": {
     "react": "^16.13.1",
