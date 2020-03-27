@@ -1,6 +1,7 @@
 # React Refresh Webpack Plugin
 
-[![NPM Version](https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin)](https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin)
+[![Latest Version](https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/latest)](https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/latest)
+[![Next Version](https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/next)](https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/next)
 [![License](https://img.shields.io/github/license/pmmmwh/react-refresh-webpack-plugin)](./LICENSE)
 
 An **EXPERIMENTAL** Webpack plugin to enable "Fast Refresh" (also previously known as _Hot Reloading_) for React components.
