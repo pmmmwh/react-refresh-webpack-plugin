@@ -37,21 +37,21 @@
   },
   "dependencies": {
     "ansi-html": "^0.0.7",
-    "error-stack-parser": "^2.0.4",
+    "error-stack-parser": "^2.0.6",
     "html-entities": "^1.2.1",
     "lodash.debounce": "^4.0.8",
     "react-dev-utils": "^9.1.0"
   },
   "devDependencies": {
-    "eslint": "^6.7.2",
-    "eslint-config-prettier": "^6.7.0",
-    "prettier": "^1.18.2",
-    "react-refresh": "^0.7.0",
-    "webpack": "^4.41.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "prettier": "^2.0.2",
+    "react-refresh": "^0.8.1",
+    "webpack": "^4.42.1",
     "webpack-hot-middleware": "^2.25.0"
   },
   "peerDependencies": {
-    "react-refresh": ">= 0.7",
+    "react-refresh": "^0.8.1",
     "sockjs-client": "^1.4.0",
     "webpack-hot-middleware": "^2.25.0"
   },
