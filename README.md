@@ -89,7 +89,7 @@ module.exports = {
 **.babelrc.js** (if you choose to extract the config)
 
 ```js
-module.exports = api => {
+module.exports = (api) => {
   // This caches the Babel config by environment.
   api.cache.using(() => process.env.NODE_ENV);
   return {

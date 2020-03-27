@@ -16,12 +16,12 @@ module.exports = {
         use: [
           isDevelopment && {
             loader: 'babel-loader',
-            options: { plugins: ['react-refresh/babel'] }
+            options: { plugins: ['react-refresh/babel'] },
           },
-          'awesome-typescript-loader'
-        ].filter(Boolean)      
+          'awesome-typescript-loader',
+        ].filter(Boolean),
       },
-    ]
+    ],
   },
 
   plugins: [

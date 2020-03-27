@@ -6,7 +6,7 @@
     "moduleResolution": "node",
     "lib": ["dom", "dom.iterable", "esnext"],
     "sourceMap": true,
-    "jsx": "react",
+    "jsx": "react"
   },
   "include": ["src"]
 }

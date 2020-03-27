@@ -41,14 +41,14 @@ class ReactRefreshPlugin {
     });
     providePlugin.apply(compiler);
 
-    compiler.hooks.beforeRun.tap(this.constructor.name, compiler => {
+    compiler.hooks.beforeRun.tap(this.constructor.name, (compiler) => {
       // Check for existence of HotModuleReplacementPlugin in the plugin list
       // It is the foundation to this plugin working correctly
       if (
         !compiler.options.plugins.find(
           // It's validated with the name rather than the constructor reference
           // because a project might contain multiple references to Webpack
-          plugin => plugin.constructor.name === 'HotModuleReplacementPlugin'
+          (plugin) => plugin.constructor.name === 'HotModuleReplacementPlugin'
         )
       ) {
         throw new Error(
@@ -57,8 +57,8 @@ class ReactRefreshPlugin {
       }
     });
 
-    compiler.hooks.normalModuleFactory.tap(this.constructor.name, nmf => {
-      nmf.hooks.afterResolve.tap(this.constructor.name, data => {
+    compiler.hooks.normalModuleFactory.tap(this.constructor.name, (nmf) => {
+      nmf.hooks.afterResolve.tap(this.constructor.name, (data) => {
         // Inject refresh loader to all JavaScript-like files
         if (
           // Test for known (and popular) JavaScript-like extensions
@@ -79,7 +79,7 @@ class ReactRefreshPlugin {
       });
     });
 
-    compiler.hooks.compilation.tap(this.constructor.name, compilation => {
+    compiler.hooks.compilation.tap(this.constructor.name, (compilation) => {
       compilation.mainTemplate.hooks.require.tap(
         this.constructor.name,
         // Constructs the correct module template for react-refresh
@@ -98,7 +98,7 @@ class ReactRefreshPlugin {
               hash,
               //  TODO: Figure out whether we need to stub the following properties, probably no
               contentHashType: 'javascript',
-              hashWithLength: length => mainTemplate.renderCurrentHashCode(hash, length),
+              hashWithLength: (length) => mainTemplate.renderCurrentHashCode(hash, length),
               noChunkHash: mainTemplate.useChunkHash(chunk),
             });
           }
@@ -116,7 +116,7 @@ class ReactRefreshPlugin {
         }
       );
 
-      compilation.hooks.finishModules.tap(this.constructor.name, modules => {
+      compilation.hooks.finishModules.tap(this.constructor.name, (modules) => {
         if (!this.options.disableRefreshCheck) {
           for (const module of modules) {
             const refreshPluginInjection = /\$RefreshReg\$/;

@@ -5,9 +5,9 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
   Refresh.injectIntoGlobalHook(window);
 
   // Setup placeholder functions
-  window.$RefreshReg$ = function() {};
-  window.$RefreshSig$ = function() {
-    return function(type) {
+  window.$RefreshReg$ = function () {};
+  window.$RefreshSig$ = function () {
+    return function (type) {
       return type;
     };
   };
@@ -28,7 +28,7 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
      * @param {number} [id] An ID of a module.
      * @returns {void}
      */
-    window.$RefreshReg$ = function(type, id) {
+    window.$RefreshReg$ = function (type, id) {
       const typeId = moduleId + ' ' + id;
       Refresh.register(type, typeId);
     };

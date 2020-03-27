@@ -40,7 +40,7 @@ const injectRefreshEntry = (originalEntry, options) => {
   // Dynamic entry points
   if (typeof originalEntry === 'function') {
     return (...args) =>
-      Promise.resolve(originalEntry(...args)).then(resolvedEntry =>
+      Promise.resolve(originalEntry(...args)).then((resolvedEntry) =>
         injectRefreshEntry(resolvedEntry, options)
       );
   }

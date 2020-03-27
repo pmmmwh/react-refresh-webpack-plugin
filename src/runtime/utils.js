@@ -108,7 +108,7 @@ function createDebounceUpdate() {
    */
   function enqueueUpdate() {
     if (refreshTimeout === undefined) {
-      refreshTimeout = setTimeout(function() {
+      refreshTimeout = setTimeout(function () {
         refreshTimeout = undefined;
         Refresh.performReactRefresh();
         if (__react_refresh_error_overlay__) {
