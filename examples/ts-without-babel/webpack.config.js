@@ -1,13 +1,14 @@
+const path = require('path');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
-  entry: './src/index.tsx',
-
+  entry: {
+    main: './src/index.tsx',
+  },
   module: {
     rules: [
       {
@@ -23,15 +24,13 @@ module.exports = {
       },
     ],
   },
-
   plugins: [
+    isDevelopment && new ReactRefreshPlugin(),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
       filename: './index.html',
+      template: './public/index.html',
     }),
-    isDevelopment && new ReactRefreshPlugin({ disableRefreshCheck: true }),
   ].filter(Boolean),
-
   resolve: {
     extensions: ['.js', '.ts', '.tsx'],
   },
