@@ -55,13 +55,11 @@ function formatMessage(message) {
   return message.trim();
 }
 
-function formatWebpackErrors(errors) {
+module.exports = function formatWebpackErrors(errors) {
   let formattedErrors = errors.map(formatMessage);
   if (formattedErrors.some(isLikelyASyntaxError)) {
     // If there are any syntax errors, show just them.
     formattedErrors = formattedErrors.filter(isLikelyASyntaxError);
   }
   return formattedErrors;
-}
-
-module.exports = formatWebpackErrors;
+};
