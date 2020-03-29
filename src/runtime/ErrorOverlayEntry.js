@@ -1,6 +1,6 @@
 /* global __resourceQuery, __react_refresh_error_overlay__ */
 
-const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
+const formatWebpackErrors = require('./formatWebpackErrors');
 const createSocket = require('./createSocket');
 const {
   error: registerErrorHandler,
@@ -43,13 +43,10 @@ function handleCompileSuccess() {
 function handleCompileErrors(errors) {
   isHotReload = true;
 
-  const formatted = formatWebpackMessages({
-    errors: errors,
-    warnings: [],
-  });
+  const formattedErrors = formatWebpackErrors(errors);
 
   // Only show the first error
-  __react_refresh_error_overlay__.showCompileError(formatted.errors[0]);
+  __react_refresh_error_overlay__.showCompileError(formattedErrors[0]);
 }
 
 /**
