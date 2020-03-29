@@ -15,6 +15,8 @@ function getModuleExports(module) {
  * If this signature changes, it's unsafe to accept the boundary.
  *
  * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/907d6af22ac6ebe58572be418e9253a90665ecbd/packages/metro/src/lib/polyfills/require.js#L795-L816).
+ * @param {*} moduleExports A Webpack module exports object.
+ * @returns {string[]} A React refresh boundary signature array.
  */
 function getReactRefreshBoundarySignature(moduleExports) {
   const signature = [];
@@ -201,6 +203,9 @@ function registerExportsForReactRefresh(module) {
  * Compares previous and next module objects to check for mutated boundaries.
  *
  * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/907d6af22ac6ebe58572be418e9253a90665ecbd/packages/metro/src/lib/polyfills/require.js#L776-L792).
+ * @param prevModule {*} The current Webpack module exports object.
+ * @param nextModule {*} The next Webpack module exports object.
+ * @returns {boolean} Whether the React refresh boundary should be invalidated.
  */
 function shouldInvalidateReactRefreshBoundary(prevModule, nextModule) {
   const prevSignature = getReactRefreshBoundarySignature(getModuleExports(prevModule));
