@@ -1,5 +1,5 @@
+/* global __react_refresh_error_overlay__ */
 const Refresh = require('react-refresh/runtime');
-const ErrorOverlay = require('../overlay');
 
 /**
  * Extracts exports from a webpack module object.
@@ -73,7 +73,9 @@ function createHotErrorHandler(moduleId) {
    * @returns {void}
    */
   function hotErrorHandler(error) {
-    ErrorOverlay.handleRuntimeError(error);
+    if (__react_refresh_error_overlay__) {
+      __react_refresh_error_overlay__.handleRuntimeError(error);
+    }
   }
 
   /**
@@ -106,10 +108,12 @@ function createDebounceUpdate() {
    */
   function enqueueUpdate() {
     if (refreshTimeout === undefined) {
-      refreshTimeout = setTimeout(function() {
+      refreshTimeout = setTimeout(function () {
         refreshTimeout = undefined;
         Refresh.performReactRefresh();
-        ErrorOverlay.clearRuntimeErrors();
+        if (__react_refresh_error_overlay__) {
+          __react_refresh_error_overlay__.clearRuntimeErrors();
+        }
       }, 30);
     }
   }

@@ -1,33 +1,19 @@
 const path = require('path');
 const webpack = require('webpack');
-const { createRefreshTemplate, injectRefreshEntry } = require('./helpers');
-const { refreshUtils } = require('./runtime/globals');
-
-/**
- * @typedef {Object} ReactRefreshPluginOptions
- * @property {boolean} [disableRefreshCheck] Disables detection of react-refresh's Babel plugin.
- * @property {boolean} [forceEnable] Enables the plugin forcefully.
- * @property {boolean} [useLegacyWDSSockets] Uses a custom SocketJS implementation for older versions of webpack-dev-server
- */
-
-/** @type {ReactRefreshPluginOptions} */
-const defaultOptions = {
-  disableRefreshCheck: false,
-  forceEnable: false,
-  useLegacyWDSSockets: false,
-};
+const { createRefreshTemplate, injectRefreshEntry, validateOptions } = require('./helpers');
+const { errorOverlay, refreshUtils } = require('./runtime/globals');
 
 class ReactRefreshPlugin {
   /**
-   * @param {ReactRefreshPluginOptions} [options] Options for react-refresh-plugin.
+   * @param {import('./types').ReactRefreshPluginOptions} [options] Options for react-refresh-plugin.
    * @returns {void}
    */
   constructor(options) {
-    this.options = Object.assign(defaultOptions, options);
+    this.options = validateOptions(options);
   }
 
   /**
-   * Applies the plugin
+   * Applies the plugin.
    * @param {import('webpack').Compiler} compiler A webpack compiler object.
    * @returns {void}
    */
@@ -50,18 +36,19 @@ class ReactRefreshPlugin {
 
     // Inject refresh utilities to Webpack's global scope
     const providePlugin = new webpack.ProvidePlugin({
+      [errorOverlay]: this.options.overlay && require.resolve(this.options.overlay.module),
       [refreshUtils]: require.resolve('./runtime/utils'),
     });
     providePlugin.apply(compiler);
 
-    compiler.hooks.beforeRun.tap(this.constructor.name, compiler => {
+    compiler.hooks.beforeRun.tap(this.constructor.name, (compiler) => {
       // Check for existence of HotModuleReplacementPlugin in the plugin list
       // It is the foundation to this plugin working correctly
       if (
         !compiler.options.plugins.find(
           // It's validated with the name rather than the constructor reference
           // because a project might contain multiple references to Webpack
-          plugin => plugin.constructor.name === 'HotModuleReplacementPlugin'
+          (plugin) => plugin.constructor.name === 'HotModuleReplacementPlugin'
         )
       ) {
         throw new Error(
@@ -70,8 +57,8 @@ class ReactRefreshPlugin {
       }
     });
 
-    compiler.hooks.normalModuleFactory.tap(this.constructor.name, nmf => {
-      nmf.hooks.afterResolve.tap(this.constructor.name, data => {
+    compiler.hooks.normalModuleFactory.tap(this.constructor.name, (nmf) => {
+      nmf.hooks.afterResolve.tap(this.constructor.name, (data) => {
         // Inject refresh loader to all JavaScript-like files
         if (
           // Test for known (and popular) JavaScript-like extensions
@@ -92,7 +79,7 @@ class ReactRefreshPlugin {
       });
     });
 
-    compiler.hooks.compilation.tap(this.constructor.name, compilation => {
+    compiler.hooks.compilation.tap(this.constructor.name, (compilation) => {
       compilation.mainTemplate.hooks.require.tap(
         this.constructor.name,
         // Constructs the correct module template for react-refresh
@@ -111,7 +98,7 @@ class ReactRefreshPlugin {
               hash,
               //  TODO: Figure out whether we need to stub the following properties, probably no
               contentHashType: 'javascript',
-              hashWithLength: length => mainTemplate.renderCurrentHashCode(hash, length),
+              hashWithLength: (length) => mainTemplate.renderCurrentHashCode(hash, length),
               noChunkHash: mainTemplate.useChunkHash(chunk),
             });
           }
@@ -129,7 +116,7 @@ class ReactRefreshPlugin {
         }
       );
 
-      compilation.hooks.finishModules.tap(this.constructor.name, modules => {
+      compilation.hooks.finishModules.tap(this.constructor.name, (modules) => {
         if (!this.options.disableRefreshCheck) {
           for (const module of modules) {
             const refreshPluginInjection = /\$RefreshReg\$/;

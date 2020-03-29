@@ -170,7 +170,7 @@ function ensureRootExists(renderFn) {
  * @returns {void}
  */
 function render() {
-  ensureRootExists(function() {
+  ensureRootExists(function () {
     const currentFocus = rootDocument.activeElement;
     let currentFocusId;
     if (currentFocus.localName === 'button' && currentFocus.id) {

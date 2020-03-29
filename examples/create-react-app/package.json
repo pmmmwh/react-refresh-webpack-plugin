@@ -1,23 +1,21 @@
 {
-  "name": "cra-kitchen-sink",
+  "name": "using-create-react-app",
   "version": "0.1.0",
-  "author": "Michael Mok",
-  "license": "MIT",
   "private": true,
   "dependencies": {
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.1.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
-    "babel-loader": "^8.0.6",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.2.0",
+    "@testing-library/jest-dom": "^5.3.0",
+    "@testing-library/react": "^10.0.1",
+    "@testing-library/user-event": "^10.0.0",
+    "babel-loader": "^8.1.0",
     "customize-cra": "^0.9.1",
     "react-app-rewired": "^2.1.5",
-    "react-refresh": "^0.7.0",
-    "react-scripts": "3.3.0"
+    "react-refresh": "^0.8.1",
+    "react-scripts": "3.4.1"
   },
   "scripts": {
     "start": "react-app-rewired start",

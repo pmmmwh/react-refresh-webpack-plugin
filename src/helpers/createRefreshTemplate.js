@@ -44,7 +44,7 @@ function createRefreshTemplate(source) {
   const lines = source.split('\n');
 
   // Webpack generates this line whenever the mainTemplate is called
-  const moduleInitializationLineNumber = lines.findIndex(line =>
+  const moduleInitializationLineNumber = lines.findIndex((line) =>
     line.startsWith('modules[moduleId].call')
   );
 

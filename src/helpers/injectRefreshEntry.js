@@ -4,7 +4,7 @@
 /**
  * Injects an entry to the bundle for react-refresh.
  * @param {WebpackEntry} [originalEntry] A Webpack entry object.
- * @param {ReactRefreshPluginOptions} [options] Configuration options for this plugin
+ * @param {import('../types').ReactRefreshPluginOptions} [options] Configuration options for this plugin.
  * @returns {WebpackEntry} An injected entry object.
  */
 const injectRefreshEntry = (originalEntry, options) => {
@@ -12,11 +12,12 @@ const injectRefreshEntry = (originalEntry, options) => {
   const sockPort = options.sockPort ? `&sockPort=${options.sockPort}` : '';
   const queryParams = `?options${sockHost}${sockPort}`;
   const entryInjects = [
+    // Legacy WDS SockJS integration
     options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
     // React-refresh runtime
     require.resolve('../runtime/ReactRefreshEntry'),
     // Error overlay runtime
-    require.resolve('../runtime/ErrorOverlayEntry') + queryParams,
+    options.overlay && (options.overlay.entry  + queryParams),
     // React-refresh Babel transform detection
     require.resolve('../runtime/BabelDetectComponent'),
   ].filter(Boolean);
@@ -42,7 +43,7 @@ const injectRefreshEntry = (originalEntry, options) => {
   // Dynamic entry points
   if (typeof originalEntry === 'function') {
     return (...args) =>
-      Promise.resolve(originalEntry(...args)).then(resolvedEntry =>
+      Promise.resolve(originalEntry(...args)).then((resolvedEntry) =>
         injectRefreshEntry(resolvedEntry, options)
       );
   }
