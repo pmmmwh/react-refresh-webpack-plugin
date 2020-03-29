@@ -1,6 +1,5 @@
 /** @type {import('../types').ReactRefreshPluginOptions} */
 const defaultOptions = {
-  disableRefreshCheck: false,
   forceEnable: false,
   useLegacyWDSSockets: false,
 };
@@ -18,6 +17,16 @@ const defaultOverlayOptions = {
  */
 module.exports = function validateOptions(options) {
   const validatedOptions = Object.assign(defaultOptions, options);
+
+  if (typeof validatedOptions.disableRefreshCheck !== 'undefined') {
+    console.warn(
+      [
+        'The "disableRefreshCheck" option has been deprecated and will not have any effect on how the plugin parses files.',
+        'Please remove it from your configuration.',
+      ].join(' ')
+    );
+    delete validatedOptions.disableRefreshCheck;
+  }
 
   if (
     typeof validatedOptions.overlay !== 'undefined' &&

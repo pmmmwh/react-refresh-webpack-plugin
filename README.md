@@ -112,14 +112,6 @@ More sample projects for common Webpack development setups are available in the 
 
 This plugin accepts a few options that are specifically targeted for advanced users.
 
-### `options.disableRefreshCheck`
-
-Type: `boolean`
-Default: `false`
-
-Disables detection of react-refresh's Babel plugin.
-Useful if you do not parse JS files within `node_modules`, or if you have a Babel setup not entirely controlled by Webpack.
-
 ### `options.forceEnable`
 
 Type: `boolean`
