@@ -20,7 +20,7 @@ function createSocket(messageHandler, options) {
         port: options.sockPort || window.location.port,
         // TODO: Support usage of custom sockets after WDS 4.0 is released
         // Ref: https://github.com/webpack/webpack-dev-server/pull/2055
-        pathname: '/sockjs-node',
+        pathname: options.sockPath || '/sockjs-node',
       })
     );
     connection.onClose(function onSocketClose() {

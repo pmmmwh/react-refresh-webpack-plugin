@@ -10,7 +10,8 @@
 const injectRefreshEntry = (originalEntry, options) => {
   const sockHost = options.sockHost ? `&sockHost=${options.sockHost}` : '';
   const sockPort = options.sockPort ? `&sockPort=${options.sockPort}` : '';
-  const queryParams = `?options${sockHost}${sockPort}`;
+  const sockPath = options.sockPath ? `&sockPath=${options.sockPath}` : '';
+  const queryParams = `?options${sockHost}${sockPort}${sockPath}`;
   const entryInjects = [
     // Legacy WDS SockJS integration
     options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
