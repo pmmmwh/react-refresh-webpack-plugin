@@ -1,5 +1,10 @@
 const friendlySyntaxErrorLabel = 'Syntax error:';
 
+/**
+ * Checks if the error message is for a syntax error.
+ * @param message {string} The raw Webpack error message.
+ * @returns {boolean} Whether the error message is for a syntax error.
+ */
 function isLikelyASyntaxError(message) {
   return message.indexOf(friendlySyntaxErrorLabel) !== -1;
 }
@@ -55,11 +60,18 @@ function formatMessage(message) {
   return message.trim();
 }
 
-module.exports = function formatWebpackErrors(errors) {
+/**
+ * Formats Webpack error messages into a more readable format.
+ * @param errors {string[]} An array of Webpack error messages.
+ * @returns {string[]} The formatted Webpack error messages.
+ */
+function formatWebpackErrors(errors) {
   let formattedErrors = errors.map(formatMessage);
   if (formattedErrors.some(isLikelyASyntaxError)) {
     // If there are any syntax errors, show just them.
     formattedErrors = formattedErrors.filter(isLikelyASyntaxError);
   }
   return formattedErrors;
-};
+}
+
+module.exports = formatWebpackErrors;
