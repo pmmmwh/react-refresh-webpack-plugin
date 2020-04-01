@@ -18,7 +18,7 @@ const injectRefreshEntry = (originalEntry, options) => {
     // React-refresh runtime
     require.resolve('../runtime/ReactRefreshEntry'),
     // Error overlay runtime
-    options.overlay && (options.overlay.entry  + queryParams),
+    options.overlay && options.overlay.entry + queryParams,
   ].filter(Boolean);
 
   // Single string entry point
