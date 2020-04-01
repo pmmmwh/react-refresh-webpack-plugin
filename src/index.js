@@ -36,8 +36,8 @@ class ReactRefreshPlugin {
 
     // Inject refresh utilities to Webpack's global scope
     const providePlugin = new webpack.ProvidePlugin({
-      [errorOverlay]: this.options.overlay && require.resolve(this.options.overlay.module),
       [refreshUtils]: require.resolve('./runtime/utils'),
+      ...(!!this.options.overlay && { [errorOverlay]: require.resolve(this.options.overlay.module) }),
     });
     providePlugin.apply(compiler);
 
