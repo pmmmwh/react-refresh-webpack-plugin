@@ -39,7 +39,8 @@
     "ansi-html": "^0.0.7",
     "error-stack-parser": "^2.0.6",
     "html-entities": "^1.2.1",
-    "lodash.debounce": "^4.0.8"
+    "lodash.debounce": "^4.0.8",
+    "native-url": "^0.2.6"
   },
   "devDependencies": {
     "eslint": "^6.8.0",

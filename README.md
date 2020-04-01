@@ -108,6 +108,31 @@ More sample projects for common Webpack development setups are available in the 
 > Note: If you are using TypeScript (instead of Babel) as a transpiler, you will still need to use `babel-loader` to process your source code.
 > Check out this [sample project](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/master/examples/typescript-without-babel) on how to set this up.
 
+### Polyfill for Older Browsers (WDS Only)
+
+If you need to develop on IE11, you will need to polyfill the DOM URL API.
+This can be done by adding the following before any of your code in the main entry (either one is fine):
+
+**Using `url-polyfill`**
+
+```js
+import 'url-polyfill';
+```
+
+**Using `core-js`**
+
+```js
+import 'core-js/features/url';
+import 'core-js/features/url-search-params';
+```
+
+**Using `react-app-polyfill`**
+
+```js
+import 'react-app-polyfill/ie11';
+import 'react-app-polyfill/stable';
+```
+
 ## Options
 
 This plugin accepts a few options that are specifically targeted for advanced users.
@@ -161,7 +186,6 @@ Modifies how the error overlay integration works in the plugin.
     };
     ```
 
-
 ### `options.sockHost`
 
 Type: `string`
@@ -174,7 +198,7 @@ Set this if you are running webpack on a host other than `window.location.hostna
 Type: `number`
 Default: effectively `window.location.port`
 
-Set this if you are running webpack on a port other than `window.location.port` 
+Set this if you are running webpack on a port other than `window.location.port`
 
 ### `options.sockPath`
 
