@@ -61,6 +61,9 @@ function handleCompileErrors(errors) {
 function compileMessageHandler(message) {
   switch (message.type) {
     case 'ok':
+    case 'still-ok':
+    case 'warnings':
+      // TODO: Implement handling for warnings
       handleCompileSuccess();
       break;
     case 'errors':
