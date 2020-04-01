@@ -36,7 +36,7 @@ class ReactRefreshPlugin {
 
     // Inject refresh utilities to Webpack's global scope
     const providePlugin = new webpack.ProvidePlugin({
-      [refreshUtils]: require.resolve('./runtime/utils'),
+      [refreshUtils]: require.resolve('./runtime/refreshUtils'),
       ...(!!this.options.overlay && { [errorOverlay]: require.resolve(this.options.overlay.module) }),
     });
     providePlugin.apply(compiler);
@@ -115,44 +115,6 @@ class ReactRefreshPlugin {
           return createRefreshTemplate(source, chunk);
         }
       );
-
-      compilation.hooks.finishModules.tap(this.constructor.name, (modules) => {
-        if (!this.options.disableRefreshCheck) {
-          for (const module of modules) {
-            const refreshPluginInjection = /\$RefreshReg\$/;
-            /** @type {undefined | null | string} */
-            const moduleSource = module._source && module._source.source();
-
-            // Some module might not have the _source property,
-            // so we have to gracefully skip them.
-            if (!moduleSource) {
-              continue;
-            }
-
-            // Check for the function transform by the Babel plugin.
-            if (
-              module.resource === require.resolve('./runtime/BabelDetectComponent.js') &&
-              !refreshPluginInjection.test(moduleSource)
-            ) {
-              const transformNotDetectedError = new Error(
-                [
-                  'React Refresh Plugin:',
-                  'The plugin is unable to detect transformed code from react-refresh.',
-                  'Did you forget to include "react-refresh/babel" in your list of Babel plugins?',
-                  'Note: you can disable this check by setting "disableRefreshCheck: true".',
-                ].join(' ')
-              );
-
-              // We cannot throw here as it will halt compilation.
-              // Warnings/Errors will get swallowed unless we explicitly push it to the stack.
-              compilation.warnings.push(transformNotDetectedError);
-
-              // Early exit for performance
-              break;
-            }
-          }
-        }
-      });
     });
   }
 }
