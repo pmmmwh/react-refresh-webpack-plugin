@@ -8,13 +8,17 @@
  * @returns {WebpackEntry} An injected entry object.
  */
 const injectRefreshEntry = (originalEntry, options) => {
+  const sockHost = options.sockHost ? `&sockHost=${options.sockHost}` : '';
+  const sockPort = options.sockPort ? `&sockPort=${options.sockPort}` : '';
+  const sockPath = options.sockPath ? `&sockPath=${options.sockPath}` : '';
+  const queryParams = `?options${sockHost}${sockPort}${sockPath}`;
   const entryInjects = [
     // Legacy WDS SockJS integration
     options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
     // React-refresh runtime
     require.resolve('../runtime/ReactRefreshEntry'),
     // Error overlay runtime
-    options.overlay && options.overlay.entry,
+    options.overlay && (options.overlay.entry  + queryParams),
     // React-refresh Babel transform detection
     require.resolve('../runtime/BabelDetectComponent'),
   ].filter(Boolean);
