@@ -73,7 +73,10 @@ function compileMessageHandler(message) {
 
 let overrides = {};
 if (__resourceQuery) {
-  overrides = require('querystring').parse(__resourceQuery.slice(1));
+  const searchParams = new URLSearchParams(__resourceQuery.slice(1));
+  searchParams.forEach(function (value, key) {
+    overrides[key] = value;
+  });
 }
 
 // Registers handlers for compile errors
