@@ -26,7 +26,12 @@ module.exports = {
   },
   plugins: [
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
-    isDevelopment && new ReactRefreshPlugin(),
+    isDevelopment &&
+      new ReactRefreshPlugin({
+        overlay: {
+          sockIntegration: 'whm',
+        },
+      }),
     new HtmlWebpackPlugin({
       filename: './index.html',
       template: './public/index.html',
