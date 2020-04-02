@@ -5,11 +5,12 @@ const querystring = require('querystring');
 
 /**
  * Injects an entry to the bundle for react-refresh.
- * @param {WebpackEntry} [originalEntry] A Webpack entry object.
- * @param {import('../types').ReactRefreshPluginOptions} [options] Configuration options for this plugin.
+ * @param {WebpackEntry} originalEntry A Webpack entry object.
+ * @param {import('../types').ValidatedPluginOptions} options Configuration options for this plugin.
  * @returns {WebpackEntry} An injected entry object.
  */
 function injectRefreshEntry(originalEntry, options) {
+  /** @type {Record<string, *>} */
   let resourceQuery = {};
   if (options.overlay) {
     options.overlay.sockHost && (resourceQuery.sockHost = options.overlay.sockHost);
@@ -18,8 +19,14 @@ function injectRefreshEntry(originalEntry, options) {
   }
 
   // We don't need to URI encode the resourceQuery as it will be parsed by Webpack
-  const queryString = querystring.stringify(resourceQuery, null, null, {
-    encodeURIComponent: (string) => string,
+  const queryString = querystring.stringify(resourceQuery, undefined, undefined, {
+    /**
+     * @param {string} string
+     * @returns {string}
+     */
+    encodeURIComponent(string) {
+      return string;
+    },
   });
 
   const prependEntries = [

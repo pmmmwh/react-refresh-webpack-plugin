@@ -1,5 +1,11 @@
 const { defaultOptions, defaultOverlayOptions } = require('./defaults');
 
+/**
+ * Checks if a value is a boolean or undefined, and throw if it isn't.
+ * @param {string} name The name of the value.
+ * @param {*} value The value itself.
+ * @returns {void} Whether the value is a boolean or undefined.
+ */
 function isBooleanOrUndefined(name, value) {
   const valueType = typeof value;
   if (valueType !== 'undefined' && valueType !== 'boolean') {
@@ -12,6 +18,12 @@ function isBooleanOrUndefined(name, value) {
   }
 }
 
+/**
+ * Checks if a value is a number or undefined, and throw if it isn't.
+ * @param {string} name The name of the value.
+ * @param {*} value The value itself.
+ * @returns {void} Whether the value is a number or undefined.
+ */
 function isNumberOrUndefined(name, value) {
   const valueType = typeof value;
   if (valueType !== 'undefined' && valueType !== 'number') {
@@ -24,6 +36,12 @@ function isNumberOrUndefined(name, value) {
   }
 }
 
+/**
+ * Checks if a value is a string or undefined, and throw if it isn't.
+ * @param {string} name The name of the value.
+ * @param {*} value The value itself.
+ * @returns {void} Whether the value is a string or undefined.
+ */
 function isStringOrUndefined(name, value) {
   const valueType = typeof value;
   if (valueType !== 'undefined' && valueType !== 'string') {
@@ -39,7 +57,7 @@ function isStringOrUndefined(name, value) {
 /**
  * Validates the options for the plugin.
  * @param {import('../types').ReactRefreshPluginOptions} options Non-validated plugin options object.
- * @returns {import('../types').ReactRefreshPluginOptions} Validated plugin options.
+ * @returns {import('../types').ValidatedPluginOptions} Validated plugin options.
  */
 function validateOptions(options) {
   // Show deprecation notice and remove the option before any processing
