@@ -16,4 +16,11 @@
  * @property {boolean} [useLegacyWDSSockets] Uses a custom SocketJS implementation for older versions of webpack-dev-server.
  */
 
+/**
+ * @typedef {Object} BaselinePluginOptions
+ * @property {ErrorOverlayOptions} overlay
+ */
+
+/** @typedef {Omit<Required<ReactRefreshPluginOptions>, 'disableRefreshCheck' | 'overlay'> & BaselinePluginOptions} ValidatedPluginOptions */
+
 module.exports = {};
