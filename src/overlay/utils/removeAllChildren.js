@@ -5,7 +5,7 @@
  * @returns {void}
  */
 function removeAllChildren(element, skip) {
-  /** @type Node[] */
+  /** @type {Node[]} */
   const childList = Array.prototype.slice.call(
     element.childNodes,
     typeof skip !== 'undefined' ? skip : 0

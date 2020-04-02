@@ -325,10 +325,10 @@ function handleRuntimeError(error) {
   debouncedShowRuntimeErrors(currentRuntimeErrors);
 }
 
-module.exports = Object.freeze({
+module.exports = {
   clearCompileError,
   clearRuntimeErrors,
   handleRuntimeError,
   showCompileError,
   showRuntimeErrors,
-});
+};
