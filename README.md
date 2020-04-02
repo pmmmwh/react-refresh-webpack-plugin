@@ -108,7 +108,7 @@ More sample projects for common Webpack development setups are available in the 
 > Note: If you are using TypeScript (instead of Babel) as a transpiler, you will still need to use `babel-loader` to process your source code.
 > Check out this [sample project](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/master/examples/typescript-without-babel) on how to set this up.
 
-### Polyfill for Older Browsers (WDS Only)
+### Polyfill for Older Browsers
 
 If you need to develop on IE11, you will need to polyfill the DOM URL API.
 This can be done by adding the following before any of your code in the main entry (either one is fine):
@@ -157,15 +157,16 @@ Modifies how the error overlay integration works in the plugin.
 - If an `ErrorOverlayOptions` object is provided:
   (**NOTE**: This is an advanced option that exists mostly for tools like `create-react-app` or `Next.js`)
 
-  - A `module` property must be defined.
-    It should reference a JS file that exports at least two functions with footprints as follows:
+  - An optional `module` property could be defined.
+    If it is not defined, the bundled error overlay will be used.
+    If defined, it should reference a JS file that exports at least two functions with footprints as follows:
 
     ```ts
     function handleRuntimeError(error: Error) {}
     function clearRuntimeErrors() {}
     ```
 
-  - An optional `entry` property could also be defined, which should also reference a JS file that contains code needed to set up your custom error overlay integration.
+  - An optional `entry` property could be defined, which should also reference a JS file that contains code needed to set up your custom error overlay integration.
     If it is not defined, the bundled error overlay entry will be used.
     It expects the `module` file to export two more functions:
 
@@ -186,21 +187,33 @@ Modifies how the error overlay integration works in the plugin.
     };
     ```
 
-### `options.sockHost`
+#### `options.overlay.sockHost`
 
 Type: `string`
 Default: effectively `window.location.hostname`
 
 Set this if you are running webpack on a host other than `window.location.hostname`. This is used by the error overlay module.
 
-### `options.sockPort`
+#### `options.overlay.sockIntegration`
+
+Type: `wds` or `whm` or `string`
+Default: `wds`
+
+This controls how the error overlay connects to the sockets provided by several Webpack hot reload integrations.
+
+- If you use `webpack-dev-server`, you don't need to set this as it defaults to `wds`.
+- If you use `webpack-hot-middleware`, you should set this to `whm`.
+- If you use anything else, you will have to provide a path to a module that will accept a message handler function and initializes the socket connection.
+  See the [`runtime/sockets`](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/master/src/runtime/sockets) folder for sample implementations.
+
+#### `options.overlay.sockPort`
 
 Type: `number`
 Default: effectively `window.location.port`
 
 Set this if you are running webpack on a port other than `window.location.port`
 
-### `options.sockPath`
+#### `options.overlay.sockPath`
 
 Type: `string`
 Default: `/sockjs-node`
