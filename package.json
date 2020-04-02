@@ -34,7 +34,8 @@
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "generate-types": "tsc -p tsconfig.json"
+    "generate-types": "tsc -p tsconfig.json",
+    "prepublishOnly": "rimraf types && yarn generate-types"
   },
   "dependencies": {
     "ansi-html": "^0.0.7",
@@ -50,6 +51,7 @@
     "eslint-config-prettier": "^6.10.1",
     "prettier": "^2.0.2",
     "react-refresh": "^0.8.1",
+    "rimraf": "^3.0.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-hot-middleware": "^2.25.0"
