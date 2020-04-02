@@ -1,3 +1,5 @@
+const querystring = require('querystring');
+
 /** @typedef {string | string[] | import('webpack').Entry} StaticEntry */
 /** @typedef {StaticEntry | import('webpack').EntryFunc} WebpackEntry */
 
@@ -7,27 +9,38 @@
  * @param {import('../types').ReactRefreshPluginOptions} [options] Configuration options for this plugin.
  * @returns {WebpackEntry} An injected entry object.
  */
-const injectRefreshEntry = (originalEntry, options) => {
-  const sockHost = options.sockHost ? `&sockHost=${options.sockHost}` : '';
-  const sockPort = options.sockPort ? `&sockPort=${options.sockPort}` : '';
-  const sockPath = options.sockPath ? `&sockPath=${options.sockPath}` : '';
-  const queryParams = `?options${sockHost}${sockPort}${sockPath}`;
-  const entryInjects = [
-    // Legacy WDS SockJS integration
-    options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWebpackDevServerSocket'),
+function injectRefreshEntry(originalEntry, options) {
+  let resourceQuery = {};
+  if (options.overlay) {
+    options.overlay.sockHost && (resourceQuery.sockHost = options.overlay.sockHost);
+    options.overlay.sockPath && (resourceQuery.sockPath = options.overlay.sockPath);
+    options.overlay.sockPort && (resourceQuery.sockPort = options.overlay.sockPort);
+  }
+
+  // We don't need to URI encode the resourceQuery as it will be parsed by Webpack
+  const queryString = querystring.stringify(resourceQuery, null, null, {
+    encodeURIComponent: (string) => string,
+  });
+
+  const prependEntries = [
     // React-refresh runtime
     require.resolve('../runtime/ReactRefreshEntry'),
+  ];
+
+  const appendEntries = [
+    // Legacy WDS SockJS integration
+    options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWDSSocketEntry'),
     // Error overlay runtime
-    options.overlay && options.overlay.entry + queryParams,
+    options.overlay && options.overlay.entry + (queryString && `?${queryString}`),
   ].filter(Boolean);
 
   // Single string entry point
   if (typeof originalEntry === 'string') {
-    return [...entryInjects, originalEntry];
+    return [...prependEntries, originalEntry, ...appendEntries];
   }
   // Single array entry point
   if (Array.isArray(originalEntry)) {
-    return [...entryInjects, ...originalEntry];
+    return [...prependEntries, ...originalEntry, ...appendEntries];
   }
   // Multiple entry points
   if (typeof originalEntry === 'object') {
@@ -48,6 +61,6 @@ const injectRefreshEntry = (originalEntry, options) => {
   }
 
   throw new Error('Failed to parse the Webpack `entry` object!');
-};
+}
 
 module.exports = injectRefreshEntry;
