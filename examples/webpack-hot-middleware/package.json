@@ -1,0 +1,27 @@
+{
+  "name": "using-webpack-hot-middleware",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.2.0",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "express": "^4.17.1",
+    "html-webpack-plugin": "^4.0.2",
+    "react-refresh": "^0.8.1",
+    "webpack": "^4.42.1",
+    "webpack-dev-middleware": "^3.7.2",
+    "webpack-hot-middleware": "^2.25.0"
+  },
+  "scripts": {
+    "start": "node ./server.js",
+    "build": "cross-env NODE_ENV=production webpack"
+  }
+}

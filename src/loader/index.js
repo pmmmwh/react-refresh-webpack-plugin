@@ -1,7 +1,6 @@
 const { Template } = require('webpack');
-const { refreshUtils } = require('./runtime/globals');
-const RefreshModuleRuntime = require('./runtime/RefreshModuleRuntime');
-const RefreshModuleRuntimeString = Template.getFunctionContent(RefreshModuleRuntime)
+const { refreshUtils } = require('../runtime/globals');
+const RefreshModuleRuntime = Template.getFunctionContent(require('./RefreshModuleRuntime'))
   .trim()
   .replace(/^ {2}/gm, '')
   .replace(/\$RefreshUtils\$/g, refreshUtils);
@@ -24,7 +23,7 @@ function RefreshHotLoader(source, inputSourceMap) {
   this.callback(
     null,
     // Only apply transform if the source code contains a React import
-    reactModule.test(source) ? source + '\n\n' + RefreshModuleRuntimeString : source,
+    reactModule.test(source) ? source + '\n\n' + RefreshModuleRuntime : source,
     inputSourceMap
   );
 }

@@ -170,7 +170,7 @@ function ensureRootExists(renderFn) {
  * @returns {void}
  */
 function render() {
-  ensureRootExists(function() {
+  ensureRootExists(function () {
     const currentFocus = rootDocument.activeElement;
     let currentFocusId;
     if (currentFocus.localName === 'button' && currentFocus.id) {
@@ -309,7 +309,7 @@ const debouncedShowRuntimeErrors = debounce(showRuntimeErrors, 30);
  * @returns {boolean} If the error is a Webpack compilation error.
  */
 function isWebpackCompileError(error) {
-  return /Module [A-z ]+\(from/.test(error.message);
+  return /Module [A-z ]+\(from/.test(error.message) || /Cannot find module/.test(error.message);
 }
 
 /**

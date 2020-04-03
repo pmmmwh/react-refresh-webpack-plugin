@@ -1,0 +1,26 @@
+{
+  "name": "using-webpack-dev-server",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.4",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.2.0",
+    "babel-loader": "^8.1.0",
+    "cross-env": "^7.0.2",
+    "html-webpack-plugin": "^4.0.2",
+    "react-refresh": "^0.8.1",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --hot",
+    "build": "cross-env NODE_ENV=production webpack"
+  }
+}

@@ -1,35 +1,30 @@
+const path = require('path');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
+  mode: isDevelopment ? 'development' : 'production',
   entry: {
-    main: ['webpack-hot-middleware/client', './src/index.js'],
+    main: './src/index.js',
   },
-  output: {
-    path: __dirname,
-    publicPath: '/',
-    filename: 'bundle.js',
-  },
-  mode: 'development',
   module: {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        include: path.join(__dirname, 'src'),
         use: 'babel-loader',
       },
     ],
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshPlugin(),
+    isDevelopment && new ReactRefreshPlugin(),
     new HtmlWebpackPlugin({
-      template: './public/index.html',
       filename: './index.html',
+      template: './public/index.html',
     }),
-    new webpack.NoEmitOnErrorsPlugin(),
-  ],
+  ].filter(Boolean),
   resolve: {
     extensions: ['.js', '.jsx'],
   },

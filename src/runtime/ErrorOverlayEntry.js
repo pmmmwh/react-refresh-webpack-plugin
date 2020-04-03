@@ -1,9 +1,6 @@
-// TODO: Implement handling of this
-// eslint-disable-next-line no-unused-vars
-/* global __resourceQuery */
+/* global __resourceQuery, __react_refresh_error_overlay__ */
 
-const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
-const ErrorOverlay = require('../overlay');
+const formatWebpackErrors = require('./formatWebpackErrors');
 const createSocket = require('./createSocket');
 const {
   error: registerErrorHandler,
@@ -21,8 +18,8 @@ let hasRuntimeErrors = false;
  * @returns {void}
  */
 function tryDismissErrorOverlay() {
-  ErrorOverlay.clearCompileError();
-  ErrorOverlay.clearRuntimeErrors(!hasRuntimeErrors);
+  __react_refresh_error_overlay__.clearCompileError();
+  __react_refresh_error_overlay__.clearRuntimeErrors(!hasRuntimeErrors);
   hasRuntimeErrors = false;
 }
 
@@ -46,13 +43,10 @@ function handleCompileSuccess() {
 function handleCompileErrors(errors) {
   isHotReload = true;
 
-  const formatted = formatWebpackMessages({
-    errors: errors,
-    warnings: [],
-  });
+  const formattedErrors = formatWebpackErrors(errors);
 
   // Only show the first error
-  ErrorOverlay.showCompileError(formatted.errors[0]);
+  __react_refresh_error_overlay__.showCompileError(formattedErrors[0]);
 }
 
 /**
@@ -64,6 +58,9 @@ function handleCompileErrors(errors) {
 function compileMessageHandler(message) {
   switch (message.type) {
     case 'ok':
+    case 'still-ok':
+    case 'warnings':
+      // TODO: Implement handling for warnings
       handleCompileSuccess();
       break;
     case 'errors':
@@ -74,14 +71,22 @@ function compileMessageHandler(message) {
   }
 }
 
+let overrides = {};
+if (__resourceQuery) {
+  const searchParams = new URLSearchParams(__resourceQuery.slice(1));
+  searchParams.forEach(function (value, key) {
+    overrides[key] = value;
+  });
+}
+
 // Registers handlers for compile errors
-createSocket(compileMessageHandler);
+createSocket(compileMessageHandler, overrides);
 // Registers handlers for runtime errors
 registerErrorHandler(function handleError(error) {
   hasRuntimeErrors = true;
-  ErrorOverlay.handleRuntimeError(error);
+  __react_refresh_error_overlay__.handleRuntimeError(error);
 });
 registerUnhandledRejectionHandler(function handleUnhandledPromiseRejection(error) {
   hasRuntimeErrors = true;
-  ErrorOverlay.handleRuntimeError(error);
+  __react_refresh_error_overlay__.handleRuntimeError(error);
 });
