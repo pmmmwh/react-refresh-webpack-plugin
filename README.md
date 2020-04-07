@@ -190,9 +190,10 @@ Modifies how the error overlay integration works in the plugin.
 #### `options.overlay.sockHost`
 
 Type: `string`
-Default: effectively `window.location.hostname`
+Default: `window.location.hostname`
 
-Set this if you are running webpack on a host other than `window.location.hostname`. This is used by the error overlay module.
+Set this if you are running webpack on a host other than `window.location.hostname`.
+This will be used by the error overlay module, and is available for `webpack-dev-server` only.
 
 #### `options.overlay.sockIntegration`
 
@@ -209,14 +210,18 @@ This controls how the error overlay connects to the sockets provided by several 
 #### `options.overlay.sockPort`
 
 Type: `number`
-Default: effectively `window.location.port`
+Default: `window.location.port`
 
-Set this if you are running webpack on a port other than `window.location.port`
+Set this if you are running webpack on a port other than `window.location.port`.
+This will be used by the error overlay module, and is available for `webpack-dev-server` only.
 
 #### `options.overlay.sockPath`
 
 Type: `string`
 Default: `/sockjs-node`
+
+Set this if you are running webpack on a custom path.
+This will be used by the error overlay module, and is available for `webpack-dev-server` only.
 
 ### `options.useLegacyWDSSockets`
 
