@@ -81,7 +81,14 @@ function validateOptions(options) {
     typeof defaultedOptions.overlay !== 'undefined' &&
     typeof defaultedOptions.overlay !== 'boolean'
   ) {
-    const { entry, module: overlayModule, sockHost, sockIntegration, sockPath, sockPort } = defaultedOptions.overlay;
+    const {
+      entry,
+      module: overlayModule,
+      sockHost,
+      sockIntegration,
+      sockPath,
+      sockPort,
+    } = defaultedOptions.overlay;
     isStringOrUndefined('overlay.entry', entry);
     isStringOrUndefined('overlay.module', overlayModule);
     isStringOrUndefined('overlay.sockHost', sockHost);
