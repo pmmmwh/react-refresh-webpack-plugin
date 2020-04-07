@@ -1,7 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
-const { createRefreshTemplate, injectRefreshEntry, validateOptions } = require('./helpers');
-const { errorOverlay, refreshUtils } = require('./runtime/globals');
+const {
+  createRefreshTemplate,
+  getSocketIntegration,
+  injectRefreshEntry,
+  validateOptions,
+} = require('./helpers');
+const { errorOverlay, initSocket, refreshUtils } = require('./runtime/globals');
 
 class ReactRefreshPlugin {
   /**
@@ -9,7 +14,7 @@ class ReactRefreshPlugin {
    * @returns {void}
    */
   constructor(options) {
-    this.options = validateOptions(options);
+    this.options = validateOptions(options || {});
   }
 
   /**
@@ -39,6 +44,7 @@ class ReactRefreshPlugin {
       [refreshUtils]: require.resolve('./runtime/refreshUtils'),
       ...(!!this.options.overlay && {
         [errorOverlay]: require.resolve(this.options.overlay.module),
+        [initSocket]: getSocketIntegration(this.options.overlay.sockIntegration),
       }),
     });
     providePlugin.apply(compiler);

@@ -81,10 +81,11 @@ function validateOptions(options) {
     typeof defaultedOptions.overlay !== 'undefined' &&
     typeof defaultedOptions.overlay !== 'boolean'
   ) {
-    const { entry, module: overlayModule, sockHost, sockPath, sockPort } = defaultedOptions.overlay;
+    const { entry, module: overlayModule, sockHost, sockIntegration, sockPath, sockPort } = defaultedOptions.overlay;
     isStringOrUndefined('overlay.entry', entry);
     isStringOrUndefined('overlay.module', overlayModule);
     isStringOrUndefined('overlay.sockHost', sockHost);
+    isStringOrUndefined('overlay.sockIntegration', sockIntegration);
     isStringOrUndefined('overlay.sockPath', sockPath);
     isNumberOrUndefined('overlay.sockPort', sockPort);
 
@@ -92,6 +93,7 @@ function validateOptions(options) {
       ...defaultedOptions.overlay,
       entry: entry || defaultOverlayOptions.entry,
       module: overlayModule || defaultOverlayOptions.module,
+      sockIntegration: sockIntegration || defaultOverlayOptions.sockIntegration,
     };
   } else {
     defaultedOptions.overlay =
