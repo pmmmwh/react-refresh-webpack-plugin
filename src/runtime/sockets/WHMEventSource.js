@@ -17,11 +17,7 @@ const singletonKey = '__webpack_hot_middleware_reporter__';
  * @returns {void}
  */
 function initWHMEventSource(messageHandler, overrides) {
-  const client =
-    window[singletonKey] ||
-    require(`webpack-hot-middleware/client${
-      overrides.sockPath ? `?path=${overrides.sockPath}` : ''
-    }`);
+  const client = window[singletonKey] || require('webpack-hot-middleware/client');
 
   client.useCustomOverlay({
     showProblems(type, data) {
