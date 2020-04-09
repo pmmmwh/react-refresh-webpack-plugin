@@ -17,11 +17,7 @@ const RefreshModuleRuntime = Template.getFunctionContent(require('./RefreshModul
  */
 function RefreshHotLoader(source, inputSourceMap) {
   // Use callback to allow source maps to pass through
-  this.callback(
-    null,
-    source + '\n\n' + RefreshModuleRuntime,
-    inputSourceMap
-  );
+  this.callback(null, source + '\n\n' + RefreshModuleRuntime, inputSourceMap);
 }
 
 module.exports = RefreshHotLoader;

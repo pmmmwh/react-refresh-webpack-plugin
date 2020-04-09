@@ -16,6 +16,7 @@ const singletonKey = '__webpack_hot_middleware_reporter__';
  * @param {*} overrides Socket integration overrides to change the connection URL.
  * @returns {void}
  */
+// eslint-disable-next-line no-unused-vars
 function initWHMEventSource(messageHandler, overrides) {
   const client = window[singletonKey] || require('webpack-hot-middleware/client');
 
