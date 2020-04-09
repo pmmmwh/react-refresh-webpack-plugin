@@ -8,6 +8,7 @@ const defaultOptions = {
 const defaultOverlayOptions = {
   entry: require.resolve('../runtime/ErrorOverlayEntry'),
   module: require.resolve('../overlay'),
+  sockIntegration: 'wds',
 };
 
 module.exports = {
