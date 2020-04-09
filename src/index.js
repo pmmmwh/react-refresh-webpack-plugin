@@ -39,14 +39,24 @@ class ReactRefreshPlugin {
     // Inject react-refresh context to all Webpack entry points
     compiler.options.entry = injectRefreshEntry(compiler.options.entry, this.options);
 
-    // Inject refresh utilities to Webpack's global scope
-    const providePlugin = new webpack.ProvidePlugin({
+    // Inject necessary modules to Webpack's global scope
+    let providedModules = {
       [refreshUtils]: require.resolve('./runtime/refreshUtils'),
-      ...(!!this.options.overlay && {
+    };
+
+    if (this.options.overlay === false) {
+      // Stub errorOverlay module so calls to it will be erased
+      const definePlugin = new webpack.DefinePlugin({ [errorOverlay]: false });
+      definePlugin.apply(compiler);
+    } else {
+      providedModules = {
+        ...providedModules,
         [errorOverlay]: require.resolve(this.options.overlay.module),
         [initSocket]: getSocketIntegration(this.options.overlay.sockIntegration),
-      }),
-    });
+      };
+    }
+
+    const providePlugin = new webpack.ProvidePlugin(providedModules);
     providePlugin.apply(compiler);
 
     compiler.hooks.beforeRun.tap(this.constructor.name, (compiler) => {
