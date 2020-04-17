@@ -87,8 +87,9 @@ class ReactRefreshPlugin {
           /\.([jt]sx?|flow)$/.test(data.resource) &&
           // Skip all files from node_modules
           !/node_modules/.test(data.resource) &&
-          // Skip files related to refresh runtime (to prevent self-referencing)
-          // This is useful when using the plugin as a direct dependency
+          // Skip files related to the plugin's runtime to prevent self-referencing.
+          // This is particularly useful when using the plugin as a direct dependency.
+          !data.resource.includes(path.join(__dirname, './overlay')) &&
           !data.resource.includes(path.join(__dirname, './runtime'))
         ) {
           data.loaders.unshift({
