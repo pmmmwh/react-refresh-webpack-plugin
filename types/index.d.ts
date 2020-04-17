@@ -6,9 +6,9 @@ declare class ReactRefreshPlugin {
     constructor(options?: import("./types").ReactRefreshPluginOptions | undefined);
     /**
      * @readonly
-     * @type {import('./types').ValidatedPluginOptions}
+     * @type {import('./types').NormalizedPluginOptions}
      */
-    readonly options: import('./types').ValidatedPluginOptions;
+    readonly options: import('./types').NormalizedPluginOptions;
     /**
      * Applies the plugin.
      * @param {import('webpack').Compiler} compiler A webpack compiler object.

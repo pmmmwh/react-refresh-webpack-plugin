@@ -63,6 +63,7 @@
     "@types/webpack": "^4.41.11",
     "react-refresh": "^0.8.1",
     "sockjs-client": "^1.4.0",
+    "type-fest": "^0.13.1",
     "webpack-hot-middleware": "^2.25.0"
   },
   "peerDependenciesMeta": {
@@ -70,6 +71,9 @@
       "optional": true
     },
     "sockjs-client": {
+      "optional": true
+    },
+    "type-fest": {
       "optional": true
     },
     "webpack-hot-middleware": {

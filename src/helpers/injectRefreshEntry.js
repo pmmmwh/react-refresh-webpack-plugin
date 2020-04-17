@@ -5,8 +5,8 @@ const querystring = require('querystring');
 
 /**
  * Injects an entry to the bundle for react-refresh.
- * @param {WebpackEntry} originalEntry A Webpack entry object.
- * @param {import('../types').ValidatedPluginOptions} options Configuration options for this plugin.
+ * @param {WebpackEntry} [originalEntry] A Webpack entry object.
+ * @param {import('../types').NormalizedPluginOptions} options Configuration options for this plugin.
  * @returns {WebpackEntry} An injected entry object.
  */
 function injectRefreshEntry(originalEntry, options) {

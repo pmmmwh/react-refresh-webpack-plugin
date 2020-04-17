@@ -2,25 +2,33 @@
  * @typedef {Object} ErrorOverlayOptions
  * @property {string} [entry] Path to a JS file that sets up the error overlay integration.
  * @property {string} [module] The error overlay module to use.
- * @property {string} [sockHost] The socket host to use.
- * @property {'wds' | 'whm' | string} [sockIntegration] Path to a JS file that sets up the Webpack socket integration.
- * @property {string} [sockPath] The socket path to use.
- * @property {number} [sockPort] The socket port to use.
+ * @property {string} [sockHost] The socket host to use (WDS only).
+ * @property {import('type-fest').LiteralUnion<'wds' | 'whm', string>} [sockIntegration] Path to a JS file that sets up the Webpack socket integration.
+ * @property {string} [sockPath] The socket path to use (WDS only).
+ * @property {number} [sockPort] The socket port to use (WDS only).
+ */
+
+/**
+ * @typedef {import('type-fest').SetRequired<ErrorOverlayOptions, 'entry' | 'module' | 'sockIntegration'>} NormalizedErrorOverlayOptions
  */
 
 /**
  * @typedef {Object} ReactRefreshPluginOptions
- * @property {boolean} [disableRefreshCheck] Disables detection of react-refresh's Babel plugin. (Deprecated since v0.3.0)
+ * @property {boolean} [disableRefreshCheck] Disables detection of react-refresh's Babel plugin (Deprecated since v0.3.0).
+ * @property {string | RegExp | Array<string | RegExp>} [exclude] Files to explicitly exclude from processing.
  * @property {boolean} [forceEnable] Enables the plugin forcefully.
+ * @property {string | RegExp | Array<string | RegExp>} [include] Files to explicitly include for processing.
  * @property {boolean | ErrorOverlayOptions} [overlay] Modifies how the error overlay integration works in the plugin.
  * @property {boolean} [useLegacyWDSSockets] Uses a custom SocketJS implementation for older versions of webpack-dev-server.
  */
 
 /**
- * @typedef {Object} BaselinePluginOptions
- * @property {ErrorOverlayOptions} overlay
+ * @typedef {Object} OverlayOverrides
+ * @property {false | NormalizedErrorOverlayOptions} overlay Modifies how the error overlay integration works in the plugin.
  */
 
-/** @typedef {Omit<Required<ReactRefreshPluginOptions>, 'disableRefreshCheck' | 'overlay'> & BaselinePluginOptions} ValidatedPluginOptions */
+/**
+ * @typedef {import('type-fest').Merge<import('type-fest').SetRequired<ReactRefreshPluginOptions, 'exclude' | 'include'>, OverlayOverrides>} NormalizedPluginOptions
+ */
 
 module.exports = {};
