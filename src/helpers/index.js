@@ -1,11 +1,11 @@
 const createRefreshTemplate = require('./createRefreshTemplate');
 const getSocketIntegration = require('./getSocketIntegration');
 const injectRefreshEntry = require('./injectRefreshEntry');
-const validateOptions = require('./validateOptions');
+const normalizeOptions = require('./normalizeOptions');
 
 module.exports = {
   createRefreshTemplate,
   getSocketIntegration,
   injectRefreshEntry,
-  validateOptions,
+  normalizeOptions,
 };
