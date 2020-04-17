@@ -3,6 +3,7 @@
     "allowJs": true,
     "declaration": true,
     "emitDeclarationOnly": true,
+    "esModuleInterop": true,
     "module": "commonjs",
     "noUnusedLocals": true,
     "outDir": "types",
