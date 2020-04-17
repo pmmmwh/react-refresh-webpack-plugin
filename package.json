@@ -31,11 +31,11 @@
     "types"
   ],
   "scripts": {
-    "lint": "eslint --report-unused-disable-directives \"**/*.js\"",
+    "lint": "eslint --report-unused-disable-directives --ext .js .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "generate-types": "tsc -p tsconfig.json",
+    "generate-types": "tsc -p tsconfig.json && rimraf \"types/{helpers,runtime}/*\"",
     "prepublishOnly": "rimraf types && yarn generate-types"
   },
   "dependencies": {
@@ -46,11 +46,11 @@
     "native-url": "^0.2.6"
   },
   "devDependencies": {
-    "@types/node": "^13.11.0",
-    "@types/webpack": "^4.41.9",
+    "@types/node": "^13.11.1",
+    "@types/webpack": "^4.41.11",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
-    "prettier": "^2.0.2",
+    "prettier": "^2.0.4",
     "react-refresh": "^0.8.1",
     "rimraf": "^3.0.2",
     "typescript": "^3.8.3",
@@ -58,7 +58,7 @@
     "webpack-hot-middleware": "^2.25.0"
   },
   "peerDependencies": {
-    "@types/webpack": "^4.41.9",
+    "@types/webpack": "^4.41.11",
     "react-refresh": "^0.8.1",
     "sockjs-client": "^1.4.0",
     "webpack-hot-middleware": "^2.25.0"
