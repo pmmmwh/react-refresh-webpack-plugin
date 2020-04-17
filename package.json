@@ -27,7 +27,8 @@
   "author": "Michael Mok",
   "main": "src/index.js",
   "files": [
-    "src"
+    "src",
+    "types"
   ],
   "scripts": {
     "lint": "eslint --report-unused-disable-directives \"**/*.js\"",
