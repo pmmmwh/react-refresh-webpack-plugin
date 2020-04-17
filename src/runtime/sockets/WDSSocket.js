@@ -1,10 +1,9 @@
-// eslint-disable-next-line no-unused-vars
-/* global __resourceQuery, __webpack_dev_server_client__ */
+/* global __webpack_dev_server_client__ */
 
 const url = require('native-url');
 
 /**
- * Initializes a socket server for HMR according to the user's Webpack configuration.
+ * Initializes a socket server for HMR for webpack-dev-server.
  * @param {function(*): void} messageHandler A handler to consume Webpack compilation messages.
  * @param {*} overrides Socket integration overrides to change the connection URL.
  * @returns {void}
