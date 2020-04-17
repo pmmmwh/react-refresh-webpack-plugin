@@ -34,7 +34,6 @@ const normalizeOptions = (options) => {
         'Please remove it from your configuration.',
       ].join(' ')
     );
-    delete options.disableRefreshCheck;
   }
 
   return {
