@@ -1,5 +1,5 @@
 const path = require('path');
-const ReactRefreshPlugin = require('../../src');
+const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { WebpackPluginServe: ServePlugin } = require('webpack-plugin-serve');
 
