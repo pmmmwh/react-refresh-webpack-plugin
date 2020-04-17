@@ -1,6 +1,6 @@
 /**
  * @callback EventCallback
- * @param {string | Error} context
+ * @param {string | Error | null} context
  * @returns {void}
  */
 /**
