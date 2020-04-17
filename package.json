@@ -58,14 +58,16 @@
     "rimraf": "^3.0.2",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-plugin-serve": "^0.12.1"
   },
   "peerDependencies": {
     "@types/webpack": "^4.41.11",
     "react-refresh": "^0.8.1",
     "sockjs-client": "^1.4.0",
     "type-fest": "^0.13.1",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-plugin-serve": "^0.12.1"
   },
   "peerDependenciesMeta": {
     "@types/webpack": {
@@ -78,6 +80,9 @@
       "optional": true
     },
     "webpack-hot-middleware": {
+      "optional": true
+    },
+    "webpack-plugin-serve": {
       "optional": true
     }
   },
