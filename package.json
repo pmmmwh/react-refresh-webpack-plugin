@@ -35,7 +35,7 @@
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "generate-types": "tsc -p tsconfig.json && rimraf \"types/{helpers,runtime}/*\"",
+    "generate-types": "tsc -p tsconfig.json && rimraf \"types/{helpers,runtime}\"",
     "prepublishOnly": "rimraf types && yarn generate-types"
   },
   "dependencies": {
@@ -43,9 +43,11 @@
     "error-stack-parser": "^2.0.6",
     "html-entities": "^1.2.1",
     "lodash.debounce": "^4.0.8",
-    "native-url": "^0.2.6"
+    "native-url": "^0.2.6",
+    "schema-utils": "^2.6.5"
   },
   "devDependencies": {
+    "@types/json-schema": "^7.0.4",
     "@types/node": "^13.11.1",
     "@types/webpack": "^4.41.11",
     "eslint": "^6.8.0",
