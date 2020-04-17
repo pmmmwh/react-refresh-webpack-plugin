@@ -1160,10 +1160,10 @@
   resolved "https://registry.yarnpkg.com/@nodelib/fs.stat/-/fs.stat-1.1.3.tgz#2b5a3ab3f918cca48a8c754c08168e3f03eba61b"
   integrity sha512-shAmDyaQC4H92APFoIaVDHCx5bStIocgvbwQyxPRrbUY20V1EYTbSDchWbuwlMG3V17cprZhA6+78JfB+3DTPw==
 
-"@pmmmwh/react-refresh-webpack-plugin@^0.3.0-beta.2":
-  version "0.3.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.3.0-beta.2.tgz#47b48d1d99ae533cee823333530555c6b5a5cc48"
-  integrity sha512-upq6YZA44lacTbab8kRuNTGPtoT9mvAWuce8UztX3/OnZHaDiyrV5aW25WGVEKp5h3L3K+Fg+cqTcPOY/gTSww==
+"@pmmmwh/react-refresh-webpack-plugin@^0.3.0-beta.3":
+  version "0.3.0-beta.3"
+  resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.3.0-beta.3.tgz#0a70be4efc99895f89262e622e7da37386732735"
+  integrity sha512-r1LSoEjgKNiAe6b9dVO5sVqVPsTbpJI1RFZVZOfjyKDaqcPDw2JLZXYUwaGAjgFVsGYD0X+Zt3Epa47IOlgh3g==
   dependencies:
     ansi-html "^0.0.7"
     error-stack-parser "^2.0.6"

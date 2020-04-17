@@ -12,7 +12,7 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js',
-    path: __dirname,
+    path: path.resolve(__dirname, 'dist'),
     publicPath: '/',
   },
   module: {
@@ -36,7 +36,6 @@ module.exports = {
       filename: './index.html',
       template: './public/index.html',
     }),
-    new webpack.NoEmitOnErrorsPlugin(),
   ].filter(Boolean),
   resolve: {
     extensions: ['.js', '.jsx'],
