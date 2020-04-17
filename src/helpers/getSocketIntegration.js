@@ -1,3 +1,8 @@
+/**
+ * Gets the socket integration to use for Webpack messages.
+ * @param {string} integrationType A valid socket integration type or a path to a module.
+ * @returns {string} Path to the resolved socket integration module.
+ */
 function getSocketIntegration(integrationType) {
   let resolvedSocketIntegration;
   switch (integrationType) {
