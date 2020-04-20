@@ -56,6 +56,7 @@
     "prettier": "^2.0.4",
     "react-refresh": "^0.8.1",
     "rimraf": "^3.0.2",
+    "type-fest": "^0.13.1",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
     "webpack-hot-middleware": "^2.25.0",
