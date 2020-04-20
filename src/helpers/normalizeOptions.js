@@ -14,8 +14,8 @@ const d = (object, property, defaultValue) =>
  * Resolves the value for a nested object option.
  * @template T
  * @template Result
- * @param {T} [value] The option value.
- * @param {function(T): Result} fn The handler to resolve the option's value.
+ * @param {T | undefined} value The option value.
+ * @param {function(T | undefined): Result} fn The handler to resolve the option's value.
  * @returns {Result} The resolved option value.
  */
 const nestedOption = (value, fn) => fn(value === undefined ? {} : value);
