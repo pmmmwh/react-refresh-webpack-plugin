@@ -1,0 +1,48 @@
+{
+  "additionalProperties": false,
+  "type": "object",
+  "definitions": {
+    "MatchCondition": {
+      "anyOf": [{ "instanceof": "RegExp" }, { "$ref": "#/definitions/Path" }]
+    },
+    "MatchConditions": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/MatchCondition" },
+      "minItems": 1
+    },
+    "OverlayOptions": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "entry": { "$ref": "#/definitions/Path" },
+        "module": { "$ref": "#/definitions/Path" },
+        "sockIntegration": {
+          "anyOf": [{ "enum": ["wds", "whm"] }, { "$ref": "#/definitions/Path" }]
+        },
+        "wdsSockHost": { "type": "string" },
+        "wdsSockPath": { "type": "string" },
+        "wdsSockPort": { "type": "number", "minimum": 0 }
+      }
+    },
+    "Path": { "type": "string", "absolutePath": true }
+  },
+  "properties": {
+    "exclude": {
+      "anyOf": [
+        { "$ref": "#/definitions/MatchCondition" },
+        { "$ref": "#/definitions/MatchConditions" }
+      ]
+    },
+    "forceEnable": { "type": "boolean" },
+    "include": {
+      "anyOf": [
+        { "$ref": "#/definitions/MatchCondition" },
+        { "$ref": "#/definitions/MatchConditions" }
+      ]
+    },
+    "overlay": {
+      "anyOf": [{ "type": "boolean" }, { "$ref": "#/definitions/OverlayOptions" }]
+    },
+    "useLegacyWDSSockets": { "type": "boolean" }
+  }
+}

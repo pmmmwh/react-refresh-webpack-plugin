@@ -1,23 +1,30 @@
 const path = require('path');
+const validateOptions = require('schema-utils');
 const webpack = require('webpack');
 const {
   createRefreshTemplate,
   getSocketIntegration,
   injectRefreshEntry,
-  validateOptions,
+  normalizeOptions,
 } = require('./helpers');
 const { errorOverlay, initSocket, refreshUtils } = require('./runtime/globals');
+const schema = require('./options.json');
 
 class ReactRefreshPlugin {
   /**
    * @param {import('./types').ReactRefreshPluginOptions} [options] Options for react-refresh-plugin.
    */
-  constructor(options) {
+  constructor(options = {}) {
+    validateOptions(schema, options, {
+      name: 'React Refresh Plugin',
+      baseDataPath: 'options',
+    });
+
     /**
      * @readonly
-     * @type {import('./types').ValidatedPluginOptions}
+     * @type {import('./types').NormalizedPluginOptions}
      */
-    this.options = validateOptions(options || {});
+    this.options = normalizeOptions(options);
   }
 
   /**
@@ -79,14 +86,13 @@ class ReactRefreshPlugin {
       }
     });
 
+    const matchObject = webpack.ModuleFilenameHelpers.matchObject.bind(undefined, this.options);
     compiler.hooks.normalModuleFactory.tap(this.constructor.name, (nmf) => {
       nmf.hooks.afterResolve.tap(this.constructor.name, (data) => {
         // Inject refresh loader to all JavaScript-like files
         if (
-          // Test for known (and popular) JavaScript-like extensions
-          /\.([jt]sx?|flow)$/.test(data.resource) &&
-          // Skip all files from node_modules
-          !/node_modules/.test(data.resource) &&
+          // Include and exclude user-specified files
+          matchObject(data.resource) &&
           // Skip files related to the plugin's runtime to prevent self-referencing.
           // This is particularly useful when using the plugin as a direct dependency.
           !data.resource.includes(path.join(__dirname, './overlay')) &&

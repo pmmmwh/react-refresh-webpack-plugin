@@ -105,7 +105,9 @@ module.exports = (api) => {
 
 More sample projects for common Webpack development setups are available in the [examples](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/master/examples) folder.
 
-> Note: If you are using TypeScript (instead of Babel) as a transpiler, you will still need to use `babel-loader` to process your source code.
+> Note 1: If you use `webpack.config.ts`, please also install `type-fest` as a peer dependency.
+
+> Note 2: If you are using TypeScript (instead of Babel) as a transpiler, you will still need to use `babel-loader` to process your source code.
 > Check out this [sample project](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/master/examples/typescript-without-babel) on how to set this up.
 
 ### Polyfill for Older Browsers
