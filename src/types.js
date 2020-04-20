@@ -28,7 +28,7 @@
  */
 
 /**
- * @typedef {import('type-fest').Merge<import('type-fest').SetRequired<ReactRefreshPluginOptions, 'exclude' | 'include'>, OverlayOverrides>} NormalizedPluginOptions
+ * @typedef {import('type-fest').Merge<import('type-fest').SetRequired<import('type-fest').Except<ReactRefreshPluginOptions, 'disableRefreshCheck' | 'overlay'>, 'exclude' | 'include'>, OverlayOverrides>} NormalizedPluginOptions
  */
 
 module.exports = {};

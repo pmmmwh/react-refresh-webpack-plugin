@@ -112,17 +112,9 @@ export type OverlayOverrides = {
 export type NormalizedPluginOptions = Pick<
   {
     /**
-     * Disables detection of react-refresh's Babel plugin (Deprecated since v0.3.0).
-     */
-    disableRefreshCheck?: boolean | undefined;
-    /**
      * Enables the plugin forcefully.
      */
     forceEnable?: boolean | undefined;
-    /**
-     * Modifies how the error overlay integration works in the plugin.
-     */
-    overlay?: boolean | ErrorOverlayOptions | undefined;
     /**
      * Uses a custom SocketJS implementation for older versions of webpack-dev-server.
      */
@@ -136,6 +128,6 @@ export type NormalizedPluginOptions = Pick<
      */
     exclude: string | RegExp | (string | RegExp)[];
   },
-  'include' | 'exclude' | 'disableRefreshCheck' | 'forceEnable' | 'useLegacyWDSSockets'
+  'include' | 'exclude' | 'forceEnable' | 'useLegacyWDSSockets'
 > &
   OverlayOverrides;
