@@ -19,9 +19,9 @@
         "sockIntegration": {
           "anyOf": [{ "enum": ["wds", "whm"] }, { "$ref": "#/definitions/Path" }]
         },
-        "wdsSockHost": { "type": "string" },
-        "wdsSockPath": { "type": "string" },
-        "wdsSockPort": { "type": "number", "minimum": 0 }
+        "sockHost": { "type": "string" },
+        "sockPath": { "type": "string" },
+        "sockPort": { "type": "number", "minimum": 0 }
       }
     },
     "Path": { "type": "string", "absolutePath": true }
