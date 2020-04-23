@@ -26,6 +26,7 @@
   "license": "MIT",
   "author": "Michael Mok",
   "main": "src/index.js",
+  "types": "types/index.d.ts",
   "files": [
     "src",
     "types"
