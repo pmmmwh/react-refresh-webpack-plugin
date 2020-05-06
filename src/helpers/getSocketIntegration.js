@@ -1,6 +1,6 @@
 /**
  * Gets the socket integration to use for Webpack messages.
- * @param {string} integrationType A valid socket integration type or a path to a module.
+ * @param {'wds' | 'whm' | 'wps' | string} integrationType A valid socket integration type or a path to a module.
  * @returns {string} Path to the resolved socket integration module.
  */
 function getSocketIntegration(integrationType) {
@@ -11,6 +11,9 @@ function getSocketIntegration(integrationType) {
       break;
     case 'whm':
       resolvedSocketIntegration = require.resolve('../runtime/sockets/WHMEventSource');
+      break;
+    case 'wps':
+      resolvedSocketIntegration = require.resolve('../runtime/sockets/WPSSocket');
       break;
     default:
       resolvedSocketIntegration = require.resolve(integrationType);

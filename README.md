@@ -199,14 +199,15 @@ This will be used by the error overlay module, and is available for `webpack-dev
 
 #### `options.overlay.sockIntegration`
 
-Type: `wds` or `whm` or `string`
+Type: `wds`, `whm`, `wps` or `string`
 Default: `wds`
 
 This controls how the error overlay connects to the sockets provided by several Webpack hot reload integrations.
 
 - If you use `webpack-dev-server`, you don't need to set this as it defaults to `wds`.
 - If you use `webpack-hot-middleware`, you should set this to `whm`.
-- If you use anything else, you will have to provide a path to a module that will accept a message handler function and initializes the socket connection.
+- If you use `webpack-plugin-serve`, you should set this to `wps`.
+- If you use anything else, or if you want to customize the socket handling yourself, you will have to provide a path to a module that will accept a message handler function and initializes the socket connection.
   See the [`runtime/sockets`](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/master/src/runtime/sockets) folder for sample implementations.
 
 #### `options.overlay.sockPort`

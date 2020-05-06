@@ -36,7 +36,7 @@
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "generate-types": "tsc -p tsconfig.json && rimraf \"types/{helpers,runtime}\"",
+    "generate-types": "tsc -p tsconfig.json && rimraf \"types/{helpers,runtime}\" && yarn format",
     "prepublishOnly": "rimraf types && yarn generate-types"
   },
   "dependencies": {
@@ -56,16 +56,19 @@
     "prettier": "^2.0.4",
     "react-refresh": "^0.8.1",
     "rimraf": "^3.0.2",
+    "type-fest": "^0.13.1",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-plugin-serve": "^0.12.1"
   },
   "peerDependencies": {
     "@types/webpack": "^4.41.11",
     "react-refresh": "^0.8.1",
     "sockjs-client": "^1.4.0",
     "type-fest": "^0.13.1",
-    "webpack-hot-middleware": "^2.25.0"
+    "webpack-hot-middleware": "^2.25.0",
+    "webpack-plugin-serve": "^0.12.1"
   },
   "peerDependenciesMeta": {
     "@types/webpack": {
@@ -78,6 +81,9 @@
       "optional": true
     },
     "webpack-hot-middleware": {
+      "optional": true
+    },
+    "webpack-plugin-serve": {
       "optional": true
     }
   },

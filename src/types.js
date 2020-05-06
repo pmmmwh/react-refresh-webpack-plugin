@@ -3,7 +3,7 @@
  * @property {string} [entry] Path to a JS file that sets up the error overlay integration.
  * @property {string} [module] The error overlay module to use.
  * @property {string} [sockHost] The socket host to use (WDS only).
- * @property {import('type-fest').LiteralUnion<'wds' | 'whm', string>} [sockIntegration] Path to a JS file that sets up the Webpack socket integration.
+ * @property {import('type-fest').LiteralUnion<'wds' | 'whm' | 'wps', string>} [sockIntegration] Path to a JS file that sets up the Webpack socket integration.
  * @property {string} [sockPath] The socket path to use (WDS only).
  * @property {number} [sockPort] The socket port to use (WDS only).
  */

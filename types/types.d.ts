@@ -14,7 +14,7 @@ export type ErrorOverlayOptions = {
   /**
    * Path to a JS file that sets up the Webpack socket integration.
    */
-  sockIntegration?: import('type-fest').LiteralUnion<'wds' | 'whm', string>;
+  sockIntegration?: import('type-fest').LiteralUnion<'wds' | 'whm' | 'wps', string>;
   /**
    * The socket path to use (WDS only).
    */
@@ -48,7 +48,7 @@ export type NormalizedErrorOverlayOptions = {
   /**
    * Path to a JS file that sets up the Webpack socket integration.
    */
-  sockIntegration: import('type-fest').LiteralUnion<'wds' | 'whm', string>;
+  sockIntegration: import('type-fest').LiteralUnion<'wds' | 'whm' | 'wps', string>;
 };
 export type ReactRefreshPluginOptions = {
   /**
@@ -106,7 +106,7 @@ export type OverlayOverrides = {
         /**
          * Path to a JS file that sets up the Webpack socket integration.
          */
-        sockIntegration: import('type-fest').LiteralUnion<'wds' | 'whm', string>;
+        sockIntegration: import('type-fest').LiteralUnion<'wds' | 'whm' | 'wps', string>;
       };
 };
 export type NormalizedPluginOptions = Pick<
