@@ -29,7 +29,7 @@ function CompileErrorTrace(document, root, props) {
   errorParts.unshift(errorMessage);
 
   const stackContainer = document.createElement('pre');
-  stackContainer.innerHTML = ansiHTML(entities.encode(errorParts.join('\n')));
+  stackContainer.innerHTML = entities.decode(ansiHTML(entities.encode(errorParts.join('\n'))));
   stackContainer.style.fontFamily = [
     '"Operator Mono SSm"',
     '"Operator Mono"',
