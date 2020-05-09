@@ -4,6 +4,27 @@ const querystring = require('querystring');
 /** @typedef {StaticEntry | import('webpack').EntryFunc} WebpackEntry */
 
 /**
+ * Checks if a Webpack entry string is related to socket integrations.
+ * @param {string} entry A Webpack entry string.
+ * @returns {boolean} Whether the entry is related to socket integrations.
+ */
+function isSocketEntry(entry) {
+  /**
+   * Webpack entries related to socket integrations.
+   * They have to run before any code that sets up the error overlay.
+   * @type {string[]}
+   */
+  const socketEntries = [
+    'webpack-dev-server/client',
+    'webpack-hot-middleware/client',
+    'webpack-plugin-serve/client',
+    'react-dev-utils/webpackHotDevClient',
+  ];
+
+  return socketEntries.some((socketEntry) => entry.includes(socketEntry));
+}
+
+/**
  * Injects an entry to the bundle for react-refresh.
  * @param {WebpackEntry} [originalEntry] A Webpack entry object.
  * @param {import('../types').NormalizedPluginOptions} options Configuration options for this plugin.
@@ -34,7 +55,7 @@ function injectRefreshEntry(originalEntry, options) {
     require.resolve('../runtime/ReactRefreshEntry'),
   ];
 
-  const appendEntries = [
+  const overlayEntries = [
     // Legacy WDS SockJS integration
     options.useLegacyWDSSockets && require.resolve('../runtime/LegacyWDSSocketEntry'),
     // Error overlay runtime
@@ -43,11 +64,22 @@ function injectRefreshEntry(originalEntry, options) {
 
   // Single string entry point
   if (typeof originalEntry === 'string') {
-    return [...prependEntries, originalEntry, ...appendEntries];
+    if (isSocketEntry(originalEntry)) {
+      return [...prependEntries, originalEntry, ...overlayEntries];
+    }
+
+    return [...prependEntries, ...overlayEntries, originalEntry];
   }
   // Single array entry point
   if (Array.isArray(originalEntry)) {
-    return [...prependEntries, ...originalEntry, ...appendEntries];
+    const socketEntryIndex = originalEntry.findIndex(isSocketEntry);
+
+    let socketEntry = [];
+    if (socketEntryIndex !== -1) {
+      socketEntry = originalEntry.splice(socketEntryIndex, 1);
+    }
+
+    return [...prependEntries, ...socketEntry, ...overlayEntries, ...originalEntry];
   }
   // Multiple entry points
   if (typeof originalEntry === 'object') {
