@@ -59,16 +59,18 @@
     "type-fest": "^0.13.1",
     "typescript": "^3.8.3",
     "webpack": "^4.42.1",
+    "webpack-dev-server": "^3.11.0",
     "webpack-hot-middleware": "^2.25.0",
-    "webpack-plugin-serve": "^0.12.1"
+    "webpack-plugin-serve": "^1.0.0"
   },
   "peerDependencies": {
-    "@types/webpack": "^4.41.11",
-    "react-refresh": "^0.8.1",
+    "@types/webpack": "^4.41.12",
+    "react-refresh": "^0.8.2",
     "sockjs-client": "^1.4.0",
     "type-fest": "^0.13.1",
-    "webpack-hot-middleware": "^2.25.0",
-    "webpack-plugin-serve": "^0.12.1"
+    "webpack-dev-server": "3.x",
+    "webpack-hot-middleware": "2.x",
+    "webpack-plugin-serve": "0.x || 1.x"
   },
   "peerDependenciesMeta": {
     "@types/webpack": {
@@ -78,6 +80,9 @@
       "optional": true
     },
     "type-fest": {
+      "optional": true
+    },
+    "webpack-dev-server": {
       "optional": true
     },
     "webpack-hot-middleware": {
