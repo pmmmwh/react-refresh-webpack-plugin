@@ -1,3 +1,9 @@
+## 0.3.1 (11 May 2020)
+
+### Fixes
+
+- Relaxed peer dependency requirements for `webpack-plugin-serve`
+
 ## 0.3.0 (10 May 2020)
 
 ### BREAKING
