@@ -84,6 +84,7 @@
     "react-refresh": "^0.8.2",
     "sockjs-client": "^1.4.0",
     "type-fest": "^0.13.1",
+    "webpack": ">=4.43.0",
     "webpack-dev-server": "3.x",
     "webpack-hot-middleware": "2.x",
     "webpack-plugin-serve": "0.x || 1.x"
