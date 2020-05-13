@@ -11,20 +11,31 @@
  * [Reference for HMR Error Recovery](https://github.com/webpack/webpack/issues/418#issuecomment-490296365)
  */
 module.exports = function () {
-  $RefreshUtils$.registerExportsForReactRefresh(module);
+  const currentExports = $RefreshUtils$.getModuleExports(module);
+  $RefreshUtils$.registerExportsForReactRefresh(currentExports, module.id);
 
-  if (module.hot && $RefreshUtils$.isReactRefreshBoundary(module)) {
-    module.hot.dispose($RefreshUtils$.createHotDisposeCallback(module));
-    module.hot.accept($RefreshUtils$.createHotErrorHandler(module.id));
+  if (module.hot) {
+    const isHotUpdate = !!module.hot.data;
+    const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
 
-    if (!!module.hot.data && !!Object.keys(module.hot.data).length) {
-      if (
-        !module.hot.data.module ||
-        $RefreshUtils$.shouldInvalidateReactRefreshBoundary(module.hot.data.module, module)
-      ) {
-        window.location.reload();
+    if ($RefreshUtils$.isReactRefreshBoundary(currentExports)) {
+      module.hot.dispose($RefreshUtils$.createHotDisposeCallback(currentExports));
+      module.hot.accept($RefreshUtils$.createHotErrorHandler(module.id));
+
+      if (isHotUpdate) {
+        if (
+          !prevExports ||
+          $RefreshUtils$.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)
+        ) {
+          module.hot.invalidate();
+        } else {
+          $RefreshUtils$.enqueueUpdate();
+        }
       }
-      $RefreshUtils$.enqueueUpdate();
+    } else {
+      if ($RefreshUtils$.isReactRefreshBoundary(prevExports)) {
+        module.hot.invalidate();
+      }
     }
   }
 };
