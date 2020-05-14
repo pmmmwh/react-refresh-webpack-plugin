@@ -28,7 +28,14 @@ function RuntimeErrorStack(document, root, props) {
   stackContainer.style.lineHeight = '1.3';
   stackContainer.style.whiteSpace = 'pre-wrap';
 
-  const errorStacks = ErrorStackParser.parse(props.error);
+  let errorStacks;
+  try {
+    errorStacks = ErrorStackParser.parse(props.error);
+  } catch (e) {
+    errorStacks = [];
+    stackContainer.innerHTML = 'No stack trace is available for this error!';
+  }
+
   for (let i = 0; i < Math.min(errorStacks.length, 10); i += 1) {
     const currentStack = errorStacks[i];
 
