@@ -14,7 +14,7 @@ function spawnTestProcess(processPath, argv, options = {}) {
   const cwd = options.cwd || path.resolve(__dirname, '../..');
   const env = {
     ...process.env,
-    NODE_ENV: 'test',
+    NODE_ENV: 'development',
     ...options.env,
   };
   const successRegex = new RegExp(options.successMessage || 'compiled successfully', 'i');

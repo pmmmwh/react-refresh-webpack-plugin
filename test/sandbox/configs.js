@@ -40,9 +40,7 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              plugins: [
-                ['react-refresh/babel', { skipEnvCheck: true }],
-              ],
+              plugins: ['react-refresh/babel'],
             }
           }
         ],

@@ -1,8 +1,9 @@
 const puppeteer = require('puppeteer');
+const yn = require('yn');
 
 async function setup() {
   const browser = await puppeteer.launch({
-    headless: false,
+    headless: yn(process.env.HEADLESS, { default: false }),
   });
 
   global.__BROWSER_INSTANCE__ = browser;
