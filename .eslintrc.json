@@ -9,5 +9,16 @@
     "es6": true,
     "node": true
   },
-  "overrides": [{ "files": ["test/**/*.test.js"], "env": { "jest": true } }]
+  "overrides": [
+    {
+      "files": ["test/sandbox/*.js", "test/**/*.test.js"],
+      "env": {
+        "jest": true
+      },
+      "globals": {
+        "__DEBUG__": true,
+        "browser": true
+      }
+    }
+  ]
 }
