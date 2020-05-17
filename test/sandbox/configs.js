@@ -1,5 +1,7 @@
 const path = require('path');
 
+const BUNDLE_FILENAME = 'main';
+
 function getIndexHTML(port) {
   return `
 <!DOCTYPE html>
@@ -10,7 +12,7 @@ function getIndexHTML(port) {
   </head>
   <body>
     <div id="app"></div>
-    <script src="http://localhost:${port}/main.js"></script>
+    <script src="http://localhost:${port}/${BUNDLE_FILENAME}.js"></script>
   </body>
 </html>
 `;
@@ -24,7 +26,10 @@ module.exports = {
   mode: 'development',
   context: '${srcDir}',
   entry: {
-    main: ['${path.join(__dirname, './runtime/hot-notifier.js')}', './index.js'],
+    '${BUNDLE_FILENAME}': [
+      '${path.join(__dirname, './runtime/hot-notifier.js')}',
+      './index.js',
+    ],
   },
   module: {
     rules: [
