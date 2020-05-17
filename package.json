@@ -32,7 +32,7 @@
     "types"
   ],
   "scripts": {
-    "test": "jest --forceExit",
+    "test": "jest",
     "lint": "eslint --report-unused-disable-directives --ext .js .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
