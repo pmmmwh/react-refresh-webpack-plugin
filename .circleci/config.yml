@@ -1,0 +1,46 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@2.1.1
+
+jobs:
+  test:
+    executor:
+      name: node/default
+      tag: << parameters.node-version >>
+    parameters:
+      app-dir:
+        default: ~/project
+        type: string
+      node-version:
+        default: '13'
+        type: string
+      setup:
+        default: []
+        type: steps
+    steps:
+      - checkout
+      - steps: << parameters.setup >>
+      - node/install-packages:
+          app-dir: << parameters.app-dir >>
+          pkg-manager: yarn
+      - run:
+          name: Run Tests
+          command: yarn test
+          working_directory: << parameters.app-dir >>
+
+workflows:
+  martix-tests:
+    jobs:
+      - test:
+          name: test/node:10
+          node-version: '10'
+      - test:
+          name: test/node:12
+          node-version: '12'
+      - test:
+          name: test/node:13
+          node-version: '13'
+      - test:
+          name: test/node:14
+          node-version: '14'
