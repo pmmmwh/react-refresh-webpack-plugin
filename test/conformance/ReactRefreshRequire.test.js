@@ -1,10 +1,10 @@
-const sandbox = require('./sandbox');
+const createSandbox = require('../sandbox');
 
 jest.setTimeout(1000 * 60 * 5);
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L989-L1048
 test('re-runs accepted modules', async () => {
-  const [session, cleanup] = await sandbox();
+  const [session] = await createSandbox();
 
   await session.patch('./index.js', `export default function Noop() { return null; };`);
 
@@ -42,13 +42,11 @@ test('re-runs accepted modules', async () => {
   // TODO:
   // expect(Refresh.performReactRefresh).toHaveBeenCalled();
   // expect(Refresh.performFullRefresh).not.toHaveBeenCalled();
-
-  await cleanup();
 });
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1050-L1137
 test('propagates a hot update to closest accepted module', async () => {
-  const [session, cleanup] = await sandbox();
+  const [session] = await createSandbox();
 
   await session.patch('index.js', `export default function Noop() { return null; };`);
 
@@ -139,12 +137,10 @@ test('propagates a hot update to closest accepted module', async () => {
   // TODO:
   // expect(Refresh.performReactRefresh).toHaveBeenCalled();
   // expect(Refresh.performFullRefresh).not.toHaveBeenCalled();
-
-  await cleanup();
 });
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1139-L1307
 test('propagates hot update to all inverse dependencies', async () => {
-  const [session, cleanup] = await sandbox();
+  const [session] = await createSandbox();
 
   await session.patch('index.js', `export default function Noop() { return null; };`);
 
@@ -256,8 +252,6 @@ test('propagates hot update to all inverse dependencies', async () => {
   // TODO:
   // expect(Refresh.performReactRefresh).toHaveBeenCalled()
   // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
-
-  await cleanup();
 });
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1309-L1406
@@ -317,7 +311,7 @@ test('bails out if the update bubbles to the root via one of the paths', async (
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2373-L2472
 test('propagates a module that stops accepting in next version', async () => {
-  const [session, cleanup] = await sandbox();
+  const [session] = await createSandbox();
 
   // Accept in parent
   await session.write(
@@ -424,6 +418,4 @@ test('propagates a module that stops accepting in next version', async () => {
 
   // expect(Refresh.performFullRefresh).toHaveBeenCalled();
   expect(didFullRefresh).toBe(true);
-
-  await cleanup();
 });
