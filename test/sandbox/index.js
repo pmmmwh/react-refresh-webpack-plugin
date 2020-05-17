@@ -6,7 +6,10 @@ const { getPage } = require('./browser');
 const { getIndexHTML, getWDSConfig } = require('./configs');
 const { killTestProcess, spawnWDS } = require('./spawn');
 
-// We setup a global "queue" of cleanup handlers to allow auto-teardown of tests,
+// Extends the timeout for tests using the sandbox
+jest.setTimeout(1000 * 60 * 5);
+
+// Setup a global "queue" of cleanup handlers to allow auto-teardown of tests,
 // even when they did not run the cleanup function.
 /** @type {Set<Promise<void>>} */
 const cleanupHandlers = new Set();
@@ -80,6 +83,14 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
   return [
     {
+      get logs() {
+        return page.evaluate(() => window.logs);
+      },
+      async resetLogs() {
+        await page.evaluate(() => {
+          window.logs = [];
+        });
+      },
       async write(fileName, content) {
         // Update the file on filesystem
         const fullFileName = path.join(srcDir, fileName);
