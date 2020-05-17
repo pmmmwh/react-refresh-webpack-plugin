@@ -2,10 +2,23 @@ const path = require('path');
 const fse = require('fs-extra');
 const getPort = require('get-port');
 const { nanoid } = require('nanoid');
-const getBrowserPage = require('./getBrowserPage');
-const { killInstance, spawnWDS } = require('./spawn');
+const { getPage } = require('./browser');
+const { getIndexHTML, getWDSConfig } = require('./configs');
+const { killTestProcess, spawnWDS } = require('./spawn');
 
-const rootSandboxDirectory = path.join(__dirname, '..', '__tmp__');
+// We setup a global "queue" of cleanup handlers to allow auto-teardown of tests,
+// even when they did not run the cleanup function.
+/** @type {Set<Promise<void>>} */
+const cleanupHandlers = new Set();
+afterEach(async () => {
+  await Promise.all([...cleanupHandlers].map((c) => c()));
+});
+
+const log = (...args) => {
+  if (__DEBUG__) {
+    console.log(...args);
+  }
+};
 
 const sleep = (ms) => {
   return new Promise((resolve) => {
@@ -13,88 +26,63 @@ const sleep = (ms) => {
   });
 };
 
+const rootSandboxDir = path.join(__dirname, '..', '__tmp__');
+
 async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
   const port = await getPort();
 
-  const sandboxDirectory = path.join(rootSandboxDirectory, id);
-  const srcDirectory = path.join(sandboxDirectory, 'src');
+  // Get sandbox directory paths
+  const sandboxDir = path.join(rootSandboxDir, id);
+  const srcDir = path.join(sandboxDir, 'src');
+  // In case of an ID clash, remove the existing sandbox directory
+  await fse.remove(sandboxDir);
+  // Create the sandbox source directory
+  await fse.mkdirp(srcDir);
 
-  await fse.remove(sandboxDirectory);
-  await fse.mkdirp(srcDirectory);
-
+  // Write necessary files to sandbox
+  await fse.writeFile(path.join(sandboxDir, 'webpack.config.js'), getWDSConfig(srcDir));
+  await fse.writeFile(path.join(sandboxDir, 'index.html'), getIndexHTML(port));
   await fse.writeFile(
-    path.join(sandboxDirectory, 'webpack.config.js'),
-    `
-const ReactRefreshPlugin = require('../../../src');
-
-module.exports = {
-  mode: 'development',
-  context: '${srcDirectory}',
-  entry: {
-    main: ['${path.join(__dirname, 'hot-notifier.js')}', './index.js'],
-  },
-  module: {
-    rules: [
-      {
-        test: /\\.jsx?$/,
-        include: '${srcDirectory}',
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                ['react-refresh/babel', { skipEnvCheck: true }],
-              ],
-            }
-          }
-        ],
-      },
-    ],
-  },
-  plugins: [new ReactRefreshPlugin()],
-  resolve: {
-    extensions: ['.js', '.jsx'],
-  },
-};
-`
-  );
-
-  await fse.writeFile(
-    path.join(sandboxDirectory, 'index.html'),
-    `
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sandbox React App</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script src="http://localhost:${port}/main.js"></script>
-  </body>
-</html>
-`
-  );
-
-  await fse.writeFile(
-    path.join(srcDirectory, 'index.js'),
+    path.join(srcDir, 'index.js'),
     `export default function Sandbox() { return 'new sandbox'; }`
   );
 
+  // Write initial files to sandbox
   for (const [filePath, fileContent] of initialFiles.entries()) {
-    await fse.writeFile(filePath.join(srcDirectory, filePath), fileContent);
+    await fse.writeFile(filePath.join(srcDir, filePath), fileContent);
   }
 
   // TODO: Add handling for webpack-hot-middleware and webpack-plugin-serve
-  const app = await spawnWDS(port, sandboxDirectory);
-  const page = await getBrowserPage(port, '/');
+  const app = await spawnWDS(port, sandboxDir);
+  const page = await getPage(port, '/');
+
+  async function cleanupSandbox() {
+    async function _cleanup() {
+      await page.close();
+      await killTestProcess(app);
+
+      if (!__DEBUG__) {
+        await fse.remove(sandboxDir);
+      }
+    }
+
+    try {
+      await _cleanup();
+
+      // Remove current cleanup handler from the global queue since it has been called
+      cleanupHandlers.delete(cleanupSandbox);
+    } catch (e) {}
+  }
+
+  // Cache the cleanup handler for global cleanup
+  // This is done in case tests fail and async handlers are kept alive
+  cleanupHandlers.add(cleanupSandbox);
 
   return [
     {
       async write(fileName, content) {
         // Update the file on filesystem
-        const fullFileName = path.join(srcDirectory, fileName);
+        const fullFileName = path.join(srcDir, fileName);
         const directory = path.dirname(fullFileName);
         await fse.mkdirp(directory);
         await fse.writeFile(fullFileName, content);
@@ -121,16 +109,17 @@ module.exports = {
           try {
             status = await page.evaluate(() => window.__HMR_STATE);
           } catch (error) {
-            // This indicates a navigation
+            // This message indicates a navigation, so it can be safely ignored.
+            // Else, we re-throw the error to indicate a failure.
             if (!error.message.includes('Execution context was destroyed')) {
-              console.error(error);
+              throw error;
             }
           }
 
           if (!status) {
             await sleep(1000);
 
-            // Wait for application to re-hydrate:
+            // Wait for application to reload
             await page.evaluate(() => {
               return new Promise((resolve) => {
                 if (window.__REACT_REFRESH_RELOADED) {
@@ -145,15 +134,15 @@ module.exports = {
               });
             });
 
-            console.log('Application re-loaded.');
+            log('Application re-loaded.');
 
-            // Slow down tests a bit
+            // Slow down tests to wait for re-rendering
             await sleep(1000);
             return false;
           }
 
           if (status === 'success') {
-            console.log('Hot update complete.');
+            log('Hot update complete.');
             break;
           }
 
@@ -164,12 +153,12 @@ module.exports = {
           await sleep(30);
         }
 
-        // Slow down tests a bit (we don't know how long re-rendering takes):
+        // Slow down tests to wait for re-rendering
         await sleep(1000);
         return true;
       },
       async remove(fileName) {
-        const fullFileName = path.join(srcDirectory, fileName);
+        const fullFileName = path.join(srcDir, fileName);
         await fse.remove(fullFileName);
       },
       async evaluate(fn) {
@@ -178,20 +167,11 @@ module.exports = {
           await sleep(30);
           return result;
         } else {
-          throw new Error('You must pass a function to be evaluated in the browser.');
+          throw new Error('You must pass a function to be evaluated in the browser!');
         }
       },
     },
-    function cleanup() {
-      async function _cleanup() {
-        await page.browser().close();
-        await killInstance(app);
-
-        // TODO: Make this optional for easier debugging
-        await fse.remove(sandboxDirectory);
-      }
-      _cleanup().catch(() => {});
-    },
+    cleanupSandbox,
   ];
 }
 

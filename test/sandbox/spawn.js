@@ -32,7 +32,9 @@ function spawnTestProcess(processPath, argv, options = {}) {
         }
       }
 
-      process.stdout.write(message);
+      if (__DEBUG__) {
+        process.stdout.write(message);
+      }
     }
 
     function handleStderr(data) {
@@ -76,7 +78,7 @@ function spawnWDS(port, directory, options) {
   );
 }
 
-function killInstance(instance) {
+function killTestProcess(instance) {
   try {
     process.kill(instance.pid);
   } catch (error) {
@@ -95,6 +97,6 @@ function killInstance(instance) {
 }
 
 module.exports = {
-  killInstance,
+  killTestProcess,
   spawnWDS,
 };
