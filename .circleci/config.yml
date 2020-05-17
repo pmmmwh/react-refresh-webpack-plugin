@@ -38,8 +38,8 @@ jobs:
       - steps: << parameters.setup >>
       - node/install-packages:
           app-dir: ~/project
-          cache-key: yarn.lock
           pkg-manager: yarn
+          with-cache: false
       - run:
           name: Run Tests
           command: yarn test
