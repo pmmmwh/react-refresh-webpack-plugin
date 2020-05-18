@@ -24,7 +24,7 @@ module.exports = function () {
 
       if (isHotUpdate) {
         if (
-          !prevExports ||
+          $RefreshUtils$.isReactRefreshBoundary(prevExports) &&
           $RefreshUtils$.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)
         ) {
           module.hot.invalidate();
