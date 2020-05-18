@@ -1,0 +1,62 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@2.1.1
+
+commands:
+  setup-headless-chromium:
+    steps:
+      - run:
+          name: Install dependencies for headless Chromium
+          command: |
+            sudo apt-get update
+            sudo apt-get install -yq \
+            gconf-service libasound2 libatk1.0-0 libatk-bridge2.0-0 libc6 libcairo2 libcups2 libdbus-1-3 \
+            libexpat1 libfontconfig1 libgbm1 libgcc1 libgconf-2-4 libgdk-pixbuf2.0-0 libglib2.0-0 libgtk-3-0 \
+            libnspr4 libpango-1.0-0 libpangocairo-1.0-0 libstdc++6 libx11-6 libx11-xcb1 libxcb1 libxcomposite1 \
+            libxcursor1 libxdamage1 libxext6 libxfixes3 libxi6 libxrandr2 libxrender1 libxss1 libxtst6 \
+            ca-certificates fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils wget
+      - run:
+          name: Setup sandboxing for Chromium
+          command: sudo sysctl -w kernel.unprivileged_userns_clone=1
+
+jobs:
+  test:
+    executor:
+      name: node/default
+      tag: << parameters.node-version >>
+    parameters:
+      node-version:
+        default: '13.14'
+        type: string
+      setup:
+        default: []
+        type: steps
+    steps:
+      - checkout
+      - setup-headless-chromium
+      - steps: << parameters.setup >>
+      - node/install-packages:
+          app-dir: ~/project
+          pkg-manager: yarn
+          with-cache: false
+      - run:
+          name: Run Tests
+          command: yarn test
+          working_directory: ~/project
+
+workflows:
+  test-matrix:
+    jobs:
+      - test:
+          name: test/node:10
+          node-version: '10.20'
+      - test:
+          name: test/node:12
+          node-version: '12.16'
+      - test:
+          name: test/node:13
+          node-version: '13.14'
+      - test:
+          name: test/node:14
+          node-version: '14.2'
