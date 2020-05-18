@@ -265,8 +265,7 @@ test.todo('bails out if update bubbles to the root via the only path');
 test.todo('bails out if the update bubbles to the root via one of the paths');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2373-L2472
-// FIXME: Enable this test in #89
-test.skip('propagates a module that stops accepting in next version', async () => {
+test('propagates a module that stops accepting in next version', async () => {
   const [session] = await createSandbox();
 
   // Accept in parent
