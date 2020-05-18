@@ -2,6 +2,10 @@ const path = require('path');
 
 const BUNDLE_FILENAME = 'main';
 
+/**
+ * @param {number} port
+ * @return {string}
+ */
 function getIndexHTML(port) {
   return `
 <!DOCTYPE html>
@@ -18,6 +22,10 @@ function getIndexHTML(port) {
 `;
 }
 
+/**
+ * @param {string} srcDir
+ * @return {string}
+ */
 function getWDSConfig(srcDir) {
   return `
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');

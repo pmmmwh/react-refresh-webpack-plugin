@@ -4,11 +4,11 @@ const spawn = require('cross-spawn');
 /**
  * @param {string} processPath
  * @param {*[]} argv
- * @param {object} [options]
- * @property {string} [options.cwd]
- * @property {*} [options.env]
- * @property {string | RegExp} [options.successMessage]
- * @return {Promise<unknown>}
+ * @param {Object} [options]
+ * @param {string} [options.cwd]
+ * @param {*} [options.env]
+ * @param {string | RegExp} [options.successMessage]
+ * @return {Promise<import('child_process').ChildProcess | void>}
  */
 function spawnTestProcess(processPath, argv, options = {}) {
   const cwd = options.cwd || path.resolve(__dirname, '../..');
@@ -23,6 +23,10 @@ function spawnTestProcess(processPath, argv, options = {}) {
     const instance = spawn(processPath, argv, { cwd, env });
     let didResolve = false;
 
+    /**
+     * @param {Buffer} data
+     * @returns {void}
+     */
     function handleStdout(data) {
       const message = data.toString();
       if (successRegex.test(message)) {
@@ -37,6 +41,10 @@ function spawnTestProcess(processPath, argv, options = {}) {
       }
     }
 
+    /**
+     * @param {Buffer} data
+     * @returns {void}
+     */
     function handleStderr(data) {
       const message = data.toString();
       process.stderr.write(message);
@@ -61,6 +69,12 @@ function spawnTestProcess(processPath, argv, options = {}) {
   });
 }
 
+/**
+ * @param {number} port
+ * @param {string} directory
+ * @param {*} options
+ * @return {Promise<import('child_process').ChildProcess | void>}
+ */
 function spawnWDS(port, directory, options) {
   const wdsBin = path.resolve('node_modules/.bin/webpack-dev-server');
   return spawnTestProcess(
@@ -78,6 +92,9 @@ function spawnWDS(port, directory, options) {
   );
 }
 
+/**
+ * @param {import('child_process').ChildProcess} instance
+ */
 function killTestProcess(instance) {
   try {
     process.kill(instance.pid);

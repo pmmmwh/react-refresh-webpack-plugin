@@ -1,3 +1,10 @@
+/**
+ * Gets a new page from the current browser instance,
+ * and initializes up testing-related lifecycles.
+ * @param {number} port
+ * @param {string} path
+ * @return {Promise<import('puppeteer').Page>}
+ */
 async function getPage(port, path) {
   const page = await browser.newPage();
 

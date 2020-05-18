@@ -11,26 +11,53 @@ jest.setTimeout(1000 * 60 * 5);
 
 // Setup a global "queue" of cleanup handlers to allow auto-teardown of tests,
 // even when they did not run the cleanup function.
-/** @type {Set<Promise<void>>} */
+/** @type {Set<function(): Promise<void>>} */
 const cleanupHandlers = new Set();
 afterEach(async () => {
   await Promise.all([...cleanupHandlers].map((c) => c()));
 });
 
+/**
+ * Logs output to the console (only in debug mode).
+ * @param {...*} args
+ * @returns {void}
+ */
 const log = (...args) => {
   if (__DEBUG__) {
     console.log(...args);
   }
 };
 
+/**
+ * Pause current asynchronous execution for provided milliseconds.
+ * @param {number} ms
+ * @return {Promise<void>}
+ */
 const sleep = (ms) => {
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
   });
 };
 
+/**
+ * @typedef {Object} SandboxSession
+ * @property {Promise<*[]>} logs
+ * @property {function(): Promise<void>} resetLogs
+ * @property {function(string, string): Promise<void>} write
+ * @property {function(string, string): Promise<boolean>} patch
+ * @property {function(string): Promise<void>} remove
+ * @property {function(*): Promise<*>} evaluate
+ */
+
 const rootSandboxDir = path.join(__dirname, '..', '__tmp__');
 
+/**
+ * Creates a Webpack and Puppeteer backed sandbox to execute HMR operations on.
+ * @param {Object} [options]
+ * @param {string} [options.id]
+ * @param {Map<string, string>} [options.initialFiles]
+ * @returns {Promise<[SandboxSession, function(): Promise<void>]>}
+ */
 async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
   const port = await getPort();
 
@@ -83,14 +110,21 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
   return [
     {
+      /** @returns {Promise<*[]>} */
       get logs() {
         return page.evaluate(() => window.logs);
       },
+      /** @returns {Promise<void>} */
       async resetLogs() {
         await page.evaluate(() => {
           window.logs = [];
         });
       },
+      /**
+       * @param {string} fileName
+       * @param {string} content
+       * @return {Promise<void>}
+       */
       async write(fileName, content) {
         // Update the file on filesystem
         const fullFileName = path.join(srcDir, fileName);
@@ -98,6 +132,11 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
         await fse.mkdirp(directory);
         await fse.writeFile(fullFileName, content);
       },
+      /**
+       * @param {string} fileName
+       * @param {string} content
+       * @return {Promise<boolean>}
+       */
       async patch(fileName, content) {
         // Register an event for HMR completion
         await page.evaluate(() => {
@@ -168,10 +207,18 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
         await sleep(1000);
         return true;
       },
+      /**
+       * @param {string} fileName
+       * @returns {Promise<void>}
+       */
       async remove(fileName) {
         const fullFileName = path.join(srcDir, fileName);
         await fse.remove(fullFileName);
       },
+      /**
+       * @param {*} fn
+       * @returns {Promise<*>}
+       */
       async evaluate(fn) {
         if (typeof fn === 'function') {
           const result = await page.evaluate(fn);
