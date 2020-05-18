@@ -33,7 +33,7 @@ module.exports = function () {
         }
       }
     } else {
-      if ($RefreshUtils$.isReactRefreshBoundary(prevExports)) {
+      if (isHotUpdate && $RefreshUtils$.isReactRefreshBoundary(prevExports)) {
         module.hot.invalidate();
       }
     }
