@@ -232,62 +232,41 @@ test('propagates hot update to all inverse dependencies', async () => {
 });
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1309-L1406
-test('runs dependencies before dependents', async () => {
-  // TODO:
-});
+test.todo('runs dependencies before dependents');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1408-L1498
-test('provides fresh value for module.exports in parents', async () => {
-  // TODO:
-});
+test.todo('provides fresh value for module.exports in parents');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1500-L1590
-test('provides fresh value for exports.* in parents', async () => {
-  // TODO:
-});
+test.todo('provides fresh value for exports.* in parents');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1592-L1688
-test('provides fresh value for ES6 named import in parents', async () => {
-  // TODO:
-});
+test.todo('provides fresh value for ES6 named import in parents');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1690-L1786
-test('provides fresh value for ES6 default import in parents', async () => {
-  // TODO:
-});
+test.todo('provides fresh value for ES6 default import in parents');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1788-L1899
-test('stops update propagation after module-level errors', async () => {
-  // TODO:
-});
+test.todo('stops update propagation after module-level errors');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1901-L2010
-test('can continue hot updates after module-level errors with module.exports', async () => {
-  // TODO:
-});
+test.todo('can continue hot updates after module-level errors with module.exports');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2012-L2123
-test('can continue hot updates after module-level errors with ES6 exports', async () => {
-  // TODO:
-});
+test.todo('can continue hot updates after module-level errors with ES6 exports');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2125-L2233
-test('does not accumulate stale exports over time', async () => {
-  // TODO:
-});
+test.todo('does not accumulate stale exports over time');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2235-L2279
-test('bails out if update bubbles to the root via the only path', async () => {
-  // TODO:
-});
+test.todo('bails out if update bubbles to the root via the only path');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2281-L2371
-test('bails out if the update bubbles to the root via one of the paths', async () => {
-  // TODO:
-});
+test.todo('bails out if the update bubbles to the root via one of the paths');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2373-L2472
-test('propagates a module that stops accepting in next version', async () => {
+// FIXME: Enable this test in #89
+test.skip('propagates a module that stops accepting in next version', async () => {
   const [session] = await createSandbox();
 
   // Accept in parent
