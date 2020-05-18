@@ -49,6 +49,9 @@ workflows:
   test-matrix:
     jobs:
       - test:
+          name: test/node:8
+          node-version: '8.17'
+      - test:
           name: test/node:10
           node-version: '10.20'
       - test:
