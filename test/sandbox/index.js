@@ -52,7 +52,7 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
   // Write initial files to sandbox
   for (const [filePath, fileContent] of initialFiles.entries()) {
-    await fse.writeFile(filePath.join(srcDir, filePath), fileContent);
+    await fse.writeFile(path.join(srcDir, filePath), fileContent);
   }
 
   // TODO: Add handling for webpack-hot-middleware and webpack-plugin-serve
