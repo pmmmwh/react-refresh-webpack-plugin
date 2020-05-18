@@ -58,7 +58,7 @@ export type ReactRefreshPluginOptions = {
   /**
    * Files to explicitly exclude from processing.
    */
-  exclude?: string | RegExp | (string | RegExp)[];
+  exclude?: string | RegExp | Array<string | RegExp>;
   /**
    * Enables the plugin forcefully.
    */
@@ -66,7 +66,7 @@ export type ReactRefreshPluginOptions = {
   /**
    * Files to explicitly include for processing.
    */
-  include?: string | RegExp | (string | RegExp)[];
+  include?: string | RegExp | Array<string | RegExp>;
   /**
    * Modifies how the error overlay integration works in the plugin.
    */
@@ -80,34 +80,7 @@ export type OverlayOverrides = {
   /**
    * Modifies how the error overlay integration works in the plugin.
    */
-  overlay:
-    | false
-    | {
-        /**
-         * The socket host to use (WDS only).
-         */
-        sockHost?: string | undefined;
-        /**
-         * The socket path to use (WDS only).
-         */
-        sockPath?: string | undefined;
-        /**
-         * The socket port to use (WDS only).
-         */
-        sockPort?: number | undefined;
-        /**
-         * The error overlay module to use.
-         */
-        module: string;
-        /**
-         * Path to a JS file that sets up the error overlay integration.
-         */
-        entry: string;
-        /**
-         * Path to a JS file that sets up the Webpack socket integration.
-         */
-        sockIntegration: import('type-fest').LiteralUnion<'wds' | 'whm' | 'wps', string>;
-      };
+  overlay: false | NormalizedErrorOverlayOptions;
 };
 export type NormalizedPluginOptions = Pick<
   {
@@ -122,11 +95,11 @@ export type NormalizedPluginOptions = Pick<
     /**
      * Files to explicitly include for processing.
      */
-    include: string | RegExp | (string | RegExp)[];
+    include: string | RegExp | Array<string | RegExp>;
     /**
      * Files to explicitly exclude from processing.
      */
-    exclude: string | RegExp | (string | RegExp)[];
+    exclude: string | RegExp | Array<string | RegExp>;
   },
   'include' | 'exclude' | 'forceEnable' | 'useLegacyWDSSockets'
 > &
