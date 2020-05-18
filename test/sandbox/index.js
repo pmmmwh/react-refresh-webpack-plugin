@@ -47,6 +47,7 @@ const sleep = (ms) => {
  * @property {function(string, string): Promise<boolean>} patch
  * @property {function(string): Promise<void>} remove
  * @property {function(*): Promise<*>} evaluate
+ * @property {function(): Promise<void>} reload
  */
 
 const rootSandboxDir = path.join(__dirname, '..', '__tmp__');
@@ -227,6 +228,10 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
         } else {
           throw new Error('You must pass a function to be evaluated in the browser!');
         }
+      },
+      /** @returns {Promise<void>} */
+      async reload() {
+        await page.reload({ waitUntil: 'networkidle2' });
       },
     },
     cleanupSandbox,
