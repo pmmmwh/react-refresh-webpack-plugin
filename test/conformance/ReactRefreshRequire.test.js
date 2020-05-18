@@ -4,11 +4,13 @@ const createSandbox = require('../sandbox');
 test('re-runs accepted modules', async () => {
   const [session] = await createSandbox();
 
-  await session.patch('./index.js', `export default function Noop() { return null; };`);
+  // Bootstrap test and reload session to not rely on auto-refresh semantics
+  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.reload();
 
-  await session.write('./foo.js', `window.logs.push('init FooV1'); require('./bar');`);
+  await session.write('foo.js', `window.logs.push('init FooV1'); require('./bar');`);
   await session.write(
-    './bar.js',
+    'bar.js',
     `window.logs.push('init BarV1'); export default function Bar() { return null; };`
   );
 
@@ -23,7 +25,7 @@ test('re-runs accepted modules', async () => {
   // So we expect it to re-run alone.
   await session.resetLogs();
   await session.patch(
-    './bar.js',
+    'bar.js',
     `window.logs.push('init BarV2'); export default function Bar() { return null; };`
   );
   await expect(session.logs).resolves.toEqual(['init BarV2']);
@@ -32,7 +34,7 @@ test('re-runs accepted modules', async () => {
   // So we expect it to re-run alone.
   await session.resetLogs();
   await session.patch(
-    './bar.js',
+    'bar.js',
     `window.logs.push('init BarV3'); export default function Bar() { return null; };`
   );
   await expect(session.logs).resolves.toEqual(['init BarV3']);
@@ -46,14 +48,15 @@ test('re-runs accepted modules', async () => {
 test('propagates a hot update to closest accepted module', async () => {
   const [session] = await createSandbox();
 
-  await session.patch('index.js', `export default function Noop() { return null; };`);
+  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.reload();
 
   await session.write(
-    './foo.js',
+    'foo.js',
     // Exporting a component marks it as auto-accepting.
     `window.logs.push('init FooV1'); require('./bar'); export default function Foo() {};`
   );
-  await session.write('./bar.js', `window.logs.push('init BarV1');`);
+  await session.write('bar.js', `window.logs.push('init BarV1');`);
 
   await session.resetLogs();
   await session.patch(
@@ -65,7 +68,7 @@ test('propagates a hot update to closest accepted module', async () => {
   // We edited Bar, but it doesn't accept.
   // So we expect it to re-run together with Foo which does.
   await session.resetLogs();
-  await session.patch('./bar.js', `window.logs.push('init BarV2');`);
+  await session.patch('bar.js', `window.logs.push('init BarV2');`);
   await expect(session.logs).resolves.toEqual([
     // // FIXME: Metro order:
     // 'init BarV2',
@@ -80,7 +83,7 @@ test('propagates a hot update to closest accepted module', async () => {
   // We edited Bar, but it doesn't accept.
   // So we expect it to re-run together with Foo which does.
   await session.resetLogs();
-  await session.patch('./bar.js', `window.logs.push('init BarV3');`);
+  await session.patch('bar.js', `window.logs.push('init BarV3');`);
   await expect(session.logs).resolves.toEqual([
     // // FIXME: Metro order:
     // 'init BarV3',
@@ -96,31 +99,28 @@ test('propagates a hot update to closest accepted module', async () => {
   // We still re-run Foo because the exports of Bar changed.
   await session.resetLogs();
   await session.patch(
-    './bar.js',
+    'bar.js',
     // Exporting a component marks it as auto-accepting.
-    `window.logs.push('init BarV3'); export default function Bar() {};`
+    `window.logs.push('init BarV4'); export default function Bar() {};`
   );
-  expect(await session.evaluate(() => window.logs)).toEqual([
+  await expect(session.logs).resolves.toEqual([
     // // FIXME: Metro order:
-    // 'init BarV3',
+    // 'init BarV4',
     // 'init FooV1',
     'init FooV1',
-    'init BarV3',
+    'init BarV4',
     // Webpack runs in this order because it evaluates modules parent down, not
     // child up. Parents will re-run child modules in the order that they're
     // imported from the parent.
   ]);
 
   // Further edits to Bar don't re-run Foo.
-  await session.evaluate(() => (window.logs = []));
+  await session.resetLogs();
   await session.patch(
-    './bar.js',
-    `
-    window.logs.push('init BarV4');
-    export default function Bar() {};
-    `
+    'bar.js',
+    `window.logs.push('init BarV5'); export default function Bar() {};`
   );
-  await expect(session.logs).resolves.toEqual(['init BarV4']);
+  await expect(session.logs).resolves.toEqual(['init BarV5']);
 
   // TODO:
   // expect(Refresh.performReactRefresh).toHaveBeenCalled();
@@ -131,7 +131,8 @@ test('propagates a hot update to closest accepted module', async () => {
 test('propagates hot update to all inverse dependencies', async () => {
   const [session] = await createSandbox();
 
-  await session.patch('index.js', `export default function Noop() { return null; };`);
+  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.reload();
 
   // This is the module graph:
   //         MiddleA*
@@ -183,11 +184,11 @@ test('propagates hot update to all inverse dependencies', async () => {
   // Doesn't accept its own updates; they will propagate.
   await session.write('leaf.js', `window.logs.push('init LeafV1'); export default {};`);
 
+  await session.resetLogs();
   await session.patch(
     'index.js',
     `require('./root'); export default function Noop() { return null; };`
   );
-
   await expect(session.logs).resolves.toEqual([
     'init LeafV1',
     'init MiddleAV1',
@@ -265,18 +266,17 @@ test.todo('bails out if update bubbles to the root via the only path');
 test.todo('bails out if the update bubbles to the root via one of the paths');
 
 // https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2373-L2472
-// FIXME: Enable this test in #89
-test.skip('propagates a module that stops accepting in next version', async () => {
+test('propagates a module that stops accepting in next version', async () => {
   const [session] = await createSandbox();
 
   // Accept in parent
   await session.write(
-    './foo.js',
+    'foo.js',
     `window.logs.push('init FooV1'); import './bar'; export default function Foo() {};`
   );
   // Accept in child
   await session.write(
-    './bar.js',
+    'bar.js',
     `window.logs.push('init BarV1'); export default function Bar() {};`
   );
 
@@ -289,7 +289,7 @@ test.skip('propagates a module that stops accepting in next version', async () =
   didFullRefresh =
     didFullRefresh ||
     !(await session.patch(
-      './bar.js',
+      'bar.js',
       `window.logs.push('init BarV1.1'); export default function Bar() {};`
     ));
   await expect(session.logs).resolves.toEqual(['init BarV1.1']);
@@ -300,7 +300,7 @@ test.skip('propagates a module that stops accepting in next version', async () =
   didFullRefresh =
     didFullRefresh ||
     !(await session.patch(
-      './bar.js',
+      'bar.js',
       // It's important we still export _something_, otherwise webpack will
       // also emit an extra update to the parent module. This happens because
       // webpack converts the module from ESM to CJS, which means the parent
@@ -325,7 +325,7 @@ test.skip('propagates a module that stops accepting in next version', async () =
   didFullRefresh =
     didFullRefresh ||
     !(await session.patch(
-      './bar.js',
+      'bar.js',
       `window.logs.push('init BarV2'); export default function Bar() {};`
     ));
   // Since the export list changed, we have to re-run both the parent and the child.
@@ -341,7 +341,7 @@ test.skip('propagates a module that stops accepting in next version', async () =
   didFullRefresh =
     didFullRefresh ||
     !(await session.patch(
-      './bar.js',
+      'bar.js',
       `window.logs.push('init BarV3'); export default function Bar() {};`
     ));
   await expect(session.logs).resolves.toEqual(['init BarV3']);
@@ -353,7 +353,7 @@ test.skip('propagates a module that stops accepting in next version', async () =
   didFullRefresh =
     didFullRefresh ||
     !(await session.patch(
-      './foo.js',
+      'foo.js',
       `
       if (typeof window !== 'undefined' && window.localStorage) {
         window.localStorage.setItem('init', 'init FooV2')

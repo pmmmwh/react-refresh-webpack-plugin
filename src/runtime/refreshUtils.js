@@ -41,10 +41,10 @@ function getReactRefreshBoundarySignature(moduleExports) {
 
 /**
  * Creates conditional full refresh dispose handler for Webpack hot.
- * @param {*} module A Webpack module object.
+ * @param {*} moduleExports A Webpack module exports object.
  * @returns {hotDisposeCallback} A webpack hot dispose callback.
  */
-function createHotDisposeCallback(module) {
+function createHotDisposeCallback(moduleExports) {
   /**
    * A callback to performs a full refresh if React has unrecoverable errors,
    * and also caches the to-be-disposed module.
@@ -57,7 +57,7 @@ function createHotDisposeCallback(module) {
     }
 
     // We have to mutate the data object to get data registered and cached
-    data.module = module;
+    data.prevExports = moduleExports;
   }
 
   return hotDisposeCallback;
@@ -65,7 +65,7 @@ function createHotDisposeCallback(module) {
 
 /**
  * Creates self-recovering an error handler for webpack hot.
- * @param {string} moduleId A unique ID for a Webpack module.
+ * @param {string} moduleId A Webpack module ID.
  * @returns {selfAcceptingHotErrorHandler} A self-accepting webpack hot error handler.
  */
 function createHotErrorHandler(moduleId) {
@@ -127,12 +127,10 @@ function createDebounceUpdate() {
  * Checks if all exports are likely a React component.
  *
  * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/febdba2383113c88296c61e28e4ef6a7f4939fda/packages/metro/src/lib/polyfills/require.js#L748-L774).
- * @param {*} module A Webpack module object.
+ * @param {*} moduleExports A Webpack module exports object.
  * @returns {boolean} Whether the exports are React component like.
  */
-function isReactRefreshBoundary(module) {
-  const moduleExports = getModuleExports(module);
-
+function isReactRefreshBoundary(moduleExports) {
   if (Refresh.isLikelyComponentType(moduleExports)) {
     return true;
   }
@@ -168,13 +166,11 @@ function isReactRefreshBoundary(module) {
  * Checks if exports are likely a React component and registers them.
  *
  * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/febdba2383113c88296c61e28e4ef6a7f4939fda/packages/metro/src/lib/polyfills/require.js#L818-L835).
- * @param {*} module A Webpack module object.
+ * @param {*} moduleExports A Webpack module exports object.
+ * @param {string} moduleId A Webpack module ID.
  * @returns {void}
  */
-function registerExportsForReactRefresh(module) {
-  const moduleExports = getModuleExports(module);
-  const moduleId = module.id;
-
+function registerExportsForReactRefresh(moduleExports, moduleId) {
   if (Refresh.isLikelyComponentType(moduleExports)) {
     // Register module.exports if it is likely a component
     Refresh.register(moduleExports, moduleId + ' %exports%');
@@ -203,13 +199,13 @@ function registerExportsForReactRefresh(module) {
  * Compares previous and next module objects to check for mutated boundaries.
  *
  * This implementation is based on the one in [Metro](https://github.com/facebook/metro/blob/907d6af22ac6ebe58572be418e9253a90665ecbd/packages/metro/src/lib/polyfills/require.js#L776-L792).
- * @param prevModule {*} The current Webpack module exports object.
- * @param nextModule {*} The next Webpack module exports object.
+ * @param prevExports {*} The current Webpack module exports object.
+ * @param nextExports {*} The next Webpack module exports object.
  * @returns {boolean} Whether the React refresh boundary should be invalidated.
  */
-function shouldInvalidateReactRefreshBoundary(prevModule, nextModule) {
-  const prevSignature = getReactRefreshBoundarySignature(getModuleExports(prevModule));
-  const nextSignature = getReactRefreshBoundarySignature(getModuleExports(nextModule));
+function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
+  const prevSignature = getReactRefreshBoundarySignature(prevExports);
+  const nextSignature = getReactRefreshBoundarySignature(nextExports);
 
   if (prevSignature.length !== nextSignature.length) {
     return true;
@@ -228,6 +224,7 @@ module.exports = Object.freeze({
   createHotDisposeCallback,
   createHotErrorHandler,
   enqueueUpdate: createDebounceUpdate(),
+  getModuleExports,
   isReactRefreshBoundary,
   shouldInvalidateReactRefreshBoundary,
   registerExportsForReactRefresh,

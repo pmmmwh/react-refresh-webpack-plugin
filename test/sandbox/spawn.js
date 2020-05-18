@@ -84,7 +84,7 @@ function spawnWDS(port, directory, options) {
       path.resolve(directory, 'webpack.config.js'),
       '--content-base',
       directory,
-      '--hot-only',
+      '--hot',
       '--port',
       port,
     ],
