@@ -1,10 +1,7 @@
 /* global __resourceQuery, __react_refresh_error_overlay__, __react_refresh_init_socket__ */
 
-const errorEventHandlers = require('./errorEventHandlers');
+const registerErrorEventHandlers = require('./errorEventHandlers');
 const formatWebpackErrors = require('./formatWebpackErrors');
-
-const registerErrorHandler = errorEventHandlers.error;
-const registerUnhandledRejectionHandler = errorEventHandlers.unhandledRejection;
 
 // Setup error states
 let isHotReload = false;
@@ -81,11 +78,11 @@ if (__resourceQuery) {
 // Registers handlers for compile errors
 __react_refresh_init_socket__(compileMessageHandler, overrides);
 // Registers handlers for runtime errors
-registerErrorHandler(function handleError(error) {
+registerErrorEventHandlers.error(function handleError(error) {
   hasRuntimeErrors = true;
   __react_refresh_error_overlay__.handleRuntimeError(error);
 });
-registerUnhandledRejectionHandler(function handleUnhandledPromiseRejection(error) {
+registerErrorEventHandlers.unhandledRejection(function handleUnhandledPromiseRejection(error) {
   hasRuntimeErrors = true;
   __react_refresh_error_overlay__.handleRuntimeError(error);
 });

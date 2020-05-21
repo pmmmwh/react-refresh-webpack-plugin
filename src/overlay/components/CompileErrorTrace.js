@@ -1,11 +1,11 @@
 const ansiHTML = require('ansi-html');
-const Html5Entities = require('html-entities').Html5Entities;
+const HtmlEntities = require('html-entities');
 const theme = require('../theme');
 const formatFilename = require('../utils/formatFilename');
 
 ansiHTML.setColors(theme);
 
-const entities = new Html5Entities();
+const entities = new HtmlEntities.Html5Entities();
 
 /**
  * @typedef {Object} CompileErrorTraceProps
