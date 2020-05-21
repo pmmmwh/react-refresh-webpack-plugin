@@ -21,7 +21,9 @@ function formatMessage(message) {
 
   // Strip Webpack-added headers off errors/warnings
   // https://github.com/webpack/webpack/blob/master/lib/ModuleError.js
-  lines = lines.filter((line) => !/Module [A-z ]+\(from/.test(line));
+  lines = lines.filter(function (line) {
+    return !/Module [A-z ]+\(from/.test(line);
+  });
 
   // Remove leading newline
   if (lines.length > 2 && lines[1].trim() === '') {
@@ -29,9 +31,9 @@ function formatMessage(message) {
   }
 
   // Remove duplicated newlines
-  lines = lines.filter(
-    (line, index, arr) => index === 0 || line.trim() !== '' || line.trim() !== arr[index - 1].trim()
-  );
+  lines = lines.filter(function (line, index, arr) {
+    return index === 0 || line.trim() !== '' || line.trim() !== arr[index - 1].trim();
+  });
 
   // Clean up the file name
   lines[0] = lines[0].replace(/^(.*) \d+:\d+-\d+$/, '$1');
