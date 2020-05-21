@@ -1,10 +1,10 @@
 /* global __resourceQuery, __react_refresh_error_overlay__, __react_refresh_init_socket__ */
 
-const {
-  error: registerErrorHandler,
-  unhandledRejection: registerUnhandledRejectionHandler,
-} = require('./errorEventHandlers');
+const errorEventHandlers = require('./errorEventHandlers');
 const formatWebpackErrors = require('./formatWebpackErrors');
+
+const registerErrorHandler = errorEventHandlers.error;
+const registerUnhandledRejectionHandler = errorEventHandlers.unhandledRejection;
 
 // Setup error states
 let isHotReload = false;

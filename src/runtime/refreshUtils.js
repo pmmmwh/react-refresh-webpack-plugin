@@ -27,7 +27,7 @@ function getReactRefreshBoundarySignature(moduleExports) {
     return signature;
   }
 
-  for (const key in moduleExports) {
+  for (let key in moduleExports) {
     if (key === '__esModule') {
       continue;
     }
@@ -143,7 +143,7 @@ function isReactRefreshBoundary(module) {
 
   let hasExports = false;
   let areAllExportsComponents = true;
-  for (const key in moduleExports) {
+  for (let key in moduleExports) {
     hasExports = true;
 
     // This is the ES Module indicator flag set by Webpack
@@ -185,7 +185,7 @@ function registerExportsForReactRefresh(module) {
     return;
   }
 
-  for (const key in moduleExports) {
+  for (let key in moduleExports) {
     // Skip registering the Webpack ES Module indicator
     if (key === '__esModule') {
       continue;
@@ -225,10 +225,10 @@ function shouldInvalidateReactRefreshBoundary(prevModule, nextModule) {
 }
 
 module.exports = Object.freeze({
-  createHotDisposeCallback,
-  createHotErrorHandler,
+  createHotDisposeCallback: createHotDisposeCallback,
+  createHotErrorHandler: createHotErrorHandler,
   enqueueUpdate: createDebounceUpdate(),
-  isReactRefreshBoundary,
-  shouldInvalidateReactRefreshBoundary,
-  registerExportsForReactRefresh,
+  isReactRefreshBoundary: isReactRefreshBoundary,
+  shouldInvalidateReactRefreshBoundary: shouldInvalidateReactRefreshBoundary,
+  registerExportsForReactRefresh: registerExportsForReactRefresh,
 });

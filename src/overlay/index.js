@@ -326,9 +326,9 @@ function handleRuntimeError(error) {
 }
 
 module.exports = Object.freeze({
-  clearCompileError,
-  clearRuntimeErrors,
-  handleRuntimeError,
-  showCompileError,
-  showRuntimeErrors,
+  clearCompileError: clearCompileError,
+  clearRuntimeErrors: clearRuntimeErrors,
+  handleRuntimeError: handleRuntimeError,
+  showCompileError: showCompileError,
+  showRuntimeErrors: showRuntimeErrors,
 });
