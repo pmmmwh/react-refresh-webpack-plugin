@@ -102,7 +102,9 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
       // Remove current cleanup handler from the global queue since it has been called
       cleanupHandlers.delete(cleanupSandbox);
-    } catch (e) {}
+    } catch (e) {
+      // Do nothing
+    }
   }
 
   // Cache the cleanup handler for global cleanup
