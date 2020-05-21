@@ -1,5 +1,5 @@
 const ansiHTML = require('ansi-html');
-const { Html5Entities } = require('html-entities');
+const Html5Entities = require('html-entities').Html5Entities;
 const theme = require('../theme');
 const formatFilename = require('../utils/formatFilename');
 
