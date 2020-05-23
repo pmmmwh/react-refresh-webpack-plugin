@@ -1,3 +1,10 @@
+## 0.3.2 (22 May 2020)
+
+### Fixes
+
+- Fixed error in overlay when stack trace is unavailable (#91)
+- Fixed IE11 compatibility (#98)
+
 ## 0.3.1 (11 May 2020)
 
 ### Fixes
