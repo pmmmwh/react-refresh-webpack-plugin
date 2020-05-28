@@ -7,7 +7,7 @@ const singletonKey = '__webpack_hot_middleware_reporter__';
 
 /**
  * Initializes a socket server for HMR for webpack-hot-middleware.
- * @param {function(*): void} messageHandler A handler to consume Webpack compilation messages.
+ * @param {function(message: *): void} messageHandler A handler to consume Webpack compilation messages.
  * @param {*} overrides Socket integration overrides to change the connection URL.
  * @returns {void}
  */

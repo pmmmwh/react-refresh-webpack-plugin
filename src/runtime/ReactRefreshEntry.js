@@ -35,7 +35,7 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
 
     /**
      * Creates a module signature function from react-refresh.
-     * @returns {function(string): string} A created signature function.
+     * @returns {function(type: string): string} A created signature function.
      */
     window.$RefreshSig$ = Refresh.createSignatureFunctionForTransform;
 
