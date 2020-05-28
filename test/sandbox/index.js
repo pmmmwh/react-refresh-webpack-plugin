@@ -2,7 +2,6 @@ const path = require('path');
 const fse = require('fs-extra');
 const getPort = require('get-port');
 const { nanoid } = require('nanoid');
-const { getPage } = require('./browser');
 const { getIndexHTML, getWDSConfig } = require('./configs');
 const { killTestProcess, spawnWDS } = require('./spawn');
 
@@ -31,7 +30,7 @@ const log = (...args) => {
 /**
  * Pause current asynchronous execution for provided milliseconds.
  * @param {number} ms
- * @return {Promise<void>}
+ * @returns {Promise<void>}
  */
 const sleep = (ms) => {
   return new Promise((resolve) => {
@@ -42,12 +41,13 @@ const sleep = (ms) => {
 /**
  * @typedef {Object} SandboxSession
  * @property {boolean} didFullRefresh
- * @property {Promise<*[]>} logs
- * @property {function(): Promise<void>} resetLogs
- * @property {function(string, string): Promise<void>} write
- * @property {function(string, string): Promise<void>} patch
- * @property {function(string): Promise<void>} remove
- * @property {function(*): Promise<*>} evaluate
+ * @property {*[]} errors
+ * @property {*[]} logs
+ * @property {function(): void} resetState
+ * @property {function(filename: string, content: string): Promise<void>} write
+ * @property {function(filename: string, content: string): Promise<void>} patch
+ * @property {function(filename: string): Promise<void>} remove
+ * @property {function(fn: *, args: ...*): Promise<*>} evaluate
  * @property {function(): Promise<void>} reload
  */
 
@@ -86,20 +86,51 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
   // TODO: Add handling for webpack-hot-middleware and webpack-plugin-serve
   const app = await spawnWDS(port, sandboxDir);
-  const page = await getPage(port, '/');
+  const page = await browser.newPage();
+
+  await page.goto(`http://localhost:${port}/`);
+
+  let didFullRefresh = false;
+  let errors = [];
+  let logs = [];
+
+  // Expose logging and hot callbacks to the page
+  await Promise.all([
+    page.exposeFunction('log', (...args) => {
+      logs.push(args.join(' '));
+    }),
+    page.exposeFunction('onHotAcceptError', (errorMessage) => {
+      errors.push(errorMessage);
+    }),
+    page.exposeFunction('onHotSuccess', () => {
+      page.emit('hotSuccess');
+    }),
+  ]);
+
+  // Reset testing logs and errors on any navigation.
+  // This is done for the main frame only,
+  // because child frames (e.g. iframes) might attach to the document,
+  // which will cause this event to fire.
+  page.on('framenavigated', (frame) => {
+    if (frame === page.mainFrame()) {
+      resetState();
+    }
+  });
+
+  /** @returns {void} */
+  function resetState() {
+    errors = [];
+    logs = [];
+  }
 
   async function cleanupSandbox() {
-    async function _cleanup() {
+    try {
       await page.close();
       await killTestProcess(app);
 
       if (!__DEBUG__) {
         await fse.remove(sandboxDir);
       }
-    }
-
-    try {
-      await _cleanup();
 
       // Remove current cleanup handler from the global queue since it has been called
       cleanupHandlers.delete(cleanupSandbox);
@@ -112,27 +143,26 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
   // This is done in case tests fail and async handlers are kept alive
   cleanupHandlers.add(cleanupSandbox);
 
-  let didFullRefresh = false;
   return [
     {
-      /** @return {boolean} */
+      /** @returns {boolean} */
       get didFullRefresh() {
         return didFullRefresh;
       },
-      /** @returns {Promise<*[]>} */
+      /** @returns {*[]} */
+      get errors() {
+        return errors;
+      },
+      /** @returns {*[]} */
       get logs() {
-        return page.evaluate(() => window.logs);
+        return logs;
       },
-      /** @returns {Promise<void>} */
-      async resetLogs() {
-        await page.evaluate(() => {
-          window.logs = [];
-        });
-      },
+      /** @returns {void} */
+      resetState,
       /**
        * @param {string} fileName
        * @param {string} content
-       * @return {Promise<void>}
+       * @returns {Promise<void>}
        */
       async write(fileName, content) {
         // Update the file on filesystem
@@ -144,78 +174,56 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
       /**
        * @param {string} fileName
        * @param {string} content
-       * @return {Promise<void>}
+       * @returns {Promise<void>}
        */
       async patch(fileName, content) {
         // Register an event for HMR completion
-        await page.evaluate(() => {
-          window.__HMR_STATE = 'pending';
+        let hmrStatus = 'pending';
+        // Parallelize file writing and event listening to prevent race conditions
+        await Promise.all([
+          this.write(fileName, content),
+          new Promise((resolve) => {
+            const hmrTimeout = setTimeout(() => {
+              hmrStatus = 'timeout';
+              resolve();
+            }, 30 * 1000);
 
-          const timeout = setTimeout(function () {
-            window.__HMR_STATE = 'timeout';
-          }, 30 * 1000);
+            // Frame Navigate and Hot Success events have to be exclusive,
+            // so we remove the other listener when one of them is triggered.
 
-          window.__HMR_CALLBACK = function () {
-            clearTimeout(timeout);
-            window.__HMR_STATE = 'success';
-          };
-        });
+            const onFrameNavigate = (frame) => {
+              if (frame === page.mainFrame()) {
+                page.removeListener('hotSuccess', onHotSuccess);
+                clearTimeout(hmrTimeout);
+                hmrStatus = 'reloaded';
+                resolve();
+              }
+            };
 
-        await this.write(fileName, content);
+            const onHotSuccess = () => {
+              page.removeListener('framenavigated', onFrameNavigate);
+              clearTimeout(hmrTimeout);
+              hmrStatus = 'success';
+              resolve();
+            };
 
-        for (;;) {
-          let status;
-          try {
-            status = await page.evaluate(() => window.__HMR_STATE);
-          } catch (error) {
-            // This message indicates a navigation, so it can be safely ignored.
-            // Else, we re-throw the error to indicate a failure.
-            if (!error.message.includes('Execution context was destroyed')) {
-              throw error;
-            }
-          }
+            // Make sure that the event listener is bound to trigger only once
+            page.once('framenavigated', onFrameNavigate);
+            page.once('hotSuccess', onHotSuccess);
+          }),
+        ]);
 
-          if (!status) {
-            await sleep(1000);
-
-            // Wait for application to reload
-            await page.evaluate(() => {
-              return new Promise((resolve) => {
-                if (window.__REACT_REFRESH_RELOADED) {
-                  resolve();
-                } else {
-                  const timeout = setTimeout(resolve, 30 * 1000);
-                  window.__REACT_REFRESH_RELOADED_CB = function () {
-                    clearTimeout(timeout);
-                    resolve();
-                  };
-                }
-              });
-            });
-
-            log('Application re-loaded.');
-
-            // Slow down tests to wait for re-rendering
-            await sleep(1000);
-            didFullRefresh = didFullRefresh || true;
-            return;
-          }
-
-          if (status === 'success') {
-            log('Hot update complete.');
-            break;
-          }
-
-          if (status !== 'pending') {
-            throw new Error(`Application is in inconsistent state: ${status}.`);
-          }
-
-          await sleep(30);
+        if (hmrStatus === 'reloaded') {
+          log('Application reloaded.');
+          didFullRefresh = didFullRefresh || true;
+        } else if (hmrStatus === 'success') {
+          log('Hot update complete.');
+        } else {
+          throw new Error(`Application is in an inconsistent state: ${hmrStatus}.`);
         }
 
         // Slow down tests to wait for re-rendering
         await sleep(1000);
-        didFullRefresh = didFullRefresh || false;
       },
       /**
        * @param {string} fileName
@@ -227,13 +235,12 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
       },
       /**
        * @param {*} fn
+       * @param {...*} restArgs
        * @returns {Promise<*>}
        */
-      async evaluate(fn) {
+      async evaluate(fn, ...restArgs) {
         if (typeof fn === 'function') {
-          const result = await page.evaluate(fn);
-          await sleep(30);
-          return result;
+          return await page.evaluate(fn, ...restArgs);
         } else {
           throw new Error('You must pass a function to be evaluated in the browser!');
         }

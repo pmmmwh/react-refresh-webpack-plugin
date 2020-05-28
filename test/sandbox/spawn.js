@@ -8,7 +8,7 @@ const spawn = require('cross-spawn');
  * @param {string} [options.cwd]
  * @param {*} [options.env]
  * @param {string | RegExp} [options.successMessage]
- * @return {Promise<import('child_process').ChildProcess | void>}
+ * @returns {Promise<import('child_process').ChildProcess | void>}
  */
 function spawnTestProcess(processPath, argv, options = {}) {
   const cwd = options.cwd || path.resolve(__dirname, '../..');
@@ -72,8 +72,8 @@ function spawnTestProcess(processPath, argv, options = {}) {
 /**
  * @param {number} port
  * @param {string} directory
- * @param {*} options
- * @return {Promise<import('child_process').ChildProcess | void>}
+ * @param {*} [options]
+ * @returns {Promise<import('child_process').ChildProcess | void>}
  */
 function spawnWDS(port, directory, options) {
   const wdsBin = path.resolve('node_modules/.bin/webpack-dev-server');
