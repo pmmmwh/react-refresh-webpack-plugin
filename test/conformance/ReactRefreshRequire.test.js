@@ -1,76 +1,77 @@
 const createSandbox = require('../sandbox');
 
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L989-L1048
-test('re-runs accepted modules', async () => {
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1028-L1087
+it('re-runs accepted modules', async () => {
   const [session] = await createSandbox();
 
   // Bootstrap test and reload session to not rely on auto-refresh semantics
-  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
 
-  await session.write('foo.js', `window.logs.push('init FooV1'); require('./bar');`);
+  await session.write('foo.js', `window.log('init FooV1'); require('./bar');`);
   await session.write(
     'bar.js',
-    `window.logs.push('init BarV1'); export default function Bar() { return null; };`
+    `window.log('init BarV1'); module.exports = function Bar() { return null; };`
   );
 
-  await session.resetLogs();
+  session.resetState();
   await session.patch(
     'index.js',
-    `require('./foo'); export default function Noop() { return null; };`
+    `require('./foo'); module.exports = function Noop() { return null; };`
   );
-  await expect(session.logs).resolves.toEqual(['init FooV1', 'init BarV1']);
+  expect(session.logs).toStrictEqual(['init FooV1', 'init BarV1']);
 
   // We only edited Bar, and it accepted.
   // So we expect it to re-run alone.
-  await session.resetLogs();
+  session.resetState();
   await session.patch(
     'bar.js',
-    `window.logs.push('init BarV2'); export default function Bar() { return null; };`
+    `window.log('init BarV2'); module.exports = function Bar() { return null; };`
   );
-  await expect(session.logs).resolves.toEqual(['init BarV2']);
+  expect(session.logs).toStrictEqual(['init BarV2']);
 
   // We only edited Bar, and it accepted.
   // So we expect it to re-run alone.
-  await session.resetLogs();
+  session.resetState();
   await session.patch(
     'bar.js',
-    `window.logs.push('init BarV3'); export default function Bar() { return null; };`
+    `window.log('init BarV3'); module.exports = function Bar() { return null; };`
   );
-  await expect(session.logs).resolves.toEqual(['init BarV3']);
+  expect(session.logs).toStrictEqual(['init BarV3']);
 
   // TODO:
   // expect(Refresh.performReactRefresh).toHaveBeenCalled();
   // expect(Refresh.performFullRefresh).not.toHaveBeenCalled();
+  expect(session.didFullRefresh).toBe(false);
 });
 
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1050-L1137
-test('propagates a hot update to closest accepted module', async () => {
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1089-L1176
+it('propagates a hot update to closest accepted module', async () => {
   const [session] = await createSandbox();
 
-  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
 
   await session.write(
     'foo.js',
     // Exporting a component marks it as auto-accepting.
-    `window.logs.push('init FooV1'); require('./bar'); export default function Foo() {};`
+    `window.log('init FooV1'); require('./bar'); module.exports = function Foo() {};`
   );
-  await session.write('bar.js', `window.logs.push('init BarV1');`);
+  await session.write('bar.js', `window.log('init BarV1');`);
 
-  await session.resetLogs();
+  session.resetState();
   await session.patch(
     'index.js',
-    `require('./foo'); export default function Noop() { return null; };`
+    `require('./foo'); module.exports = function Noop() { return null; };`
   );
-  await expect(session.logs).resolves.toEqual(['init FooV1', 'init BarV1']);
+  expect(session.logs).toStrictEqual(['init FooV1', 'init BarV1']);
 
   // We edited Bar, but it doesn't accept.
   // So we expect it to re-run together with Foo which does.
-  await session.resetLogs();
-  await session.patch('bar.js', `window.logs.push('init BarV2');`);
-  await expect(session.logs).resolves.toEqual([
-    // // FIXME: Metro order:
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV2');`);
+  expect(session.logs).toStrictEqual([
+    // FIXME: Metro order:
     // 'init BarV2',
     // 'init FooV1',
     'init FooV1',
@@ -82,9 +83,9 @@ test('propagates a hot update to closest accepted module', async () => {
 
   // We edited Bar, but it doesn't accept.
   // So we expect it to re-run together with Foo which does.
-  await session.resetLogs();
-  await session.patch('bar.js', `window.logs.push('init BarV3');`);
-  await expect(session.logs).resolves.toEqual([
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV3');`);
+  expect(session.logs).toStrictEqual([
     // // FIXME: Metro order:
     // 'init BarV3',
     // 'init FooV1',
@@ -97,13 +98,13 @@ test('propagates a hot update to closest accepted module', async () => {
 
   // We edited Bar so that it accepts itself.
   // We still re-run Foo because the exports of Bar changed.
-  await session.resetLogs();
+  session.resetState();
   await session.patch(
     'bar.js',
     // Exporting a component marks it as auto-accepting.
-    `window.logs.push('init BarV4'); export default function Bar() {};`
+    `window.log('init BarV4'); module.exports = function Bar() {};`
   );
-  await expect(session.logs).resolves.toEqual([
+  expect(session.logs).toStrictEqual([
     // // FIXME: Metro order:
     // 'init BarV4',
     // 'init FooV1',
@@ -115,23 +116,21 @@ test('propagates a hot update to closest accepted module', async () => {
   ]);
 
   // Further edits to Bar don't re-run Foo.
-  await session.resetLogs();
-  await session.patch(
-    'bar.js',
-    `window.logs.push('init BarV5'); export default function Bar() {};`
-  );
-  await expect(session.logs).resolves.toEqual(['init BarV5']);
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV5'); module.exports = function Bar() {};`);
+  expect(session.logs).toStrictEqual(['init BarV5']);
 
   // TODO:
   // expect(Refresh.performReactRefresh).toHaveBeenCalled();
   // expect(Refresh.performFullRefresh).not.toHaveBeenCalled();
+  expect(session.didFullRefresh).toBe(false);
 });
 
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1139-L1307
-test('propagates hot update to all inverse dependencies', async () => {
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1178-L1346
+it('propagates hot update to all inverse dependencies', async () => {
   const [session] = await createSandbox();
 
-  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
 
   // This is the module graph:
@@ -149,218 +148,771 @@ test('propagates hot update to all inverse dependencies', async () => {
   await session.write(
     'root.js',
     `
-    window.logs.push('init RootV1');
+    window.log('init RootV1');
 
-    import './middleA';
-    import './middleB';
-    import './middleC';
+    require('./middleA');
+    require('./middleB');
+    require('./middleC');
 
-    export default function Root() {};
+    module.exports = function Root() {};
     `
   );
   await session.write(
     'middleA.js',
-    `
-    window.logs.push('init MiddleAV1');
-
-    import './leaf';
-
-    export default function MiddleA() {};
-    `
+    `window.log('init MiddleAV1'); require('./leaf'); module.exports = function MiddleA() {};`
   );
   await session.write(
     'middleB.js',
-    `
-    window.logs.push('init MiddleBV1');
-
-    import './leaf';
-
-    export default function MiddleB() {};
+    `window.log('init MiddleBV1'); require('./leaf'); module.exports = function MiddleB() {};
     `
   );
   // This one doesn't import leaf and also doesn't export a component,
   // so, it doesn't accept its own updates.
-  await session.write('middleC.js', `window.logs.push('init MiddleCV1'); export default {};`);
+  await session.write('middleC.js', `window.log('init MiddleCV1'); module.exports = {};`);
   // Doesn't accept its own updates; they will propagate.
-  await session.write('leaf.js', `window.logs.push('init LeafV1'); export default {};`);
+  await session.write('leaf.js', `window.log('init LeafV1'); module.exports = {};`);
 
-  await session.resetLogs();
+  session.resetState();
   await session.patch(
     'index.js',
-    `require('./root'); export default function Noop() { return null; };`
+    `require('./root'); module.exports = function Noop() { return null; };`
   );
-  await expect(session.logs).resolves.toEqual([
-    'init LeafV1',
+  expect(session.logs).toStrictEqual([
+    'init RootV1',
     'init MiddleAV1',
+    'init LeafV1',
     'init MiddleBV1',
     'init MiddleCV1',
-    'init RootV1',
   ]);
 
   // We edited Leaf, but it doesn't accept.
   // So we expect it to re-run together with MiddleA and MiddleB which do.
-  await session.resetLogs();
-  await session.patch('leaf.js', `window.logs.push('init LeafV2'); export default {};`);
-  await expect(session.logs).resolves.toEqual(['init LeafV2', 'init MiddleAV1', 'init MiddleBV1']);
+  session.resetState();
+  await session.patch('leaf.js', `window.log('init LeafV2'); module.exports = {};`);
+  expect(session.logs).toStrictEqual(['init MiddleAV1', 'init LeafV2', 'init MiddleBV1']);
 
   // Let's try the same one more time.
-  await session.resetLogs();
-  await session.patch('leaf.js', `window.logs.push('init LeafV3'); export default {};`);
-  await expect(session.logs).resolves.toEqual(['init LeafV3', 'init MiddleAV1', 'init MiddleBV1']);
+  session.resetState();
+  await session.patch('leaf.js', `window.log('init LeafV3'); module.exports = {};`);
+  expect(session.logs).toStrictEqual(['init MiddleAV1', 'init LeafV3', 'init MiddleBV1']);
 
   // Now edit MiddleB. It should accept and re-run alone.
-  await session.resetLogs();
+  session.resetState();
   await session.patch(
     'middleB.js',
-    `
-    window.logs.push('init MiddleBV2');
-
-    import './leaf';
-
-    export default function MiddleB() {};
+    `window.log('init MiddleBV2'); require('./leaf'); module.exports = function MiddleB() {};
     `
   );
-  await expect(session.logs).resolves.toEqual(['init MiddleBV2']);
+  expect(session.logs).toStrictEqual(['init MiddleBV2']);
 
   // Finally, edit MiddleC. It didn't accept so it should bubble to Root.
-  await session.resetLogs();
-  await session.patch('middleC.js', `window.logs.push('init MiddleCV2'); export default {};`);
-  await expect(session.logs).resolves.toEqual(['init MiddleCV2', 'init RootV1']);
+  session.resetState();
+  await session.patch('middleC.js', `window.log('init MiddleCV2'); module.exports = {};`);
+  expect(session.logs).toStrictEqual(['init RootV1', 'init MiddleCV2']);
 
   // TODO:
   // expect(Refresh.performReactRefresh).toHaveBeenCalled()
   // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
 });
 
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1309-L1406
-test.todo('runs dependencies before dependents');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1408-L1498
-test.todo('provides fresh value for module.exports in parents');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1500-L1590
-test.todo('provides fresh value for exports.* in parents');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1592-L1688
-test.todo('provides fresh value for ES6 named import in parents');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1690-L1786
-test.todo('provides fresh value for ES6 default import in parents');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1788-L1899
-test.todo('stops update propagation after module-level errors');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1901-L2010
-test.todo('can continue hot updates after module-level errors with module.exports');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2012-L2123
-test.todo('can continue hot updates after module-level errors with ES6 exports');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2125-L2233
-test.todo('does not accumulate stale exports over time');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2235-L2279
-test.todo('bails out if update bubbles to the root via the only path');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2281-L2371
-test.todo('bails out if the update bubbles to the root via one of the paths');
-
-// https://github.com/facebook/metro/blob/b651e535cd0fc5df6c0803b9aa647d664cb9a6c3/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2373-L2472
-test('propagates a module that stops accepting in next version', async () => {
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1348-L1445
+it('runs dependencies before dependents', async () => {
   const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
+  await session.reload();
+
+  // This is the module graph:
+  //        MiddleA* ----
+  //     /      |         \
+  // Root    MiddleB ----- Leaf
+  //
+  // * - refresh boundary (exports a component)
+  //
+  // We expect that editing Leaf will propagate to
+  // MiddleA which is a Refresh Boundary.
+  //
+  // However, it's essential that code for MiddleB executes *before* MiddleA on updates.
+
+  await session.write(
+    'root.js',
+    `window.log('init RootV1'); require('./middleA'); module.exports = function Root() {};`
+  );
+  await session.write(
+    'middleA.js',
+    `window.log('init MiddleAV1');
+     const Leaf = require('./leaf');
+     const MiddleB = require('./middleB');
+     module.exports = function MiddleA() {
+       return Leaf * MiddleB;
+     };`
+  );
+  await session.write(
+    'middleB.js',
+    `window.log('init MiddleBV1'); const Leaf = require('./leaf'); module.exports = Leaf;`
+  );
+  await session.write(
+    'leaf.js',
+    // Doesn't accept its own updates; they will propagate.
+    `window.log('init LeafV1'); module.exports = 2;`
+  );
+
+  session.resetState();
+  await session.patch(
+    'index.js',
+    `require('./root'); module.exports = function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual([
+    'init RootV1',
+    'init MiddleAV1',
+    'init LeafV1',
+    'init MiddleBV1',
+  ]);
+
+  session.resetState();
+  await session.patch('leaf.js', `window.log('init LeafV2'); module.exports = 3;`);
+  expect(session.logs).toStrictEqual(['init MiddleAV1', 'init LeafV2', 'init MiddleBV1']);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1447-L1537
+it('provides fresh value for module.exports in parents', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
+  await session.reload();
+
+  await session.write(
+    'foo.js',
+    // This module accepts itself
+    `const BarValue = require('./bar');
+     window.log('init FooV1 with BarValue = ' + BarValue);
+     module.exports = function Foo() {};`
+  );
+  await session.write(
+    'bar.js',
+    // This module will propagate to the parent
+    `window.log('init BarV1'); module.exports = 1;`
+  );
+
+  session.resetState();
+  await session.patch(
+    'index.js',
+    `require('./foo'); module.exports = function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1 with BarValue = 1']);
+
+  // We edited Bar, but it doesn't accept.
+  // So we expect it to re-run together with Foo which does.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV2'); module.exports = 2;`);
+  expect(session.logs).toStrictEqual(['init BarV2', 'init FooV1 with BarValue = 2']);
+
+  // Let's try this again.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV3'); module.exports = 3;`);
+  expect(session.logs).toStrictEqual(['init BarV3', 'init FooV1 with BarValue = 3']);
+
+  // Now let's edit the parent which accepts itself
+  session.resetState();
+  await session.patch(
+    'foo.js',
+    `const BarValue = require('./bar');
+     window.log('init FooV2 with BarValue = ' + BarValue);
+     module.exports = function Foo() {};`
+  );
+  expect(session.logs).toStrictEqual(['init FooV2 with BarValue = 3']);
+
+  // Verify editing the child didn't break after parent update.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV4'); module.exports = 4;`);
+  expect(session.logs).toStrictEqual(['init BarV4', 'init FooV2 with BarValue = 4']);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1539-L1629
+it('provides fresh value for exports.* in parents', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
+  await session.reload();
+
+  await session.write(
+    'foo.js',
+    // This module accepts itself
+    `
+    const BarValue = require('./bar').value;
+    window.log('init FooV1 with BarValue = ' + BarValue);
+    exports.Foo = function Foo() {};`
+  );
+  await session.write(
+    'bar.js',
+    // This module will propagate to the parent
+    `window.log('init BarV1'); exports.value = 1;`
+  );
+
+  session.resetState();
+  await session.patch(
+    'index.js',
+    `require('./foo'); module.exports = function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1 with BarValue = 1']);
+
+  // We edited Bar, but it doesn't accept.
+  // So we expect it to re-run together with Foo which does.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV2'); exports.value = 2;`);
+  expect(session.logs).toStrictEqual(['init BarV2', 'init FooV1 with BarValue = 2']);
+
+  // Let's try this again
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV3'); exports.value = 3;`);
+  expect(session.logs).toStrictEqual(['init BarV3', 'init FooV1 with BarValue = 3']);
+
+  // Now let's edit the parent which accepts itself
+  session.resetState();
+  await session.patch(
+    'foo.js',
+    `
+    const BarValue = require('./bar').value;
+    window.log('init FooV2 with BarValue = ' + BarValue);
+    exports.Foo = function Foo() {};`
+  );
+  expect(session.logs).toStrictEqual(['init FooV2 with BarValue = 3']);
+
+  // Verify editing the child didn't break after parent update
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV4'); exports.value = 4;`);
+  expect(session.logs).toStrictEqual(['init BarV4', 'init FooV2 with BarValue = 4']);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1631-L1727
+it('provides fresh value for ES6 named import in parents', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.reload();
+
+  await session.write(
+    'foo.js',
+    // This module accepts itself
+    `
+    import { value as BarValue } from './bar';
+    window.log('init FooV1 with BarValue = ' + BarValue);
+    export function Foo() {};`
+  );
+  await session.write(
+    'bar.js',
+    // This module will propagate to the parent
+    `window.log('init BarV1'); export const value = 1;`
+  );
+
+  session.resetState();
+  await session.patch(
+    'index.js',
+    `import './foo'; export default function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1 with BarValue = 1']);
+
+  // We edited Bar, but it doesn't accept.
+  // So we expect it to re-run together with Foo which does.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV2'); export const value = 2;`);
+  expect(session.logs).toStrictEqual(['init BarV2', 'init FooV1 with BarValue = 2']);
+
+  // Let's try this again
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV3'); export const value = 3;`);
+  expect(session.logs).toStrictEqual(['init BarV3', 'init FooV1 with BarValue = 3']);
+
+  // Now let's edit the parent which accepts itself
+  session.resetState();
+  await session.patch(
+    'foo.js',
+    `
+    import { value as BarValue } from './bar';
+    window.log('init FooV2 with BarValue = ' + BarValue);
+    export function Foo() {};`
+  );
+  expect(session.logs).toStrictEqual(['init FooV2 with BarValue = 3']);
+
+  // Verify editing the child didn't break after parent update
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV4'); export const value = 4;`);
+  expect(session.logs).toStrictEqual(['init BarV4', 'init FooV2 with BarValue = 4']);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1729-L1825
+it('provides fresh value for ES6 default import in parents', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.reload();
+
+  await session.write(
+    'foo.js',
+    // This module accepts itself
+    `
+    import BarValue from './bar';
+    window.log('init FooV1 with BarValue = ' + BarValue);
+    export default function Foo() {};`
+  );
+  await session.write(
+    'bar.js',
+    // This module will propagate to the parent
+    `window.log('init BarV1'); export default 1;`
+  );
+
+  session.resetState();
+  await session.patch(
+    'index.js',
+    `import './foo'; export default function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1 with BarValue = 1']);
+
+  // We edited Bar, but it doesn't accept.
+  // So we expect it to re-run together with Foo which does.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV2'); export default 2;`);
+  expect(session.logs).toStrictEqual(['init BarV2', 'init FooV1 with BarValue = 2']);
+
+  // Let's try this again
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV3'); export default 3;`);
+  expect(session.logs).toStrictEqual(['init BarV3', 'init FooV1 with BarValue = 3']);
+
+  // Now let's edit the parent which accepts itself
+  session.resetState();
+  await session.patch(
+    'foo.js',
+    `
+    import BarValue from './bar';
+    window.log('init FooV2 with BarValue = ' + BarValue);
+    export default function Foo() {};`
+  );
+  expect(session.logs).toStrictEqual(['init FooV2 with BarValue = 3']);
+
+  // Verify editing the child didn't break after parent update
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV4'); export default 4;`);
+  expect(session.logs).toStrictEqual(['init BarV4', 'init FooV2 with BarValue = 4']);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
+});
+
+// Currently, webpack does not stop propagation after errors,
+// but rather stops execution in parent after the errored module.
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1827-L1938
+it('stops execution after module-level errors', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
+  await session.reload();
+
+  await session.write(
+    'foo.js',
+    `const Bar = require('./bar');
+     window.log('init FooV1');
+     module.exports = function Foo() {};`
+  );
+  await session.write(
+    'bar.js',
+    // This module normally propagates to the parent.
+    `module.exports = 'V1'; window.log('init BarV1');`
+  );
+
+  session.resetState();
+  await session.patch(
+    'index.js',
+    `require('./foo'); module.exports = function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1']);
+  expect(session.errors).toHaveLength(0);
+
+  // We only edited Bar.
+  // Normally it would propagate to the parent.
+  // But the error should stop the execution early.
+  session.resetState();
+  await session.patch(
+    'bar.js',
+    `window.log('init BarV2'); module.exports = 'V2'; throw new Error('init error during BarV2');`
+  );
+  expect(session.logs).toStrictEqual(['init BarV2']);
+  expect(session.errors).toHaveLength(1);
+  expect(session.errors[0]).toStrictEqual('init error during BarV2');
+
+  // Let's make another error.
+  session.resetState();
+  await session.patch(
+    'bar.js',
+    `window.log('init BarV3'); throw new Error('init error during BarV3');`
+  );
+  expect(session.logs).toStrictEqual(['init BarV3']);
+  expect(session.errors).toHaveLength(1);
+  expect(session.errors[0]).toStrictEqual('init error during BarV3');
+
+  // Finally, let's fix the code.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV4'); module.exports = 'V4';`);
+  expect(session.logs).toStrictEqual(['init BarV4', 'init FooV1']);
+  expect(session.errors).toHaveLength(0);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1940-L2049
+it('can continue hot updates after module-level errors with module.exports', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
+  await session.reload();
+
+  await session.write('foo.js', `require('./bar'); window.log('init FooV1');`);
+  await session.write(
+    'bar.js',
+    // This module accepts itself
+    `window.log('init BarV1'); module.exports = function Bar() {};`
+  );
+
+  session.resetState();
+  await session.patch(
+    'index.js',
+    `require('./foo'); module.exports = function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1']);
+  expect(session.errors).toHaveLength(0);
+
+  // We only edited Bar, and it accepted.
+  // So we expect it to re-run alone.
+  session.resetState();
+  await session.patch(
+    'bar.js',
+    `window.log('init BarV2'); module.exports = function Bar() {}; throw new Error('init error during BarV2');`
+  );
+  expect(session.logs).toStrictEqual(['init BarV2']);
+  expect(session.errors).toHaveLength(1);
+  expect(session.errors[0]).toBe('init error during BarV2');
+
+  // Let's fix the code.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV4'); module.exports = function Bar() {};`);
+  expect(session.logs).toStrictEqual(['init BarV4']);
+  expect(session.errors).toHaveLength(0);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2051-L2162
+it('can continue hot updates after module-level errors with ES6 exports', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.reload();
+
+  await session.write('foo.js', `import './bar'; window.log('init FooV1');`);
+  await session.write(
+    'bar.js',
+    // This module accepts itself
+    `window.log('init BarV1'); export default function Bar() {};`
+  );
+
+  session.resetState();
+  await session.patch(
+    'index.js',
+    `import './foo'; export default function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1']);
+  expect(session.errors).toHaveLength(0);
+
+  // We only edited Bar, and it accepted.
+  // So we expect it to re-run alone.
+  session.resetState();
+  await session.patch(
+    'bar.js',
+    `window.log('init BarV2'); export default function Bar() {}; throw new Error('init error during BarV2');`
+  );
+  expect(session.logs).toStrictEqual(['init BarV2']);
+  expect(session.errors).toHaveLength(1);
+  expect(session.errors[0]).toBe('init error during BarV2');
+
+  // Let's fix the code.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV3'); export default function Bar() {};`);
+  expect(session.logs).toStrictEqual(['init BarV3']);
+  expect(session.errors).toHaveLength(0);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2164-L2272
+it('does not accumulate stale exports over time', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
+  await session.reload();
+
+  await session.write(
+    'foo.js',
+    // This module accepts itself
+    `const BarExports = require('./bar');
+     window.log('init FooV1 with BarExports = ' + JSON.stringify(BarExports));
+     module.exports = function Foo() {};`
+  );
+  await session.write(
+    'bar.js',
+    // This module will propagate to the parent
+    `window.log('init BarV1'); exports.a = 1; exports.b = 2;`
+  );
+
+  session.resetState();
+  await session.patch(
+    'index.js',
+    `require('./foo'); module.exports = function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1 with BarExports = {"a":1,"b":2}']);
+
+  session.resetState();
+  await session.patch(
+    'bar.js',
+    // These are completely different exports
+    `window.log('init BarV2'); exports.c = 3; exports.d = 4;`
+  );
+  // Make sure we don't see {a, b} anymore.
+  expect(session.logs).toStrictEqual(['init BarV2', 'init FooV1 with BarExports = {"c":3,"d":4}']);
+
+  // Also edit the parent and verify the same again
+  session.resetState();
+  await session.patch(
+    'foo.js',
+    `const BarExports = require('./bar');
+     window.log('init FooV2 with BarExports = ' + JSON.stringify(BarExports));
+     module.exports = function Foo() {};`
+  );
+  expect(session.logs).toStrictEqual(['init FooV2 with BarExports = {"c":3,"d":4}']);
+
+  // Temporarily crash the child.
+  session.resetState();
+  await session.patch('bar.js', `throw new Error('oh no');`);
+  expect(session.logs).toStrictEqual([]);
+
+  // Try one last time to edit the child.
+  session.resetState();
+  await session.patch(
+    'bar.js',
+    // These are completely different exports
+    `window.log('init BarV3'); exports.e = 5; exports.f = 6;`
+  );
+  expect(session.logs).toStrictEqual(['init BarV3', 'init FooV2 with BarExports = {"e":5,"f":6}']);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2274-L2318
+it('bails out if update bubbles to the root via the only path', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = () => null;`);
+  await session.reload();
+
+  await session.write('foo.js', `window.log('init FooV1'); require('./bar');`);
+  await session.write('bar.js', `window.log('init BarV1');`);
+
+  session.resetState();
+  await session.patch('index.js', `require('./foo'); module.exports = () => null;`);
+  expect(session.logs).toStrictEqual(['init FooV1', 'init BarV1']);
+
+  // Because root will not except,
+  // we need to reload the session to make sure the app is in an updated state.
+  await session.reload();
+
+  // Neither Bar nor Foo accepted, so update reached the root.
+  session.resetState();
+  await session.patch(
+    'bar.js',
+    `if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem('init', 'init BarV2');
+    }`
+  );
+  await expect(session.evaluate(() => window.localStorage.getItem('init'))).resolves.toEqual(
+    'init BarV2'
+  );
+
+  // Expect full refresh.
+  // TODO:
+  // expect(Refresh.performReactRefresh).not.toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(true);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2320-L2410
+it('bails out if the update bubbles to the root via one of the paths', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = () => null;`);
+  await session.reload();
+
+  await session.write('foo.js', `window.log('init FooV1'); require('./bar'); require('./baz');`);
+  await session.write(
+    'bar.js',
+    // This module accepts itself
+    `window.log('init BarV1'); require('./qux'); module.exports = function Bar() {};`
+  );
+  await session.write(
+    'baz.js',
+    // This one doesn't accept itself,
+    // causing updates to Qux to bubble through the root.
+    `window.log('init BazV1'); require('./qux');`
+  );
+  await session.write(
+    'qux.js',
+    // Doesn't accept itself, and only one its parent path accepts.
+    `window.log('init QuxV1');`
+  );
+
+  session.resetState();
+  await session.patch('index.js', `require('./foo'); module.exports = () => null;`);
+  expect(session.logs).toStrictEqual(['init FooV1', 'init BarV1', 'init QuxV1', 'init BazV1']);
+
+  // Because root will not except,
+  // we need to reload the session to make sure the app is in an updated state.
+  await session.reload();
+
+  // Edit Bar. It should self-accept.
+  session.resetState();
+  await session.patch(
+    'bar.js',
+    `window.log('init BarV2'); require('./qux'); module.exports = function Bar() {};`
+  );
+  expect(session.logs).toStrictEqual(['init BarV2']);
+
+  // TODO:
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled();
+  expect(session.didFullRefresh).toBe(false);
+
+  // Edit Qux. It should bubble. Baz accepts the update, Bar won't.
+  // So this update should bubble through the root.
+  session.resetState();
+  await session.patch(
+    'qux.js',
+    `if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem('init', 'init QuxV2');
+    }`
+  );
+  await expect(session.evaluate(() => window.localStorage.getItem('init'))).resolves.toEqual(
+    'init QuxV2'
+  );
+
+  // Expect full refresh.
+  // TODO:
+  // expect(Refresh.performReactRefresh).not.toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(true);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2412-L2511
+it('propagates a module that stops accepting in next version', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = () => null;`);
+  await session.reload();
 
   // Accept in parent
   await session.write(
     'foo.js',
-    `window.logs.push('init FooV1'); import './bar'; export default function Foo() {};`
+    `window.log('init FooV1'); require('./bar'); module.exports = function Foo() {};`
   );
   // Accept in child
-  await session.write(
-    'bar.js',
-    `window.logs.push('init BarV1'); export default function Bar() {};`
-  );
+  await session.write('bar.js', `window.log('init BarV1'); module.exports = function Bar() {};`);
 
-  await session.patch('index.js', `require('./foo'); export default () => null;`);
-  await expect(session.logs).resolves.toEqual(['init BarV1', 'init FooV1']);
+  await session.patch('index.js', `require('./foo'); module.exports = () => null;`);
+  expect(session.logs).toStrictEqual(['init FooV1', 'init BarV1']);
+
+  // Because root will not except,
+  // we need to reload the session to make sure the app is in an updated state.
+  await session.reload();
 
   // Verify the child can accept itself
-  let didFullRefresh = false;
-  await session.resetLogs();
-  didFullRefresh =
-    didFullRefresh ||
-    !(await session.patch(
-      'bar.js',
-      `window.logs.push('init BarV1.1'); export default function Bar() {};`
-    ));
-  await expect(session.logs).resolves.toEqual(['init BarV1.1']);
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV1.1'); module.exports = function Bar() {};`);
+  expect(session.logs).toStrictEqual(['init BarV1.1']);
 
   // Now let's change the child to *not* accept itself.
   // We'll expect that now the parent will handle the evaluation.
-  await session.resetLogs();
-  didFullRefresh =
-    didFullRefresh ||
-    !(await session.patch(
-      'bar.js',
-      // It's important we still export _something_, otherwise webpack will
-      // also emit an extra update to the parent module. This happens because
-      // webpack converts the module from ESM to CJS, which means the parent
-      // module must update how it "imports" the module (drops interop code).
-      // TODO: propose Webpack to interrupt the current update phase when `module.hot.invalidate()` is called.
-      `window.logs.push('init BarV2'); export {};`
-    ));
-  // We re-run Bar and expect to stop there. However,
-  // it didn't export a component, so we go higher.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV2');`);
+  // We re-run Bar and expect to stop there.
+  // However, it didn't export a component, so we go higher.
   // We stop at Foo which currently _does_ export a component.
-  await expect(session.logs).resolves.toEqual([
+  expect(session.logs).toStrictEqual(
     // Bar is evaluated twice:
     // 1. To invalidate itself once it realizes it's no longer acceptable.
     // 2. As a child of Foo re-evaluating.
-    'init BarV2',
-    'init BarV2',
-    'init FooV1',
-  ]);
+    ['init BarV2', 'init FooV1', 'init BarV2']
+  );
 
   // Change it back so that the child accepts itself.
-  await session.resetLogs();
-  didFullRefresh =
-    didFullRefresh ||
-    !(await session.patch(
-      'bar.js',
-      `window.logs.push('init BarV2'); export default function Bar() {};`
-    ));
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV2'); module.exports = function Bar() {};`);
   // Since the export list changed, we have to re-run both the parent and the child.
-  await expect(session.logs).resolves.toEqual(['init BarV2', 'init FooV1']);
+  expect(session.logs).toStrictEqual(['init FooV1', 'init BarV2']);
 
   // TODO:
   // expect(Refresh.performReactRefresh).toHaveBeenCalled();
   // expect(Refresh.performFullRefresh).not.toHaveBeenCalled();
-  expect(didFullRefresh).toBe(false);
+  expect(session.didFullRefresh).toBe(false);
 
   // Editing the child alone now doesn't reevaluate the parent.
-  await session.resetLogs();
-  didFullRefresh =
-    didFullRefresh ||
-    !(await session.patch(
-      'bar.js',
-      `window.logs.push('init BarV3'); export default function Bar() {};`
-    ));
-  await expect(session.logs).resolves.toEqual(['init BarV3']);
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV3'); module.exports = function Bar() {};`);
+  expect(session.logs).toStrictEqual(['init BarV3']);
 
   // Finally, edit the parent in a way that changes the export.
   // It would still be accepted on its own -
   // but it's incompatible with the past version which didn't have two exports.
   await session.evaluate(() => window.localStorage.setItem('init', ''));
-  didFullRefresh =
-    didFullRefresh ||
-    !(await session.patch(
-      'foo.js',
-      `
-      if (typeof window !== 'undefined' && window.localStorage) {
-        window.localStorage.setItem('init', 'init FooV2')
-      }
-      export function Foo() {};
-      export function FooFoo() {};`
-    ));
+  await session.patch(
+    'foo.js',
+    `
+    if (typeof window !== 'undefined' && window.localStorage) {
+      window.localStorage.setItem('init', 'init FooV2');
+    }
+    exports.Foo = function Foo() {};
+    exports.FooFoo = function FooFoo() {};`
+  );
 
   // Check that we attempted to evaluate, but had to fall back to full refresh.
   await expect(session.evaluate(() => window.localStorage.getItem('init'))).resolves.toEqual(
@@ -370,5 +922,42 @@ test('propagates a module that stops accepting in next version', async () => {
   // TODO:
   // expect(Refresh.performFullRefresh).toHaveBeenCalled();
   // expect(Refresh.performReactRefresh).not.toHaveBeenCalled();
-  expect(didFullRefresh).toBe(true);
+  expect(session.didFullRefresh).toBe(true);
+});
+
+// https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2513-L2562
+it('can replace a module before it is loaded', async () => {
+  const [session] = await createSandbox();
+
+  await session.write('index.js', `module.exports = function Noop() { return null; };`);
+  await session.reload();
+
+  await session.write(
+    'foo.js',
+    `window.log('init FooV1'); exports.loadBar = function () { require('./bar'); };`
+  );
+  await session.write('bar.js', `window.log('init BarV1');`);
+
+  await session.patch(
+    'index.js',
+    `require('./foo'); module.exports = function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init FooV1']);
+
+  // Replace Bar before it is loaded.
+  session.resetState();
+  await session.patch('bar.js', `window.log('init BarV2');`);
+  expect(session.logs).toStrictEqual([]);
+
+  // Now force Bar to load. It should use the latest version.
+  await session.patch(
+    'index.js',
+    `const { loadBar } = require('./foo'); loadBar(); module.exports = function Noop() { return null; };`
+  );
+  expect(session.logs).toStrictEqual(['init BarV2']);
+
+  // TODO:
+  // expect(Refresh.performReactRefresh).toHaveBeenCalled()
+  // expect(Refresh.performFullRefresh).not.toHaveBeenCalled()
+  expect(session.didFullRefresh).toBe(false);
 });

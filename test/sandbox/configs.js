@@ -4,7 +4,7 @@ const BUNDLE_FILENAME = 'main';
 
 /**
  * @param {number} port
- * @return {string}
+ * @returns {string}
  */
 function getIndexHTML(port) {
   return `
@@ -24,10 +24,11 @@ function getIndexHTML(port) {
 
 /**
  * @param {string} srcDir
- * @return {string}
+ * @returns {string}
  */
 function getWDSConfig(srcDir) {
   return `
+const { DefinePlugin } = require('webpack');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
@@ -55,7 +56,10 @@ module.exports = {
       },
     ],
   },
-  plugins: [new ReactRefreshPlugin()],
+  plugins: [
+    new DefinePlugin({ '__react_refresh_test__': true }),
+    new ReactRefreshPlugin(),
+  ],
   resolve: {
     extensions: ['.js', '.jsx'],
   },
