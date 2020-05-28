@@ -62,6 +62,7 @@
     "fs-extra": "^9.0.0",
     "get-port": "^5.1.1",
     "jest": "^26.0.1",
+    "jest-circus": "^26.0.1",
     "jest-environment-node": "^26.0.1",
     "jest-watch-typeahead": "^0.6.0",
     "nanoid": "^3.1.7",
