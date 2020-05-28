@@ -189,6 +189,13 @@ Modifies how the error overlay integration works in the plugin.
     };
     ```
 
+### `options.overlay.sockProtocol`
+
+Type: `string`
+Default: `window.location.protocol`
+
+Set if you need to use other protocol than `window.location.protocol`.
+
 #### `options.overlay.sockHost`
 
 Type: `string`

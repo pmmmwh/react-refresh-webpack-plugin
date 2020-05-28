@@ -54,6 +54,7 @@ const normalizeOptions = (options) => {
       return {
         entry: d(overlay, 'entry', defaults.entry),
         module: d(overlay, 'module', defaults.module),
+        sockProtocol: overlay.sockProtocol,
         sockHost: overlay.sockHost,
         sockIntegration: d(overlay, 'sockIntegration', defaults.sockIntegration),
         sockPath: overlay.sockPath,

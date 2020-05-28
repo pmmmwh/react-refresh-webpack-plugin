@@ -34,6 +34,7 @@ function injectRefreshEntry(originalEntry, options) {
   /** @type {Record<string, *>} */
   let resourceQuery = {};
   if (options.overlay) {
+    options.overlay.sockProtocol && (resourceQuery.sockProtocol = options.overlay.sockProtocol);
     options.overlay.sockHost && (resourceQuery.sockHost = options.overlay.sockHost);
     options.overlay.sockPath && (resourceQuery.sockPath = options.overlay.sockPath);
     options.overlay.sockPort && (resourceQuery.sockPort = options.overlay.sockPort);
