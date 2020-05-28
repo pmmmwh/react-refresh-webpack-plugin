@@ -1,4 +1,4 @@
-/* global __react_refresh_error_overlay__ */
+/* global __react_refresh_error_overlay__, __react_refresh_test__ */
 const Refresh = require('react-refresh/runtime');
 
 /**
@@ -77,6 +77,12 @@ function createHotErrorHandler(moduleId) {
   function hotErrorHandler(error) {
     if (__react_refresh_error_overlay__) {
       __react_refresh_error_overlay__.handleRuntimeError(error);
+    }
+
+    if (typeof __react_refresh_test__ !== 'undefined') {
+      if (window.onHotAcceptError) {
+        window.onHotAcceptError(error.message);
+      }
     }
   }
 
