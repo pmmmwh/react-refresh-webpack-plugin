@@ -10,5 +10,5 @@
  */
 module.exports = function () {
   $RefreshRuntime$ = require('react-refresh/runtime');
-  $RefreshSetup$();
+  $RefreshSetup$(module.id);
 };

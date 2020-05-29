@@ -7,13 +7,15 @@ const ParserHelpers = require('webpack/lib/ParserHelpers');
 const { getSocketIntegration, injectRefreshEntry, normalizeOptions } = require('./helpers');
 const schema = require('./options.json');
 
+const refreshObj = '__webpack_require__.$Refresh$';
+
 // Mapping of react-refresh globals to Webpack require extensions
 const PARSER_REPLACEMENTS = {
-  $RefreshRuntime$: '__webpack_require__.$Refresh$.runtime',
-  $RefreshSetup$: '__webpack_require__.$Refresh$.setup',
-  $RefreshCleanup$: '__webpack_require__.$Refresh$.cleanup',
-  $RefreshReg$: '__webpack_require__.$Refresh$.register',
-  $RefreshSig$: '__webpack_require__.$Refresh$.signature',
+  $RefreshRuntime$: `${refreshObj}.runtime`,
+  $RefreshSetup$: `${refreshObj}.setup`,
+  $RefreshCleanup$: `${refreshObj}.cleanup`,
+  $RefreshReg$: `${refreshObj}.register`,
+  $RefreshSig$: `${refreshObj}.signature`,
 };
 
 const PARSER_REPLACEMENT_TYPES = {
@@ -170,40 +172,38 @@ class ReactRefreshPlugin {
             return Template.asString([
               ...lines.slice(0, moduleInitializationLineNumber),
               '',
-              '__webpack_require__.$Refresh$.setup = function() {',
+              `${refreshObj}.setup = function(currentModuleId) {`,
               Template.indent([
-                'const Refresh = __webpack_require__.$Refresh$;',
+                `const prevSetup = ${refreshObj}.setup;`,
+                `const prevCleanup = ${refreshObj}.cleanup;`,
+                `const prevReg = ${refreshObj}.register;`,
+                `const prevSig = ${refreshObj}.signature;`,
                 '',
-                'const prevSetup = Refresh.setup;',
-                'const prevCleanup = Refresh.cleanup;',
-                'const prevReg = Refresh.register;',
-                'const prevSig = Refresh.signature;',
-                '',
-                'Refresh.register = function register(type, id) {',
+                `${refreshObj}.register = function register(type, id) {`,
                 Template.indent([
-                  'const typeId = moduleId + " " + id;',
-                  'Refresh.runtime.register(type, typeId);',
+                  'const typeId = currentModuleId + " " + id;',
+                  `${refreshObj}.runtime.register(type, typeId);`,
                 ]),
                 '};',
                 '',
-                'Refresh.signature = Refresh.runtime.createSignatureFunctionForTransform;',
+                `${refreshObj}.signature = ${refreshObj}.runtime.createSignatureFunctionForTransform;`,
                 '',
-                'Refresh.cleanup = function cleanup() {',
+                `${refreshObj}.cleanup = function cleanup() {`,
                 Template.indent([
-                  'Refresh.register = prevReg;',
-                  'Refresh.signature = prevSig;',
-                  'Refresh.cleanup = prevCleanup;',
+                  `${refreshObj}.register = prevReg;`,
+                  `${refreshObj}.signature = prevSig;`,
+                  `${refreshObj}.cleanup = prevCleanup;`,
                 ]),
                 '};',
                 '',
-                'Refresh.setup = prevSetup;',
+                `${refreshObj}.setup = prevSetup;`,
               ]),
               '};',
               '',
               'try {',
               Template.indent(lines[moduleInitializationLineNumber]),
               '} finally {',
-              Template.indent('__webpack_require__.$Refresh$.cleanup();'),
+              Template.indent(`${refreshObj}.cleanup();`),
               '}',
               '',
               ...lines.slice(moduleInitializationLineNumber + 1, lines.length),
@@ -218,12 +218,12 @@ class ReactRefreshPlugin {
             return Template.asString([
               source,
               '',
-              '__webpack_require__.$Refresh$ = {};',
-              '__webpack_require__.$Refresh$.runtime = {};',
-              '__webpack_require__.$Refresh$.setup = function() {};',
-              '__webpack_require__.$Refresh$.cleanup = function() {};',
-              '__webpack_require__.$Refresh$.register = function() {};',
-              '__webpack_require__.$Refresh$.signature = function() {',
+              `${refreshObj} = {};`,
+              `${refreshObj}.runtime = {};`,
+              `${refreshObj}.setup = function() {};`,
+              `${refreshObj}.cleanup = function() {};`,
+              `${refreshObj}.register = function() {};`,
+              `${refreshObj}.signature = function() {`,
               Template.indent('return function(type) { return type; };'),
               '};',
             ]);
