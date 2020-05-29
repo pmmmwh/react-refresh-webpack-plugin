@@ -1,5 +1,5 @@
-/* global $RefreshCleanup$, $RefreshReg$, $RefreshRuntime$, $RefreshSig$ */
-/* eslint-disable no-global-assign */
+/* eslint-disable no-global-assign, no-unused-vars */
+/* global $RefreshRuntime$, $RefreshSetup$ */
 
 /**
  * Code prepended to each JS-like module to setup react-refresh globals.
@@ -10,21 +10,5 @@
  */
 module.exports = function () {
   $RefreshRuntime$ = require('react-refresh/runtime');
-
-  const __react_refresh_prev_reg__ = $RefreshReg$;
-  const __react_refresh_prev_sig__ = $RefreshSig$;
-  const __react_refresh_prev_cleanup__ = $RefreshCleanup$;
-
-  $RefreshReg$ = function (type, id) {
-    const typeId = module.i + ' ' + id;
-    $RefreshRuntime$.register(type, typeId);
-  };
-
-  $RefreshSig$ = $RefreshRuntime$.createSignatureFunctionForTransform;
-
-  $RefreshCleanup$ = function () {
-    $RefreshReg$ = __react_refresh_prev_reg__;
-    $RefreshSig$ = __react_refresh_prev_sig__;
-    $RefreshCleanup$ = __react_refresh_prev_cleanup__;
-  };
+  $RefreshSetup$();
 };

@@ -10,16 +10,18 @@ const schema = require('./options.json');
 // Mapping of react-refresh globals to Webpack require extensions
 const PARSER_REPLACEMENTS = {
   $RefreshRuntime$: '__webpack_require__.$Refresh$.runtime',
+  $RefreshSetup$: '__webpack_require__.$Refresh$.setup',
+  $RefreshCleanup$: '__webpack_require__.$Refresh$.cleanup',
   $RefreshReg$: '__webpack_require__.$Refresh$.register',
   $RefreshSig$: '__webpack_require__.$Refresh$.signature',
-  $RefreshCleanup$: '__webpack_require__.$Refresh$.cleanup',
 };
 
 const PARSER_REPLACEMENT_TYPES = {
   $RefreshRuntime$: 'object',
+  $RefreshSetup$: 'function',
+  $RefreshCleanup$: 'function',
   $RefreshReg$: 'function',
   $RefreshSig$: 'function',
-  $RefreshCleanup$: 'function',
 };
 
 class ReactRefreshPlugin {
@@ -168,10 +170,40 @@ class ReactRefreshPlugin {
             return Template.asString([
               ...lines.slice(0, moduleInitializationLineNumber),
               '',
+              '__webpack_require__.$Refresh$.setup = function() {',
+              Template.indent([
+                'const Refresh = __webpack_require__.$Refresh$;',
+                '',
+                'const prevSetup = Refresh.setup;',
+                'const prevCleanup = Refresh.cleanup;',
+                'const prevReg = Refresh.register;',
+                'const prevSig = Refresh.signature;',
+                '',
+                'Refresh.register = function register(type, id) {',
+                Template.indent([
+                  'const typeId = moduleId + " " + id;',
+                  'Refresh.runtime.register(type, typeId);',
+                ]),
+                '};',
+                '',
+                'Refresh.signature = Refresh.runtime.createSignatureFunctionForTransform;',
+                '',
+                'Refresh.cleanup = function cleanup() {',
+                Template.indent([
+                  'Refresh.register = prevReg;',
+                  'Refresh.signature = prevSig;',
+                  'Refresh.cleanup = prevCleanup;',
+                ]),
+                '};',
+                '',
+                'Refresh.setup = prevSetup;',
+              ]),
+              '};',
+              '',
               'try {',
               Template.indent(lines[moduleInitializationLineNumber]),
               '} finally {',
-              Template.indent(['__webpack_require__.$Refresh$.cleanup();']),
+              Template.indent('__webpack_require__.$Refresh$.cleanup();'),
               '}',
               '',
               ...lines.slice(moduleInitializationLineNumber + 1, lines.length),
@@ -188,10 +220,11 @@ class ReactRefreshPlugin {
               '',
               '__webpack_require__.$Refresh$ = {};',
               '__webpack_require__.$Refresh$.runtime = {};',
+              '__webpack_require__.$Refresh$.setup = function() {};',
               '__webpack_require__.$Refresh$.cleanup = function() {};',
               '__webpack_require__.$Refresh$.register = function() {};',
               '__webpack_require__.$Refresh$.signature = function() {',
-              Template.indent(['return function(type) { return type; };']),
+              Template.indent('return function(type) { return type; };'),
               '};',
             ]);
           }
