@@ -71,7 +71,7 @@ function createHotErrorHandler(moduleId) {
    * @returns {void}
    */
   function hotErrorHandler(error) {
-    if (__react_refresh_error_overlay__) {
+    if (typeof __react_refresh_error_overlay__ !== 'undefined') {
       __react_refresh_error_overlay__.handleRuntimeError(error);
     }
 
@@ -115,7 +115,7 @@ function createDebounceUpdate() {
       refreshTimeout = setTimeout(function () {
         refreshTimeout = undefined;
         Refresh.performReactRefresh();
-        if (__react_refresh_error_overlay__) {
+        if (typeof __react_refresh_error_overlay__ !== 'undefined') {
           __react_refresh_error_overlay__.clearRuntimeErrors();
         }
       }, 30);
