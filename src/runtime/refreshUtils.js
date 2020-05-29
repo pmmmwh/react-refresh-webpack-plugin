@@ -52,10 +52,6 @@ function createHotDisposeCallback(moduleExports) {
    * @returns {void}
    */
   function hotDisposeCallback(data) {
-    if (Refresh.hasUnrecoverableErrors()) {
-      window.location.reload();
-    }
-
     // We have to mutate the data object to get data registered and cached
     data.prevExports = moduleExports;
   }
