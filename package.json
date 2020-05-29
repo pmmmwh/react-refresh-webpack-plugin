@@ -33,6 +33,7 @@
   ],
   "scripts": {
     "pretest": "yarn link && yarn link \"@pmmmwh/react-refresh-webpack-plugin\"",
+    "posttest": "yarn unlink \"@pmmmwh/react-refresh-webpack-plugin\"",
     "test": "node scripts/test.js",
     "lint": "eslint --report-unused-disable-directives --ext .js .",
     "lint:fix": "yarn lint --fix",
@@ -47,7 +48,8 @@
     "html-entities": "^1.2.1",
     "lodash.debounce": "^4.0.8",
     "native-url": "^0.2.6",
-    "schema-utils": "^2.6.5"
+    "schema-utils": "^2.6.5",
+    "source-map": "^0.7.3"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
