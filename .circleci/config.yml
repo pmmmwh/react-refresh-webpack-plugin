@@ -21,6 +21,23 @@ commands:
           command: sudo sysctl -w kernel.unprivileged_userns_clone=1
 
 jobs:
+  lint-and-format:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          app-dir: ~/project
+          pkg-manager: yarn
+          with-cache: false
+      - run:
+          name: Check Project Linting
+          command: yarn lint
+          working_directory: ~/project
+      - run:
+          name: Check Project Formatting
+          command: yarn format:check
+          working_directory: ~/project
+
   test:
     executor:
       name: node/default
@@ -48,6 +65,7 @@ jobs:
 workflows:
   test-matrix:
     jobs:
+      - lint-and-format
       - test:
           name: test/node:10
           node-version: '10.20'

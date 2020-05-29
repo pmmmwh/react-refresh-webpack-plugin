@@ -1,5 +1,6 @@
 *dist/
 *node_modules/
+*__tmp__
 
 # Ignore examples because they might have custom ESLint configurations
 examples/*
