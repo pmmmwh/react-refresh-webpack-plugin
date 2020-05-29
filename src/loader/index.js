@@ -1,7 +1,12 @@
+const { SourceMapConsumer, SourceNode } = require('source-map');
 const { Template } = require('webpack');
 const { refreshUtils } = require('../runtime/globals');
 
-const RefreshModuleRuntime = Template.getFunctionContent(require('./RefreshModuleRuntime'))
+const RefreshSetupRuntime = Template.getFunctionContent(require('./RefreshSetup.runtime'))
+  .trim()
+  .replace(/^ {2}/gm, '');
+
+const RefreshModuleRuntime = Template.getFunctionContent(require('./RefreshModule.runtime'))
   .trim()
   .replace(/^ {2}/gm, '')
   .replace(/\$RefreshUtils\$/g, refreshUtils);
@@ -13,11 +18,37 @@ const RefreshModuleRuntime = Template.getFunctionContent(require('./RefreshModul
  * @this {import('webpack').loader.LoaderContext}
  * @param {string} source The original module source code.
  * @param {import('source-map').RawSourceMap} [inputSourceMap] The source map of the module.
+ * @param {*} [meta] The loader metadata passed in.
  * @returns {void}
  */
-function RefreshHotLoader(source, inputSourceMap) {
-  // Use callback to allow source maps to pass through
-  this.callback(null, source + '\n\n' + RefreshModuleRuntime, inputSourceMap);
+function ReactRefreshLoader(source, inputSourceMap, meta) {
+  const callback = this.async();
+
+  async function _loader(source, inputSourceMap) {
+    if (this.sourceMap) {
+      const node = SourceNode.fromStringWithSourceMap(
+        source,
+        await new SourceMapConsumer(inputSourceMap)
+      );
+
+      node.prepend([RefreshSetupRuntime, '\n\n']);
+      node.add(['\n\n', RefreshModuleRuntime]);
+
+      const { code, map } = node.toStringWithSourceMap();
+      return [code, map.toJSON()];
+    } else {
+      return [[RefreshSetupRuntime, source, RefreshModuleRuntime].join('\n\n'), inputSourceMap];
+    }
+  }
+
+  _loader.call(this, source, inputSourceMap).then(
+    ([code, map]) => {
+      callback(null, code, map, meta);
+    },
+    (error) => {
+      callback(error);
+    }
+  );
 }
 
-module.exports = RefreshHotLoader;
+module.exports = ReactRefreshLoader;

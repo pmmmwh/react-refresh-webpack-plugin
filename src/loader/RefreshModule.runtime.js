@@ -1,7 +1,7 @@
 /* global $RefreshUtils$ */
 
 /**
- * Code injected to each JS-like module for react-refresh capabilities.
+ * Code appended to each JS-like module for react-refresh capabilities.
  *
  * `$RefreshUtils$` is replaced to the actual utils during source parsing by `webpack.ProvidePlugin`.
  *
