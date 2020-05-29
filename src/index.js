@@ -5,7 +5,6 @@ const ConstDependency = require('webpack/lib/dependencies/ConstDependency');
 const NullFactory = require('webpack/lib/NullFactory');
 const ParserHelpers = require('webpack/lib/ParserHelpers');
 const { getSocketIntegration, injectRefreshEntry, normalizeOptions } = require('./helpers');
-const { errorOverlay, initSocket, refreshUtils } = require('./runtime/globals');
 const schema = require('./options.json');
 
 // Mapping of react-refresh globals to Webpack require extensions
@@ -64,18 +63,18 @@ class ReactRefreshPlugin {
 
     // Inject necessary modules to bundle's global scope
     let providedModules = {
-      [refreshUtils]: require.resolve('./runtime/refreshUtils'),
+      __react_refresh_utils__: require.resolve('./runtime/refreshUtils'),
     };
 
     if (this.options.overlay === false) {
       // Stub errorOverlay module so calls to it will be erased
-      const definePlugin = new DefinePlugin({ [errorOverlay]: false });
+      const definePlugin = new DefinePlugin({ __react_refresh_error_overlay__: false });
       definePlugin.apply(compiler);
     } else {
       providedModules = {
         ...providedModules,
-        [errorOverlay]: require.resolve(this.options.overlay.module),
-        [initSocket]: getSocketIntegration(this.options.overlay.sockIntegration),
+        __react_refresh_error_overlay__: require.resolve(this.options.overlay.module),
+        __react_refresh_init_socket__: getSocketIntegration(this.options.overlay.sockIntegration),
       };
     }
 

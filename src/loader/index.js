@@ -1,6 +1,5 @@
 const { SourceMapConsumer, SourceNode } = require('source-map');
 const { Template } = require('webpack');
-const { refreshUtils } = require('../runtime/globals');
 
 const RefreshSetupRuntime = Template.getFunctionContent(require('./RefreshSetup.runtime'))
   .trim()
@@ -9,7 +8,7 @@ const RefreshSetupRuntime = Template.getFunctionContent(require('./RefreshSetup.
 const RefreshModuleRuntime = Template.getFunctionContent(require('./RefreshModule.runtime'))
   .trim()
   .replace(/^ {2}/gm, '')
-  .replace(/\$RefreshUtils\$/g, refreshUtils);
+  .replace(/\$RefreshUtils\$/g, '__react_refresh_utils__');
 
 /**
  * A simple Webpack loader to inject react-refresh HMR code into modules.
