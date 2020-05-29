@@ -1,14 +1,27 @@
 const path = require('path');
 const validateOptions = require('schema-utils');
-const webpack = require('webpack');
-const {
-  createRefreshTemplate,
-  getSocketIntegration,
-  injectRefreshEntry,
-  normalizeOptions,
-} = require('./helpers');
+const { DefinePlugin, ModuleFilenameHelpers, ProvidePlugin, Template } = require('webpack');
+const ConstDependency = require('webpack/lib/dependencies/ConstDependency');
+const NullFactory = require('webpack/lib/NullFactory');
+const ParserHelpers = require('webpack/lib/ParserHelpers');
+const { getSocketIntegration, injectRefreshEntry, normalizeOptions } = require('./helpers');
 const { errorOverlay, initSocket, refreshUtils } = require('./runtime/globals');
 const schema = require('./options.json');
+
+// Mapping of react-refresh globals to Webpack require extensions
+const PARSER_REPLACEMENTS = {
+  $RefreshRuntime$: '__webpack_require__.$Refresh$.runtime',
+  $RefreshReg$: '__webpack_require__.$Refresh$.register',
+  $RefreshSig$: '__webpack_require__.$Refresh$.signature',
+  $RefreshCleanup$: '__webpack_require__.$Refresh$.cleanup',
+};
+
+const PARSER_REPLACEMENT_TYPES = {
+  $RefreshRuntime$: 'object',
+  $RefreshReg$: 'function',
+  $RefreshSig$: 'function',
+  $RefreshCleanup$: 'function',
+};
 
 class ReactRefreshPlugin {
   /**
@@ -49,14 +62,14 @@ class ReactRefreshPlugin {
     // Inject react-refresh context to all Webpack entry points
     compiler.options.entry = injectRefreshEntry(compiler.options.entry, this.options);
 
-    // Inject necessary modules to Webpack's global scope
+    // Inject necessary modules to bundle's global scope
     let providedModules = {
       [refreshUtils]: require.resolve('./runtime/refreshUtils'),
     };
 
     if (this.options.overlay === false) {
       // Stub errorOverlay module so calls to it will be erased
-      const definePlugin = new webpack.DefinePlugin({ [errorOverlay]: false });
+      const definePlugin = new DefinePlugin({ [errorOverlay]: false });
       definePlugin.apply(compiler);
     } else {
       providedModules = {
@@ -66,7 +79,7 @@ class ReactRefreshPlugin {
       };
     }
 
-    const providePlugin = new webpack.ProvidePlugin(providedModules);
+    const providePlugin = new ProvidePlugin(providedModules);
     providePlugin.apply(compiler);
 
     compiler.hooks.beforeRun.tap(this.constructor.name, (compiler) => {
@@ -86,7 +99,7 @@ class ReactRefreshPlugin {
       }
     });
 
-    const matchObject = webpack.ModuleFilenameHelpers.matchObject.bind(undefined, this.options);
+    const matchObject = ModuleFilenameHelpers.matchObject.bind(undefined, this.options);
     compiler.hooks.normalModuleFactory.tap(this.constructor.name, (nmf) => {
       nmf.hooks.afterResolve.tap(this.constructor.name, (data) => {
         // Inject refresh loader to all JavaScript-like files
@@ -108,43 +121,114 @@ class ReactRefreshPlugin {
       });
     });
 
-    compiler.hooks.compilation.tap(this.constructor.name, (compilation) => {
-      compilation.mainTemplate.hooks.require.tap(
-        this.constructor.name,
-        // Constructs the correct module template for react-refresh
-        (source, chunk, hash) => {
-          const mainTemplate = compilation.mainTemplate;
+    compiler.hooks.compilation.tap(
+      this.constructor.name,
+      (compilation, { normalModuleFactory }) => {
+        compilation.dependencyFactories.set(ConstDependency, new NullFactory());
+        compilation.dependencyTemplates.set(ConstDependency, new ConstDependency.Template());
 
-          // Check for the output filename
-          // This is to ensure we are processing a JS-related chunk
-          let filename = mainTemplate.outputOptions.filename;
-          if (typeof filename === 'function') {
-            // Only usage of the `chunk` property is documented by Webpack.
-            // However, some internal Webpack plugins uses other properties,
-            // so we also pass them through to be on the safe side.
-            filename = filename({
-              chunk,
-              hash,
-              //  TODO: Figure out whether we need to stub the following properties, probably no
-              contentHashType: 'javascript',
-              hashWithLength: (length) => mainTemplate.renderCurrentHashCode(hash, length),
-              noChunkHash: mainTemplate.useChunkHash(chunk),
-            });
+        compilation.mainTemplate.hooks.require.tap(
+          this.constructor.name,
+          // Constructs the module template for react-refresh
+          (source, chunk, hash) => {
+            const mainTemplate = compilation.mainTemplate;
+
+            // Check for the output filename
+            // This is to ensure we are processing a JS-related chunk
+            let filename = mainTemplate.outputOptions.filename;
+            if (typeof filename === 'function') {
+              // Only usage of the `chunk` property is documented by Webpack.
+              // However, some internal Webpack plugins uses other properties,
+              // so we also pass them through to be on the safe side.
+              filename = filename({
+                chunk,
+                hash,
+                //  TODO: Figure out whether we need to stub the following properties, probably no
+                contentHashType: 'javascript',
+                hashWithLength: (length) => mainTemplate.renderCurrentHashCode(hash, length),
+                noChunkHash: mainTemplate.useChunkHash(chunk),
+              });
+            }
+
+            // Check whether the current compilation is outputting to JS,
+            // since other plugins can trigger compilations for other file types too.
+            // If we apply the transform to them, their compilation will break fatally.
+            // One prominent example of this is the HTMLWebpackPlugin.
+            // If filename is falsy, something is terribly wrong and there's nothing we can do.
+            if (!filename || !filename.includes('.js')) {
+              return source;
+            }
+
+            // Split template source code into lines for easier processing
+            const lines = source.split('\n');
+            // Webpack generates this line when the MainTemplate is called
+            const moduleInitializationLineNumber = lines.findIndex((line) =>
+              line.startsWith('modules[moduleId].call')
+            );
+
+            return Template.asString([
+              ...lines.slice(0, moduleInitializationLineNumber),
+              '',
+              'try {',
+              Template.indent(lines[moduleInitializationLineNumber]),
+              '} finally {',
+              Template.indent(['__webpack_require__.$Refresh$.cleanup();']),
+              '}',
+              '',
+              ...lines.slice(moduleInitializationLineNumber + 1, lines.length),
+            ]);
           }
+        );
 
-          // Check whether the current compilation is outputting to JS,
-          // since other plugins can trigger compilations for other file types too.
-          // If we apply the transform to them, their compilation will break fatally.
-          // One prominent example of this is the HTMLWebpackPlugin.
-          // If filename is falsy, something is terribly wrong and there's nothing we can do.
-          if (!filename || !filename.includes('.js')) {
-            return source;
+        compilation.mainTemplate.hooks.requireExtensions.tap(
+          this.constructor.name,
+          // Setup react-refresh globals as extensions to Webpack's require function
+          (source) => {
+            return Template.asString([
+              source,
+              '',
+              '__webpack_require__.$Refresh$ = {};',
+              '__webpack_require__.$Refresh$.runtime = {};',
+              '__webpack_require__.$Refresh$.cleanup = function() {};',
+              '__webpack_require__.$Refresh$.register = function() {};',
+              '__webpack_require__.$Refresh$.signature = function() {',
+              Template.indent(['return function(type) { return type; };']),
+              '};',
+            ]);
           }
+        );
 
-          return createRefreshTemplate(source);
-        }
-      );
-    });
+        // Transform global calls into require extensions calls
+        const parserHandler = (parser) => {
+          Object.entries(PARSER_REPLACEMENTS).forEach(([key, replacement]) => {
+            parser.hooks.expression
+              .for(key)
+              .tap(
+                this.constructor.name,
+                ParserHelpers.toConstantDependencyWithWebpackRequire(parser, replacement)
+              );
+            if (PARSER_REPLACEMENT_TYPES[key]) {
+              parser.hooks.evaluateTypeof
+                .for(key)
+                .tap(
+                  this.constructor.name,
+                  ParserHelpers.evaluateToString(PARSER_REPLACEMENT_TYPES[key])
+                );
+            }
+          });
+        };
+
+        normalModuleFactory.hooks.parser
+          .for('javascript/auto')
+          .tap(this.constructor.name, parserHandler);
+        normalModuleFactory.hooks.parser
+          .for('javascript/dynamic')
+          .tap(this.constructor.name, parserHandler);
+        normalModuleFactory.hooks.parser
+          .for('javascript/esm')
+          .tap(this.constructor.name, parserHandler);
+      }
+    );
   }
 }
 
