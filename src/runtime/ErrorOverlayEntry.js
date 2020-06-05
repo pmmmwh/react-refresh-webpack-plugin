@@ -69,8 +69,17 @@ function compileMessageHandler(message) {
 
 let overrides = {};
 if (__resourceQuery) {
-  const searchParams = new URLSearchParams(__resourceQuery.slice(1));
-  searchParams.forEach(function (value, key) {
+  // Decode any possible encoded characters and remove `?` from start
+  const query = decodeURIComponent(__resourceQuery).slice(1);
+  // Split string like `key=value&foo=bar`, first from &, and then =
+  // The structure will be `[['key', 'value'], ['foo', 'bar']]`
+  const entries = query.split('&').map(function (entry) {
+    return entry.split('=');
+  });
+  // Add all entries to the overrides object
+  entries.forEach(function (entry) {
+    const key = entry[0];
+    const value = entry[1];
     overrides[key] = value;
   });
 }
