@@ -1,15 +1,18 @@
-/* global __webpack_dev_server_client__ */
+/* global __resourceQuery, __webpack_dev_server_client__ */
 
 const url = require('native-url');
+
+const parseURLSearchParams = require('./utils/parseURLSearchParams');
 
 /**
  * Initializes a socket server for HMR for webpack-dev-server.
  * @param {function(message: *): void} messageHandler A handler to consume Webpack compilation messages.
- * @param {*} overrides Socket integration overrides to change the connection URL.
  * @returns {void}
  */
-function initWDSSocket(messageHandler, overrides) {
+function initWDSSocket(messageHandler) {
   if (typeof __webpack_dev_server_client__ !== 'undefined') {
+    // Get config overrides from webpack __resourceQuery global
+    const overrides = parseURLSearchParams(__resourceQuery);
     const SocketClient = __webpack_dev_server_client__;
     // TODO: Support usage of custom sockets after WDS 4.0 is released
     // Ref: https://github.com/webpack/webpack-dev-server/pull/2055

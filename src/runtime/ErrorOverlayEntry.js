@@ -1,4 +1,4 @@
-/* global __resourceQuery, __react_refresh_error_overlay__, __react_refresh_init_socket__ */
+/* global __react_refresh_error_overlay__, __react_refresh_init_socket__ */
 
 const registerErrorEventHandlers = require('./errorEventHandlers');
 const formatWebpackErrors = require('./formatWebpackErrors');
@@ -67,25 +67,8 @@ function compileMessageHandler(message) {
   }
 }
 
-let overrides = {};
-if (__resourceQuery) {
-  // Decode any possible encoded characters and remove `?` from start
-  const query = decodeURIComponent(__resourceQuery).slice(1);
-  // Split string like `key=value&foo=bar`, first from &, and then =
-  // The structure will be `[['key', 'value'], ['foo', 'bar']]`
-  const entries = query.split('&').map(function (entry) {
-    return entry.split('=');
-  });
-  // Add all entries to the overrides object
-  entries.forEach(function (entry) {
-    const key = entry[0];
-    const value = entry[1];
-    overrides[key] = value;
-  });
-}
-
 // Registers handlers for compile errors
-__react_refresh_init_socket__(compileMessageHandler, overrides);
+__react_refresh_init_socket__(compileMessageHandler);
 // Registers handlers for runtime errors
 registerErrorEventHandlers.error(function handleError(error) {
   hasRuntimeErrors = true;
