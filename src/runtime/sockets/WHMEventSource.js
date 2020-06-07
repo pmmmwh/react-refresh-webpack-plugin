@@ -8,11 +8,9 @@ const singletonKey = '__webpack_hot_middleware_reporter__';
 /**
  * Initializes a socket server for HMR for webpack-hot-middleware.
  * @param {function(message: *): void} messageHandler A handler to consume Webpack compilation messages.
- * @param {*} overrides Socket integration overrides to change the connection URL.
  * @returns {void}
  */
-// eslint-disable-next-line no-unused-vars
-function initWHMEventSource(messageHandler, overrides) {
+function initWHMEventSource(messageHandler) {
   const client = window[singletonKey] || require('webpack-hot-middleware/client');
 
   client.useCustomOverlay({

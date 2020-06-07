@@ -3,11 +3,9 @@
 /**
  * Initializes a socket server for HMR for webpack-plugin-serve.
  * @param {function(message: *): void} messageHandler A handler to consume Webpack compilation messages.
- * @param {*} overrides Socket integration overrides to change the connection URL.
  * @returns {void}
  */
-// eslint-disable-next-line no-unused-vars
-function initWPSSocket(messageHandler, overrides) {
+function initWPSSocket(messageHandler) {
   /**
    * The hard-coded options injection key from webpack-plugin-serve.
    *
