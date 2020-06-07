@@ -1,4 +1,11 @@
 /* global globalThis */
+/*
+  This file is copied from `core-js`.
+  https://github.com/zloirock/core-js/blob/master/packages/core-js/internals/global.js
+
+  MIT License
+  Author: Denis Pushkarev (@zloirock)
+*/
 
 const check = function (it) {
   return it && it.Math == Math && it;
