@@ -68,13 +68,13 @@ workflows:
       - lint-and-format
       - test:
           name: test/node:10
-          node-version: '10.20'
+          node-version: '10.21'
       - test:
           name: test/node:12
-          node-version: '12.16'
+          node-version: '12.18'
       - test:
           name: test/node:13
           node-version: '13.14'
       - test:
           name: test/node:14
-          node-version: '14.2'
+          node-version: '14.4'
