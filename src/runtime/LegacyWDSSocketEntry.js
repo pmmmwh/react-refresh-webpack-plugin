@@ -1,4 +1,5 @@
 const SockJS = require('sockjs-client/dist/sockjs');
+const safeThis = require('./safeThis');
 
 /**
  * A SockJS client adapted for use with webpack-dev-server.
@@ -27,4 +28,4 @@ SockJSClient.prototype.onMessage = function onMessage(fn) {
   };
 };
 
-window.__webpack_dev_server_client__ = SockJSClient;
+safeThis.__webpack_dev_server_client__ = SockJSClient;

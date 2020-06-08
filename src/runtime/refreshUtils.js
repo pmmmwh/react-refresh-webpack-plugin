@@ -71,11 +71,11 @@ function createHotErrorHandler(moduleId) {
    * @returns {void}
    */
   function hotErrorHandler(error) {
-    if (__react_refresh_error_overlay__) {
+    if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
       __react_refresh_error_overlay__.handleRuntimeError(error);
     }
 
-    if (typeof __react_refresh_test__ !== 'undefined') {
+    if (typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__) {
       if (window.onHotAcceptError) {
         window.onHotAcceptError(error.message);
       }
@@ -115,7 +115,10 @@ function createDebounceUpdate() {
       refreshTimeout = setTimeout(function () {
         refreshTimeout = undefined;
         Refresh.performReactRefresh();
-        if (__react_refresh_error_overlay__) {
+        if (
+          typeof __react_refresh_error_overlay__ !== 'undefined' &&
+          __react_refresh_error_overlay__
+        ) {
           __react_refresh_error_overlay__.clearRuntimeErrors();
         }
       }, 30);

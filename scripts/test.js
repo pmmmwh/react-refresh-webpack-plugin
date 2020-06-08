@@ -3,8 +3,8 @@
 process.env.NODE_ENV = 'test';
 
 // Crash on unhandled rejections instead of failing silently.
-process.on('unhandledRejection', (error) => {
-  throw error;
+process.on('unhandledRejection', (reason) => {
+  throw reason;
 });
 
 const jest = require('jest');
