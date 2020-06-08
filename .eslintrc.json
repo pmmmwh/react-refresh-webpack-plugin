@@ -1,7 +1,7 @@
 {
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parserOptions": {
-    "ecmaVersion": 2017
+    "ecmaVersion": 2018
   },
   "env": {
     "commonjs": true,
@@ -26,6 +26,12 @@
       },
       "globals": {
         "__DEBUG__": true,
+        "browser": true
+      }
+    },
+    {
+      "files": ["test/sandbox/runtime/*.js", "test/conformance/**/*.test.js"],
+      "env": {
         "browser": true
       }
     }
