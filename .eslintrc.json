@@ -1,15 +1,24 @@
 {
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parserOptions": {
-    "ecmaVersion": 2018
+    "ecmaVersion": 2017
   },
   "env": {
-    "browser": true,
     "commonjs": true,
-    "es6": true,
+    "es2017": true,
     "node": true
   },
   "overrides": [
+    {
+      "files": ["src/{overlay,runtime}/**/*.js"],
+      "parserOptions": {
+        "ecmaVersion": 2015
+      },
+      "env": {
+        "browser": true,
+        "es6": true
+      }
+    },
     {
       "files": ["test/sandbox/*.js", "test/**/*.test.js"],
       "env": {
