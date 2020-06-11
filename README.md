@@ -110,6 +110,13 @@ More sample projects for common Webpack development setups are available in the 
 > Note 2: If you are using TypeScript (instead of Babel) as a transpiler, you will still need to use `babel-loader` to process your source code.
 > Check out this [sample project](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/master/examples/typescript-without-babel) on how to set this up.
 
+### Caveats
+
+- Class components will be re-mounted on hot update.
+  See [this comment](https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/112#issuecomment-642491198) for more background on why this is the case.
+- Unnamed components will fallback to full refresh.
+  See [this comment](https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/82#issuecomment-624590282) for more info and why this is generally a bad idea.
+
 ### Polyfill for Older Browsers
 
 If you need to develop on IE11, you will need to polyfill the DOM URL API.
