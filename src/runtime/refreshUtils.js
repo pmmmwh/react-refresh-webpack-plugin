@@ -1,4 +1,3 @@
-/* global __react_refresh_error_overlay__, __react_refresh_test__ */
 const Refresh = require('react-refresh/runtime');
 
 /**
@@ -40,62 +39,6 @@ function getReactRefreshBoundarySignature(moduleExports) {
 }
 
 /**
- * Creates conditional full refresh dispose handler for Webpack hot.
- * @param {*} moduleExports A Webpack module exports object.
- * @returns {hotDisposeCallback} A webpack hot dispose callback.
- */
-function createHotDisposeCallback(moduleExports) {
-  /**
-   * A callback to performs a full refresh if React has unrecoverable errors,
-   * and also caches the to-be-disposed module.
-   * @param {*} data A hot module data object from Webpack HMR.
-   * @returns {void}
-   */
-  function hotDisposeCallback(data) {
-    // We have to mutate the data object to get data registered and cached
-    data.prevExports = moduleExports;
-  }
-
-  return hotDisposeCallback;
-}
-
-/**
- * Creates self-recovering an error handler for webpack hot.
- * @param {string} moduleId A Webpack module ID.
- * @returns {selfAcceptingHotErrorHandler} A self-accepting webpack hot error handler.
- */
-function createHotErrorHandler(moduleId) {
-  /**
-   * An error handler to show a module evaluation error with an error overlay.
-   * @param {Error} error An error occurred during evaluation of a module.
-   * @returns {void}
-   */
-  function hotErrorHandler(error) {
-    if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
-      __react_refresh_error_overlay__.handleRuntimeError(error);
-    }
-
-    if (typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__) {
-      if (window.onHotAcceptError) {
-        window.onHotAcceptError(error.message);
-      }
-    }
-  }
-
-  /**
-   * An error handler to allow self-recovering behaviours.
-   * @param {Error} error An error occurred during evaluation of a module.
-   * @returns {void}
-   */
-  function selfAcceptingHotErrorHandler(error) {
-    hotErrorHandler(error);
-    require.cache[moduleId].hot.accept(hotErrorHandler);
-  }
-
-  return selfAcceptingHotErrorHandler;
-}
-
-/**
  * Creates a helper that performs a delayed React refresh.
  * @returns {enqueueUpdate} A debounced React refresh function.
  */
@@ -108,19 +51,15 @@ function createDebounceUpdate() {
 
   /**
    * Performs react refresh on a delay and clears the error overlay.
+   * @param {function(): void} callback
    * @returns {void}
    */
-  function enqueueUpdate() {
+  function enqueueUpdate(callback) {
     if (refreshTimeout === undefined) {
       refreshTimeout = setTimeout(function () {
         refreshTimeout = undefined;
         Refresh.performReactRefresh();
-        if (
-          typeof __react_refresh_error_overlay__ !== 'undefined' &&
-          __react_refresh_error_overlay__
-        ) {
-          __react_refresh_error_overlay__.clearRuntimeErrors();
-        }
+        callback();
       }, 30);
     }
   }
@@ -226,8 +165,6 @@ function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
 }
 
 module.exports = Object.freeze({
-  createHotDisposeCallback: createHotDisposeCallback,
-  createHotErrorHandler: createHotErrorHandler,
   enqueueUpdate: createDebounceUpdate(),
   getModuleExports,
   isReactRefreshBoundary: isReactRefreshBoundary,
