@@ -71,8 +71,11 @@ class ReactRefreshPlugin {
     };
 
     if (this.options.overlay === false) {
-      // Stub errorOverlay module so calls to it will be erased
-      const definePlugin = new DefinePlugin({ __react_refresh_error_overlay__: false });
+      // Stub errorOverlay module so calls to it can be erased
+      const definePlugin = new DefinePlugin({
+        __react_refresh_error_overlay__: false,
+        __react_refresh_init_socket__: false,
+      });
       definePlugin.apply(compiler);
     } else {
       providedModules = {
