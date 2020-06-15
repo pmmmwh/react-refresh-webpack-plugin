@@ -106,28 +106,6 @@ class ReactRefreshPlugin {
     });
 
     const matchObject = ModuleFilenameHelpers.matchObject.bind(undefined, this.options);
-    compiler.hooks.normalModuleFactory.tap(this.constructor.name, (nmf) => {
-      nmf.hooks.afterResolve.tap(this.constructor.name, (data) => {
-        // Inject refresh loader to all JavaScript-like files
-        if (
-          // Include and exclude user-specified files
-          matchObject(data.resource) &&
-          // Skip possibly provided module files -
-          // provided references cannot be injected to other provided files.
-          // This is also useful when using the plugin as a direct dependency.
-          !data.resource.includes(path.join(__dirname, './overlay')) &&
-          !Object.values(providedModules).includes(data.resource)
-        ) {
-          data.loaders.unshift({
-            loader: require.resolve('./loader'),
-            options: undefined,
-          });
-        }
-
-        return data;
-      });
-    });
-
     compiler.hooks.compilation.tap(
       this.constructor.name,
       (compilation, { normalModuleFactory }) => {
@@ -233,6 +211,27 @@ class ReactRefreshPlugin {
             ]);
           }
         );
+
+        normalModuleFactory.hooks.afterResolve.tap(this.constructor.name, (data) => {
+          // Inject refresh loader to all JavaScript-like files
+          if (
+            // Include and exclude user-specified files
+            matchObject(data.resource) &&
+            // Skip plugin's runtime utils to prevent self-referencing -
+            // this is useful when using the plugin as a direct dependency.
+            !data.resource.includes(path.join(__dirname, './runtime/refreshUtils'))
+          ) {
+            const resolvedLoader = require.resolve('./loader');
+            if (!data.loaders.find(({ loader }) => loader === resolvedLoader)) {
+              data.loaders.unshift({
+                loader: resolvedLoader,
+                options: undefined,
+              });
+            }
+          }
+
+          return data;
+        });
 
         // Transform global calls into require extensions calls
         const parserHandler = (parser) => {
