@@ -109,10 +109,11 @@ class ReactRefreshPlugin {
         if (
           // Include and exclude user-specified files
           matchObject(data.resource) &&
-          // Skip files related to the plugin's runtime to prevent self-referencing.
-          // This is particularly useful when using the plugin as a direct dependency.
+          // Skip possibly provided module files -
+          // provided references cannot be injected to other provided files.
+          // This is also useful when using the plugin as a direct dependency.
           !data.resource.includes(path.join(__dirname, './overlay')) &&
-          !data.resource.includes(path.join(__dirname, './runtime'))
+          !Object.values(providedModules).includes(data.resource)
         ) {
           data.loaders.unshift({
             loader: require.resolve('./loader'),
