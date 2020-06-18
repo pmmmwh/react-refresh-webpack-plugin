@@ -166,7 +166,7 @@ function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
 
 module.exports = Object.freeze({
   enqueueUpdate: createDebounceUpdate(),
-  getModuleExports,
+  getModuleExports: getModuleExports,
   isReactRefreshBoundary: isReactRefreshBoundary,
   shouldInvalidateReactRefreshBoundary: shouldInvalidateReactRefreshBoundary,
   registerExportsForReactRefresh: registerExportsForReactRefresh,
