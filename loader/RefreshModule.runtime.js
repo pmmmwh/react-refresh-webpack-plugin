@@ -17,6 +17,9 @@ module.exports = function () {
   if (module.hot) {
     const isHotUpdate = !!module.hot.data;
     const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+    // This is a workaround for webpack/webpack#11057
+    // FIXME: Revert after webpack/webpack#11059 is merged
+    const isTestMode = typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__;
 
     if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
       module.hot.dispose(
@@ -45,13 +48,13 @@ module.exports = function () {
             __react_refresh_error_overlay__.handleRuntimeError(error);
           }
 
-          if (typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__) {
+          if (isTestMode) {
             if (window.onHotAcceptError) {
               window.onHotAcceptError(error.message);
             }
           }
 
-          require.cache[module.id].hot.accept(hotErrorHandler);
+          __webpack_require__.c[module.id].hot.accept(hotErrorHandler);
         }
       );
 
