@@ -34,6 +34,7 @@ const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 module.exports = {
   mode: 'development',
   context: '${srcDir}',
+  devtool: false,
   entry: {
     '${BUNDLE_FILENAME}': [
       '${path.join(__dirname, './runtime/hot-notifier.js')}',
@@ -57,7 +58,7 @@ module.exports = {
     ],
   },
   plugins: [
-    new DefinePlugin({ '__react_refresh_test__': true }),
+    new DefinePlugin({ __react_refresh_test__: true }),
     new ReactRefreshPlugin(),
   ],
   resolve: {
