@@ -6,33 +6,30 @@
  * @returns {*} The parsed query params.
  */
 function getResourceQuery() {
-  const params = {};
-
   let query = '';
   if (typeof __resourceQuery === 'string') {
     query = __resourceQuery;
   }
 
   /**
-   * Map __resourceQuery string such as `?foo1=bar1&foo2=bar2`:
+   * Reduce __resourceQuery string such as `?foo1=bar1&foo2=bar2`:
    * - remove `?` from the start
-   * - split from `&`
-   * - split from `=`
-   * The mapped format will be [['foo1', 'bar1'], ['foo2', 'bar2']]
+   * - split with `&`
+   * - split with `=`
+   * The resulting format will be { foo1: 'bar1', foo2: 'bar2' }
    */
-  const entries = query
+  return query
     .replace(/^\?/, '')
     .split('&')
-    .map(function (entry) {
-      return entry.split('=');
-    });
+    .reduce(function (acc, entry) {
+      const pair = entry.split('=');
+      // Add all non-empty entries to the accumulated object
+      if (pair[0]) {
+        acc[pair[0]] = pair[1];
+      }
 
-  // Add all entries to the overrides object
-  entries.forEach(function (entry) {
-    params[entry[0]] = entry[1];
-  });
-
-  return params;
+      return acc;
+    }, {});
 }
 
 module.exports = getResourceQuery;
