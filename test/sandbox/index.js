@@ -13,7 +13,7 @@ jest.setTimeout(1000 * 60 * 5);
 /** @type {Set<function(): Promise<void>>} */
 const cleanupHandlers = new Set();
 afterEach(async () => {
-  await Promise.all([...cleanupHandlers].map((c) => c()));
+  await Promise.all([...cleanupHandlers].map((callback) => callback()));
 });
 
 /**

@@ -404,7 +404,8 @@ it('provides fresh value for exports.* in parents', async () => {
 it('provides fresh value for ES6 named import in parents', async () => {
   const [session] = await createSandbox();
 
-  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.write('root.js', `export default function Noop() { return null; };`);
+  await session.write('index.js', `import Root from './root'; Root();`);
   await session.reload();
 
   await session.write(
@@ -423,7 +424,7 @@ it('provides fresh value for ES6 named import in parents', async () => {
 
   session.resetState();
   await session.patch(
-    'index.js',
+    'root.js',
     `import './foo'; export default function Noop() { return null; };`
   );
   expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1 with BarValue = 1']);
@@ -465,7 +466,8 @@ it('provides fresh value for ES6 named import in parents', async () => {
 it('provides fresh value for ES6 default import in parents', async () => {
   const [session] = await createSandbox();
 
-  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.write('root.js', `export default function Noop() { return null; };`);
+  await session.write('index.js', `import Root from './root'; Root();`);
   await session.reload();
 
   await session.write(
@@ -484,7 +486,7 @@ it('provides fresh value for ES6 default import in parents', async () => {
 
   session.resetState();
   await session.patch(
-    'index.js',
+    'root.js',
     `import './foo'; export default function Noop() { return null; };`
   );
   expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1 with BarValue = 1']);
@@ -634,10 +636,11 @@ it('can continue hot updates after module-level errors with module.exports', asy
 it('can continue hot updates after module-level errors with ES6 exports', async () => {
   const [session] = await createSandbox();
 
-  await session.write('index.js', `export default function Noop() { return null; };`);
+  await session.write('root.js', `export default function Noop() { return null; };`);
+  await session.write('index.js', `import Root from './root'; Root();`);
   await session.reload();
 
-  await session.write('foo.js', `import './bar'; window.log('init FooV1');`);
+  await session.write('foo.js', `import Bar from './bar'; Bar(); window.log('init FooV1');`);
   await session.write(
     'bar.js',
     // This module accepts itself
@@ -646,7 +649,7 @@ it('can continue hot updates after module-level errors with ES6 exports', async 
 
   session.resetState();
   await session.patch(
-    'index.js',
+    'root.js',
     `import './foo'; export default function Noop() { return null; };`
   );
   expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1']);
