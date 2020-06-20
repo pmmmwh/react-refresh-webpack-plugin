@@ -1,4 +1,4 @@
-/* global __resourceQuery, __react_refresh_error_overlay__, __react_refresh_init_socket__ */
+/* global __react_refresh_error_overlay__, __react_refresh_init_socket__ */
 
 const registerErrorEventHandlers = require('./errorEventHandlers');
 const formatWebpackErrors = require('./formatWebpackErrors');
@@ -67,16 +67,8 @@ function compileMessageHandler(message) {
   }
 }
 
-let overrides = {};
-if (__resourceQuery) {
-  const searchParams = new URLSearchParams(__resourceQuery.slice(1));
-  searchParams.forEach(function (value, key) {
-    overrides[key] = value;
-  });
-}
-
 // Registers handlers for compile errors
-__react_refresh_init_socket__(compileMessageHandler, overrides);
+__react_refresh_init_socket__(compileMessageHandler);
 // Registers handlers for runtime errors
 registerErrorEventHandlers.error(function handleError(error) {
   hasRuntimeErrors = true;
