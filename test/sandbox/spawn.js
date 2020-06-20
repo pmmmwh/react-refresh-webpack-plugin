@@ -93,6 +93,30 @@ function spawnWDS(port, directory, options) {
 }
 
 /**
+ * @param {number} port
+ * @param {string} directory
+ * @param {*} [options]
+ * @returns {Promise<import('child_process').ChildProcess | void>}
+ */
+function spawnWebpackServe(port, directory, options) {
+  const webpackBin = path.resolve('node_modules/.bin/webpack');
+  return spawnTestProcess(
+    webpackBin,
+    [
+      'serve',
+      '--config',
+      path.resolve(directory, 'webpack.config.js'),
+      '--content-base',
+      directory,
+      '--hot',
+      '--port',
+      port,
+    ],
+    options
+  );
+}
+
+/**
  * @param {import('child_process').ChildProcess} instance
  */
 function killTestProcess(instance) {
@@ -116,4 +140,5 @@ function killTestProcess(instance) {
 module.exports = {
   killTestProcess,
   spawnWDS,
+  spawnWebpackServe,
 };

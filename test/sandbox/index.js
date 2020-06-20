@@ -2,8 +2,9 @@ const path = require('path');
 const fse = require('fs-extra');
 const getPort = require('get-port');
 const { nanoid } = require('nanoid');
+const { version } = require('webpack');
 const { getIndexHTML, getWDSConfig } = require('./configs');
-const { killTestProcess, spawnWDS } = require('./spawn');
+const { killTestProcess, spawnWDS, spawnWebpackServe } = require('./spawn');
 
 // Extends the timeout for tests using the sandbox
 jest.setTimeout(1000 * 60 * 5);
@@ -52,6 +53,8 @@ const sleep = (ms) => {
  */
 
 const rootSandboxDir = path.join(__dirname, '..', '__tmp__');
+const webpackVersion = parseInt(version || '', 10);
+const spawnFn = webpackVersion === 5 ? spawnWebpackServe : spawnWDS;
 
 /**
  * Creates a Webpack and Puppeteer backed sandbox to execute HMR operations on.
@@ -85,7 +88,7 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
   }
 
   // TODO: Add handling for webpack-hot-middleware and webpack-plugin-serve
-  const app = await spawnWDS(port, sandboxDir);
+  const app = await spawnFn(port, sandboxDir);
   const page = await browser.newPage();
 
   await page.goto(`http://localhost:${port}/`);
