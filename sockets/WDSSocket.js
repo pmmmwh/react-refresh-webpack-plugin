@@ -1,7 +1,6 @@
 /* global __webpack_dev_server_client__ */
 
 const url = require('native-url');
-
 const getResourceQuery = require('./utils/getResourceQuery');
 
 /**

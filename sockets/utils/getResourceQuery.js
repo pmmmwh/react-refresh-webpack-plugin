@@ -3,13 +3,12 @@
 /**
  * Parse webpack `__resourceQuery` string into an object.
  * @see https://webpack.js.org/api/module-variables/#__resourcequery-webpack-specific
- * @param {string} [__resourceQuery]
- * @returns {*}
+ * @returns {*} The parsed query params.
  */
 function getResourceQuery() {
   const params = {};
 
-  var query = '';
+  let query = '';
   if (typeof __resourceQuery === 'string') {
     query = __resourceQuery;
   }
@@ -30,9 +29,7 @@ function getResourceQuery() {
 
   // Add all entries to the overrides object
   entries.forEach(function (entry) {
-    const key = entry[0];
-    const value = entry[1];
-    params[key] = value;
+    params[entry[0]] = entry[1];
   });
 
   return params;
