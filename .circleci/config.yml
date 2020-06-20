@@ -45,7 +45,12 @@ jobs:
     parameters:
       node-version:
         default: '13.14'
-        type: string
+        enum:
+          - '10.21'
+          - '12.18'
+          - '13.14'
+          - '14.4'
+        type: enum
       setup:
         default: []
         type: steps
@@ -58,6 +63,16 @@ jobs:
           app-dir: ~/project
           pkg-manager: yarn
           with-cache: false
+      - run:
+          name: Install Webpack-related dependencies
+          command: |
+            if [[ $CIRCLE_NODE_INDEX == 0 ]]; then
+              echo "Using webpack@4 and webpack-cli@3"
+              yarn add -D webpack@4 webpack-cli@3
+            elif [[ $CIRCLE_NODE_INDEX == 1 ]]; then
+              echo "Using webpack@5 and webpack-cli@4"
+              yarn add -D webpack@5 webpack-cli@4
+            fi
       - run:
           name: Run Tests
           command: |
