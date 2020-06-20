@@ -1,4 +1,4 @@
-/* global __react_refresh_error_overlay__, __react_refresh_test__, __react_refresh_utils__ */
+/* global __react_refresh_error_overlay__, __react_refresh_test__, __react_refresh_utils__, __webpack_require__ */
 
 /**
  * Code appended to each JS-like module for react-refresh capabilities.
@@ -11,7 +11,7 @@
  * [Reference for HMR Error Recovery](https://github.com/webpack/webpack/issues/418#issuecomment-490296365)
  */
 module.exports = function () {
-  const currentExports = __react_refresh_utils__.getModuleExports(module);
+  const currentExports = __react_refresh_utils__.getModuleExports(module.id);
   __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.id);
 
   if (module.hot) {
