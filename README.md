@@ -103,7 +103,7 @@ module.exports = (api) => {
 };
 ```
 
-More sample projects for common Webpack development setups are available in the [examples](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/examples) folder.
+More sample projects for common Webpack development setups are available in the [examples](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/examples) directory.
 
 > Note 1: If you use `webpack.config.ts`, please also install `type-fest` as a peer dependency.
 
@@ -215,7 +215,7 @@ This controls how the error overlay connects to the sockets provided by several 
 - If you use `webpack-hot-middleware`, you should set this to `whm`.
 - If you use `webpack-plugin-serve`, you should set this to `wps`.
 - If you use anything else, or if you want to customize the socket handling yourself, you will have to provide a path to a module that will accept a message handler function and initializes the socket connection.
-  See the [`runtime/sockets`](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/src/runtime/sockets) folder for sample implementations.
+  See the [`sockets`](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/sockets) directory for sample implementations.
 
 #### `options.overlay.sockPort`
 

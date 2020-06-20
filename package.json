@@ -25,10 +25,14 @@
   },
   "license": "MIT",
   "author": "Michael Mok",
-  "main": "src/index.js",
+  "main": "lib/index.js",
   "types": "types/index.d.ts",
   "files": [
-    "src",
+    "client",
+    "lib",
+    "loader",
+    "overlay",
+    "sockets",
     "types"
   ],
   "scripts": {

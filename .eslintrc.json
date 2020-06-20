@@ -10,7 +10,13 @@
   },
   "overrides": [
     {
-      "files": ["src/{overlay,runtime}/**/*.js", "src/loader/*.runtime.js"],
+      "files": [
+        "client/**/*.js",
+        "overlay/**/*.js",
+        "lib/runtime/**/*.js",
+        "loader/*.runtime.js",
+        "sockets/**/*.js"
+      ],
       "parserOptions": {
         "ecmaVersion": 2015
       },
