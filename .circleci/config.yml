@@ -70,6 +70,8 @@ jobs:
           working_directory: ~/project
       - store_test_results:
           path: test-results
+      - store_artifacts:
+          path: test-results
 
 workflows:
   test-matrix:
