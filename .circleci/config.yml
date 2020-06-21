@@ -49,6 +49,7 @@ jobs:
       setup:
         default: []
         type: steps
+    parallelism: 4
     steps:
       - checkout
       - setup-headless-chromium
@@ -58,9 +59,17 @@ jobs:
           pkg-manager: yarn
           with-cache: false
       - run:
+          name: Prepare Test Reporting Directories
+          command: mkdir -p test-results/jest
+      - run:
           name: Run Tests
-          command: yarn test
+          command: |
+            TESTFILES=$(circleci tests glob "test/**/*.test.js" | circleci tests split --split-by=timings)
+            JEST_JUNIT_OUTPUT_DIR=test-results/jest
+            yarn test $TESTFILES
           working_directory: ~/project
+      - store_test_results:
+          path: test-results
 
 workflows:
   test-matrix:
