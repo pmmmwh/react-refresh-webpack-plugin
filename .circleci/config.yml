@@ -65,8 +65,9 @@ jobs:
           name: Run Tests
           command: |
             TESTFILES=$(circleci tests glob "test/**/*.test.js" | circleci tests split --split-by=timings)
-            JEST_JUNIT_OUTPUT_DIR=test-results/jest
             yarn test $TESTFILES
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: test-results/jest
           working_directory: ~/project
       - store_test_results:
           path: test-results
