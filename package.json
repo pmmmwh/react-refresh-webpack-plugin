@@ -43,7 +43,7 @@
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "generate-types": "tsc -p tsconfig.json && rimraf \"types/{helpers,runtime}\" && yarn format",
+    "generate-types": "tsc -p tsconfig.json && rimraf \"types/{globals.*,runtime,utils}\" && yarn format",
     "prepublishOnly": "rimraf types && yarn generate-types"
   },
   "dependencies": {
