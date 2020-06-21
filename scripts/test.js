@@ -22,8 +22,8 @@ if (yn(process.env.CI)) {
   // Fall back to run in series so tests will run faster.
   argv.push('--runInBand');
   // Add JUnit reporter
-  argv.push('--reporters=default');
-  argv.push('--reporters=jest-junit');
+  argv.push('--reporters="default"');
+  argv.push('--reporters="jest-junit"');
 }
 
 if (yn(process.env.DEBUG)) {
