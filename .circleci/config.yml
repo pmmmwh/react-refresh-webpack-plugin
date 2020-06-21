@@ -67,11 +67,11 @@ jobs:
           name: Install Webpack-related dependencies
           command: |
             if [[ $CIRCLE_NODE_INDEX == 0 ]]; then
-              echo "Using webpack@4 and webpack-cli@3"
-              yarn add -D webpack@4 webpack-cli@3
+              echo "Using webpack@latest and webpack-cli@latest"
+              yarn add -D webpack@latest webpack-cli@latest
             elif [[ $CIRCLE_NODE_INDEX == 1 ]]; then
-              echo "Using webpack@5 and webpack-cli@4"
-              yarn add -D webpack@5 webpack-cli@4
+              echo "Using webpack@next and webpack-cli@beta"
+              yarn add -D webpack@next webpack-cli@beta
             fi
       - run:
           name: Run Tests
