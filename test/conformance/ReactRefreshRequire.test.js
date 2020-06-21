@@ -640,7 +640,7 @@ it('can continue hot updates after module-level errors with ES6 exports', async 
   await session.write('index.js', `import Root from './root'; Root();`);
   await session.reload();
 
-  await session.write('foo.js', `import Bar from './bar'; Bar(); window.log('init FooV1');`);
+  await session.write('foo.js', `import './bar'; window.log('init FooV1');`);
   await session.write(
     'bar.js',
     // This module accepts itself
