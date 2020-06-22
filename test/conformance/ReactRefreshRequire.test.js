@@ -633,7 +633,7 @@ it('can continue hot updates after module-level errors with module.exports', asy
 });
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2051-L2162
-it.only('can continue hot updates after module-level errors with ES6 exports', async () => {
+it('can continue hot updates after module-level errors with ES6 exports', async () => {
   const [session] = await createSandbox();
 
   await session.write('root.js', `export default function Noop() { return null; };`);
