@@ -2,7 +2,6 @@ const path = require('path');
 const fse = require('fs-extra');
 const getPort = require('get-port');
 const { nanoid } = require('nanoid');
-const { version } = require('webpack');
 const { getIndexHTML, getWDSConfig } = require('./configs');
 const { killTestProcess, spawnWDS, spawnWebpackServe } = require('./spawn');
 
@@ -53,8 +52,7 @@ const sleep = (ms) => {
  */
 
 const rootSandboxDir = path.join(__dirname, '..', '__tmp__');
-const webpackVersion = parseInt(version || '', 10);
-const spawnFn = webpackVersion === 5 ? spawnWebpackServe : spawnWDS;
+const spawnFn = WEBPACK_VERSION === 5 ? spawnWebpackServe : spawnWDS;
 
 /**
  * Creates a Webpack and Puppeteer backed sandbox to execute HMR operations on.

@@ -32,6 +32,7 @@
       },
       "globals": {
         "__DEBUG__": true,
+        "WEBPACK_VERSION": true,
         "browser": true
       }
     },
