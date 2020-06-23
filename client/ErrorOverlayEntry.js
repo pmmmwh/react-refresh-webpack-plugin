@@ -55,15 +55,18 @@ function compileMessageHandler(message) {
   switch (message.type) {
     case 'ok':
     case 'still-ok':
-    case 'warnings':
+    case 'warnings': {
       // TODO: Implement handling for warnings
       handleCompileSuccess();
       break;
-    case 'errors':
+    }
+    case 'errors': {
       handleCompileErrors(message.data);
       break;
-    default:
-    // Do nothing.
+    }
+    default: {
+      // Do nothing.
+    }
   }
 }
 

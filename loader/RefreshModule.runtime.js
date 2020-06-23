@@ -1,4 +1,4 @@
-/* global __react_refresh_error_overlay__, __react_refresh_test__, __react_refresh_utils__ */
+/* global __react_refresh_error_overlay__, __react_refresh_test__, __react_refresh_utils__, __webpack_require__ */
 
 /**
  * Code appended to each JS-like module for react-refresh capabilities.
@@ -11,12 +11,15 @@
  * [Reference for HMR Error Recovery](https://github.com/webpack/webpack/issues/418#issuecomment-490296365)
  */
 module.exports = function () {
-  const currentExports = __react_refresh_utils__.getModuleExports(module);
+  const currentExports = __react_refresh_utils__.getModuleExports(module.id);
   __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.id);
 
   if (module.hot) {
     const isHotUpdate = !!module.hot.data;
     const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+    // This is a workaround for webpack/webpack#11057
+    // FIXME: Revert after webpack/webpack#11059 is merged
+    const isTestMode = typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__;
 
     if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
       module.hot.dispose(
@@ -45,13 +48,13 @@ module.exports = function () {
             __react_refresh_error_overlay__.handleRuntimeError(error);
           }
 
-          if (typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__) {
+          if (isTestMode) {
             if (window.onHotAcceptError) {
               window.onHotAcceptError(error.message);
             }
           }
 
-          require.cache[module.id].hot.accept(hotErrorHandler);
+          __webpack_require__.c[module.id].hot.accept(hotErrorHandler);
         }
       );
 

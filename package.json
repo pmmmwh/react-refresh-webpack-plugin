@@ -43,7 +43,7 @@
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "generate-types": "tsc -p tsconfig.json && rimraf \"types/{helpers,runtime}\" && yarn format",
+    "generate-types": "tsc -p tsconfig.json && rimraf \"types/{globals.*,runtime,utils}\" && yarn format",
     "prepublishOnly": "rimraf types && yarn generate-types"
   },
   "dependencies": {
@@ -60,7 +60,8 @@
     "@types/json-schema": "^7.0.4",
     "@types/node": "^14.0.1",
     "@types/puppeteer": "^2.1.0",
-    "@types/webpack": "^4.41.12",
+    "@types/webpack": "^4.41.17",
+    "@webpack-cli/serve": "^1.0.1-alpha.5",
     "babel-loader": "^8.1.0",
     "cross-spawn": "^7.0.2",
     "eslint": "^7.0.0",
@@ -81,19 +82,19 @@
     "rimraf": "^3.0.2",
     "type-fest": "^0.13.1",
     "typescript": "^3.8.3",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
+    "webpack": "^5.0.0-beta.18",
+    "webpack-cli": "^4.0.0-beta.8",
     "webpack-dev-server": "^3.11.0",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-plugin-serve": "^1.0.0",
     "yn": "^4.0.0"
   },
   "peerDependencies": {
-    "@types/webpack": "^4.41.12",
+    "@types/webpack": "^4.41.17",
     "react-refresh": "^0.8.2",
     "sockjs-client": "^1.4.0",
     "type-fest": "^0.13.1",
-    "webpack": ">=4.43.0",
+    "webpack": ">=4.43.0 <6.0.0",
     "webpack-dev-server": "3.x",
     "webpack-hot-middleware": "2.x",
     "webpack-plugin-serve": "0.x || 1.x"

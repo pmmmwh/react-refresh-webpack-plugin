@@ -29,17 +29,21 @@ function initWPSSocket(messageHandler) {
     const { action, data } = JSON.parse(message.data);
 
     switch (action) {
-      case 'done':
+      case 'done': {
         messageHandler({ type: 'ok' });
         break;
-      case 'problems':
+      }
+      case 'problems': {
         if (data.errors.length) {
           messageHandler({ type: 'errors', data: data.errors });
         } else if (data.warnings.length) {
           messageHandler({ type: 'warnings', data: data.warnings });
         }
         break;
-      default:
+      }
+      default: {
+        // Do nothing
+      }
     }
   });
 }

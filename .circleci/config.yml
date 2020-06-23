@@ -45,7 +45,18 @@ jobs:
     parameters:
       node-version:
         default: '13.14'
-        type: string
+        enum:
+          - '10.21'
+          - '12.18'
+          - '13.14'
+          - '14.4'
+        type: enum
+      webpack-version:
+        default: latest
+        enum:
+          - latest
+          - next
+        type: enum
       setup:
         default: []
         type: steps
@@ -58,6 +69,16 @@ jobs:
           app-dir: ~/project
           pkg-manager: yarn
           with-cache: false
+      - run:
+          name: Install Webpack-related dependencies
+          command: |
+            if [[ << parameters.webpack-version >> == "next" ]]; then
+              WEBPACK_CLI_VERSION="beta"
+            else
+              WEBPACK_CLI_VERSION="latest"
+            fi
+
+            yarn add -D "webpack@<< parameters.webpack-version >>" "webpack-cli@$WEBPACK_CLI_VERSION"
       - run:
           name: Run Tests
           command: |
@@ -76,14 +97,34 @@ workflows:
     jobs:
       - lint-and-format
       - test:
-          name: test/node:10
+          name: test/node:10/webpack:4
           node-version: '10.21'
+          webpack-version: latest
       - test:
-          name: test/node:12
+          name: test/node:12/webpack:4
           node-version: '12.18'
+          webpack-version: latest
       - test:
-          name: test/node:13
+          name: test/node:13/webpack:4
           node-version: '13.14'
+          webpack-version: latest
       - test:
-          name: test/node:14
+          name: test/node:14/webpack:4
           node-version: '14.4'
+          webpack-version: latest
+      - test:
+          name: test/node:10/webpack:5
+          node-version: '10.21'
+          webpack-version: next
+      - test:
+          name: test/node:12/webpack:5
+          node-version: '12.18'
+          webpack-version: next
+      - test:
+          name: test/node:13/webpack:5
+          node-version: '13.14'
+          webpack-version: next
+      - test:
+          name: test/node:14/webpack:5
+          node-version: '14.4'
+          webpack-version: next

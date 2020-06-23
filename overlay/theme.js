@@ -1,18 +1,18 @@
 /**
- * @typedef Theme
- * @property reset
- * @property black
- * @property red
- * @property green
- * @property yellow
- * @property blue
- * @property magenta
- * @property cyan
- * @property white
- * @property lightgrey
- * @property darkgrey
- * @property grey
- * @property dimgrey
+ * @typedef {Object} Theme
+ * @property {string[]} reset
+ * @property {string} black
+ * @property {string} red
+ * @property {string} green
+ * @property {string} yellow
+ * @property {string} blue
+ * @property {string} magenta
+ * @property {string} cyan
+ * @property {string} white
+ * @property {string} lightgrey
+ * @property {string} darkgrey
+ * @property {string} grey
+ * @property {string} dimgrey
  */
 
 /**
