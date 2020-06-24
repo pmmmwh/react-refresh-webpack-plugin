@@ -1,18 +1,16 @@
 const getResourceQuery = require('../../sockets/utils/getResourceQuery');
 
 describe('getResourceQuery', () => {
-  let previousQuery;
-
   beforeEach(() => {
-    previousQuery = global.__resourceQuery;
+    global.__resourceQuery = undefined;
   });
 
-  afterEach(() => {
-    global.__resourceQuery = previousQuery;
+  afterAll(() => {
+    delete global.__resourceQuery;
   });
 
   it('should parse __resourceQuery', () => {
-    global.__resourceQuery = '?sockHost=localhost&sockPort=8080&sockPath=/__socket';
+    global.__resourceQuery = '?sockHost=localhost&sockPath=/__socket&sockPort=8080';
     expect(getResourceQuery()).toStrictEqual({
       sockHost: 'localhost',
       sockPath: '/__socket',
