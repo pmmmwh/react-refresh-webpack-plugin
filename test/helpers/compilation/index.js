@@ -59,11 +59,9 @@ function getCompilation(fixtureFile, options = {}) {
     },
   });
 
-  if (!compiler.outputFileSystem) {
-    compiler.outputFileSystem = createFsFromVolume(new Volume());
-    if (WEBPACK_VERSION !== 5) {
-      compiler.outputFileSystem.join = path.join.bind(path);
-    }
+  compiler.outputFileSystem = createFsFromVolume(new Volume());
+  if (WEBPACK_VERSION !== 5) {
+    compiler.outputFileSystem.join = path.join.bind(path);
   }
 
   function cleanupCompilation() {
