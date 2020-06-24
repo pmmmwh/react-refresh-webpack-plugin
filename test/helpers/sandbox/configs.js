@@ -37,7 +37,7 @@ module.exports = {
   devtool: false,
   entry: {
     '${BUNDLE_FILENAME}': [
-      '${path.join(__dirname, './runtime/hot-notifier.js')}',
+      '${path.join(__dirname, './fixtures/hmr-notifier.js')}',
       './index.js',
     ],
   },

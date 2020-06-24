@@ -11,7 +11,7 @@ const spawn = require('cross-spawn');
  * @returns {Promise<import('child_process').ChildProcess | void>}
  */
 function spawnTestProcess(processPath, argv, options = {}) {
-  const cwd = options.cwd || path.resolve(__dirname, '../..');
+  const cwd = options.cwd || path.resolve(__dirname, '../../..');
   const env = {
     ...process.env,
     NODE_ENV: 'development',

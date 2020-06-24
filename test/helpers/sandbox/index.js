@@ -51,7 +51,7 @@ const sleep = (ms) => {
  * @property {function(): Promise<void>} reload
  */
 
-const rootSandboxDir = path.join(__dirname, '..', '__tmp__');
+const rootSandboxDir = path.join(__dirname, '../..', '__tmp__');
 const spawnFn = WEBPACK_VERSION === 5 ? spawnWebpackServe : spawnWDS;
 
 /**
@@ -61,7 +61,7 @@ const spawnFn = WEBPACK_VERSION === 5 ? spawnWebpackServe : spawnWDS;
  * @param {Map<string, string>} [options.initialFiles]
  * @returns {Promise<[SandboxSession, function(): Promise<void>]>}
  */
-async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
+async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
   const port = await getPort();
 
   // Get sandbox directory paths
@@ -256,4 +256,4 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
   ];
 }
 
-module.exports = sandbox;
+module.exports = getSandbox;
