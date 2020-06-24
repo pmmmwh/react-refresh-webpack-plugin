@@ -26,7 +26,11 @@
       }
     },
     {
-      "files": ["test/sandbox/*.js", "test/**/*.test.js"],
+      "files": [
+        "test/jest-test-setup.js",
+        "test/helpers/{,!(fixtures)*/}*.js",
+        "test/**/*.test.js"
+      ],
       "env": {
         "jest": true
       },
@@ -37,9 +41,20 @@
       }
     },
     {
-      "files": ["test/sandbox/runtime/*.js", "test/conformance/**/*.test.js"],
+      "files": ["test/helpers/**/fixtures/*.js", "test/conformance/**/*.test.js"],
       "env": {
         "browser": true
+      }
+    },
+    {
+      "files": ["test/helpers/**/fixtures/*.esm.js"],
+      "parserOptions": {
+        "ecmaVersion": 2015,
+        "sourceType": "module"
+      },
+      "env": {
+        "commonjs": false,
+        "es6": true
       }
     }
   ]
