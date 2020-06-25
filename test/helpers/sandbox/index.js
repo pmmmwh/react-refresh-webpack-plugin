@@ -146,15 +146,15 @@ async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
   return [
     {
-      /** @returns {boolean} */
+      /** @type {boolean} */
       get didFullRefresh() {
         return didFullRefresh;
       },
-      /** @returns {*[]} */
+      /** @type {*[]} */
       get errors() {
         return errors;
       },
-      /** @returns {*[]} */
+      /** @type {*[]} */
       get logs() {
         return logs;
       },

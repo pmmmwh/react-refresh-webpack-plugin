@@ -3,15 +3,23 @@ const { createFsFromVolume, Volume } = require('memfs');
 const webpack = require('webpack');
 const normalizeErrors = require('./normalizeErrors');
 
-/** @type {Set<function(): Promise<void>>} */
-const cleanupHandlers = new Set();
-afterEach(async () => {
-  await Promise.all([...cleanupHandlers].map((callback) => callback()));
-});
-
 const BUNDLE_FILENAME = 'main';
 const CONTEXT_PATH = path.join(__dirname, '../../loader/fixtures');
 const OUTPUT_PATH = path.join(__dirname, 'dist');
+
+/**
+ * @typedef {Object} CompilationModule
+ * @property {string} execution
+ * @property {string} parsed
+ * @property {string} [sourceMap]
+ */
+
+/**
+ * @typedef {Object} CompilationSession
+ * @property {*[]} errors
+ * @property {*[]} warnings
+ * @property {CompilationModule} module
+ */
 
 /**
  * Gets a Webpack compiler instance to test loader operations.
@@ -19,9 +27,9 @@ const OUTPUT_PATH = path.join(__dirname, 'dist');
  * @param {Object} [options]
  * @param {boolean} [options.devtool]
  * @param {*} [options.prevSourceMap]
- * @returns {import('webpack').Compiler}
+ * @returns {CompilationSession}
  */
-function getCompilation(fixtureFile, options = {}) {
+async function getCompilation(fixtureFile, options = {}) {
   const compiler = webpack({
     mode: 'development',
     context: CONTEXT_PATH,
@@ -55,6 +63,7 @@ function getCompilation(fixtureFile, options = {}) {
       runtimeChunk: 'single',
       splitChunks: {
         chunks: 'all',
+        name: (module, chunks, cacheGroupKey) => cacheGroupKey,
       },
     },
   });
@@ -64,93 +73,82 @@ function getCompilation(fixtureFile, options = {}) {
     compiler.outputFileSystem.join = path.join.bind(path);
   }
 
-  function cleanupCompilation() {
-    return new Promise((resolve) => {
-      compiler.close(() => {
-        cleanupHandlers.delete(cleanupCompilation);
-        resolve();
-      });
-    });
-  }
-
-  cleanupHandlers.add(cleanupCompilation);
-
+  /** @type {import('memfs').IFs} */
   const compilerOutputFs = compiler.outputFileSystem;
+  /** @type {import('webpack').Stats | undefined} */
   let compilationStats;
 
-  return [
-    {
-      get errors() {
-        return normalizeErrors(compilationStats.compilation.errors);
-      },
-      get warnings() {
-        return normalizeErrors(compilationStats.compilation.errors);
-      },
-      get module() {
-        if (!compilationStats) {
-          throw new Error('Compilation stats data is not available!');
-        }
+  await new Promise((resolve, reject) => {
+    compiler.run((error, stats) => {
+      if (error) {
+        reject(error);
+        return;
+      }
 
-        const parsed = compilationStats
-          .toJson({ source: true })
-          .modules.find(({ name }) => name === fixtureFile);
-        if (!parsed) {
-          throw new Error('Fixture module is not found in compilation stats!');
-        }
+      compilationStats = stats;
 
-        let execution;
-        try {
-          execution = compilerOutputFs
-            .readFileSync(path.join(OUTPUT_PATH, `${BUNDLE_FILENAME}.js`))
-            .toString();
-        } catch (error) {
-          execution = error.toString();
-        }
-
-        let sourceMap;
-        const [, sourceMapUrl] = execution.match(/\/\/# sourceMappingURL=(.*)$/) || [];
-        const isInlineSourceMap = !!sourceMapUrl && /^data:application\/json;/.test(sourceMapUrl);
-        if (!isInlineSourceMap) {
-          try {
-            sourceMap = JSON.stringify(
-              JSON.parse(
-                compilerOutputFs.readFileSync(path.join(OUTPUT_PATH, sourceMapUrl)).toString()
-              ),
-              null,
-              2
-            );
-          } catch (error) {
-            sourceMap = error.toString();
-          }
-        }
-
-        return {
-          parsed: parsed.source,
-          execution,
-          sourceMap,
-        };
-      },
-      async run() {
-        return new Promise((resolve, reject) => {
-          compiler.run((error, stats) => {
-            if (error) {
-              reject(error);
-              return;
-            }
-
-            if (stats.hasErrors()) {
-              reject(stats.toJson().errors);
-              return;
-            }
-
-            compilationStats = stats;
-            resolve(stats.toJson({ source: true }));
-          });
+      if (WEBPACK_VERSION !== 5) {
+        resolve();
+      } else {
+        compiler.close(() => {
+          resolve();
         });
-      },
+      }
+    });
+  });
+
+  return {
+    /** @type {*[]} */
+    get errors() {
+      return normalizeErrors(compilationStats.compilation.errors);
     },
-    cleanupCompilation,
-  ];
+    /** @type {*[]} */
+    get warnings() {
+      return normalizeErrors(compilationStats.compilation.errors);
+    },
+    /** @type {CompilationModule} */
+    get module() {
+      const parsed = compilationStats
+        .toJson({ source: true })
+        .modules.find(({ name }) => name === fixtureFile);
+      if (!parsed) {
+        throw new Error('Fixture module is not found in compilation stats!');
+      }
+
+      let execution;
+      try {
+        execution = compilerOutputFs
+          .readFileSync(path.join(OUTPUT_PATH, `${BUNDLE_FILENAME}.js`))
+          .toString();
+      } catch (error) {
+        execution = error.toString();
+      }
+
+      /** @type {string | undefined} */
+      let sourceMap;
+      const [, sourceMapUrl] = execution.match(/\/\/# sourceMappingURL=(.*)$/) || [];
+      const isInlineSourceMap = !!sourceMapUrl && /^data:application\/json;/.test(sourceMapUrl);
+      if (!isInlineSourceMap) {
+        try {
+          sourceMap = JSON.stringify(
+            JSON.parse(
+              compilerOutputFs.readFileSync(path.join(OUTPUT_PATH, sourceMapUrl)).toString()
+            ),
+            null,
+            2
+          );
+        } catch (error) {
+          sourceMap = error.toString();
+        }
+      }
+
+      return {
+        parsed: parsed.source,
+        execution,
+        sourceMap,
+      };
+    },
+  };
 }
 
 module.exports = getCompilation;
