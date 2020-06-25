@@ -20,7 +20,7 @@ SockJSClient.prototype.onClose = function onClose(fn) {
 
 /**
  * Creates a handler to handle socket message events.
- * @param {function(data: *): void} fn
+ * @param {function(*): void} fn
  */
 SockJSClient.prototype.onMessage = function onMessage(fn) {
   this.socket.onmessage = function onMessageHandler(event) {

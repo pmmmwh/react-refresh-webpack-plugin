@@ -2,7 +2,7 @@
 
 /**
  * Initializes a socket server for HMR for webpack-plugin-serve.
- * @param {function(message: *): void} messageHandler A handler to consume Webpack compilation messages.
+ * @param {function(*): void} messageHandler A handler to consume Webpack compilation messages.
  * @returns {void}
  */
 function initWPSSocket(messageHandler) {
