@@ -168,7 +168,10 @@ describe('validateOptions', () => {
       new ReactRefreshPlugin({
         overlay: { entry: true },
       });
-    }).toThrowErrorMatchingInlineSnapshot();
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+       - options.overlay.entry should be a string."
+    `);
   });
 
   it('should accept "overlay.module" when it is an absolute path string', () => {
@@ -195,7 +198,10 @@ describe('validateOptions', () => {
       new ReactRefreshPlugin({
         overlay: { module: true },
       });
-    }).toThrowErrorMatchingInlineSnapshot();
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+       - options.overlay.module should be a string."
+    `);
   });
 
   it('should accept "overlay.sockIntegration" when it is "wds"', () => {
@@ -246,7 +252,18 @@ describe('validateOptions', () => {
       new ReactRefreshPlugin({
         overlay: { sockIntegration: true },
       });
-    }).toThrowErrorMatchingInlineSnapshot();
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+       - options.overlay should be one of these:
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort? }
+         Details:
+          * options.overlay.sockIntegration should be one of these:
+            \\"wds\\" | \\"whm\\" | \\"wps\\" | string
+            Details:
+             * options.overlay.sockIntegration should be one of these:
+               \\"wds\\" | \\"whm\\" | \\"wps\\"
+             * options.overlay.sockIntegration should be a string."
+    `);
   });
 
   it('should accept "overlay.sockHost" when it is a string', () => {
