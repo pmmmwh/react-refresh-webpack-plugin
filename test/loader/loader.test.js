@@ -2,7 +2,7 @@ const validate = require('sourcemap-validator');
 const getCompilation = require('../helpers/compilation');
 
 describe('loader', () => {
-  describe.skipIf(WEBPACK_VERSION === 5, 'on Webpack 4', () => {
+  describe.skipIf(WEBPACK_VERSION !== 4, 'on Webpack 4', () => {
     it('should work for CommonJS', async () => {
       const compilation = await getCompilation('./index.cjs.js');
       const { execution, parsed } = compilation.module;
@@ -341,7 +341,7 @@ describe('loader', () => {
       expect(compilation.warnings).toStrictEqual([]);
     });
 
-    it('should generate valid source map when the `devtool` option is specified', async () => {
+    it('should generate valid source map when the "devtool" option is specified', async () => {
       const compilation = await getCompilation('./index.cjs.js', { devtool: 'source-map' });
       const { execution, sourceMap } = compilation.module;
 
@@ -366,7 +366,7 @@ describe('loader', () => {
     });
   });
 
-  describe.skipIf(WEBPACK_VERSION === 4, 'on Webpack 5', () => {
+  describe.skipIf(WEBPACK_VERSION !== 5, 'on Webpack 5', () => {
     it('should work for CommonJS', async () => {
       const compilation = await getCompilation('./index.cjs.js');
       const { execution, parsed } = compilation.module;
@@ -709,7 +709,7 @@ describe('loader', () => {
       expect(compilation.warnings).toStrictEqual([]);
     });
 
-    it('should generate valid source map when the `devtool` option is specified', async () => {
+    it('should generate valid source map when the "devtool" option is specified', async () => {
       const compilation = await getCompilation('./index.cjs.js', { devtool: 'source-map' });
       const { execution, sourceMap } = compilation.module;
 
@@ -734,7 +734,7 @@ describe('loader', () => {
     });
   });
 
-  it('should generate valid source map when `undefined` source map is provided', async () => {
+  it('should generate valid source map when undefined source map is provided', async () => {
     const compilation = await getCompilation('./index.cjs.js', {
       devtool: 'source-map',
       prevSourceMap: undefined,
@@ -746,7 +746,7 @@ describe('loader', () => {
     }).not.toThrow();
   });
 
-  it('should generate valid source map when `null` source map is provided', async () => {
+  it('should generate valid source map when null source map is provided', async () => {
     const compilation = await getCompilation('./index.cjs.js', {
       devtool: 'source-map',
       prevSourceMap: null,

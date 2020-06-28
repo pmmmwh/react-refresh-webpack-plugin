@@ -163,6 +163,14 @@ describe('validateOptions', () => {
     `);
   });
 
+  it('should reject "overlay.entry" when it is not a string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { entry: true },
+      });
+    }).toThrowErrorMatchingInlineSnapshot();
+  });
+
   it('should accept "overlay.module" when it is an absolute path string', () => {
     expect(() => {
       new ReactRefreshPlugin({
@@ -182,6 +190,14 @@ describe('validateOptions', () => {
     `);
   });
 
+  it('should reject "overlay.module" when it is not a string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { module: true },
+      });
+    }).toThrowErrorMatchingInlineSnapshot();
+  });
+
   it('should accept "overlay.sockIntegration" when it is "wds"', () => {
     expect(() => {
       new ReactRefreshPlugin({
@@ -193,7 +209,7 @@ describe('validateOptions', () => {
   it('should accept "overlay.sockIntegration" when it is "whm"', () => {
     expect(() => {
       new ReactRefreshPlugin({
-        overlay: { sockIntegration: '/whm' },
+        overlay: { sockIntegration: 'whm' },
       });
     }).not.toThrow();
   });
@@ -223,6 +239,14 @@ describe('validateOptions', () => {
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay.sockIntegration: The provided value \\"test\\" is not an absolute path!"
     `);
+  });
+
+  it('should reject "overlay.sockIntegration" when it is not a string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { sockIntegration: true },
+      });
+    }).toThrowErrorMatchingInlineSnapshot();
   });
 
   it('should accept "overlay.sockHost" when it is a string', () => {

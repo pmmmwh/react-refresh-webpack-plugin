@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const normalizeErrors = require('./normalizeErrors');
 
 const BUNDLE_FILENAME = 'main';
-const CONTEXT_PATH = path.join(__dirname, '../../loader/fixtures');
+const CONTEXT_PATH = path.join(__dirname, '../..', 'loader/fixtures');
 const OUTPUT_PATH = path.join(__dirname, 'dist');
 
 /**
@@ -49,7 +49,7 @@ async function getCompilation(fixtureFile, options = {}) {
             require.resolve('@pmmmwh/react-refresh-webpack-plugin/loader'),
             !!options.devtool &&
               Object.prototype.hasOwnProperty.call(options, 'prevSourceMap') && {
-                loader: path.join(__dirname, './fixtures/source-map-loader.js'),
+                loader: path.join(__dirname, 'fixtures/source-map-loader.js'),
                 options: {
                   sourceMap: options.prevSourceMap,
                 },
@@ -59,6 +59,9 @@ async function getCompilation(fixtureFile, options = {}) {
       ],
     },
     plugins: [new webpack.HotModuleReplacementPlugin()],
+    // Options below forces Webpack to:
+    // 1. Move Webpack runtime into the runtime chunk;
+    // 2. Move node_modules into the vendor chunk with a stable name.
     optimization: {
       runtimeChunk: 'single',
       splitChunks: {
@@ -68,6 +71,7 @@ async function getCompilation(fixtureFile, options = {}) {
     },
   });
 
+  // Use an in-memory file system to prevent emitting files
   compiler.outputFileSystem = createFsFromVolume(new Volume());
   if (WEBPACK_VERSION !== 5) {
     compiler.outputFileSystem.join = path.join.bind(path);
@@ -90,6 +94,7 @@ async function getCompilation(fixtureFile, options = {}) {
       if (WEBPACK_VERSION !== 5) {
         resolve();
       } else {
+        // The compiler have to be explicitly closed in Webpack 5
         compiler.close(() => {
           resolve();
         });

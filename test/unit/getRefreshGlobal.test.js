@@ -9,7 +9,7 @@ describe('getRefreshGlobal', () => {
     delete global.__webpack_require__;
   });
 
-  it('should return template without providing runtime template', () => {
+  it('should return refresh global template without providing runtime template', () => {
     const refreshGlobal = getRefreshGlobal();
     expect(refreshGlobal).toMatchInlineSnapshot(`
       "__webpack_require__.$Refresh$ = {
@@ -42,12 +42,15 @@ describe('getRefreshGlobal', () => {
     }).not.toThrow();
   });
 
-  it.skipIf(WEBPACK_VERSION !== 5, 'should return template with provided runtime template', () => {
-    const RuntimeTemplate = require('webpack/lib/RuntimeTemplate');
-    const refreshGlobal = getRefreshGlobal(
-      new RuntimeTemplate({ ecmaVersion: 6 }, { shorten: (item) => item })
-    );
-    expect(refreshGlobal).toMatchInlineSnapshot(`
+  it.skipIf(
+    WEBPACK_VERSION !== 5,
+    'should return refresh global template with provided runtime template',
+    () => {
+      const RuntimeTemplate = require('webpack/lib/RuntimeTemplate');
+      const refreshGlobal = getRefreshGlobal(
+        new RuntimeTemplate({ ecmaVersion: 6 }, { shorten: (item) => item })
+      );
+      expect(refreshGlobal).toMatchInlineSnapshot(`
       "__webpack_require__.$Refresh$ = {
       	cleanup: () => undefined,
       	register: () => undefined,
@@ -73,8 +76,9 @@ describe('getRefreshGlobal', () => {
       	signature: () => (type) => type
       };"
     `);
-    expect(() => {
-      eval(refreshGlobal);
-    }).not.toThrow();
-  });
+      expect(() => {
+        eval(refreshGlobal);
+      }).not.toThrow();
+    }
+  );
 });
