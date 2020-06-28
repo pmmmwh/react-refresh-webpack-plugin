@@ -51,7 +51,7 @@ function createRejectionHandler(callback) {
  * Creates a handler that registers an EventListener on window for a valid type
  * and calls a callback when the event fires.
  * @param {string} eventType A valid DOM event type.
- * @param {function(callback: EventCallback): EventHandler} createHandler A function that creates an event handler.
+ * @param {function(EventCallback): EventHandler} createHandler A function that creates an event handler.
  * @returns {register} A function that registers the EventListener given a callback.
  */
 function createWindowEventHandler(eventType, createHandler) {

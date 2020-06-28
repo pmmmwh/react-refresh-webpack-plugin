@@ -44,14 +44,14 @@ const sleep = (ms) => {
  * @property {*[]} errors
  * @property {*[]} logs
  * @property {function(): void} resetState
- * @property {function(filename: string, content: string): Promise<void>} write
- * @property {function(filename: string, content: string): Promise<void>} patch
- * @property {function(filename: string): Promise<void>} remove
- * @property {function(fn: *, args: ...*): Promise<*>} evaluate
+ * @property {function(string, string): Promise<void>} write
+ * @property {function(string, string): Promise<void>} patch
+ * @property {function(string): Promise<void>} remove
+ * @property {function(*, ...*=): Promise<*>} evaluate
  * @property {function(): Promise<void>} reload
  */
 
-const rootSandboxDir = path.join(__dirname, '..', '__tmp__');
+const rootSandboxDir = path.join(__dirname, '../..', '__tmp__');
 const spawnFn = WEBPACK_VERSION === 5 ? spawnWebpackServe : spawnWDS;
 
 /**
@@ -61,7 +61,7 @@ const spawnFn = WEBPACK_VERSION === 5 ? spawnWebpackServe : spawnWDS;
  * @param {Map<string, string>} [options.initialFiles]
  * @returns {Promise<[SandboxSession, function(): Promise<void>]>}
  */
-async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
+async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
   const port = await getPort();
 
   // Get sandbox directory paths
@@ -146,15 +146,15 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
   return [
     {
-      /** @returns {boolean} */
+      /** @type {boolean} */
       get didFullRefresh() {
         return didFullRefresh;
       },
-      /** @returns {*[]} */
+      /** @type {*[]} */
       get errors() {
         return errors;
       },
-      /** @returns {*[]} */
+      /** @type {*[]} */
       get logs() {
         return logs;
       },
@@ -256,4 +256,4 @@ async function sandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
   ];
 }
 
-module.exports = sandbox;
+module.exports = getSandbox;

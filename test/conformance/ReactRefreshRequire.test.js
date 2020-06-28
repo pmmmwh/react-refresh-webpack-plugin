@@ -1,8 +1,8 @@
-const createSandbox = require('../sandbox');
+const getSandbox = require('../helpers/sandbox');
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1028-L1087
 it('re-runs accepted modules', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   // Bootstrap test and reload session to not rely on auto-refresh semantics
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
@@ -47,7 +47,7 @@ it('re-runs accepted modules', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1089-L1176
 it('propagates a hot update to closest accepted module', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
@@ -128,7 +128,7 @@ it('propagates a hot update to closest accepted module', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1178-L1346
 it('propagates hot update to all inverse dependencies', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
@@ -218,7 +218,7 @@ it('propagates hot update to all inverse dependencies', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1348-L1445
 it('runs dependencies before dependents', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
@@ -282,7 +282,7 @@ it('runs dependencies before dependents', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1447-L1537
 it('provides fresh value for module.exports in parents', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
@@ -341,7 +341,7 @@ it('provides fresh value for module.exports in parents', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1539-L1629
 it('provides fresh value for exports.* in parents', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
@@ -402,7 +402,7 @@ it('provides fresh value for exports.* in parents', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1631-L1727
 it('provides fresh value for ES6 named import in parents', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('root.js', `export default function Noop() { return null; };`);
   await session.write('index.js', `import Root from './root'; Root();`);
@@ -464,7 +464,7 @@ it('provides fresh value for ES6 named import in parents', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1729-L1825
 it('provides fresh value for ES6 default import in parents', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('root.js', `export default function Noop() { return null; };`);
   await session.write('index.js', `import Root from './root'; Root();`);
@@ -528,7 +528,7 @@ it('provides fresh value for ES6 default import in parents', async () => {
 // but rather stops execution in parent after the errored module.
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1827-L1938
 it('stops execution after module-level errors', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
@@ -589,7 +589,7 @@ it('stops execution after module-level errors', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1940-L2049
 it('can continue hot updates after module-level errors with module.exports', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
@@ -634,7 +634,7 @@ it('can continue hot updates after module-level errors with module.exports', asy
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2051-L2162
 it('can continue hot updates after module-level errors with ES6 exports', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('root.js', `export default function Noop() { return null; };`);
   await session.write('index.js', `import Root from './root'; Root();`);
@@ -680,7 +680,7 @@ it('can continue hot updates after module-level errors with ES6 exports', async 
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2164-L2272
 it('does not accumulate stale exports over time', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();
@@ -746,7 +746,7 @@ it('does not accumulate stale exports over time', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2274-L2318
 it('bails out if update bubbles to the root via the only path', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = () => null;`);
   await session.reload();
@@ -783,7 +783,7 @@ it('bails out if update bubbles to the root via the only path', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2320-L2410
 it('bails out if the update bubbles to the root via one of the paths', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = () => null;`);
   await session.reload();
@@ -848,7 +848,7 @@ it('bails out if the update bubbles to the root via one of the paths', async () 
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2412-L2511
 it('propagates a module that stops accepting in next version', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = () => null;`);
   await session.reload();
@@ -930,7 +930,7 @@ it('propagates a module that stops accepting in next version', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2513-L2562
 it('can replace a module before it is loaded', async () => {
-  const [session] = await createSandbox();
+  const [session] = await getSandbox();
 
   await session.write('index.js', `module.exports = function Noop() { return null; };`);
   await session.reload();

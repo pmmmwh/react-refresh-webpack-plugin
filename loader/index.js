@@ -53,6 +53,12 @@ const RefreshModuleRuntime = getTemplate(require('./RefreshModule.runtime'));
 function ReactRefreshLoader(source, inputSourceMap, meta) {
   const callback = this.async();
 
+  /**
+   * @this {import('webpack').loader.LoaderContext}
+   * @param {string} source
+   * @param {import('source-map').RawSourceMap} [inputSourceMap]
+   * @returns {Promise<[string, import('source-map').RawSourceMap]>}
+   */
   async function _loader(source, inputSourceMap) {
     if (this.sourceMap) {
       let originalSourceMap = inputSourceMap;

@@ -5,7 +5,7 @@ const getResourceQuery = require('./utils/getResourceQuery');
 
 /**
  * Initializes a socket server for HMR for webpack-dev-server.
- * @param {function(message: *): void} messageHandler A handler to consume Webpack compilation messages.
+ * @param {function(*): void} messageHandler A handler to consume Webpack compilation messages.
  * @returns {void}
  */
 function initWDSSocket(messageHandler) {

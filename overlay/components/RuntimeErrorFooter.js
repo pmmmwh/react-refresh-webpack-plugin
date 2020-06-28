@@ -5,9 +5,9 @@ const Spacer = require('./Spacer');
  * @typedef {Object} RuntimeErrorFooterProps
  * @property {string} [initialFocus]
  * @property {boolean} multiple
- * @property {function(event: MouseEvent): void} onClickCloseButton
- * @property {function(event: MouseEvent): void} onClickNextButton
- * @property {function(event: MouseEvent): void} onClickPrevButton
+ * @property {function(MouseEvent): void} onClickCloseButton
+ * @property {function(MouseEvent): void} onClickNextButton
+ * @property {function(MouseEvent): void} onClickPrevButton
  */
 
 /**
