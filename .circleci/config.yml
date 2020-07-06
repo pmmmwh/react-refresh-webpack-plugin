@@ -85,7 +85,9 @@ jobs:
             TESTFILES=$(circleci tests glob "test/**/*.test.js" | circleci tests split --split-by=timings)
             yarn test $TESTFILES
           environment:
+            JEST_JUNIT_ADD_FILE_ATTRIBUTE: 'true'
             JEST_JUNIT_OUTPUT_DIR: test-results/jest
+            JEST_JUNIT_OUTPUT_NAME: results.xml
           working_directory: ~/project
       - store_test_results:
           path: test-results
