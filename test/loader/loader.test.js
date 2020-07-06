@@ -8,164 +8,158 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-              "$RefreshRuntime$ = require('react-refresh/runtime');
-              $RefreshSetup$(module.id);
+        "$RefreshRuntime$ = require('react-refresh/runtime');
+        $RefreshSetup$(module.id);
 
-              module.exports = 'Test';
-
-
-              const currentExports = __react_refresh_utils__.getModuleExports(module.id);
-
-              __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.id);
-
-              if (module.hot) {
-                const isHotUpdate = !!module.hot.data;
-                const prevExports = isHotUpdate ? module.hot.data.prevExports : null; // This is a workaround for webpack/webpack#11057
-                // FIXME: Revert after webpack/webpack#11059 is merged
-
-                const isTestMode = typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__;
-
-                if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
-                  module.hot.dispose(
-                  /**
-                   * A callback to performs a full refresh if React has unrecoverable errors,
-                   * and also caches the to-be-disposed module.
-                   * @param {*} data A hot module data object from Webpack HMR.
-                   * @returns {void}
-                   */
-                  function hotDisposeCallback(data) {
-                    // We have to mutate the data object to get data registered and cached
-                    data.prevExports = currentExports;
-                  });
-                  module.hot.accept(
-                  /**
-                   * An error handler to allow self-recovering behaviours.
-                   * @param {Error} error An error occurred during evaluation of a module.
-                   * @returns {void}
-                   */
-                  function hotErrorHandler(error) {
-                    if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
-                      __react_refresh_error_overlay__.handleRuntimeError(error);
-                    }
-
-                    if (isTestMode) {
-                      if (window.onHotAcceptError) {
-                        window.onHotAcceptError(error.message);
-                      }
-                    }
-
-                    __webpack_require__.c[module.id].hot.accept(hotErrorHandler);
-                  });
-
-                  if (isHotUpdate) {
-                    if (__react_refresh_utils__.isReactRefreshBoundary(prevExports) && __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)) {
-                      module.hot.invalidate();
-                    } else {
-                      __react_refresh_utils__.enqueueUpdate(
-                      /**
-                       * A function to dismiss the error overlay after performing React refresh.
-                       * @returns {void}
-                       */
-                      function updateCallback() {
-                        if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
-                          __react_refresh_error_overlay__.clearRuntimeErrors();
-                        }
-                      });
-                    }
-                  }
-                } else {
-                  if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
-                    module.hot.invalidate();
-                  }
-                }
-              }"
-          `);
-      expect(execution).toMatchInlineSnapshot(`
-              "(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([[\\"main\\"],{
-
-              /***/ \\"./index.cjs.js\\":
-              /*!**********************!*\\\\
-                !*** ./index.cjs.js ***!
-                \\\\**********************/
-              /*! no static exports found */
-              /***/ (function(module, exports, __webpack_require__) {
-
-              $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
-              $RefreshSetup$(module.i);
-
-              module.exports = 'Test';
+        module.exports = 'Test';
 
 
-              const currentExports = __react_refresh_utils__.getModuleExports(module.i);
+        const currentExports = __react_refresh_utils__.getModuleExports(module.id);
 
-              __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.i);
+        __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.id);
 
-              if (true) {
-                const isHotUpdate = !!module.hot.data;
-                const prevExports = isHotUpdate ? module.hot.data.prevExports : null; // This is a workaround for webpack/webpack#11057
-                // FIXME: Revert after webpack/webpack#11059 is merged
+        if (module.hot) {
+          const isHotUpdate = !!module.hot.data;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
 
-                const isTestMode = typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__;
+          if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
+            module.hot.dispose(
+            /**
+             * A callback to performs a full refresh if React has unrecoverable errors,
+             * and also caches the to-be-disposed module.
+             * @param {*} data A hot module data object from Webpack HMR.
+             * @returns {void}
+             */
+            function hotDisposeCallback(data) {
+              // We have to mutate the data object to get data registered and cached
+              data.prevExports = currentExports;
+            });
+            module.hot.accept(
+            /**
+             * An error handler to allow self-recovering behaviours.
+             * @param {Error} error An error occurred during evaluation of a module.
+             * @returns {void}
+             */
+            function hotErrorHandler(error) {
+              if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
+                __react_refresh_error_overlay__.handleRuntimeError(error);
+              }
 
-                if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
-                  module.hot.dispose(
-                  /**
-                   * A callback to performs a full refresh if React has unrecoverable errors,
-                   * and also caches the to-be-disposed module.
-                   * @param {*} data A hot module data object from Webpack HMR.
-                   * @returns {void}
-                   */
-                  function hotDisposeCallback(data) {
-                    // We have to mutate the data object to get data registered and cached
-                    data.prevExports = currentExports;
-                  });
-                  module.hot.accept(
-                  /**
-                   * An error handler to allow self-recovering behaviours.
-                   * @param {Error} error An error occurred during evaluation of a module.
-                   * @returns {void}
-                   */
-                  function hotErrorHandler(error) {
-                    if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
-                      __react_refresh_error_overlay__.handleRuntimeError(error);
-                    }
-
-                    if (isTestMode) {
-                      if (window.onHotAcceptError) {
-                        window.onHotAcceptError(error.message);
-                      }
-                    }
-
-                    __webpack_require__.c[module.i].hot.accept(hotErrorHandler);
-                  });
-
-                  if (isHotUpdate) {
-                    if (__react_refresh_utils__.isReactRefreshBoundary(prevExports) && __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)) {
-                      module.hot.invalidate();
-                    } else {
-                      __react_refresh_utils__.enqueueUpdate(
-                      /**
-                       * A function to dismiss the error overlay after performing React refresh.
-                       * @returns {void}
-                       */
-                      function updateCallback() {
-                        if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
-                          __react_refresh_error_overlay__.clearRuntimeErrors();
-                        }
-                      });
-                    }
-                  }
-                } else {
-                  if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
-                    module.hot.invalidate();
-                  }
+              if (typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__) {
+                if (window.onHotAcceptError) {
+                  window.onHotAcceptError(error.message);
                 }
               }
 
-              /***/ })
+              __webpack_require__.c[module.id].hot.accept(hotErrorHandler);
+            });
 
-              },[[\\"./index.cjs.js\\",\\"runtime\\",\\"vendors\\"]]]);"
-          `);
+            if (isHotUpdate) {
+              if (__react_refresh_utils__.isReactRefreshBoundary(prevExports) && __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)) {
+                module.hot.invalidate();
+              } else {
+                __react_refresh_utils__.enqueueUpdate(
+                /**
+                 * A function to dismiss the error overlay after performing React refresh.
+                 * @returns {void}
+                 */
+                function updateCallback() {
+                  if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
+                    __react_refresh_error_overlay__.clearRuntimeErrors();
+                  }
+                });
+              }
+            }
+          } else {
+            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+              module.hot.invalidate();
+            }
+          }
+        }"
+      `);
+      expect(execution).toMatchInlineSnapshot(`
+        "(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([[\\"main\\"],{
+
+        /***/ \\"./index.cjs.js\\":
+        /*!**********************!*\\\\
+          !*** ./index.cjs.js ***!
+          \\\\**********************/
+        /*! no static exports found */
+        /***/ (function(module, exports, __webpack_require__) {
+
+        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        $RefreshSetup$(module.i);
+
+        module.exports = 'Test';
+
+
+        const currentExports = __react_refresh_utils__.getModuleExports(module.i);
+
+        __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.i);
+
+        if (true) {
+          const isHotUpdate = !!module.hot.data;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+
+          if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
+            module.hot.dispose(
+            /**
+             * A callback to performs a full refresh if React has unrecoverable errors,
+             * and also caches the to-be-disposed module.
+             * @param {*} data A hot module data object from Webpack HMR.
+             * @returns {void}
+             */
+            function hotDisposeCallback(data) {
+              // We have to mutate the data object to get data registered and cached
+              data.prevExports = currentExports;
+            });
+            module.hot.accept(
+            /**
+             * An error handler to allow self-recovering behaviours.
+             * @param {Error} error An error occurred during evaluation of a module.
+             * @returns {void}
+             */
+            function hotErrorHandler(error) {
+              if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
+                __react_refresh_error_overlay__.handleRuntimeError(error);
+              }
+
+              if (typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__) {
+                if (window.onHotAcceptError) {
+                  window.onHotAcceptError(error.message);
+                }
+              }
+
+              __webpack_require__.c[module.i].hot.accept(hotErrorHandler);
+            });
+
+            if (isHotUpdate) {
+              if (__react_refresh_utils__.isReactRefreshBoundary(prevExports) && __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)) {
+                module.hot.invalidate();
+              } else {
+                __react_refresh_utils__.enqueueUpdate(
+                /**
+                 * A function to dismiss the error overlay after performing React refresh.
+                 * @returns {void}
+                 */
+                function updateCallback() {
+                  if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
+                    __react_refresh_error_overlay__.clearRuntimeErrors();
+                  }
+                });
+              }
+            }
+          } else {
+            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+              module.hot.invalidate();
+            }
+          }
+        }
+
+        /***/ })
+
+        },[[\\"./index.cjs.js\\",\\"runtime\\",\\"vendors\\"]]]);"
+      `);
 
       expect(compilation.errors).toStrictEqual([]);
       expect(compilation.warnings).toStrictEqual([]);
@@ -176,166 +170,160 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-              "$RefreshRuntime$ = require('react-refresh/runtime');
-              $RefreshSetup$(module.id);
+        "$RefreshRuntime$ = require('react-refresh/runtime');
+        $RefreshSetup$(module.id);
 
-              export default 'Test';
-
-
-              const currentExports = __react_refresh_utils__.getModuleExports(module.id);
-
-              __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.id);
-
-              if (module.hot) {
-                const isHotUpdate = !!module.hot.data;
-                const prevExports = isHotUpdate ? module.hot.data.prevExports : null; // This is a workaround for webpack/webpack#11057
-                // FIXME: Revert after webpack/webpack#11059 is merged
-
-                const isTestMode = typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__;
-
-                if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
-                  module.hot.dispose(
-                  /**
-                   * A callback to performs a full refresh if React has unrecoverable errors,
-                   * and also caches the to-be-disposed module.
-                   * @param {*} data A hot module data object from Webpack HMR.
-                   * @returns {void}
-                   */
-                  function hotDisposeCallback(data) {
-                    // We have to mutate the data object to get data registered and cached
-                    data.prevExports = currentExports;
-                  });
-                  module.hot.accept(
-                  /**
-                   * An error handler to allow self-recovering behaviours.
-                   * @param {Error} error An error occurred during evaluation of a module.
-                   * @returns {void}
-                   */
-                  function hotErrorHandler(error) {
-                    if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
-                      __react_refresh_error_overlay__.handleRuntimeError(error);
-                    }
-
-                    if (isTestMode) {
-                      if (window.onHotAcceptError) {
-                        window.onHotAcceptError(error.message);
-                      }
-                    }
-
-                    __webpack_require__.c[module.id].hot.accept(hotErrorHandler);
-                  });
-
-                  if (isHotUpdate) {
-                    if (__react_refresh_utils__.isReactRefreshBoundary(prevExports) && __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)) {
-                      module.hot.invalidate();
-                    } else {
-                      __react_refresh_utils__.enqueueUpdate(
-                      /**
-                       * A function to dismiss the error overlay after performing React refresh.
-                       * @returns {void}
-                       */
-                      function updateCallback() {
-                        if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
-                          __react_refresh_error_overlay__.clearRuntimeErrors();
-                        }
-                      });
-                    }
-                  }
-                } else {
-                  if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
-                    module.hot.invalidate();
-                  }
-                }
-              }"
-          `);
-      expect(execution).toMatchInlineSnapshot(`
-              "(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([[\\"main\\"],{
-
-              /***/ \\"./index.esm.js\\":
-              /*!**********************!*\\\\
-                !*** ./index.esm.js ***!
-                \\\\**********************/
-              /*! exports provided: default */
-              /***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-              \\"use strict\\";
-              __webpack_require__.r(__webpack_exports__);
-              $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
-              $RefreshSetup$(module.i);
-
-              /* harmony default export */ __webpack_exports__[\\"default\\"] = ('Test');
+        export default 'Test';
 
 
-              const currentExports = __react_refresh_utils__.getModuleExports(module.i);
+        const currentExports = __react_refresh_utils__.getModuleExports(module.id);
 
-              __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.i);
+        __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.id);
 
-              if (true) {
-                const isHotUpdate = !!module.hot.data;
-                const prevExports = isHotUpdate ? module.hot.data.prevExports : null; // This is a workaround for webpack/webpack#11057
-                // FIXME: Revert after webpack/webpack#11059 is merged
+        if (module.hot) {
+          const isHotUpdate = !!module.hot.data;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
 
-                const isTestMode = typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__;
+          if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
+            module.hot.dispose(
+            /**
+             * A callback to performs a full refresh if React has unrecoverable errors,
+             * and also caches the to-be-disposed module.
+             * @param {*} data A hot module data object from Webpack HMR.
+             * @returns {void}
+             */
+            function hotDisposeCallback(data) {
+              // We have to mutate the data object to get data registered and cached
+              data.prevExports = currentExports;
+            });
+            module.hot.accept(
+            /**
+             * An error handler to allow self-recovering behaviours.
+             * @param {Error} error An error occurred during evaluation of a module.
+             * @returns {void}
+             */
+            function hotErrorHandler(error) {
+              if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
+                __react_refresh_error_overlay__.handleRuntimeError(error);
+              }
 
-                if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
-                  module.hot.dispose(
-                  /**
-                   * A callback to performs a full refresh if React has unrecoverable errors,
-                   * and also caches the to-be-disposed module.
-                   * @param {*} data A hot module data object from Webpack HMR.
-                   * @returns {void}
-                   */
-                  function hotDisposeCallback(data) {
-                    // We have to mutate the data object to get data registered and cached
-                    data.prevExports = currentExports;
-                  });
-                  module.hot.accept(
-                  /**
-                   * An error handler to allow self-recovering behaviours.
-                   * @param {Error} error An error occurred during evaluation of a module.
-                   * @returns {void}
-                   */
-                  function hotErrorHandler(error) {
-                    if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
-                      __react_refresh_error_overlay__.handleRuntimeError(error);
-                    }
-
-                    if (isTestMode) {
-                      if (window.onHotAcceptError) {
-                        window.onHotAcceptError(error.message);
-                      }
-                    }
-
-                    __webpack_require__.c[module.i].hot.accept(hotErrorHandler);
-                  });
-
-                  if (isHotUpdate) {
-                    if (__react_refresh_utils__.isReactRefreshBoundary(prevExports) && __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)) {
-                      module.hot.invalidate();
-                    } else {
-                      __react_refresh_utils__.enqueueUpdate(
-                      /**
-                       * A function to dismiss the error overlay after performing React refresh.
-                       * @returns {void}
-                       */
-                      function updateCallback() {
-                        if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
-                          __react_refresh_error_overlay__.clearRuntimeErrors();
-                        }
-                      });
-                    }
-                  }
-                } else {
-                  if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
-                    module.hot.invalidate();
-                  }
+              if (typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__) {
+                if (window.onHotAcceptError) {
+                  window.onHotAcceptError(error.message);
                 }
               }
 
-              /***/ })
+              __webpack_require__.c[module.id].hot.accept(hotErrorHandler);
+            });
 
-              },[[\\"./index.esm.js\\",\\"runtime\\",\\"vendors\\"]]]);"
-          `);
+            if (isHotUpdate) {
+              if (__react_refresh_utils__.isReactRefreshBoundary(prevExports) && __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)) {
+                module.hot.invalidate();
+              } else {
+                __react_refresh_utils__.enqueueUpdate(
+                /**
+                 * A function to dismiss the error overlay after performing React refresh.
+                 * @returns {void}
+                 */
+                function updateCallback() {
+                  if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
+                    __react_refresh_error_overlay__.clearRuntimeErrors();
+                  }
+                });
+              }
+            }
+          } else {
+            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+              module.hot.invalidate();
+            }
+          }
+        }"
+      `);
+      expect(execution).toMatchInlineSnapshot(`
+        "(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([[\\"main\\"],{
+
+        /***/ \\"./index.esm.js\\":
+        /*!**********************!*\\\\
+          !*** ./index.esm.js ***!
+          \\\\**********************/
+        /*! exports provided: default */
+        /***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+        \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        $RefreshSetup$(module.i);
+
+        /* harmony default export */ __webpack_exports__[\\"default\\"] = ('Test');
+
+
+        const currentExports = __react_refresh_utils__.getModuleExports(module.i);
+
+        __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.i);
+
+        if (true) {
+          const isHotUpdate = !!module.hot.data;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+
+          if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
+            module.hot.dispose(
+            /**
+             * A callback to performs a full refresh if React has unrecoverable errors,
+             * and also caches the to-be-disposed module.
+             * @param {*} data A hot module data object from Webpack HMR.
+             * @returns {void}
+             */
+            function hotDisposeCallback(data) {
+              // We have to mutate the data object to get data registered and cached
+              data.prevExports = currentExports;
+            });
+            module.hot.accept(
+            /**
+             * An error handler to allow self-recovering behaviours.
+             * @param {Error} error An error occurred during evaluation of a module.
+             * @returns {void}
+             */
+            function hotErrorHandler(error) {
+              if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
+                __react_refresh_error_overlay__.handleRuntimeError(error);
+              }
+
+              if (typeof __react_refresh_test__ !== 'undefined' && __react_refresh_test__) {
+                if (window.onHotAcceptError) {
+                  window.onHotAcceptError(error.message);
+                }
+              }
+
+              __webpack_require__.c[module.i].hot.accept(hotErrorHandler);
+            });
+
+            if (isHotUpdate) {
+              if (__react_refresh_utils__.isReactRefreshBoundary(prevExports) && __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)) {
+                module.hot.invalidate();
+              } else {
+                __react_refresh_utils__.enqueueUpdate(
+                /**
+                 * A function to dismiss the error overlay after performing React refresh.
+                 * @returns {void}
+                 */
+                function updateCallback() {
+                  if (typeof __react_refresh_error_overlay__ !== 'undefined' && __react_refresh_error_overlay__) {
+                    __react_refresh_error_overlay__.clearRuntimeErrors();
+                  }
+                });
+              }
+            }
+          } else {
+            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+              module.hot.invalidate();
+            }
+          }
+        }
+
+        /***/ })
+
+        },[[\\"./index.esm.js\\",\\"runtime\\",\\"vendors\\"]]]);"
+      `);
 
       expect(compilation.errors).toStrictEqual([]);
       expect(compilation.warnings).toStrictEqual([]);
