@@ -166,12 +166,12 @@ describe('getSocketUrlParts', () => {
   it('should use info from resource query when available', () => {
     getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost:8080');
 
-    expect(getSocketUrlParts('?sockHost=foo.com&sockPath=socket&sockPort=9000')).toStrictEqual({
+    expect(getSocketUrlParts('?sockHost=foo.com&sockPath=/socket&sockPort=9000')).toStrictEqual({
       auth: undefined,
       hostname: 'foo.com',
       pathname: '/socket',
       port: '9000',
-      protocol: 'https:',
+      protocol: 'http:',
     });
   });
 });
