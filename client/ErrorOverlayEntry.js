@@ -2,7 +2,6 @@
 
 const errorEventHandlers = require('./utils/errorEventHandlers');
 const formatWebpackErrors = require('./utils/formatWebpackErrors');
-const parseResourceQuery = require('./utils/parseResourceQuery');
 
 // Setup error states
 let isHotReload = false;
@@ -72,7 +71,7 @@ function compileMessageHandler(message) {
 }
 
 // Registers handlers for compile errors
-__react_refresh_init_socket__(compileMessageHandler, parseResourceQuery(__resourceQuery));
+__react_refresh_init_socket__(compileMessageHandler, __resourceQuery);
 // Registers handlers for runtime errors
 errorEventHandlers.error(function handleError(error) {
   hasRuntimeErrors = true;

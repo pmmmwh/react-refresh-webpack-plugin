@@ -1,4 +1,4 @@
-const safeThis = require('./safeThis');
+const safeThis = require('./utils/safeThis');
 
 if (process.env.NODE_ENV !== 'production' && typeof safeThis !== 'undefined') {
   // Only inject the runtime if it hasn't been injected
