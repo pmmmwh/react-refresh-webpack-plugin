@@ -41,16 +41,13 @@ function getSocketUrlParts(resourceQuery) {
   // Check for IPv4 and IPv6 host addresses that corresponds to `any`/`empty`.
   // This is important because `hostname` can be empty for some hosts,
   // such as `about:blank` or `file://` URLs.
-  const isEmptyHostname =
-    url.hostname === '0.0.0.0' ||
-    url.hostname === '0000:0000:0000:0000:0000:0000:0000:0000' ||
-    url.hostname === '::';
+  const isEmptyHostname = url.hostname === '0.0.0.0' || url.hostname === '[::]';
 
-  // We only re-assign the hostname if we are using the HTTP protocol
+  // We only re-assign the hostname if we are using HTTP/HTTPS protocols
   if (
     isEmptyHostname &&
     window.location.hostname &&
-    window.location.protocol.indexOf('http') === 0
+    window.location.protocol.indexOf('http') !== -1
   ) {
     hostname = window.location.hostname;
   }

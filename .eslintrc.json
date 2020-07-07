@@ -29,6 +29,7 @@
       "files": [
         "test/jest-test-setup.js",
         "test/helpers/{,!(fixtures)*/}*.js",
+        "test/mocks/**/*.js",
         "test/**/*.test.js"
       ],
       "env": {
