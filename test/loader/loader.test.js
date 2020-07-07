@@ -603,7 +603,7 @@ describe('loader', () => {
         /*! namespace exports */
         /*! export default [provided] [unused] [could be renamed] */
         /*! other exports [not provided] [unused] */
-        /*! runtime requirements: module, __webpack_require__, module.id */
+        /*! runtime requirements: __webpack_require__, module.id, module */
         /***/ ((module, __unused_webpack___webpack_exports__, __webpack_require__) => {
 
         \\"use strict\\";
