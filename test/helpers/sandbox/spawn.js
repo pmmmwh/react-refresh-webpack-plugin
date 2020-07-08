@@ -70,13 +70,26 @@ function spawnTestProcess(processPath, argv, options = {}) {
 }
 
 /**
+ * @param {string} packageName
+ * @returns {string}
+ */
+function getPackageExecutable(packageName) {
+  const { bin } = require(`${packageName}/package.json`);
+  if (!bin) {
+    throw new Error(`Package ${packageName} does not have an executable!`);
+  }
+
+  return require.resolve(path.join(packageName, bin));
+}
+
+/**
  * @param {number} port
  * @param {string} directory
  * @param {*} [options]
  * @returns {Promise<import('child_process').ChildProcess | void>}
  */
 function spawnWDS(port, directory, options) {
-  const wdsBin = path.resolve('node_modules/.bin/webpack-dev-server');
+  const wdsBin = getPackageExecutable('webpack-dev-server');
   return spawnTestProcess(
     wdsBin,
     [
@@ -99,7 +112,7 @@ function spawnWDS(port, directory, options) {
  * @returns {Promise<import('child_process').ChildProcess | void>}
  */
 function spawnWebpackServe(port, directory, options) {
-  const webpackBin = path.resolve('node_modules/.bin/webpack');
+  const webpackBin = getPackageExecutable('webpack-cli');
   return spawnTestProcess(
     webpackBin,
     [
