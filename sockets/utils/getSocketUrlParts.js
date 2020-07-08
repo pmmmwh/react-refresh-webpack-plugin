@@ -1,3 +1,4 @@
+const url = require('native-url');
 const getCurrentScriptSource = require('./getCurrentScriptSource');
 const parseQuery = require('./parseQuery');
 
@@ -17,31 +18,41 @@ const parseQuery = require('./parseQuery');
  * @see https://webpack.js.org/api/module-variables/#__resourcequery-webpack-specific
  */
 function getSocketUrlParts(resourceQuery) {
-  const url = new URL(getCurrentScriptSource());
+  const scriptSource = getCurrentScriptSource();
+  const urlParts = url.parse(scriptSource);
 
-  /** @type {string} */
+  /** @type {string | undefined} */
   let auth;
-  let hostname = url.hostname;
-  let protocol = url.protocol;
+  let hostname = urlParts.hostname;
+  let protocol = urlParts.protocol;
   let pathname = '/sockjs-node'; // This is hard-coded in WDS
-  let port = url.port;
+  let port = urlParts.port;
 
+  // FIXME:
+  // This is a hack to work-around `native-url`'s parse method,
+  // which filters out falsy values when concatenating the `auth` string.
+  // In reality, we need to check for both values to correctly inject them.
+  // Ref: GoogleChromeLabs/native-url#32
+  // The placeholder `baseURL` is to allow parsing of relative paths,
+  // and will have no effect if `scriptSource` is a proper URL.
+  const authUrlParts = new URL(scriptSource, 'http://foo.bar');
   // Parse authentication credentials in case we need them
-  if (url.username) {
-    auth = url.username;
+  if (authUrlParts.username) {
+    auth = authUrlParts.username;
 
     // Since HTTP basic authentication does not allow empty username,
     // we only include password if the username is not empty.
-    if (url.password) {
+    if (authUrlParts.password) {
       // Result: <username>:<password>
-      auth = auth.concat(':', url.password);
+      auth = auth.concat(':', authUrlParts.password);
     }
   }
 
   // Check for IPv4 and IPv6 host addresses that corresponds to `any`/`empty`.
   // This is important because `hostname` can be empty for some hosts,
   // such as `about:blank` or `file://` URLs.
-  const isEmptyHostname = url.hostname === '0.0.0.0' || url.hostname === '[::]';
+  const isEmptyHostname =
+    urlParts.hostname === '0.0.0.0' || urlParts.hostname === '::' || urlParts.hostname === null;
 
   // We only re-assign the hostname if we are using HTTP/HTTPS protocols
   if (
