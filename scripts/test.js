@@ -19,7 +19,7 @@ if (yn(process.env.CI)) {
   // Use CI mode
   argv.push('--ci');
   // Parallelized puppeteer tests have high memory overhead in CI environments.
-  // Fall back to run in series so tests will run faster.
+  // Fall back to run in series so tests could run faster.
   argv.push('--runInBand');
   // Add JUnit reporter
   argv.push('--reporters="default"');
@@ -28,6 +28,16 @@ if (yn(process.env.CI)) {
 
 if (yn(process.env.DEBUG)) {
   argv.push('--verbose');
+}
+
+if (parseInt(process.env.WEBPACK_VERSION || 4, 10) === 5) {
+  // Apply Webpack npm aliases in Jest's module system
+  argv.push(
+    `--moduleNameMapper="${JSON.stringify({
+      '^webpack($|/.*)': 'webpack:next$1',
+      '^webpack-cli($|/.*)': 'webpack-cli:beta$1',
+    })}"`
+  );
 }
 
 void jest.run(argv);
