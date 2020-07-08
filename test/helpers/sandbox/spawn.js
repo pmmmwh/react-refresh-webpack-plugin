@@ -2,6 +2,46 @@ const path = require('path');
 const spawn = require('cross-spawn');
 
 /**
+ * @param {string} packageName
+ * @returns {string}
+ */
+function getPackageExecutable(packageName) {
+  let { bin: binPath } = require(`${packageName}/package.json`);
+  if (!binPath) {
+    throw new Error(`Package ${packageName} does not have an executable!`);
+  }
+
+  // "bin": { "package": "bin.js" }
+  if (typeof binPath === 'object') {
+    binPath = binPath[packageName];
+  }
+
+  return require.resolve(path.join(packageName, binPath));
+}
+
+/**
+ * @param {import('child_process').ChildProcess} instance
+ * @returns {void}
+ */
+function killTestProcess(instance) {
+  try {
+    process.kill(instance.pid);
+  } catch (error) {
+    if (
+      process.platform === 'win32' &&
+      typeof error.message === 'string' &&
+      (error.message.includes(`no running instance of the task`) ||
+        error.message.includes(`not found`))
+    ) {
+      // Windows throws an error if the process is already dead
+      return;
+    }
+
+    throw error;
+  }
+}
+
+/**
  * @param {string} processPath
  * @param {*[]} argv
  * @param {Object} [options]
@@ -70,24 +110,6 @@ function spawnTestProcess(processPath, argv, options = {}) {
 }
 
 /**
- * @param {string} packageName
- * @returns {string}
- */
-function getPackageExecutable(packageName) {
-  let { bin: binPath } = require(`${packageName}/package.json`);
-  if (!binPath) {
-    throw new Error(`Package ${packageName} does not have an executable!`);
-  }
-
-  // "bin": { "package": "bin.js" }
-  if (typeof binPath === 'object') {
-    binPath = binPath[packageName];
-  }
-
-  return require.resolve(path.join(packageName, binPath));
-}
-
-/**
  * @param {number} port
  * @param {string} directory
  * @param {*} [options]
@@ -132,27 +154,6 @@ function spawnWebpackServe(port, directory, options) {
     ],
     options
   );
-}
-
-/**
- * @param {import('child_process').ChildProcess} instance
- */
-function killTestProcess(instance) {
-  try {
-    process.kill(instance.pid);
-  } catch (error) {
-    if (
-      process.platform === 'win32' &&
-      typeof error.message === 'string' &&
-      (error.message.includes(`no running instance of the task`) ||
-        error.message.includes(`not found`))
-    ) {
-      // Windows throws an error if the process is already dead
-      return;
-    }
-
-    throw error;
-  }
 }
 
 module.exports = {
