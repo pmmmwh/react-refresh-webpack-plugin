@@ -23,20 +23,19 @@ commands:
 jobs:
   lint-and-format:
     executor: node/default
+    working_directory: ~/project
     steps:
       - checkout
       - node/install-packages:
           app-dir: ~/project
+          include-branch-in-cache-key: false
           pkg-manager: yarn
-          with-cache: false
       - run:
           name: Check Project Linting
           command: yarn lint
-          working_directory: ~/project
       - run:
           name: Check Project Formatting
           command: yarn format:check
-          working_directory: ~/project
 
   test:
     executor:
@@ -61,14 +60,15 @@ jobs:
         default: []
         type: steps
     parallelism: 4
+    working_directory: ~/project
     steps:
       - checkout
       - setup-headless-chromium
       - steps: << parameters.setup >>
       - node/install-packages:
           app-dir: ~/project
+          include-branch-in-cache-key: false
           pkg-manager: yarn
-          with-cache: false
       - run:
           name: Install Webpack-related dependencies
           command: |
@@ -88,7 +88,6 @@ jobs:
             JEST_JUNIT_ADD_FILE_ATTRIBUTE: 'true'
             JEST_JUNIT_OUTPUT_DIR: test-results/jest
             JEST_JUNIT_OUTPUT_NAME: results.xml
-          working_directory: ~/project
       - store_test_results:
           path: test-results
       - store_artifacts:
