@@ -74,12 +74,17 @@ function spawnTestProcess(processPath, argv, options = {}) {
  * @returns {string}
  */
 function getPackageExecutable(packageName) {
-  const { bin } = require(`${packageName}/package.json`);
-  if (!bin) {
+  let { bin: binPath } = require(`${packageName}/package.json`);
+  if (!binPath) {
     throw new Error(`Package ${packageName} does not have an executable!`);
   }
 
-  return require.resolve(path.join(packageName, bin));
+  // "bin": { "package": "bin.js" }
+  if (typeof binPath === 'object') {
+    binPath = binPath[packageName];
+  }
+
+  return require.resolve(path.join(packageName, binPath));
 }
 
 /**
