@@ -18,9 +18,5 @@ yarn-error.log*
 .idea
 .vscode
 
-# lockfiles
-package-lock.json
-/yarn.lock
-
 # test artifacts
 *__tmp__

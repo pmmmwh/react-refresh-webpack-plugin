@@ -1,9 +1,38 @@
 version: 2.1
 
+anchors:
+  - &node-version-enum
+    - '10.21'
+    - '12.18'
+    # TODO: Deprecate Node 13 since it is now unsupported
+    - '13.14'
+    - '14.5'
+  - &webpack-version-enum
+    - '4'
+    - '5'
+
 orbs:
-  node: circleci/node@2.1.1
+  node: circleci/node@3.0.1
 
 commands:
+  install-deps:
+    parameters:
+      node-version:
+        enum: *node-version-enum
+        type: enum
+    steps:
+      - restore_cache:
+          keys:
+            - node-deps-v1-<< parameters.node-version >>-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - node-deps-v1-<< parameters.node-version >>-{{ .Branch }}-
+            - node-deps-v1-<< parameters.node-version >>-
+      - run:
+          name: Install project dependencies
+          command: yarn install --cache-folder ~/.cache/yarn --frozen-lockfile
+      - save_cache:
+          key: node-deps-v1-<< parameters.node-version >>-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
   setup-headless-chromium:
     steps:
       - run:
@@ -23,20 +52,17 @@ commands:
 jobs:
   lint-and-format:
     executor: node/default
+    working_directory: ~/project
     steps:
       - checkout
-      - node/install-packages:
-          app-dir: ~/project
-          pkg-manager: yarn
-          with-cache: false
+      - install-deps:
+          node-version: '12.18'
       - run:
           name: Check Project Linting
           command: yarn lint
-          working_directory: ~/project
       - run:
           name: Check Project Formatting
           command: yarn format:check
-          working_directory: ~/project
 
   test:
     executor:
@@ -44,41 +70,18 @@ jobs:
       tag: << parameters.node-version >>
     parameters:
       node-version:
-        default: '13.14'
-        enum:
-          - '10.21'
-          - '12.18'
-          - '13.14'
-          - '14.4'
+        enum: *node-version-enum
         type: enum
       webpack-version:
-        default: latest
-        enum:
-          - latest
-          - next
+        enum: *webpack-version-enum
         type: enum
-      setup:
-        default: []
-        type: steps
     parallelism: 4
+    working_directory: ~/project
     steps:
       - checkout
       - setup-headless-chromium
-      - steps: << parameters.setup >>
-      - node/install-packages:
-          app-dir: ~/project
-          pkg-manager: yarn
-          with-cache: false
-      - run:
-          name: Install Webpack-related dependencies
-          command: |
-            if [[ << parameters.webpack-version >> == "next" ]]; then
-              WEBPACK_CLI_VERSION="beta"
-            else
-              WEBPACK_CLI_VERSION="latest"
-            fi
-
-            yarn add -D "webpack@<< parameters.webpack-version >>" "webpack-cli@$WEBPACK_CLI_VERSION"
+      - install-deps:
+          node-version: << parameters.node-version >>
       - run:
           name: Run Tests
           command: |
@@ -88,7 +91,7 @@ jobs:
             JEST_JUNIT_ADD_FILE_ATTRIBUTE: 'true'
             JEST_JUNIT_OUTPUT_DIR: test-results/jest
             JEST_JUNIT_OUTPUT_NAME: results.xml
-          working_directory: ~/project
+            WEBPACK_VERSION: << parameters.webpack-version >>
       - store_test_results:
           path: test-results
       - store_artifacts:
@@ -99,34 +102,8 @@ workflows:
     jobs:
       - lint-and-format
       - test:
-          name: test/node:10/webpack:4
-          node-version: '10.21'
-          webpack-version: latest
-      - test:
-          name: test/node:12/webpack:4
-          node-version: '12.18'
-          webpack-version: latest
-      - test:
-          name: test/node:13/webpack:4
-          node-version: '13.14'
-          webpack-version: latest
-      - test:
-          name: test/node:14/webpack:4
-          node-version: '14.4'
-          webpack-version: latest
-      - test:
-          name: test/node:10/webpack:5
-          node-version: '10.21'
-          webpack-version: next
-      - test:
-          name: test/node:12/webpack:5
-          node-version: '12.18'
-          webpack-version: next
-      - test:
-          name: test/node:13/webpack:5
-          node-version: '13.14'
-          webpack-version: next
-      - test:
-          name: test/node:14/webpack:5
-          node-version: '14.4'
-          webpack-version: next
+          matrix:
+            parameters:
+              node-version: *node-version-enum
+              webpack-version: *webpack-version-enum
+          name: test/node:<< matrix.node-version >>/webpack:<< matrix.webpack-version >>
