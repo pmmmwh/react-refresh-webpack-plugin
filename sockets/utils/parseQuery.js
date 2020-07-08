@@ -1,21 +1,19 @@
-/* global __resourceQuery */
-
 /**
- * Parse webpack `__resourceQuery` string into an object.
- * @see https://webpack.js.org/api/module-variables/#__resourcequery-webpack-specific
- * @returns {*} The parsed query params.
+ * Parse a query string into an object.
+ * @param {string} [querystring] The query string.
+ * @returns {Record<string, string>} The parsed query object.
  */
-function getResourceQuery() {
+function parseQuery(querystring) {
   let query = '';
-  if (typeof __resourceQuery === 'string') {
-    query = __resourceQuery;
+  if (typeof querystring === 'string') {
+    query = querystring;
   }
 
   /**
-   * Reduce __resourceQuery string such as `?foo1=bar1&foo2=bar2`:
+   * Transform query strings such as `?foo1=bar1&foo2=bar2`:
    * - remove `?` from the start
    * - split with `&`
-   * - split with `=`
+   * - split pairs with `=`
    * The resulting format will be { foo1: 'bar1', foo2: 'bar2' }
    */
   return query
@@ -32,4 +30,4 @@ function getResourceQuery() {
     }, {});
 }
 
-module.exports = getResourceQuery;
+module.exports = parseQuery;

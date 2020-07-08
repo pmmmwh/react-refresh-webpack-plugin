@@ -1,5 +1,5 @@
 const SockJS = require('sockjs-client/dist/sockjs');
-const safeThis = require('./safeThis');
+const safeThis = require('./utils/safeThis');
 
 /**
  * A SockJS client adapted for use with webpack-dev-server.
