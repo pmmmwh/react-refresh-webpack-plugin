@@ -9254,7 +9254,7 @@ webidl-conversions@^6.0.0:
   resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-6.1.0.tgz#9111b4d7ea80acd40f5270d666621afa78b69514"
   integrity sha512-qBIvFLGiBpLjfwmYAaHPXsn+ho5xZnGvyGvsarywGNc8VyQJUMHJ8OBKGGrPER0okBeMDaan4mNBlgBROxuI8w==
 
-"webpack-cli:beta@npm:webpack-cli@^4.0.0-beta.8", webpack-cli@^4.0.0-beta.8:
+"webpack-cli.beta@npm:webpack-cli@^4.0.0-beta.8", webpack-cli@^4.0.0-beta.8:
   version "4.0.0-beta.8"
   resolved "https://registry.yarnpkg.com/webpack-cli/-/webpack-cli-4.0.0-beta.8.tgz#62dfd9daaba6d46d2035f91d8aa08fda4ae2fc9f"
   integrity sha512-kitIlz9sjCw5OSWePZYlWopmZGxy4vK7gA3MTAll5/J96cTjXGCxUBO2j9beN6saCv46cpPp1IE5V0eTGK1S0A==
@@ -9429,7 +9429,7 @@ webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-sources@^1.4.3:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-"webpack:next@npm:webpack@^5.0.0-beta.21":
+"webpack.next@npm:webpack@^5.0.0-beta.21":
   version "5.0.0-beta.21"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.0.0-beta.21.tgz#3f46465e6f8d33950ae645eb98bb227b78d3ee52"
   integrity sha512-ZgS5vUDphrjuakkQfT41q75dNavg8zUeTq0x31DvZG+z+OqR37u9BZFwytHM9U/I0vrnqm9vvBviyeHrAG3n0Q==
