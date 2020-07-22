@@ -70,7 +70,7 @@ function compileMessageHandler(message) {
   }
 }
 
-// Only register if we're in production mode and if window is defined
+// Only register if we're in non-production mode and if window is defined
 if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
   // Registers handlers for compile errors
   __react_refresh_init_socket__(compileMessageHandler, __resourceQuery);
