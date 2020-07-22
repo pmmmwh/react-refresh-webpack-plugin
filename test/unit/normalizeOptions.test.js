@@ -28,8 +28,8 @@ describe('normalizeOptions', () => {
           sockIntegration: 'whm',
           sockPath: '/socket',
           sockPort: 9000,
+          useLegacyWDSSockets: true,
         },
-        useLegacyWDSSockets: true,
       })
     ).toStrictEqual({
       exclude: 'exclude',
@@ -42,8 +42,8 @@ describe('normalizeOptions', () => {
         sockIntegration: 'whm',
         sockPath: '/socket',
         sockPort: 9000,
+        useLegacyWDSSockets: true,
       },
-      useLegacyWDSSockets: true,
     });
   });
 

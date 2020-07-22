@@ -108,8 +108,10 @@ describe('injectRefreshEntry', () => {
   it('should append legacy WDS entry when required', () => {
     expect(
       injectRefreshEntry('test.js', {
-        ...DEFAULT_OPTIONS,
-        useLegacyWDSSockets: true,
+        overlay: {
+          entry: ErrorOverlayEntry,
+          useLegacyWDSSockets: true,
+        },
       })
     ).toStrictEqual([
       ReactRefreshEntry,

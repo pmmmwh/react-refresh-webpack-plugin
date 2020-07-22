@@ -136,11 +136,11 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
          Details:
           * options.overlay should be a boolean.
           * options.overlay should be an object:
-            object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort? }"
+            object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }"
     `);
   });
 
@@ -255,7 +255,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
          Details:
           * options.overlay.sockIntegration should be one of these:
             \\"wds\\" | \\"whm\\" | \\"wps\\" | string
@@ -342,24 +342,30 @@ describe('validateOptions', () => {
     `);
   });
 
-  it('should accept "useLegacyWDSSockets" when it is true', () => {
+  it('should accept "overlay.useLegacyWDSSockets" when it is true', () => {
     expect(() => {
-      new ReactRefreshPlugin({ useLegacyWDSSockets: true });
+      new ReactRefreshPlugin({
+        overlay: { useLegacyWDSSockets: true },
+      });
     }).not.toThrow();
   });
 
-  it('should accept "useLegacyWDSSockets" when it is false', () => {
+  it('should accept "overlay.useLegacyWDSSockets" when it is false', () => {
     expect(() => {
-      new ReactRefreshPlugin({ useLegacyWDSSockets: false });
+      new ReactRefreshPlugin({
+        overlay: { useLegacyWDSSockets: false },
+      });
     }).not.toThrow();
   });
 
-  it('should reject "useLegacyWDSSockets" when it is not a boolean', () => {
+  it('should reject "overlay.useLegacyWDSSockets" when it is not a boolean', () => {
     expect(() => {
-      new ReactRefreshPlugin({ useLegacyWDSSockets: 1 });
+      new ReactRefreshPlugin({
+        overlay: { useLegacyWDSSockets: 1 },
+      });
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.useLegacyWDSSockets should be a boolean."
+       - options.overlay.useLegacyWDSSockets should be a boolean."
     `);
   });
 
@@ -369,7 +375,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options has an unknown property 'unknown'. These properties are valid:
-         object { exclude?, forceEnable?, include?, overlay?, useLegacyWDSSockets? }"
+         object { exclude?, forceEnable?, include?, overlay? }"
     `);
   });
 });
