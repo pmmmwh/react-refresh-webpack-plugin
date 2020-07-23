@@ -73,4 +73,25 @@ describe('normalizeOptions', () => {
       overlay: false,
     });
   });
+
+  it('should keep "overlay.entry" when it is false', () => {
+    const options = { ...DEFAULT_OPTIONS };
+    options.overlay.entry = false;
+
+    expect(normalizeOptions(options)).toStrictEqual(options);
+  });
+
+  it('should keep "overlay.module" when it is false', () => {
+    const options = { ...DEFAULT_OPTIONS };
+    options.overlay.module = false;
+
+    expect(normalizeOptions(options)).toStrictEqual(options);
+  });
+
+  it('should keep "overlay.sockIntegration" when it is false', () => {
+    const options = { ...DEFAULT_OPTIONS };
+    options.overlay.sockIntegration = false;
+
+    expect(normalizeOptions(options)).toStrictEqual(options);
+  });
 });
