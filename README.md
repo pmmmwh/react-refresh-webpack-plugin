@@ -233,7 +233,7 @@ Default: `/sockjs-node`
 Set this if you are running webpack on a custom path.
 This will be used by the error overlay module, and is available for `webpack-dev-server` only.
 
-### `options.useLegacyWDSSockets`
+#### `options.overlay.useLegacyWDSSockets`
 
 Type: `boolean`
 Default: `false`

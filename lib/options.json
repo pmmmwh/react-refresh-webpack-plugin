@@ -21,7 +21,8 @@
         },
         "sockHost": { "type": "string" },
         "sockPath": { "type": "string" },
-        "sockPort": { "type": "number", "minimum": 0 }
+        "sockPort": { "type": "number", "minimum": 0 },
+        "useLegacyWDSSockets": { "type": "boolean" }
       }
     },
     "Path": { "type": "string", "absolutePath": true }
@@ -42,7 +43,6 @@
     },
     "overlay": {
       "anyOf": [{ "type": "boolean" }, { "$ref": "#/definitions/OverlayOptions" }]
-    },
-    "useLegacyWDSSockets": { "type": "boolean" }
+    }
   }
 }
