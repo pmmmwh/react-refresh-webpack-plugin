@@ -168,6 +168,7 @@ Modifies how the error overlay integration works in the plugin.
 
   - An optional `module` property could be defined.
     If it is not defined, the bundled error overlay will be used.
+    If it is `false`, it will disable the error overlay integration.
     If defined, it should reference a JS file that exports at least two functions with footprints as follows:
 
     ```ts
@@ -177,6 +178,7 @@ Modifies how the error overlay integration works in the plugin.
 
   - An optional `entry` property could be defined, which should also reference a JS file that contains code needed to set up your custom error overlay integration.
     If it is not defined, the bundled error overlay entry will be used.
+    If it is `false`, no error overlay entry will be injected.
     It expects the `module` file to export two more functions:
 
     ```ts
@@ -206,7 +208,7 @@ This will be used by the error overlay module, and is available for `webpack-dev
 
 #### `options.overlay.sockIntegration`
 
-Type: `wds`, `whm`, `wps` or `string`
+Type: `wds`, `whm`, `wps`, `false` or `string`
 Default: `wds`
 
 This controls how the error overlay connects to the sockets provided by several Webpack hot reload integrations.
