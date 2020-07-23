@@ -1,6 +1,6 @@
 {
   "name": "@pmmmwh/react-refresh-webpack-plugin",
-  "version": "0.4.0-beta.8",
+  "version": "0.4.0-beta.9",
   "description": "An **EXPERIMENTAL** Webpack plugin to enable \"Fast Refresh\" (also previously known as _Hot Reloading_) for React components.",
   "keywords": [
     "react",
