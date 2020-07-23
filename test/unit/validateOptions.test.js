@@ -179,7 +179,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
          Details:
           * options.overlay.entry should be one of these:
             false | string
@@ -224,7 +224,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
          Details:
           * options.overlay.module should be one of these:
             false | string
