@@ -437,7 +437,6 @@ describe('loader', () => {
           !*** ./index.cjs.js ***!
           \\\\**********************/
         /*! unknown exports (runtime-defined) */
-        /*! exports [maybe provided (runtime-defined)] [maybe used (runtime-defined)] */
         /*! runtime requirements: module, __webpack_require__, module.id */
         /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -601,16 +600,20 @@ describe('loader', () => {
           !*** ./index.esm.js ***!
           \\\\**********************/
         /*! namespace exports */
-        /*! export default [provided] [unused] [could be renamed] */
-        /*! other exports [not provided] [unused] */
-        /*! runtime requirements: __webpack_require__, module.id, module */
-        /***/ ((module, __unused_webpack___webpack_exports__, __webpack_require__) => {
+        /*! export default [provided] [no usage info] [missing usage info prevents renaming] */
+        /*! other exports [not provided] [no usage info] */
+        /*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__, module.id, module, __webpack_require__.d, __webpack_require__.* */
+        /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
         \\"use strict\\";
+        __webpack_require__.r(__webpack_exports__);
+        /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+        /* harmony export */   \\"default\\": () => __WEBPACK_DEFAULT_EXPORT__
+        /* harmony export */ });
         $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
         $RefreshSetup$(module.id);
 
-        /* unused harmony default export */ var _unused_webpack_default_export = ('Test');
+        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ('Test');
 
 
         const currentExports = __react_refresh_utils__.getModuleExports(module.id);
@@ -696,7 +699,7 @@ describe('loader', () => {
             \\"webpack:///./index.cjs.js\\"
           ],
           \\"names\\": [],
-          \\"mappings\\": \\";;;;;;;;;;;;;;AAAA\\",
+          \\"mappings\\": \\";;;;;;;;;;;;;AAAA\\",
           \\"file\\": \\"main.js\\",
           \\"sourcesContent\\": [
             \\"module.exports = 'Test';\\\\n\\"
