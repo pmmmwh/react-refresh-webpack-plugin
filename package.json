@@ -95,7 +95,7 @@
     "yn": "^4.0.0"
   },
   "peerDependencies": {
-    "@types/webpack": "^4.41.17",
+    "@types/webpack": "4.x",
     "react-refresh": "^0.8.3",
     "sockjs-client": "^1.4.0",
     "type-fest": "^0.13.1",
