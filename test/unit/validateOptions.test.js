@@ -152,6 +152,14 @@ describe('validateOptions', () => {
     }).not.toThrow();
   });
 
+  it('should accept "overlay.entry" when it is false', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { entry: false },
+      });
+    }).not.toThrow();
+  });
+
   it('should reject "overlay.entry" when it is a string', () => {
     expect(() => {
       new ReactRefreshPlugin({
@@ -163,14 +171,21 @@ describe('validateOptions', () => {
     `);
   });
 
-  it('should reject "overlay.entry" when it is not a string', () => {
+  it('should reject "overlay.entry" when it is not a string nor false', () => {
     expect(() => {
       new ReactRefreshPlugin({
         overlay: { entry: true },
       });
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.entry should be a string."
+       - options.overlay should be one of these:
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
+         Details:
+          * options.overlay.entry should be one of these:
+            false | string
+            Details:
+             * options.overlay.entry should be equal to constant false.
+             * options.overlay.entry should be a string."
     `);
   });
 
@@ -178,6 +193,14 @@ describe('validateOptions', () => {
     expect(() => {
       new ReactRefreshPlugin({
         overlay: { module: '/test' },
+      });
+    }).not.toThrow();
+  });
+
+  it('should accept "overlay.module" when it is false', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { module: false },
       });
     }).not.toThrow();
   });
@@ -193,14 +216,21 @@ describe('validateOptions', () => {
     `);
   });
 
-  it('should reject "overlay.module" when it is not a string', () => {
+  it('should reject "overlay.module" when it is not a string nor false', () => {
     expect(() => {
       new ReactRefreshPlugin({
         overlay: { module: true },
       });
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.module should be a string."
+       - options.overlay should be one of these:
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
+         Details:
+          * options.overlay.module should be one of these:
+            false | string
+            Details:
+             * options.overlay.module should be equal to constant false.
+             * options.overlay.module should be a string."
     `);
   });
 
@@ -236,6 +266,14 @@ describe('validateOptions', () => {
     }).not.toThrow();
   });
 
+  it('should accept "overlay.sockIntegration" when it is false', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { sockIntegration: false },
+      });
+    }).not.toThrow();
+  });
+
   it('should reject "overlay.sockIntegration" when it is a string', () => {
     expect(() => {
       new ReactRefreshPlugin({
@@ -247,7 +285,7 @@ describe('validateOptions', () => {
     `);
   });
 
-  it('should reject "overlay.sockIntegration" when it is not a string', () => {
+  it('should reject "overlay.sockIntegration" when it is not a string nor false', () => {
     expect(() => {
       new ReactRefreshPlugin({
         overlay: { sockIntegration: true },
@@ -258,8 +296,9 @@ describe('validateOptions', () => {
          boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
          Details:
           * options.overlay.sockIntegration should be one of these:
-            \\"wds\\" | \\"whm\\" | \\"wps\\" | string
+            false | \\"wds\\" | \\"whm\\" | \\"wps\\" | string
             Details:
+             * options.overlay.sockIntegration should be equal to constant false.
              * options.overlay.sockIntegration should be one of these:
                \\"wds\\" | \\"whm\\" | \\"wps\\"
              * options.overlay.sockIntegration should be a string."
