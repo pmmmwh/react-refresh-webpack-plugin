@@ -16,7 +16,7 @@ function getCurrentScriptSource() {
     return currentScript.getAttribute('src');
   }
 
-  throw new Error('Failed to get current script source!');
+  throw new Error('[React Refresh] Failed to get current script source!');
 }
 
 module.exports = getCurrentScriptSource;
