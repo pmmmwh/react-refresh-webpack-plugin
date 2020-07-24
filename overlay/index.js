@@ -1,4 +1,4 @@
-const debounce = require('lodash.debounce');
+const { debounce } = require('lodash');
 const RuntimeErrorFooter = require('./components/RuntimeErrorFooter');
 const RuntimeErrorHeader = require('./components/RuntimeErrorHeader');
 const CompileErrorContainer = require('./containers/CompileErrorContainer');
