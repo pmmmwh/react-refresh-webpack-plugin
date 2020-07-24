@@ -1,8 +1,8 @@
 /**
  * Debounce a function to delay invoking until wait (ms) have elapsed since the last invocation.
- * @param {function(...*): *} fn
- * @param {number} wait
- * @return {function(...*): void}
+ * @param {function(...*): *} fn The function to be debounced.
+ * @param {number} wait Milliseconds to wait before invoking again.
+ * @return {function(...*): void} The debounced function.
  */
 function debounce(fn, wait) {
   /**
