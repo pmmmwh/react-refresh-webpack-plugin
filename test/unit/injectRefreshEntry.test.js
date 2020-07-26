@@ -154,7 +154,7 @@ describe('injectRefreshEntry', () => {
 
   it('should throw when non-parsable entry is received', () => {
     expect(() => injectRefreshEntry(1, DEFAULT_OPTIONS)).toThrowErrorMatchingInlineSnapshot(
-      '"Failed to parse the Webpack `entry` object!"'
+      `"[React Refresh] Failed to parse the Webpack \`entry\` object!"`
     );
   });
 });
