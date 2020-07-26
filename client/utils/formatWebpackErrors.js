@@ -1,8 +1,15 @@
+/**
+ * @typedef {Object} WebpackErrorObj
+ * @property {string} moduleIdentifier
+ * @property {string} moduleName
+ * @property {string} message
+ */
+
 const friendlySyntaxErrorLabel = 'Syntax error:';
 
 /**
  * Checks if the error message is for a syntax error.
- * @param message {string} The raw Webpack error message.
+ * @param {string} message The raw Webpack error message.
  * @returns {boolean} Whether the error message is for a syntax error.
  */
 function isLikelyASyntaxError(message) {
@@ -13,7 +20,7 @@ function isLikelyASyntaxError(message) {
  * Cleans up Webpack error messages.
  *
  * This implementation is based on the one from [create-react-app](https://github.com/facebook/create-react-app/blob/edc671eeea6b7d26ac3f1eb2050e50f75cf9ad5d/packages/react-dev-utils/formatWebpackMessages.js).
- * @param message {string} The raw Webpack error message.
+ * @param {string} message The raw Webpack error message.
  * @returns {string} The formatted Webpack error message.
  */
 function formatMessage(message) {
@@ -65,11 +72,19 @@ function formatMessage(message) {
 
 /**
  * Formats Webpack error messages into a more readable format.
- * @param errors {string[]} An array of Webpack error messages.
+ * @param {Array<string | WebpackErrorObj>} errors An array of Webpack error messages.
  * @returns {string[]} The formatted Webpack error messages.
  */
 function formatWebpackErrors(errors) {
-  let formattedErrors = errors.map(formatMessage);
+  let formattedErrors = errors.map(function (errorObjOrMessage) {
+    // Webpack 5 compilation errors are in the form of descriptor objects,
+    // so we have to join pieces to get the format we want.
+    if (typeof errorObjOrMessage === 'object') {
+      return formatMessage([errorObjOrMessage.moduleName, errorObjOrMessage.message].join('\n'));
+    }
+    // Webpack 4 compilation errors are strings
+    return formatMessage(errorObjOrMessage);
+  });
   if (formattedErrors.some(isLikelyASyntaxError)) {
     // If there are any syntax errors, show just them.
     formattedErrors = formattedErrors.filter(isLikelyASyntaxError);
