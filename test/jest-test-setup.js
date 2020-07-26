@@ -3,7 +3,7 @@
  * @param {boolean} condition The condition to skip the test block.
  * @param {string} blockName The name of the test block.
  * @param {import('@jest/types').Global.BlockFn} blockFn The test block function.
- * @return {void}
+ * @returns {void}
  */
 describe.skipIf = (condition, blockName, blockFn) => {
   if (condition) {
@@ -18,7 +18,7 @@ describe.skipIf = (condition, blockName, blockFn) => {
  * @param {string} testName The name of the test.
  * @param {import('@jest/types').Global.TestFn} fn The test function.
  * @param {number} [timeout] The time to wait before aborting.
- * @return {void}
+ * @returns {void}
  */
 test.skipIf = (condition, testName, fn, timeout) => {
   if (condition) {

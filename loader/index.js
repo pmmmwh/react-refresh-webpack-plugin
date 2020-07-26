@@ -5,7 +5,7 @@ const { Template } = require('webpack');
  * Generates an identity source map from a source file.
  * @param {string} source The content of the source file.
  * @param {string} resourcePath The name of the source file.
- * @return {import('source-map').RawSourceMap} The identity source map.
+ * @returns {import('source-map').RawSourceMap} The identity source map.
  */
 function getIdentitySourceMap(source, resourcePath) {
   const sourceMap = new SourceMapGenerator();
