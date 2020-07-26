@@ -51,7 +51,6 @@
     "ansi-html": "^0.0.7",
     "error-stack-parser": "^2.0.6",
     "html-entities": "^1.2.1",
-    "lodash.debounce": "^4.0.8",
     "native-url": "^0.2.6",
     "schema-utils": "^2.6.5",
     "source-map": "^0.7.3"
@@ -86,12 +85,12 @@
     "type-fest": "^0.16.0",
     "typescript": "3.9.7",
     "webpack": "^4.43.0",
-    "webpack.next": "npm:webpack@^5.0.0-beta.22",
     "webpack-cli": "^3.3.12",
     "webpack-cli.beta": "npm:webpack-cli@^4.0.0-beta.8",
     "webpack-dev-server": "^3.11.0",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-plugin-serve": "^1.0.1",
+    "webpack.next": "npm:webpack@^5.0.0-beta.22",
     "yn": "^4.0.0"
   },
   "peerDependencies": {
