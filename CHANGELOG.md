@@ -15,7 +15,7 @@
 
 - Adopted the `module.hot.invalidate()` API, which means we will now bail out less often (#89)
 - Attach runtime on Webpack's global scope instead of `window`, making the plugin platform-agnostic (#102)
-- Added stable support for **Webpack 5** and beta support for **Module Federation**  (#123, #132, #164)
+- Added stable support for **Webpack 5** and beta support for **Module Federation** (#123, #132, #164)
 - Socket integration URL detection via `document.currentScript` (#133)
 - Relaxed requirements for "required" `overlay` options to receive `false` as value (#154)
 - Prefixed all errors thrown by the plugin (#161)
