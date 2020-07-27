@@ -146,10 +146,16 @@ describe('injectRefreshEntry', () => {
     ]);
   });
 
-  it('should append overlay entry for an array after socket-related entries', () => {
+  it('should append overlay entry for an array after socket-related entries, while keeping relative order on the original entries', () => {
     expect(
-      injectRefreshEntry(['webpack-dev-server/client', 'test.js'], DEFAULT_OPTIONS)
-    ).toStrictEqual([ReactRefreshEntry, 'webpack-dev-server/client', ErrorOverlayEntry, 'test.js']);
+      injectRefreshEntry(['setup-env.js', 'webpack-dev-server/client', 'test.js'], DEFAULT_OPTIONS)
+    ).toStrictEqual([
+      ReactRefreshEntry,
+      'setup-env.js',
+      'webpack-dev-server/client',
+      ErrorOverlayEntry,
+      'test.js',
+    ]);
   });
 
   it('should throw when non-parsable entry is received', () => {
