@@ -874,10 +874,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@pmmmwh/react-refresh-webpack-plugin@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.0.tgz#10ebc4cafec2721cbcfafb496aeb1e017f857468"
-  integrity sha512-G1xkdDehUdnIk2SBxb6SvEj0/m9gK14ng9O9fBxTKqzs+zTi9dcLwH92fc8AwcqyNXsjHzYC2xqmkjkpe/kOgw==
+"@pmmmwh/react-refresh-webpack-plugin@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@pmmmwh/react-refresh-webpack-plugin/-/react-refresh-webpack-plugin-0.4.1.tgz#a4db0ed8e58c2f8566161c9a8cdf1d095c9a891b"
+  integrity sha512-MzM87WdX2r2KRFfhEho7oGyK1XRE/J9WwjB3v6oLQHN0dzBypBZxSWjnoYx+RWneRCsg8Sin1myf+EjX1fqIbQ==
   dependencies:
     ansi-html "^0.0.7"
     error-stack-parser "^2.0.6"

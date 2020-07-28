@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.1",
     "@types/react": "^16.9.43",
     "@types/react-dom": "^16.9.8",
     "awesome-typescript-loader": "^5.2.1",
