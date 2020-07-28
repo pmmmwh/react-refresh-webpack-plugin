@@ -1,3 +1,9 @@
+## 0.4.1 (28 July 2020)
+
+### Fixes
+
+- Fixed accidental use of testing alias `webpack.next` in published plugin code (#167)
+
 ## 0.4.0 (28 July 2020)
 
 ### BREAKING
