@@ -2,7 +2,7 @@
 
 [![Latest Version](https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/latest)](https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/latest)
 [![Next Version](https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/next)](https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/next)
-[![CircleCI](https://img.shields.io/circleci/project/github/pmmmwh/react-refresh-webpack-plugin/main.svg)](https://app.circleci.com/pipelines/github/pmmmwh/react-refresh-webpack-plugin)
+[![CircleCI](https://img.shields.io/circleci/project/github/pmmmwh/react-refresh-webpack-plugin/main)](https://app.circleci.com/pipelines/github/pmmmwh/react-refresh-webpack-plugin)
 [![License](https://img.shields.io/github/license/pmmmwh/react-refresh-webpack-plugin)](./LICENSE)
 
 An **EXPERIMENTAL** Webpack plugin to enable "Fast Refresh" (also previously known as _Hot Reloading_) for React components.
