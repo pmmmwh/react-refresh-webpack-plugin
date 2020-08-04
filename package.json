@@ -36,7 +36,7 @@
     "types"
   ],
   "scripts": {
-    "pretest": "patch-package && yarn link && yarn link \"@pmmmwh/react-refresh-webpack-plugin\"",
+    "pretest": "yarn link && yarn link \"@pmmmwh/react-refresh-webpack-plugin\"",
     "posttest": "yarn unlink \"@pmmmwh/react-refresh-webpack-plugin\"",
     "test": "node scripts/test.js",
     "test:webpack-5": "WEBPACK_VERSION=5 yarn test",
