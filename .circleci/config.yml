@@ -4,8 +4,6 @@ anchors:
   - &node-version-enum
     - '10.22'
     - '12.18'
-    # TODO: Deprecate Node 13 since it is now unsupported
-    - '13.14'
     - '14.7'
   - &webpack-version-enum
     - '4'
