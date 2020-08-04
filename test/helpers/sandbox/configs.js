@@ -48,9 +48,9 @@ module.exports = {
         include: '${srcDir}',
         use: [
           {
-            loader: 'babel-loader',
+            loader: require.resolve('babel-loader'),
             options: {
-              plugins: ['react-refresh/babel'],
+              plugins: [require.resolve('react-refresh/babel')],
             }
           }
         ],
