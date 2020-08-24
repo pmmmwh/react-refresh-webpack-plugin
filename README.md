@@ -133,6 +133,10 @@ Please refer to [the API docs](docs/API.md) for all available options.
 
 Please refer to [the Troubleshooting guide](docs/TROUBLESHOOTING.md) for FAQs and resolutions to common issues.
 
+## License
+
+This project is licensed under the terms of the [MIT License](/LICENSE).
+
 ## Related Work
 
 - [Initial Implementation by @maisano](https://gist.github.com/maisano/441a4bc6b2954205803d68deac04a716)
