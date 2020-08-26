@@ -58,7 +58,7 @@ This will tell the Babel plugin to do nothing when it hits those files.
 
 In general, the `PascalCase` naming scheme should be reserved for React components only, and it doesn't really make sense for them to exist within a Web Worker.
 
-**Robust but Complex**
+**Robust but complex**
 
 In your Webpack configuration, alter the Babel setup as follows:
 
@@ -178,3 +178,51 @@ It can be narrowed down to a few unsupported patterns:
    This only affect users using TypeScript on Babel.
    This pattern is only supported when you don't mix normal exports with type exports, or when all your exports conform to the `PascalCase` rule.
    This is because we cannot statically analyse the exports from the namespace to determine whether we can set up a boundary and stop update propagation.
+
+## Component not updating with bundle splitting techniques
+
+Webpack allows various bundle splitting techniques to improve performance and cacheability.
+However, these techniques often result in a shuffled execution order, which will break fast refresh.
+
+To make fast refresh work properly, make sure your Webpack configuration comply to the following rules:
+
+1. All React-related packages (including custom reconcilers) should be in the same chunk with `react-refresh/runtime`
+
+   Because fast refresh internally uses the React DevTools protocol and have to be registered before any React code runs,
+   all React-related stuff needs to be in the same chunk to ensure execution order and object equality in the form of `WeakMap` keys.
+
+   **Using DLL plugin**
+
+   Ensure the entries for the DLL include `react-refresh/runtime`.
+
+   ```js
+   module.exports = {
+     entry: ['react', 'react-dom', 'react-refresh/runtime'],
+   };
+   ```
+
+   **Using multiple entries**
+
+   Ensure the `react` chunk includes `react-refresh/runtime`.
+
+   ```js
+   module.exports = {
+     entry: {
+       main: 'index.js',
+       vendors: ['react', 'react-dom', 'react-refresh/runtime'],
+     },
+   };
+   ```
+
+2. Only one copy of both the HMR runtime and the plugin's runtime should be embedded for one Webpack app
+
+   This concern only applies when you have multiple entry points.
+   You can use Webpack's `optimization.runtimeChunk` option to enforce this.
+
+   ```js
+   module.exports = {
+     optimization: {
+       runtimeChunk: 'single',
+     },
+   };
+   ```
