@@ -27,22 +27,22 @@ import 'react-app-polyfill/stable';
 
 Note that this also polyfills other APIs that are not available on IE11 (potentially expensive).
 
-## Usage with Web Workers
+## Usage with Indirection (like Workers and JS Templates)
 
-If you share the Babel config between the worker file and all your other code, you might experience this error:
+If you share the Babel config for files in an indirect code path (e.g. Web Workers, JS Templates with partial pre-render) and all your other source files, you might experience this error:
 
 ```
 Uncaught ReferenceError: $RefreshReg$ is not defined
 ```
 
-The reason is that when using child compilers to wire up workers (e.g. `worker-plugin`), plugins are usually not applied (but loaders are).
+The reason is that when using child compilers (e.g. `html-webpack-plugin`, `worker-plugin`), plugins are usually not applied (but loaders are).
 This means that code processed by `react-refresh/babel` is not further transformed by this plugin and will lead to broken builds.
 
 To solve this issue, you can choose one of the following workarounds:
 
 **Sloppy**
 
-In the entry of your Worker, add the following two lines:
+In the entry of your indirect code path (e.g. some `index.js`), add the following two lines:
 
 ```js
 self.$RefreshReg$ = () => {};
@@ -53,10 +53,10 @@ This basically acts as a "polyfill" for helpers expected by `react-refresh/babel
 
 **Simple**
 
-Ensure all exports within the Worker's code path are not named in `PascalCase`.
+Ensure all exports within the indirect code path are not named in `PascalCase`.
 This will tell the Babel plugin to do nothing when it hits those files.
 
-In general, the `PascalCase` naming scheme should be reserved for React components only, and it doesn't really make sense for them to exist within a Web Worker.
+In general, the `PascalCase` naming scheme should be reserved for React components only, and it doesn't really make sense for them to exist within non-React-rendering contexts.
 
 **Robust but complex**
 
@@ -70,7 +70,7 @@ In your Webpack configuration, alter the Babel setup as follows:
       oneOf: [
         {
           test: /\.[jt]s$/,
-          include: '<Your worker files here>',
+          include: '<Your indirection files here>',
           exclude: /node_modules/,
           use: {
             loader: 'babel-loader',
@@ -82,11 +82,12 @@ In your Webpack configuration, alter the Babel setup as follows:
         {
           test: /\.[jt]sx?$/,
           include: '<Your files here>',
-          exclude: ['<Your worker files here>', /node_modules/],
+          exclude: ['<Your indirection files here>', /node_modules/],
           use: {
             loader: 'babel-loader',
             options: {
               // Your Babel config here
+              plugins: [isDevelopment && 'react-refresh/babel'].filter(Boolean),
             },
           },
         },
@@ -101,7 +102,7 @@ In your Webpack configuration, alter the Babel setup as follows:
 }
 ```
 
-This would ensure that your worker files will not be processed by `react-refresh/babel`, thus eliminating the problem completely.
+This would ensure that your indirect code path will not be processed by `react-refresh/babel`, thus eliminating the problem completely.
 
 ## Hot Module Replacement (HMR) is not enabled
 
