@@ -74,12 +74,9 @@ The most basic setup to enable "Fast Refresh" is to update your `webpack.config.
 
 ```js
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const { HotModuleReplacementPlugin } = require('webpack');
+const webpack = require('webpack');
 // ... your other imports
 
-// You can tie this to whatever mechanisms you are using to detect a development environment.
-// For example, as shown here, you can use `NODE_ENV` as a toggle;
-// Then if you run `NODE_ENV=production webpack`, `isDevelopment` will be set to false.
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
@@ -100,7 +97,10 @@ module.exports = {
             loader: require.resolve('babel-loader'),
             options: {
               // ... other options
-              plugins: [isDevelopment && require.resolve('react-refresh/babel')].filter(Boolean),
+              plugins: [
+                // ... other plugins
+                isDevelopment && require.resolve('react-refresh/babel'),
+              ].filter(Boolean),
             },
           },
         ],
@@ -109,21 +109,39 @@ module.exports = {
   },
   plugins: [
     // ... other plugins
-    // If you use `webpack-dev-server` or `webpack-plugin-serve`,
-    // you can set `devServer.hot`/`devServer.hotOnly` and `hmr` to `true`, respectively,
-    // instead of adding the HMR plugin manually here.
-    isDevelopment && new HotModuleReplacementPlugin(),
+    isDevelopment && new webpack.HotModuleReplacementPlugin(),
     isDevelopment && new ReactRefreshWebpackPlugin(),
   ].filter(Boolean),
   // ... other configuration options
 };
 ```
 
-For each of the HMR integrations we support,
-you can take a look at the corresponding [sample projects](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/examples) for a better understanding of how things should be wired up.
+You might want to further tweak the configuration to accommodate your setup:
+
+- `isDevelopment`
+
+  In this example we've shown the simple way of splitting up `development` and `production` builds with the `NODE_ENV` environment variable.
+  It will default to `true` (i.e. `development` mode) when `NODE_ENV` is not available from the environment.
+
+  In practice though, you might want to wire this up differently,
+  like [using a function config](https://webpack.js.org/configuration/configuration-types/#exporting-a-function) or using multiple configuration files.
+
+- `webpack.HotModuleReplacamentPlugin`
+
+  If you use `webpack-dev-server` or `webpack-plugin-serve`,
+  you can set `devServer.hot`/`devServer.hotOnly` and `hmr` to `true` respectively,
+  instead of adding the HMR plugin to your plugin list.
 
 > Note: If you are using TypeScript (instead of Babel) as a transpiler, you will still need to use `babel-loader` to process your source code.
 > Check out this [sample project](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/examples/typescript-without-babel) on how to set this up.
+
+### Integration Support for Overlay
+
+Officially, `webpack-dev-server`, `webpack-hot-middleware` and `webpack-plugin-serve` aer supported out of the box -
+you just have to set the [`overlay.sockIntegration`](docs/API.md#sockintegration) option to match what you're using.
+
+For each of the integrations listed above,
+you can also take a look at the corresponding [sample projects](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/examples) for a better understanding of how things should be wired up.
 
 ## API
 
