@@ -19,7 +19,7 @@ module.exports = {
             loader: 'babel-loader',
             options: { plugins: ['react-refresh/babel'] },
           },
-          'awesome-typescript-loader',
+          'ts-loader',
         ].filter(Boolean),
       },
     ],
