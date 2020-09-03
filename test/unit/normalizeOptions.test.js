@@ -1,8 +1,8 @@
 const normalizeOptions = require('../../lib/utils/normalizeOptions');
 
 const DEFAULT_OPTIONS = {
-  exclude: /node_modules/,
-  include: /\.([jt]sx?|flow)$/,
+  exclude: /node_modules/i,
+  include: /\.([jt]sx?|flow)$/i,
   overlay: {
     entry: require.resolve('../../client/ErrorOverlayEntry'),
     module: require.resolve('../../overlay'),
