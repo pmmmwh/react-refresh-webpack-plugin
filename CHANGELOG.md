@@ -1,3 +1,10 @@
+## 0.4.2 (3 September 2020)
+
+### Fixes
+
+- Patched loader to use with Node.js global `fetch` polyfills (#193)
+- Patched default `include` and `exclude` options to be case-insensitive (#194)
+
 ## 0.4.1 (28 July 2020)
 
 ### Fixes
