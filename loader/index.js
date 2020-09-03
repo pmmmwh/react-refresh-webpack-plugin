@@ -1,3 +1,10 @@
+// This is a patch for mozilla/source-map#349 -
+// internally, it uses the existence of the `fetch` global to toggle browser behaviours.
+// That check, however, will break when `fetch` polyfills are used for SSR setups.
+// We "reset" the polyfill here to ensure it won't interfere with source-map generation.
+const originalFetch = global.fetch;
+delete global.fetch;
+
 const { SourceMapConsumer, SourceMapGenerator, SourceNode } = require('source-map');
 const { Template } = require('webpack');
 
@@ -92,3 +99,8 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
 }
 
 module.exports = ReactRefreshLoader;
+
+// Restore the original value of the `fetch` global, if it exists
+if (originalFetch) {
+  global.fetch = originalFetch;
+}
