@@ -1,5 +1,20 @@
 # Troubleshooting
 
+## Coming from `react-hot-loader`
+
+If you are coming from `react-hot-loader`, before using the plugin,
+you have to ensure that you've completely erased the integration of RHL from your app:
+
+- Removed the `react-hot-loader/babel` Babel plugin (from Babel config variants or Webpack config)
+- Removed the `react-hot-loader/patch` Webpack entry
+- Removed the `react-hot-loader/webpack` Webpack loader
+- Removed the alias of `react-dom` to `@hot-loader/react-dom` (from `package.json` or Webpack config)
+- Removed imports and their usages from `react-hot-loader`
+
+This has to be done because, internally,
+`react-hot-loader` intercepts and reconciles the React tree before React can try to re-render it.
+That in turn breaks mechanisms the plugin depends on to deliver the experience.
+
 ## Compatibility with IE11 (`webpack-dev-server` only)
 
 If you need to develop on IE11, you will need to polyfill the DOM URL API.
@@ -25,7 +40,7 @@ import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
 ```
 
-Note that this also polyfills other APIs that are not available on IE11 (potentially expensive).
+Note that `react-app-polyfill` also polyfills other APIs that are not available on IE11 (potentially expensive).
 
 ## Usage with Indirection (like Workers and JS Templates)
 
