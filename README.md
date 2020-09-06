@@ -126,7 +126,7 @@ You might want to further tweak the configuration to accommodate your setup:
   In practice though, you might want to wire this up differently,
   like [using a function config](https://webpack.js.org/configuration/configuration-types/#exporting-a-function) or using multiple configuration files.
 
-- `webpack.HotModuleReplacamentPlugin`
+- `webpack.HotModuleReplacementPlugin`
 
   If you use `webpack-dev-server` or `webpack-plugin-serve`,
   you can set `devServer.hot`/`devServer.hotOnly` and `hmr` to `true` respectively,
