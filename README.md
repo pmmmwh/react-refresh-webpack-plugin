@@ -137,7 +137,7 @@ You might want to further tweak the configuration to accommodate your setup:
 
 ### Integration Support for Overlay
 
-Officially, `webpack-dev-server`, `webpack-hot-middleware` and `webpack-plugin-serve` aer supported out of the box -
+Officially, `webpack-dev-server`, `webpack-hot-middleware` and `webpack-plugin-serve` are supported out of the box -
 you just have to set the [`overlay.sockIntegration`](docs/API.md#sockintegration) option to match what you're using.
 
 For each of the integrations listed above,
