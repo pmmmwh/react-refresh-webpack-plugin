@@ -78,7 +78,7 @@ See the [`ErrorOverlayOptions`](#erroroverlayoptions) section below for more det
 interface ErrorOverlayOptions {
   entry?: string | false;
   module?: string | false;
-  sockIntegration?: 'wds' | 'wdm' | 'wps' | false | string;
+  sockIntegration?: 'wds' | 'whm' | 'wps' | false | string;
   sockHost?: string;
   sockPath?: string;
   sockPort?: number;
