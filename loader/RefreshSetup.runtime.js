@@ -9,6 +9,6 @@
  * The function declaration syntax below is needed for `Template.getFunctionContent` to parse this.
  */
 module.exports = function () {
-  $RefreshRuntime$ = require('react-refresh/runtime');
+  $RefreshRuntime$ = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : require('react-refresh/runtime');
   $RefreshSetup$(module.id);
 };

@@ -8,7 +8,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "$RefreshRuntime$ = require('react-refresh/runtime');
+        "$RefreshRuntime$ = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : require('react-refresh/runtime');
         $RefreshSetup$(module.id);
 
         module.exports = 'Test';
@@ -87,7 +87,7 @@ describe('loader', () => {
         /*! no static exports found */
         /***/ (function(module, exports, __webpack_require__) {
 
-        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        $RefreshRuntime$ = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
         $RefreshSetup$(module.i);
 
         module.exports = 'Test';
@@ -170,7 +170,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "$RefreshRuntime$ = require('react-refresh/runtime');
+        "$RefreshRuntime$ = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : require('react-refresh/runtime');
         $RefreshSetup$(module.id);
 
         export default 'Test';
@@ -251,7 +251,7 @@ describe('loader', () => {
 
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        $RefreshRuntime$ = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
         $RefreshSetup$(module.i);
 
         /* harmony default export */ __webpack_exports__[\\"default\\"] = ('Test');
@@ -360,7 +360,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "$RefreshRuntime$ = require('react-refresh/runtime');
+        "$RefreshRuntime$ = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : require('react-refresh/runtime');
         $RefreshSetup$(module.id);
 
         module.exports = 'Test';
@@ -440,7 +440,7 @@ describe('loader', () => {
         /*! runtime requirements: module, __webpack_require__, module.id */
         /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        $RefreshRuntime$ = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
         $RefreshSetup$(module.id);
 
         module.exports = 'Test';
@@ -523,7 +523,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "$RefreshRuntime$ = require('react-refresh/runtime');
+        "$RefreshRuntime$ = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : require('react-refresh/runtime');
         $RefreshSetup$(module.id);
 
         export default 'Test';
@@ -610,7 +610,7 @@ describe('loader', () => {
         /* harmony export */ __webpack_require__.d(__webpack_exports__, {
         /* harmony export */   \\"default\\": () => __WEBPACK_DEFAULT_EXPORT__
         /* harmony export */ });
-        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        $RefreshRuntime$ = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
         $RefreshSetup$(module.id);
 
         /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ('Test');
