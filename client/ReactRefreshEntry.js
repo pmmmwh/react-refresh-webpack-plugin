@@ -1,9 +1,14 @@
+/* global reactRefreshGlobal */
+
 const safeThis = require('./utils/safeThis');
 
 if (process.env.NODE_ENV !== 'production' && typeof safeThis !== 'undefined') {
   // Only inject the runtime if it hasn't been injected
   if (!safeThis.__reactRefreshInjected) {
-    const RefreshRuntime = window.reactRefreshGlobal = typeof reactRefreshGlobal !== 'undefined' ? reactRefreshGlobal : require('react-refresh/runtime');
+    const RefreshRuntime = (window.reactRefreshGlobal =
+      typeof reactRefreshGlobal !== 'undefined'
+        ? reactRefreshGlobal
+        : require('react-refresh/runtime'));
     // Inject refresh runtime into global scope
     RefreshRuntime.injectIntoGlobalHook(safeThis);
 
