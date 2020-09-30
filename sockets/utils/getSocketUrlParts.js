@@ -1,3 +1,4 @@
+require('core-js/web/url');
 const url = require('native-url');
 const getCurrentScriptSource = require('./getCurrentScriptSource');
 const parseQuery = require('./parseQuery');

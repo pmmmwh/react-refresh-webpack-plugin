@@ -64,6 +64,7 @@
     "@webpack-cli/serve": "^1.0.1-alpha.5",
     "babel-loader": "^8.1.0",
     "cross-spawn": "^7.0.3",
+    "core-js" : "^3.6.5",
     "eslint": "^7.6.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.4",
