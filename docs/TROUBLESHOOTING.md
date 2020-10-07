@@ -17,8 +17,11 @@ That in turn breaks mechanisms the plugin depends on to deliver the experience.
 
 ## Compatibility with IE11 (`webpack-dev-server` only)
 
-If you need to develop on IE11, you will need to polyfill the DOM URL API.
+If you need to develop on IE11, you will need to polyfill the DOM URL API and in some cases also
+enable transpiling `@pmmmwh/react-refresh-webpack-plugin` by babel.
 This can be done by adding the following before any of your code in the main entry (either one is fine):
+
+### Polyfill the DOM URL API
 
 **Using `url-polyfill`**
 
@@ -41,6 +44,50 @@ import 'react-app-polyfill/stable';
 ```
 
 Note that `react-app-polyfill` also polyfills other APIs that are not available on IE11 (potentially expensive).
+
+### Transpile `@pmmmwh/react-refresh-webpack-plugin`
+
+In your Webpack configuration, alter the Babel setup as follows (look at `exclude` key):
+
+```js
+{
+  rules: [
+    // JS-related rules only
+    {
+      oneOf: [
+        {
+          test: /\.[jt]s$/,
+          include: '<Your files here>',
+          exclude: /node_modules\/(?!@pmmmwh\/react-refresh-webpack-plugin)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              // Your Babel config here
+            },
+          },
+        },
+        {
+          test: /\.[jt]sx?$/,
+          include: '<Your files here>',
+          exclude: ['<Your files here>', /node_modules\/(?!@pmmmwh\/react-refresh-webpack-plugin)/],
+          use: {
+            loader: 'babel-loader',
+            options: {
+              // Your Babel config here
+              plugins: [isDevelopment && 'react-refresh/babel'].filter(Boolean),
+            },
+          },
+        },
+      ],
+    },
+    // Any other rules, such as CSS
+    {
+      test: /\.css$/,
+      use: ['style-loader', 'css-loader'],
+    },
+  ];
+}
+```
 
 ## Usage with Indirection (like Workers and JS Templates)
 
