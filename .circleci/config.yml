@@ -3,8 +3,9 @@ version: 2.1
 anchors:
   - &node-version-enum
     - '10.22'
-    - '12.18'
-    - '14.11'
+    - '12.19'
+    - '14.14'
+    - '15.0'
   - &webpack-version-enum
     - '4'
     - '5'
