@@ -11,7 +11,7 @@ anchors:
     - '5'
   - &node-version-param
     node-version:
-      default: '12.18'
+      default: '12.19'
       enum: *node-version-enum
       type: enum
   - &webpack-version-param
