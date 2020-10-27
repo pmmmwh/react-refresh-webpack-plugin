@@ -12,17 +12,17 @@ const DEFAULT_OPTIONS = {
 describe('injectRefreshEntry', () => {
   it('should add entries to a string', () => {
     expect(injectRefreshEntry('test.js', DEFAULT_OPTIONS)).toStrictEqual([
+      'test.js',
       ReactRefreshEntry,
       ErrorOverlayEntry,
-      'test.js',
     ]);
   });
 
   it('should add entries to an array', () => {
     expect(injectRefreshEntry(['test.js'], DEFAULT_OPTIONS)).toStrictEqual([
+      'test.js',
       ReactRefreshEntry,
       ErrorOverlayEntry,
-      'test.js',
     ]);
   });
 
@@ -36,7 +36,7 @@ describe('injectRefreshEntry', () => {
         DEFAULT_OPTIONS
       )
     ).toStrictEqual({
-      main: [ReactRefreshEntry, ErrorOverlayEntry, 'test.js'],
+      main: ['test.js', ReactRefreshEntry, ErrorOverlayEntry],
       vendor: [ReactRefreshEntry, ErrorOverlayEntry, 'react', 'react-dom'],
     });
   });
@@ -59,7 +59,7 @@ describe('injectRefreshEntry', () => {
       ).toStrictEqual({
         main: {
           dependOn: 'vendors',
-          import: [ReactRefreshEntry, ErrorOverlayEntry, 'test.js'],
+          import: ['test.js', ReactRefreshEntry, ErrorOverlayEntry],
         },
         vendor: [ReactRefreshEntry, ErrorOverlayEntry, 'react', 'react-dom'],
       });
@@ -70,9 +70,9 @@ describe('injectRefreshEntry', () => {
     const returnedEntry = injectRefreshEntry(() => 'test.js', DEFAULT_OPTIONS);
     expect(typeof returnedEntry).toBe('function');
     expect(returnedEntry()).resolves.toStrictEqual([
+      'test.js',
       ReactRefreshEntry,
       ErrorOverlayEntry,
-      'test.js',
     ]);
   });
 
@@ -80,9 +80,9 @@ describe('injectRefreshEntry', () => {
     const returnedEntry = injectRefreshEntry(() => Promise.resolve('test.js'), DEFAULT_OPTIONS);
     expect(typeof returnedEntry).toBe('function');
     expect(returnedEntry()).resolves.toStrictEqual([
+      'test.js',
       ReactRefreshEntry,
       ErrorOverlayEntry,
-      'test.js',
     ]);
   });
 
@@ -96,13 +96,13 @@ describe('injectRefreshEntry', () => {
     );
     expect(typeof returnedEntry).toBe('function');
     expect(returnedEntry()).resolves.toStrictEqual({
-      main: [ReactRefreshEntry, ErrorOverlayEntry, 'test.js'],
+      main: ['test.js', ReactRefreshEntry, ErrorOverlayEntry],
       vendor: [ReactRefreshEntry, ErrorOverlayEntry, 'react', 'react-dom'],
     });
   });
 
   it('should not append overlay entry when unused', () => {
-    expect(injectRefreshEntry('test.js', {})).toStrictEqual([ReactRefreshEntry, 'test.js']);
+    expect(injectRefreshEntry('test.js', {})).toStrictEqual(['test.js', ReactRefreshEntry]);
   });
 
   it('should append legacy WDS entry when required', () => {
@@ -114,10 +114,10 @@ describe('injectRefreshEntry', () => {
         },
       })
     ).toStrictEqual([
+      'test.js',
       ReactRefreshEntry,
       require.resolve('../../client/LegacyWDSSocketEntry'),
       ErrorOverlayEntry,
-      'test.js',
     ]);
   });
 
@@ -132,16 +132,16 @@ describe('injectRefreshEntry', () => {
         },
       })
     ).toStrictEqual([
+      'test.js',
       ReactRefreshEntry,
       `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`,
-      'test.js',
     ]);
   });
 
   it('should append overlay entry for a string after socket-related entries', () => {
     expect(injectRefreshEntry('webpack-dev-server/client', DEFAULT_OPTIONS)).toStrictEqual([
-      ReactRefreshEntry,
       'webpack-dev-server/client',
+      ReactRefreshEntry,
       ErrorOverlayEntry,
     ]);
   });
@@ -149,12 +149,12 @@ describe('injectRefreshEntry', () => {
   it('should append overlay entry for an array after socket-related entries while keeping original relative order', () => {
     expect(
       injectRefreshEntry(['setup-env.js', 'webpack-dev-server/client', 'test.js'], DEFAULT_OPTIONS)
-    ).toStrictEqual([
-      ReactRefreshEntry,
-      'setup-env.js',
-      'webpack-dev-server/client',
-      ErrorOverlayEntry,
-      'test.js',
+      ).toStrictEqual([
+        'test.js',
+        ReactRefreshEntry,
+        'setup-env.js',
+        'webpack-dev-server/client',
+        ErrorOverlayEntry,
     ]);
   });
 
