@@ -149,12 +149,12 @@ describe('injectRefreshEntry', () => {
   it('should append overlay entry for an array after socket-related entries while keeping original relative order', () => {
     expect(
       injectRefreshEntry(['setup-env.js', 'webpack-dev-server/client', 'test.js'], DEFAULT_OPTIONS)
-      ).toStrictEqual([
-        'test.js',
-        ReactRefreshEntry,
-        'setup-env.js',
-        'webpack-dev-server/client',
-        ErrorOverlayEntry,
+    ).toStrictEqual([
+      'test.js',
+      ReactRefreshEntry,
+      'setup-env.js',
+      'webpack-dev-server/client',
+      ErrorOverlayEntry,
     ]);
   });
 

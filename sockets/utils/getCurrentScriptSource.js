@@ -3,7 +3,8 @@
  * @returns {string}
  */
 function getCurrentScriptSource() {
-  return __webpack_public_path__
+  // eslint-disable-next-line no-undef
+  return __webpack_public_path__;
 }
 
 module.exports = getCurrentScriptSource;
