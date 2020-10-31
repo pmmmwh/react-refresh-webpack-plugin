@@ -95,13 +95,6 @@ function getSocketUrlParts(resourceQuery) {
     port = window.location.port;
   }
 
-  // If the resource query is available,
-  // parse it and overwrite everything we received from the script host.
-  const parsedQuery = parseQuery(resourceQuery || '');
-  hostname = parsedQuery.sockHost || hostname;
-  pathname = parsedQuery.sockPath || pathname;
-  port = parsedQuery.sockPort || port;
-
   return {
     auth: auth,
     hostname: hostname,
