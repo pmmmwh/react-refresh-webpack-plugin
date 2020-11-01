@@ -28,6 +28,7 @@ describe('normalizeOptions', () => {
           sockIntegration: 'whm',
           sockPath: '/socket',
           sockPort: 9000,
+          sockProtocol: 'https:',
           useLegacyWDSSockets: true,
         },
       })
@@ -42,6 +43,7 @@ describe('normalizeOptions', () => {
         sockIntegration: 'whm',
         sockPath: '/socket',
         sockPort: 9000,
+        sockProtocol: 'https:',
         useLegacyWDSSockets: true,
       },
     });

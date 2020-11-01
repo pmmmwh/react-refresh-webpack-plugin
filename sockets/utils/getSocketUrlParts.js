@@ -81,6 +81,7 @@ function getSocketUrlParts(resourceQuery) {
   hostname = parsedQuery.sockHost || hostname;
   pathname = parsedQuery.sockPath || pathname;
   port = parsedQuery.sockPort || port;
+  protocol = parsedQuery.sockProtocol || protocol;
 
   return {
     auth: auth,
