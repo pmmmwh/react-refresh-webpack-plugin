@@ -82,7 +82,7 @@ interface ErrorOverlayOptions {
   sockHost?: string;
   sockPath?: string;
   sockPort?: number;
-  sockProtocol?: 'http:' | 'https:';
+  sockProtocol?: 'http' | 'https';
   useLegacyWDSSockets?: boolean;
 }
 ```
@@ -190,12 +190,12 @@ Useful if you set `devServer.sockPath` to something other than `/sockjs-node`.
 
 Default: parsed from current url
 
-Type: `enum`
+Type: `http` or `https`
 
 **This is relevant for `webpack-dev-server` only.**
 
-Force protocol type for the error overlay to listen to Webpack build messages.
-Useful if you want to force https communication.
+Force a protocol for the error overlay to listen for Webpack build messages.
+Useful if you want to enforce https communication, or if you're working under a non-HTTP path.
 
 #### `useLegacyWDSSockets`
 

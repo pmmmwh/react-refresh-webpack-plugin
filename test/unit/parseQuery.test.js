@@ -7,12 +7,12 @@ const parseQuery = require('../../sockets/utils/parseQuery');
 describe('parseQuery', () => {
   it('should handle valid query string', () => {
     expect(
-      parseQuery('?sockHost=localhost&sockPath=/__socket&sockPort=8080&sockProtocol=https:')
+      parseQuery('?sockHost=localhost&sockPath=/__socket&sockPort=8080&sockProtocol=https')
     ).toStrictEqual({
       sockHost: 'localhost',
       sockPath: '/__socket',
       sockPort: '8080',
-      sockProtocol: 'https:',
+      sockProtocol: 'https',
     });
   });
 

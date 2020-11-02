@@ -180,7 +180,7 @@ describe('getSocketUrlParts', () => {
     getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost:8080');
 
     expect(
-      getSocketUrlParts('?sockProtocol=https:&sockHost=foo.com&sockPath=/socket&sockPort=9000')
+      getSocketUrlParts('?sockProtocol=https&sockHost=foo.com&sockPath=/socket&sockPort=9000')
     ).toStrictEqual({
       auth: undefined,
       hostname: 'foo.com',
