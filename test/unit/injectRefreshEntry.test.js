@@ -138,6 +138,61 @@ describe('injectRefreshEntry', () => {
     ]);
   });
 
+  it('should append resource queries to the overlay entry when compiler is specified', () => {
+    expect(
+      injectRefreshEntry(
+        'test.js',
+        {
+          overlay: {
+            entry: ErrorOverlayEntry,
+          },
+        },
+        {
+          options: {
+            devServer: {
+              sockHost: 'localhost',
+              sockPath: '/socket',
+              sockPort: '9000',
+            },
+          },
+        }
+      )
+    ).toStrictEqual([
+      ReactRefreshEntry,
+      `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`,
+      'test.js',
+    ]);
+  });
+
+  it('should append resource queries to the overlay entry when both overlay options and compiler are specified', () => {
+    expect(
+      injectRefreshEntry(
+        'test.js',
+        {
+          overlay: {
+            entry: ErrorOverlayEntry,
+            sockHost: 'localhost',
+            sockPath: '/socket',
+            sockPort: '9000',
+          },
+        },
+        {
+          options: {
+            devServer: {
+              sockHost: 'someotherhost',
+              sockPath: '/socketpath',
+              sockPort: '9001',
+            },
+          },
+        }
+      )
+    ).toStrictEqual([
+      ReactRefreshEntry,
+      `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`,
+      'test.js',
+    ]);
+  });
+
   it('should append overlay entry for a string after socket-related entries', () => {
     expect(injectRefreshEntry('webpack-dev-server/client', DEFAULT_OPTIONS)).toStrictEqual([
       ReactRefreshEntry,
