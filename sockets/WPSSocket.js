@@ -23,9 +23,9 @@ function initWPSSocket(messageHandler) {
   const { ClientSocket } = require('webpack-plugin-serve/lib/client/ClientSocket');
   const { address, client = {}, secure } = options;
   const protocol = secure ? 'wss' : 'ws';
-  const socket = new ClientSocket(client, `${protocol}://${client.address || address}/wps`);
+  const socket = new ClientSocket(client, protocol + '://' + (client.address || address) + '/wps');
 
-  socket.addEventListener('message', (message) => {
+  socket.addEventListener('message', function listener(message) {
     const { action, data } = JSON.parse(message.data);
 
     switch (action) {
