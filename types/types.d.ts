@@ -48,7 +48,7 @@ export type NormalizedErrorOverlayOptions = {
   /**
    * The socket protocol to use (WDS only).
    */
-  sockProtocol?: 'http' | 'https' | undefined;
+  sockProtocol?: 'http' | 'https';
   /**
    * Uses a custom SocketJS implementation for older versions of webpack-dev-server.
    */
