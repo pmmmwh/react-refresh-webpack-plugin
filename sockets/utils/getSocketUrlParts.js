@@ -18,55 +18,35 @@ const parseQuery = require('./parseQuery');
  * @see https://webpack.js.org/api/module-variables/#__resourcequery-webpack-specific
  */
 function getSocketUrlParts(resourceQuery) {
-  let urlParts;
+  const scriptSource = getCurrentScriptSource();
+  const urlParts = url.parse(scriptSource || '');
+
   /** @type {string | undefined} */
   let auth;
-  let hostname;
-  let protocol;
+  let hostname = urlParts.hostname;
+  let protocol = urlParts.protocol;
   let pathname = '/sockjs-node'; // This is hard-coded in WDS
-  let port;
-  let authUrlParts;
+  let port = urlParts.port;
 
-  if (typeof resourceQuery === 'string' && resourceQuery !== '') {
-    // taken from https://github.com/webpack/webpack-dev-server/blob/4ab1f21bc85cc1695255c739160ad00dc14375f1/client-src/default/utils/createSocketUrl.js#L11-L21
+  // FIXME:
+  // This is a hack to work-around `native-url`'s parse method,
+  // which filters out falsy values when concatenating the `auth` string.
+  // In reality, we need to check for both values to correctly inject them.
+  // Ref: GoogleChromeLabs/native-url#32
+  // The placeholder `baseURL` is to allow parsing of relative paths,
+  // and will have no effect if `scriptSource` is a proper URL.
+  const authUrlParts = new URL(scriptSource, 'http://foo.bar');
+  // Parse authentication credentials in case we need them
+  if (authUrlParts.username) {
+    auth = authUrlParts.username;
 
-    urlParts = url.parse(
-      resourceQuery
-        // strip leading `?` from query string to get a valid URL
-        .substr(1)
-        // replace first `&` with `?` to have a valid query string
-        .replace('&', '?'),
-      true
-    );
-  } else {
-    const scriptSource = getCurrentScriptSource();
-    urlParts = url.parse(scriptSource);
-
-    // FIXME:
-    // This is a hack to work-around `native-url`'s parse method,
-    // which filters out falsy values when concatenating the `auth` string.
-    // In reality, we need to check for both values to correctly inject them.
-    // Ref: GoogleChromeLabs/native-url#32
-    // The placeholder `baseURL` is to allow parsing of relative paths,
-    // and will have no effect if `scriptSource` is a proper URL.
-    authUrlParts = new URL(scriptSource, 'http://foo.bar');
-    // Parse authentication credentials in case we need them
-    if (authUrlParts.username) {
-      auth = authUrlParts.username;
-
-      // Since HTTP basic authentication does not allow empty username,
-      // we only include password if the username is not empty.
-      if (authUrlParts.password) {
-        // Result: <username>:<password>
-        auth = auth.concat(':', authUrlParts.password);
-      }
+    // Since HTTP basic authentication does not allow empty username,
+    // we only include password if the username is not empty.
+    if (authUrlParts.password) {
+      // Result: <username>:<password>
+      auth = auth.concat(':', authUrlParts.password);
     }
   }
-
-  auth;
-  hostname = urlParts.hostname;
-  protocol = urlParts.protocol;
-  port = urlParts.port;
 
   // Check for IPv4 and IPv6 host addresses that corresponds to `any`/`empty`.
   // This is important because `hostname` can be empty for some hosts,
@@ -93,6 +73,22 @@ function getSocketUrlParts(resourceQuery) {
   // We only re-assign port when it is not available or `empty`
   if (!port || port === '0') {
     port = window.location.port;
+  }
+
+  // If the resource query is available,
+  // parse it and overwrite everything we received from the script host.
+  const parsedQuery = parseQuery(resourceQuery || '');
+  hostname = parsedQuery.sockHost || hostname;
+  pathname = parsedQuery.sockPath || pathname;
+  port = parsedQuery.sockPort || port;
+
+  if (!hostname || !pathname || !port) {
+    throw new Error(
+      '[React Refresh] Failed to get an URL for the socket connection. ' +
+        'This might occur when the execution script doesn’t have `src` attribute set. ' +
+        'Either specify it or use overlay options ' +
+        'https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/API.md#overlay'
+    );
   }
 
   return {
