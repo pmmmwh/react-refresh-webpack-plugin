@@ -14,7 +14,7 @@ function initWHMEventSource(messageHandler) {
   const client = window[singletonKey] || require('webpack-hot-middleware/client');
 
   client.useCustomOverlay({
-    showProblems(type, data) {
+    showProblems: function showProblems(type, data) {
       const error = {
         type,
         data,
@@ -22,7 +22,7 @@ function initWHMEventSource(messageHandler) {
 
       messageHandler(error);
     },
-    clear() {
+    clear: function clear() {
       messageHandler({ type: 'ok' });
     },
   });

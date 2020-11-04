@@ -1,3 +1,12 @@
+## 0.4.3 (2 November 2020)
+
+### Fixes
+
+- Fixed Yarn 2 PnP compatibility with absolute `react-refresh/runtime` imports (#230)
+- Fixed Webpack 5 compatibility by requiring `__webpack_require__` (#233)
+- Fixed IE 11 compatibility in socket code (4033e6af)
+- Relaxed peer dependency requirement for `react-refresh` to allow `0.9.x` (747c19ba)
+
 ## 0.4.2 (3 September 2020)
 
 ### Fixes

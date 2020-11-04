@@ -9,6 +9,6 @@
  * The function declaration syntax below is needed for `Template.getFunctionContent` to parse this.
  */
 module.exports = function () {
-  $RefreshRuntime$ = require('react-refresh/runtime');
+  $RefreshRuntime$ = require('$RefreshRuntimePath$');
   $RefreshSetup$(module.id);
 };
