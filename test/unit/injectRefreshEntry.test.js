@@ -1,4 +1,3 @@
-const { it } = require('jest-circus');
 const injectRefreshEntry = require('../../lib/utils/injectRefreshEntry');
 
 const ErrorOverlayEntry = require.resolve('../../client/ErrorOverlayEntry');
