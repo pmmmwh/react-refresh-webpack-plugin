@@ -2,43 +2,35 @@ export type ErrorOverlayOptions = {
   /**
    * Path to a JS file that sets up the error overlay integration.
    */
-  entry?: string | false | undefined;
+  entry?: string | false;
   /**
    * The error overlay module to use.
    */
-  module?: string | false | undefined;
+  module?: string | false;
   /**
    * The socket host to use (WDS only).
    */
-  sockHost?: string | undefined;
+  sockHost?: string;
   /**
    * Path to a JS file that sets up the Webpack socket integration.
    */
-  sockIntegration?:
-    | false
-    | (string & {
-        _?: undefined;
-      })
-    | 'wds'
-    | 'whm'
-    | 'wps'
-    | undefined;
+  sockIntegration?: import('type-fest').LiteralUnion<'wds' | 'whm' | 'wps' | false, string>;
   /**
    * The socket path to use (WDS only).
    */
-  sockPath?: string | undefined;
+  sockPath?: string;
   /**
    * The socket port to use (WDS only).
    */
-  sockPort?: number | undefined;
+  sockPort?: number;
   /**
    * The socket protocol to use (WDS only).
    */
-  sockProtocol?: 'http' | 'https' | undefined;
+  sockProtocol?: 'http' | 'https';
   /**
    * Uses a custom SocketJS implementation for older versions of webpack-dev-server.
    */
-  useLegacyWDSSockets?: boolean | undefined;
+  useLegacyWDSSockets?: boolean;
 };
 export type NormalizedErrorOverlayOptions = {
   /**
@@ -78,23 +70,23 @@ export type ReactRefreshPluginOptions = {
   /**
    * Disables detection of react-refresh's Babel plugin (Deprecated since v0.3.0).
    */
-  disableRefreshCheck?: boolean | undefined;
+  disableRefreshCheck?: boolean;
   /**
    * Files to explicitly exclude from processing.
    */
-  exclude?: string | RegExp | (string | RegExp)[] | undefined;
+  exclude?: string | RegExp | Array<string | RegExp>;
   /**
    * Enables the plugin forcefully.
    */
-  forceEnable?: boolean | undefined;
+  forceEnable?: boolean;
   /**
    * Files to explicitly include for processing.
    */
-  include?: string | RegExp | (string | RegExp)[] | undefined;
+  include?: string | RegExp | Array<string | RegExp>;
   /**
    * Modifies how the error overlay integration works in the plugin.
    */
-  overlay?: boolean | ErrorOverlayOptions | undefined;
+  overlay?: boolean | ErrorOverlayOptions;
 };
 export type OverlayOverrides = {
   /**
