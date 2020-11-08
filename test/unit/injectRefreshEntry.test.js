@@ -164,7 +164,7 @@ describe('injectRefreshEntry', () => {
     ]);
   });
 
-  it('should append resource queries to the overlay entry when both overlay options and compiler are specified', () => {
+  it('should append resource queries to the overlay entry when specified in both devServer options and overlay options', () => {
     expect(
       injectRefreshEntry(
         'test.js',
