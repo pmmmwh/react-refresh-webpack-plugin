@@ -120,7 +120,7 @@ module.exports = {
 
 ### With ts-loader
 
-You need to install [react-refresh-typescript](https://github.com/Jack-Works/react-refresh-transformer/tree/main/typescript).
+You need to install [react-refresh-typescript](https://github.com/Jack-Works/react-refresh-transformer/tree/main/typescript) and your TypeScript must be at least 4.0.
 
 ```sh
 # if you prefer npm
@@ -136,7 +136,7 @@ pnpm add -D react-refresh-typescript
 ```js
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const webpack = require('webpack');
-const ReactRefreshTypeScript = require('react-refresh-typescript');
+const ReactRefreshTypeScript = require('react-refresh-typescript').default;
 // ... your other imports
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
@@ -159,7 +159,7 @@ module.exports = {
             loader: require.resolve('ts-loader'),
             options: {
                 getCustomTransformers: () => ({
-                    before: [require('react-refresh-typescript')()]
+                    before: [ReactRefreshTypeScript()]
                 }),
             }
           },
