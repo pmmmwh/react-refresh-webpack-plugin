@@ -397,7 +397,7 @@ describe('validateOptions', () => {
     }).not.toThrow();
   });
 
-  it('should reject "overlay.sockProtocol" when it is not "http" or  "https"', () => {
+  it('should reject "overlay.sockProtocol" when it is not "http", "https", "ws" nor "wss"', () => {
     expect(() => {
       new ReactRefreshPlugin({
         overlay: { sockProtocol: true },
@@ -405,7 +405,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay.sockProtocol should be one of these:
-         \\"http\\" | \\"https\\""
+         \\"http\\" | \\"https\\" | \\"ws\\" | \\"wss\\""
     `);
   });
 

@@ -82,7 +82,7 @@ interface ErrorOverlayOptions {
   sockHost?: string;
   sockPath?: string;
   sockPort?: number;
-  sockProtocol?: 'http' | 'https';
+  sockProtocol?: 'http' | 'https' | 'ws' | 'wss';
   useLegacyWDSSockets?: boolean;
 }
 ```
@@ -190,7 +190,7 @@ Useful if you set `devServer.sockPath` to something other than `/sockjs-node`.
 
 Default: parsed from current url
 
-Type: `http` or `https`
+Type: `http`, `https`, `ws`, `wss`
 
 **This is relevant for `webpack-dev-server` only.**
 

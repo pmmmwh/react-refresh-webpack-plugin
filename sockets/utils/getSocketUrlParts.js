@@ -84,7 +84,7 @@ function getSocketUrlParts(resourceQuery) {
 
   // Make sure the protocol from resource query has a trailing colon
   if (parsedQuery.sockProtocol) {
-    protocol = url.format({ protocol: parsedQuery.sockProtocol });
+    protocol = parsedQuery.sockProtocol + ':';
   }
 
   return {
