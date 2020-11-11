@@ -44,7 +44,10 @@ function getTemplate(fn) {
   return Template.getFunctionContent(fn).trim().replace(/^ {2}/gm, '');
 }
 
-const RefreshSetupRuntime = getTemplate(require('./RefreshSetup.runtime'));
+const RefreshSetupRuntime = getTemplate(require('./RefreshSetup.runtime')).replace(
+  '$RefreshRuntimePath$',
+  require.resolve('react-refresh/runtime').replace(/\\/g, '/')
+);
 const RefreshModuleRuntime = getTemplate(require('./RefreshModule.runtime'));
 
 /**
