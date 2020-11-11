@@ -122,6 +122,8 @@ module.exports = {
 
 You need to install [react-refresh-typescript](https://github.com/Jack-Works/react-refresh-transformer/tree/main/typescript) and your TypeScript must be at least 4.0.
 
+> ⚠ This package is maintained by the community not by Facebook.
+
 ```sh
 # if you prefer npm
 npm install -D react-refresh-typescript
@@ -158,10 +160,10 @@ module.exports = {
           {
             loader: require.resolve('ts-loader'),
             options: {
-                getCustomTransformers: () => ({
-                    before: [ReactRefreshTypeScript()]
-                }),
-            }
+              getCustomTransformers: () => ({
+                before: isDevelopment ? [ReactRefreshTypeScript()] : [],
+              }),
+            },
           },
         ],
       },
