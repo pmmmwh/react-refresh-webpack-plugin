@@ -190,7 +190,7 @@ Useful if you set `devServer.sockPath` to something other than `/sockjs-node`.
 
 Default: parsed from current url
 
-Type: `http`, `https`, `ws`, `wss`
+Type: `http`, `https`, `ws` or `wss`
 
 **This is relevant for `webpack-dev-server` only.**
 
