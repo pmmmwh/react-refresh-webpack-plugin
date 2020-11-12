@@ -83,13 +83,13 @@ function getSocketUrlParts(resourceQuery) {
   port = parsedQuery.sockPort || port;
 
   if (!hostname || !pathname || !port) {
-    throw new Error([
-      '[React Refresh] Failed to get an URL for the socket connection.',
-      'This usually means that the current executed script doesn't have a `src` attribute set.',
-      'You should either specify the socket path parameters under the `devServer` key in your Webpack config, or use the `overlay` option.',
-      'https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/API.md#overlay'
+    throw new Error(
+      [
+        '[React Refresh] Failed to get an URL for the socket connection.',
+        "This usually means that the current executed script doesn't have a `src` attribute set.",
+        'You should either specify the socket path parameters under the `devServer` key in your Webpack config, or use the `overlay` option.',
+        'https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/API.md#overlay',
       ].join('\n')
-    )
     );
   }
 
