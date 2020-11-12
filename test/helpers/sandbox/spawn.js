@@ -115,7 +115,7 @@ function spawnTestProcess(processPath, argv, options = {}) {
  * @param {*} [options]
  * @returns {Promise<import('child_process').ChildProcess | void>}
  */
-function spawnWDS(port, directory, options) {
+function spawnWDS(port, directory, options = {}) {
   const wdsBin = getPackageExecutable('webpack-dev-server');
   return spawnTestProcess(
     wdsBin,
@@ -138,7 +138,7 @@ function spawnWDS(port, directory, options) {
  * @param {*} [options]
  * @returns {Promise<import('child_process').ChildProcess | void>}
  */
-function spawnWebpackServe(port, directory, options) {
+function spawnWebpackServe(port, directory, options = {}) {
   const webpackBin = getPackageExecutable('webpack-cli');
   return spawnTestProcess(
     webpackBin,
@@ -152,7 +152,16 @@ function spawnWebpackServe(port, directory, options) {
       '--port',
       port,
     ],
-    options
+    {
+      ...options,
+      env: {
+        ...options.env,
+        // This requires a script to alias `webpack` and `webpack-cli` -
+        // both v4 and v5 is installed side by side,
+        // so we have to ensure that they resolve to the `latest` variant.
+        NODE_OPTIONS: `--require "${require.resolve('./aliasModules')}"`,
+      },
+    }
   );
 }
 
