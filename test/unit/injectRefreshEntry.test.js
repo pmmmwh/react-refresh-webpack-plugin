@@ -9,7 +9,7 @@ const DEFAULT_ENTRIES = {
 };
 
 describe('injectRefreshEntry', () => {
-  it('should add entries to a string asdf', () => {
+  it('should add entries to a string', () => {
     expect(injectRefreshEntry('test.js', DEFAULT_ENTRIES)).toStrictEqual([
       ReactRefreshEntry,
       ErrorOverlayEntry,
