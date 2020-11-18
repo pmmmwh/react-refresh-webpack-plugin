@@ -2,15 +2,16 @@ version: 2.1
 
 anchors:
   - &node-version-enum
-    - '10.22'
-    - '12.18'
-    - '14.11'
+    - '10.23'
+    - '12.19'
+    - '14.15'
+    - '15.2'
   - &webpack-version-enum
     - '4'
     - '5'
   - &node-version-param
     node-version:
-      default: '12.18'
+      default: '12.19'
       enum: *node-version-enum
       type: enum
   - &webpack-version-param
@@ -43,6 +44,9 @@ executors:
       <<: *node-version-param
     docker:
       - image: pmmmwh/puppeteer:<< parameters.node-version >>
+        auth:
+          username: $DOCKER_LOGIN
+          password: $DOCKER_PASSWORD
 
 jobs:
   lint-and-format:
@@ -89,8 +93,10 @@ jobs:
 workflows:
   test-matrix:
     jobs:
-      - lint-and-format
+      - lint-and-format:
+          context: DOCKER_CREDENTIALS
       - test:
+          context: DOCKER_CREDENTIALS
           matrix:
             parameters:
               node-version: *node-version-enum

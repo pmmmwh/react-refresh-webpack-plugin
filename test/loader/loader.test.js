@@ -430,7 +430,7 @@ describe('loader', () => {
         }"
       `);
       expect(execution).toMatchInlineSnapshot(`
-        "(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([[\\"main\\"],{
+        "(self[\\"webpackChunk\\"] = self[\\"webpackChunk\\"] || []).push([[\\"main\\"],{
 
         /***/ \\"./index.cjs.js\\":
         /*!**********************!*\\\\
@@ -438,6 +438,7 @@ describe('loader', () => {
           \\\\**********************/
         /*! unknown exports (runtime-defined) */
         /*! runtime requirements: module, __webpack_require__, module.id */
+        /*! CommonJS bailout: module.exports is used directly at 4:0-14 */
         /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
         $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
@@ -511,7 +512,8 @@ describe('loader', () => {
 
         /***/ })
 
-        },[[\\"./index.cjs.js\\",\\"defaultVendors\\"]]]);"
+        },
+        0,[[\\"./index.cjs.js\\",\\"runtime\\",\\"defaultVendors\\"]]]);"
       `);
 
       expect(compilation.errors).toStrictEqual([]);
@@ -593,7 +595,7 @@ describe('loader', () => {
         }"
       `);
       expect(execution).toMatchInlineSnapshot(`
-        "(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([[\\"main\\"],{
+        "(self[\\"webpackChunk\\"] = self[\\"webpackChunk\\"] || []).push([[\\"main\\"],{
 
         /***/ \\"./index.esm.js\\":
         /*!**********************!*\\\\
@@ -681,7 +683,8 @@ describe('loader', () => {
 
         /***/ })
 
-        },[[\\"./index.esm.js\\",\\"defaultVendors\\"]]]);"
+        },
+        0,[[\\"./index.esm.js\\",\\"runtime\\",\\"defaultVendors\\"]]]);"
       `);
 
       expect(compilation.errors).toStrictEqual([]);
@@ -699,7 +702,7 @@ describe('loader', () => {
             \\"webpack:///./index.cjs.js\\"
           ],
           \\"names\\": [],
-          \\"mappings\\": \\";;;;;;;;;;;;;AAAA\\",
+          \\"mappings\\": \\";;;;;;;;;;;;;;AAAA\\",
           \\"file\\": \\"main.js\\",
           \\"sourcesContent\\": [
             \\"module.exports = 'Test';\\\\n\\"
