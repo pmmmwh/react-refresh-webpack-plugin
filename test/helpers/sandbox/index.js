@@ -194,7 +194,7 @@ async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
             const onFrameNavigate = (frame) => {
               if (frame === page.mainFrame()) {
-                page.removeListener('hotSuccess', onHotSuccess);
+                page.off('hotSuccess', onHotSuccess);
                 clearTimeout(hmrTimeout);
                 hmrStatus = 'reloaded';
                 resolve();
@@ -202,7 +202,7 @@ async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
             };
 
             const onHotSuccess = () => {
-              page.removeListener('framenavigated', onFrameNavigate);
+              page.off('framenavigated', onFrameNavigate);
               clearTimeout(hmrTimeout);
               hmrStatus = 'success';
               resolve();

@@ -34,8 +34,8 @@ if (parseInt(process.env.WEBPACK_VERSION || 4, 10) === 5) {
   // Apply Webpack npm aliases in Jest's module system
   argv.push(
     `--moduleNameMapper="${JSON.stringify({
-      '^webpack($|/.*)': 'webpack.next$1',
-      '^webpack-cli($|/.*)': 'webpack-cli.beta$1',
+      '^webpack($|/.*)': 'webpack.latest$1',
+      '^webpack-cli($|/.*)': 'webpack-cli.latest$1',
     })}"`
   );
 }

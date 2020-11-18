@@ -61,7 +61,7 @@ describe('getRefreshGlobal', () => {
     () => {
       const RuntimeTemplate = require('webpack/lib/RuntimeTemplate');
       const refreshGlobalTemplate = getRefreshGlobal(
-        new RuntimeTemplate({ ecmaVersion: 6 }, { shorten: (item) => item })
+        new RuntimeTemplate({ environment: { arrowFunction: true, const: true } }, (i) => i)
       );
       expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
         "__webpack_require__.$Refresh$ = {
