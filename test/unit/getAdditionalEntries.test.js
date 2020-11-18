@@ -89,4 +89,19 @@ describe('getAdditionalEntries', () => {
       overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`],
     });
   });
+
+  it('should use the devServer port and host as fallbacks if sockPort and sockHost are not defined', () => {
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
+          port: 8888,
+          host: 'localhost',
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPort=8888`],
+    });
+  });
 });
