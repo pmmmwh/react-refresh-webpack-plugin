@@ -1,4 +1,4 @@
-const getOverlayEntry = require('../../lib/utils/getOverlayEntry');
+const getAdditionalEntries = require('../../lib/utils/getAdditionalEntries');
 
 const ErrorOverlayEntry = require.resolve('../../client/ErrorOverlayEntry');
 const ReactRefreshEntry = require.resolve('../../client/ReactRefreshEntry');
@@ -9,13 +9,22 @@ const DEFAULT_OPTIONS = {
   },
 };
 
-describe('getOverlayEntry', () => {
+describe('getAdditionalEntries', () => {
+  it('should work with default settings', () => {
+    expect(getAdditionalEntries({ options: DEFAULT_OPTIONS })).toStrictEqual({
+      overlayEntries: [ErrorOverlayEntry],
+      prependEntries: [ReactRefreshEntry],
+    });
+  });
+
   it('should append legacy WDS entry when required', () => {
     expect(
-      getOverlayEntry({
-        overlay: {
-          entry: ErrorOverlayEntry,
-          useLegacyWDSSockets: true,
+      getAdditionalEntries({
+        options: {
+          overlay: {
+            entry: ErrorOverlayEntry,
+            useLegacyWDSSockets: true,
+          },
         },
       })
     ).toStrictEqual({
@@ -24,11 +33,29 @@ describe('getOverlayEntry', () => {
     });
   });
 
-  it('should append resource queries to the overlay entry when specified', () => {
+  it('should append resource queries to the overlay entry when specified in overlay options', () => {
     expect(
-      getOverlayEntry({
-        overlay: {
-          entry: ErrorOverlayEntry,
+      getAdditionalEntries({
+        options: {
+          overlay: {
+            entry: ErrorOverlayEntry,
+            sockHost: 'localhost',
+            sockPath: '/socket',
+            sockPort: '9000',
+          },
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`],
+    });
+  });
+
+  it('should append resource queries to the overlay entry when specified in devServer options', () => {
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
           sockHost: 'localhost',
           sockPath: '/socket',
           sockPort: '9000',
@@ -40,23 +67,10 @@ describe('getOverlayEntry', () => {
     });
   });
 
-  it('should append resource queries to the overlay entry when specified in devServer options', () => {
-    expect(
-      getOverlayEntry(DEFAULT_OPTIONS, {
-        sockHost: 'localhost',
-        sockPath: '/socket',
-        sockPort: '9000',
-      })
-    ).toStrictEqual({
-      prependEntries: [ReactRefreshEntry],
-      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`],
-    });
-  });
-
   it('should append resource queries to the overlay entry when specified in both devServer options and overlay options', () => {
     expect(
-      getOverlayEntry(
-        {
+      getAdditionalEntries({
+        options: {
           overlay: {
             entry: ErrorOverlayEntry,
             sockHost: 'localhost',
@@ -64,12 +78,12 @@ describe('getOverlayEntry', () => {
             sockPort: '9000',
           },
         },
-        {
+        devServer: {
           sockHost: 'someotherhost',
           sockPath: '/socketpath',
           sockPort: '9001',
-        }
-      )
+        },
+      })
     ).toStrictEqual({
       prependEntries: [ReactRefreshEntry],
       overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`],
