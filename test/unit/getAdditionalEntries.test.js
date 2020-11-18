@@ -104,4 +104,21 @@ describe('getAdditionalEntries', () => {
       overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPort=8888`],
     });
   });
+
+  it('should use the devServer sockHost and sockPort options, if they are available, over port and host ', () => {
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
+          port: 8888,
+          host: 'otherhost',
+          sockPort: 9999,
+          sockHost: 'localhost',
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPort=9999`],
+    });
+  });
 });
