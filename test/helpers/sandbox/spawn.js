@@ -151,6 +151,14 @@ function spawnWebpackServe(port, directory, options = {}) {
       '--hot',
       '--port',
       port,
+      '--resolve-alias-name',
+      'webpack',
+      '--resolve-alias-alias',
+      'webpack.latest',
+      '--resolve-alias-name',
+      'webpack-cli',
+      '--resolve-alias-alias',
+      'webpack-cli.latest',
     ],
     {
       ...options,
@@ -159,7 +167,7 @@ function spawnWebpackServe(port, directory, options = {}) {
         // This requires a script to alias `webpack` and `webpack-cli` -
         // both v4 and v5 is installed side by side,
         // so we have to ensure that they resolve to the `latest` variant.
-        NODE_OPTIONS: `--require "${require.resolve('./aliasModules')}"`,
+        NODE_OPTIONS: `--require "${require.resolve('./aliasLatestWebpack')}"`,
       },
     }
   );
