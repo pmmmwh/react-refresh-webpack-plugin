@@ -136,11 +136,11 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }
          Details:
           * options.overlay should be a boolean.
           * options.overlay should be an object:
-            object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }"
+            object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }"
     `);
   });
 
@@ -179,7 +179,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }
          Details:
           * options.overlay.entry should be one of these:
             false | string
@@ -224,7 +224,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }
          Details:
           * options.overlay.module should be one of these:
             false | string
@@ -293,7 +293,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, useLegacyWDSSockets? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }
          Details:
           * options.overlay.sockIntegration should be one of these:
             false | \\"wds\\" | \\"whm\\" | \\"wps\\" | string
@@ -378,6 +378,34 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay.sockPort should be a number (should be >= 0)."
+    `);
+  });
+
+  it('should accept "overlay.sockProtocol" when it is "http"', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { sockProtocol: 'http' },
+      });
+    }).not.toThrow();
+  });
+
+  it('should accept "overlay.sockProtocol" when it is "https"', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { sockProtocol: 'https' },
+      });
+    }).not.toThrow();
+  });
+
+  it('should reject "overlay.sockProtocol" when it is not "http", "https", "ws" nor "wss"', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { sockProtocol: true },
+      });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+       - options.overlay.sockProtocol should be one of these:
+         \\"http\\" | \\"https\\" | \\"ws\\" | \\"wss\\""
     `);
   });
 

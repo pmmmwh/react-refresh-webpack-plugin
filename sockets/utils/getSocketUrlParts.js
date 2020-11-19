@@ -82,6 +82,11 @@ function getSocketUrlParts(resourceQuery) {
   pathname = parsedQuery.sockPath || pathname;
   port = parsedQuery.sockPort || port;
 
+  // Make sure the protocol from resource query has a trailing colon
+  if (parsedQuery.sockProtocol) {
+    protocol = parsedQuery.sockProtocol + ':';
+  }
+
   if (!hostname || !pathname || !port) {
     throw new Error(
       [
