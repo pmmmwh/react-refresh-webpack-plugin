@@ -93,10 +93,8 @@ jobs:
 workflows:
   test-matrix:
     jobs:
-      - lint-and-format:
-          context: DOCKER_CREDENTIALS
-      - test:
-          context: DOCKER_CREDENTIALS
+      - lint-and-format
+      - test
           matrix:
             parameters:
               node-version: *node-version-enum
