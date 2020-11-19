@@ -94,7 +94,7 @@ workflows:
   test-matrix:
     jobs:
       - lint-and-format
-      - test
+      - test:
           matrix:
             parameters:
               node-version: *node-version-enum
