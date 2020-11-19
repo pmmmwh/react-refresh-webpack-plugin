@@ -129,11 +129,12 @@ describe('injectRefreshEntry', () => {
           sockHost: 'localhost',
           sockPath: '/socket',
           sockPort: '9000',
+          sockProtocol: 'https',
         },
       })
     ).toStrictEqual([
       ReactRefreshEntry,
-      `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`,
+      `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000&sockProtocol=https`,
       'test.js',
     ]);
   });
