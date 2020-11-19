@@ -42,12 +42,15 @@ describe('getAdditionalEntries', () => {
             sockHost: 'localhost',
             sockPath: '/socket',
             sockPort: '9000',
+            sockProtocol: 'https',
           },
         },
       })
     ).toStrictEqual({
       prependEntries: [ReactRefreshEntry],
-      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`],
+      overlayEntries: [
+        `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000&sockProtocol=https`,
+      ],
     });
   });
 
