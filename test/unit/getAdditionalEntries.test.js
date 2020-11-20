@@ -66,7 +66,37 @@ describe('getAdditionalEntries', () => {
       })
     ).toStrictEqual({
       prependEntries: [ReactRefreshEntry],
-      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`],
+      overlayEntries: [
+        `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000&sockProtocol=http`,
+      ],
+    });
+  });
+
+  it('should append resource queries for sock protocol devServer options https', () => {
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
+          https: true,
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [`${ErrorOverlayEntry}?sockProtocol=https`],
+    });
+  });
+
+  it('should append resource queries for sock protocol devServer options http2', () => {
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
+          http2: true,
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [`${ErrorOverlayEntry}?sockProtocol=https`],
     });
   });
 
@@ -89,7 +119,9 @@ describe('getAdditionalEntries', () => {
       })
     ).toStrictEqual({
       prependEntries: [ReactRefreshEntry],
-      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000`],
+      overlayEntries: [
+        `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000&sockProtocol=http`,
+      ],
     });
   });
 
@@ -104,11 +136,11 @@ describe('getAdditionalEntries', () => {
       })
     ).toStrictEqual({
       prependEntries: [ReactRefreshEntry],
-      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPort=8888`],
+      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPort=8888&sockProtocol=http`],
     });
   });
 
-  it('should use the devServer sockHost and sockPort options, if they are available, over port and host ', () => {
+  it('should use the kdevServer sockHost and sockPort options, if they are available, over port and host ', () => {
     expect(
       getAdditionalEntries({
         options: DEFAULT_OPTIONS,
@@ -121,7 +153,7 @@ describe('getAdditionalEntries', () => {
       })
     ).toStrictEqual({
       prependEntries: [ReactRefreshEntry],
-      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPort=9999`],
+      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPort=9999&sockProtocol=http`],
     });
   });
 });
