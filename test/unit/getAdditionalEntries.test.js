@@ -72,7 +72,7 @@ describe('getAdditionalEntries', () => {
     });
   });
 
-  it('should append resource queries for sock protocol devServer options https', () => {
+  it('should correctly set sock protocol when https is specified in devServer options', () => {
     expect(
       getAdditionalEntries({
         options: DEFAULT_OPTIONS,
@@ -86,7 +86,7 @@ describe('getAdditionalEntries', () => {
     });
   });
 
-  it('should append resource queries for sock protocol devServer options http2', () => {
+  it('should correctly set sock protocol when http2 is specified in devServer options', () => {
     expect(
       getAdditionalEntries({
         options: DEFAULT_OPTIONS,
@@ -100,7 +100,7 @@ describe('getAdditionalEntries', () => {
     });
   });
 
-  it('should append resource queries to the overlay entry when specified in both devServer options and overlay options', () => {
+  it('should use overlay options over devServer options with both are specified', () => {
     expect(
       getAdditionalEntries({
         options: {
@@ -109,6 +109,7 @@ describe('getAdditionalEntries', () => {
             sockHost: 'localhost',
             sockPath: '/socket',
             sockPort: '9000',
+            sockProtocol: 'https',
           },
         },
         devServer: {
@@ -120,12 +121,12 @@ describe('getAdditionalEntries', () => {
     ).toStrictEqual({
       prependEntries: [ReactRefreshEntry],
       overlayEntries: [
-        `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000&sockProtocol=http`,
+        `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000&sockProtocol=https`,
       ],
     });
   });
 
-  it('should use the devServer port and host as fallbacks if sockPort and sockHost are not defined', () => {
+  it('should use devServer port and host as fallbacks if sockPort and sockHost are not defined', () => {
     expect(
       getAdditionalEntries({
         options: DEFAULT_OPTIONS,
@@ -140,7 +141,7 @@ describe('getAdditionalEntries', () => {
     });
   });
 
-  it('should use the kdevServer sockHost and sockPort options, if they are available, over port and host ', () => {
+  it('should use the devServer sockHost and sockPort options over port and host if they are available', () => {
     expect(
       getAdditionalEntries({
         options: DEFAULT_OPTIONS,
