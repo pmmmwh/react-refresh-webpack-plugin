@@ -19,7 +19,7 @@ const parseQuery = require('./parseQuery');
  */
 function getSocketUrlParts(resourceQuery) {
   const scriptSource = getCurrentScriptSource();
-  const urlParts = url.parse(scriptSource);
+  const urlParts = url.parse(scriptSource || '');
 
   /** @type {string | undefined} */
   let auth;
@@ -85,6 +85,17 @@ function getSocketUrlParts(resourceQuery) {
   // Make sure the protocol from resource query has a trailing colon
   if (parsedQuery.sockProtocol) {
     protocol = parsedQuery.sockProtocol + ':';
+  }
+
+  if (!hostname || !pathname || !port) {
+    throw new Error(
+      [
+        '[React Refresh] Failed to get an URL for the socket connection.',
+        "This usually means that the current executed script doesn't have a `src` attribute set.",
+        'You should either specify the socket path parameters under the `devServer` key in your Webpack config, or use the `overlay` option.',
+        'https://github.com/pmmmwh/react-refresh-webpack-plugin/blob/main/docs/API.md#overlay',
+      ].join('\n')
+    );
   }
 
   return {

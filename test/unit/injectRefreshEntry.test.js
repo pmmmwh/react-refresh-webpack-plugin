@@ -3,15 +3,14 @@ const injectRefreshEntry = require('../../lib/utils/injectRefreshEntry');
 const ErrorOverlayEntry = require.resolve('../../client/ErrorOverlayEntry');
 const ReactRefreshEntry = require.resolve('../../client/ReactRefreshEntry');
 
-const DEFAULT_OPTIONS = {
-  overlay: {
-    entry: ErrorOverlayEntry,
-  },
+const DEFAULT_ENTRIES = {
+  overlayEntries: [ErrorOverlayEntry],
+  prependEntries: [ReactRefreshEntry],
 };
 
 describe('injectRefreshEntry', () => {
   it('should add entries to a string', () => {
-    expect(injectRefreshEntry('test.js', DEFAULT_OPTIONS)).toStrictEqual([
+    expect(injectRefreshEntry('test.js', DEFAULT_ENTRIES)).toStrictEqual([
       ReactRefreshEntry,
       ErrorOverlayEntry,
       'test.js',
@@ -19,7 +18,7 @@ describe('injectRefreshEntry', () => {
   });
 
   it('should add entries to an array', () => {
-    expect(injectRefreshEntry(['test.js'], DEFAULT_OPTIONS)).toStrictEqual([
+    expect(injectRefreshEntry(['test.js'], DEFAULT_ENTRIES)).toStrictEqual([
       ReactRefreshEntry,
       ErrorOverlayEntry,
       'test.js',
@@ -33,7 +32,7 @@ describe('injectRefreshEntry', () => {
           main: 'test.js',
           vendor: ['react', 'react-dom'],
         },
-        DEFAULT_OPTIONS
+        DEFAULT_ENTRIES
       )
     ).toStrictEqual({
       main: [ReactRefreshEntry, ErrorOverlayEntry, 'test.js'],
@@ -54,7 +53,7 @@ describe('injectRefreshEntry', () => {
             },
             vendor: ['react', 'react-dom'],
           },
-          DEFAULT_OPTIONS
+          DEFAULT_ENTRIES
         )
       ).toStrictEqual({
         main: {
@@ -67,7 +66,7 @@ describe('injectRefreshEntry', () => {
   );
 
   it('should add entries to a synchronous function', () => {
-    const returnedEntry = injectRefreshEntry(() => 'test.js', DEFAULT_OPTIONS);
+    const returnedEntry = injectRefreshEntry(() => 'test.js', DEFAULT_ENTRIES);
     expect(typeof returnedEntry).toBe('function');
     expect(returnedEntry()).resolves.toStrictEqual([
       ReactRefreshEntry,
@@ -77,7 +76,7 @@ describe('injectRefreshEntry', () => {
   });
 
   it('should add entries to an asynchronous function', () => {
-    const returnedEntry = injectRefreshEntry(() => Promise.resolve('test.js'), DEFAULT_OPTIONS);
+    const returnedEntry = injectRefreshEntry(() => Promise.resolve('test.js'), DEFAULT_ENTRIES);
     expect(typeof returnedEntry).toBe('function');
     expect(returnedEntry()).resolves.toStrictEqual([
       ReactRefreshEntry,
@@ -92,7 +91,7 @@ describe('injectRefreshEntry', () => {
         main: 'test.js',
         vendor: ['react', 'react-dom'],
       }),
-      DEFAULT_OPTIONS
+      DEFAULT_ENTRIES
     );
     expect(typeof returnedEntry).toBe('function');
     expect(returnedEntry()).resolves.toStrictEqual({
@@ -102,45 +101,11 @@ describe('injectRefreshEntry', () => {
   });
 
   it('should not append overlay entry when unused', () => {
-    expect(injectRefreshEntry('test.js', {})).toStrictEqual([ReactRefreshEntry, 'test.js']);
-  });
-
-  it('should append legacy WDS entry when required', () => {
-    expect(
-      injectRefreshEntry('test.js', {
-        overlay: {
-          entry: ErrorOverlayEntry,
-          useLegacyWDSSockets: true,
-        },
-      })
-    ).toStrictEqual([
-      ReactRefreshEntry,
-      require.resolve('../../client/LegacyWDSSocketEntry'),
-      ErrorOverlayEntry,
-      'test.js',
-    ]);
-  });
-
-  it('should append resource queries to the overlay entry when specified', () => {
-    expect(
-      injectRefreshEntry('test.js', {
-        overlay: {
-          entry: ErrorOverlayEntry,
-          sockHost: 'localhost',
-          sockPath: '/socket',
-          sockPort: '9000',
-          sockProtocol: 'https',
-        },
-      })
-    ).toStrictEqual([
-      ReactRefreshEntry,
-      `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9000&sockProtocol=https`,
-      'test.js',
-    ]);
+    expect(injectRefreshEntry('test.js', {})).toStrictEqual(['test.js']);
   });
 
   it('should append overlay entry for a string after socket-related entries', () => {
-    expect(injectRefreshEntry('webpack-dev-server/client', DEFAULT_OPTIONS)).toStrictEqual([
+    expect(injectRefreshEntry('webpack-dev-server/client', DEFAULT_ENTRIES)).toStrictEqual([
       ReactRefreshEntry,
       'webpack-dev-server/client',
       ErrorOverlayEntry,
@@ -149,7 +114,7 @@ describe('injectRefreshEntry', () => {
 
   it('should append overlay entry for an array after socket-related entries while keeping original relative order', () => {
     expect(
-      injectRefreshEntry(['setup-env.js', 'webpack-dev-server/client', 'test.js'], DEFAULT_OPTIONS)
+      injectRefreshEntry(['setup-env.js', 'webpack-dev-server/client', 'test.js'], DEFAULT_ENTRIES)
     ).toStrictEqual([
       ReactRefreshEntry,
       'setup-env.js',
@@ -160,7 +125,7 @@ describe('injectRefreshEntry', () => {
   });
 
   it('should throw when non-parsable entry is received', () => {
-    expect(() => injectRefreshEntry(1, DEFAULT_OPTIONS)).toThrowErrorMatchingInlineSnapshot(
+    expect(() => injectRefreshEntry(1, DEFAULT_ENTRIES)).toThrowErrorMatchingInlineSnapshot(
       `"[React Refresh] Failed to parse the Webpack \`entry\` object!"`
     );
   });

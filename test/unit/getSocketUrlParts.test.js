@@ -176,6 +176,18 @@ describe('getSocketUrlParts', () => {
     });
   });
 
+  it('should use info from resource query if script source is unavailable', () => {
+    getCurrentScriptSource.mockImplementationOnce(() => null);
+
+    expect(getSocketUrlParts('?sockHost=foo.com&sockPath=/socket&sockPort=9000')).toStrictEqual({
+      auth: undefined,
+      hostname: 'foo.com',
+      pathname: '/socket',
+      port: '9000',
+      protocol: 'http:',
+    });
+  });
+
   it('should use info from resource query when available', () => {
     getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost:8080');
 
@@ -188,5 +200,13 @@ describe('getSocketUrlParts', () => {
       port: '9000',
       protocol: 'https:',
     });
+  });
+
+  it('should throw if script source and resource query are not defined', () => {
+    getCurrentScriptSource.mockImplementationOnce(() => null);
+
+    expect(() => getSocketUrlParts(null)).toThrow(
+      '[React Refresh] Failed to get an URL for the socket connection.'
+    );
   });
 });
