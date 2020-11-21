@@ -1,5 +1,6 @@
 const normalizeOptions = require('../../lib/utils/normalizeOptions');
 
+/** @type {Partial<import('../../types/types').ReactRefreshPluginOptions>} */
 const DEFAULT_OPTIONS = {
   exclude: /node_modules/i,
   include: /\.([jt]sx?|flow)$/i,
@@ -28,7 +29,7 @@ describe('normalizeOptions', () => {
           sockIntegration: 'whm',
           sockPath: '/socket',
           sockPort: 9000,
-          sockProtocol: 'https:',
+          sockProtocol: 'https',
           useLegacyWDSSockets: true,
         },
       })
@@ -43,7 +44,7 @@ describe('normalizeOptions', () => {
         sockIntegration: 'whm',
         sockPath: '/socket',
         sockPort: 9000,
-        sockProtocol: 'https:',
+        sockProtocol: 'https',
         useLegacyWDSSockets: true,
       },
     });
