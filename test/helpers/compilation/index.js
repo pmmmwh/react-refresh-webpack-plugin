@@ -25,9 +25,9 @@ const OUTPUT_PATH = path.join(__dirname, 'dist');
  * Gets a Webpack compiler instance to test loader operations.
  * @param {string} fixtureFile
  * @param {Object} [options]
- * @param {boolean} [options.devtool]
+ * @param {boolean | string} [options.devtool]
  * @param {*} [options.prevSourceMap]
- * @returns {CompilationSession}
+ * @returns {Promise<CompilationSession>}
  */
 async function getCompilation(fixtureFile, options = {}) {
   const compiler = webpack({
@@ -113,9 +113,12 @@ async function getCompilation(fixtureFile, options = {}) {
     },
     /** @type {CompilationModule} */
     get module() {
-      const parsed = compilationStats
-        .toJson({ source: true })
-        .modules.find(({ name }) => name === fixtureFile);
+      const compilationModules = compilationStats.toJson({ source: true }).modules;
+      if (!compilationModules) {
+        throw new Error('Module compilation stats not found!');
+      }
+
+      const parsed = compilationModules.find(({ name }) => name === fixtureFile);
       if (!parsed) {
         throw new Error('Fixture module is not found in compilation stats!');
       }

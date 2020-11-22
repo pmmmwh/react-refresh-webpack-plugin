@@ -20,10 +20,14 @@ function getPackageExecutable(packageName) {
 }
 
 /**
- * @param {import('child_process').ChildProcess} instance
+ * @param {import('child_process').ChildProcess | void} instance
  * @returns {void}
  */
 function killTestProcess(instance) {
+  if (!instance) {
+    return;
+  }
+
   try {
     process.kill(instance.pid);
   } catch (error) {

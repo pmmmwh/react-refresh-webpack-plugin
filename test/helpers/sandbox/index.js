@@ -87,12 +87,15 @@ async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
   // TODO: Add handling for webpack-hot-middleware and webpack-plugin-serve
   const app = await spawnFn(port, sandboxDir);
+  /** @type {import('puppeteer').Page} */
   const page = await browser.newPage();
 
   await page.goto(`http://localhost:${port}/`);
 
   let didFullRefresh = false;
+  /** @type {string[]} */
   let errors = [];
+  /** @type {string[]} */
   let logs = [];
 
   // Expose logging and hot callbacks to the page
@@ -192,6 +195,10 @@ async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
             // Frame Navigate and Hot Success events have to be exclusive,
             // so we remove the other listener when one of them is triggered.
 
+            /**
+             * @param {import('puppeteer').Frame} frame
+             * @returns {void}
+             */
             const onFrameNavigate = (frame) => {
               if (frame === page.mainFrame()) {
                 page.off('hotSuccess', onHotSuccess);
@@ -201,6 +208,9 @@ async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
               }
             };
 
+            /**
+             * @returns {void}
+             */
             const onHotSuccess = () => {
               page.off('framenavigated', onFrameNavigate);
               clearTimeout(hmrTimeout);
