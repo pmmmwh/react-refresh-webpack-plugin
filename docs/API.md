@@ -2,8 +2,8 @@
 
 This plugin accepts a few options to tweak its behaviour.
 
-In more simple scenarios, you probably wouldn't have to reach for them -
-they exist specifically to enable integration in advance/complicated setups.
+In usual scenarios, you probably wouldn't have to reach for them -
+they exist specifically to enable integration in more advanced/complicated setups.
 
 ## `ReactRefreshPluginOptions`
 
@@ -12,6 +12,7 @@ interface ReactRefreshPluginOptions {
   forceEnable?: boolean;
   exclude?: string | RegExp | Array<string | RegExp>;
   include?: string | RegExp | Array<string | RegExp>;
+  library?: string;
   overlay?: boolean | ErrorOverlayOptions;
 }
 ```
@@ -48,6 +49,17 @@ Default: `/\.([jt]sx?|flow)$/i`
 
 Include files to be processed by the plugin.
 This is similar to the `module.rules` option in Webpack.
+
+### `library`
+
+Type: `string`
+
+Default: `''` or Webpack's `output.library` if set
+
+Sets a namespace for the React Refresh runtime.
+This is similar to the `output.library` option in Webpack.
+
+It is most useful when multiple instances of React Refresh is running together simultaneously.
 
 ### `overlay`
 
