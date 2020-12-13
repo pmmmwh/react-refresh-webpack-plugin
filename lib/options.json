@@ -50,6 +50,7 @@
         { "$ref": "#/definitions/MatchConditions" }
       ]
     },
+    "library": { "type": "string" },
     "overlay": {
       "anyOf": [{ "type": "boolean" }, { "$ref": "#/definitions/OverlayOptions" }]
     }
