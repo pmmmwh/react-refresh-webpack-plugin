@@ -22,6 +22,7 @@ describe('normalizeOptions', () => {
         exclude: 'exclude',
         forceEnable: true,
         include: 'include',
+        library: 'library',
         overlay: {
           entry: 'entry',
           module: 'overlay',
@@ -37,6 +38,7 @@ describe('normalizeOptions', () => {
       exclude: 'exclude',
       forceEnable: true,
       include: 'include',
+      library: 'library',
       overlay: {
         entry: 'entry',
         module: 'overlay',
