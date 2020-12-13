@@ -242,3 +242,30 @@ To make fast refresh work properly, make sure your Webpack configuration comply 
      },
    };
    ```
+
+## Running multiple instances of React Refresh simultaneously
+
+If you are running on a micro-frontend architecture (e.g. Module Federation in Webpack 5),
+you should set the `library` output to ensure proper namespacing in the runtime injection script.
+
+**Using Webpack's `output.library` option**
+
+```js
+module.exports = {
+  output: {
+    library: 'YourLibrary',
+  },
+};
+```
+
+**Using the plugin's `library` option**
+
+```js
+module.exports = {
+  plugins: [
+    new ReactRefreshPlugin({
+      library: 'YourLibrary',
+    }),
+  ],
+};
+```

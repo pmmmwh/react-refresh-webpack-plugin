@@ -112,6 +112,21 @@ describe('validateOptions', () => {
     `);
   });
 
+  it('should accept "library" when it is a string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({ library: 'library' });
+    }).not.toThrow();
+  });
+
+  it('should reject "library" when it is not a string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({ library: [] });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+       - options.library should be a string."
+    `);
+  });
+
   it('should accept "overlay" when it is true', () => {
     expect(() => {
       new ReactRefreshPlugin({ overlay: true });
@@ -442,7 +457,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options has an unknown property 'unknown'. These properties are valid:
-         object { exclude?, forceEnable?, include?, overlay? }"
+         object { exclude?, forceEnable?, include?, library?, overlay? }"
     `);
   });
 });
