@@ -436,9 +436,6 @@ describe('loader', () => {
         /*!**********************!*\\\\
           !*** ./index.cjs.js ***!
           \\\\**********************/
-        /*! unknown exports (runtime-defined) */
-        /*! runtime requirements: module, __webpack_require__, module.id */
-        /*! CommonJS bailout: module.exports is used directly at 4:0-14 */
         /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
         $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
@@ -601,10 +598,6 @@ describe('loader', () => {
         /*!**********************!*\\\\
           !*** ./index.esm.js ***!
           \\\\**********************/
-        /*! namespace exports */
-        /*! export default [provided] [no usage info] [missing usage info prevents renaming] */
-        /*! other exports [not provided] [no usage info] */
-        /*! runtime requirements: __webpack_exports__, __webpack_require__.r, __webpack_require__, module.id, module, __webpack_require__.d, __webpack_require__.* */
         /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
         \\"use strict\\";
@@ -702,7 +695,7 @@ describe('loader', () => {
             \\"webpack:///./index.cjs.js\\"
           ],
           \\"names\\": [],
-          \\"mappings\\": \\";;;;;;;;;;;;;;AAAA\\",
+          \\"mappings\\": \\";;;;;;;;;;;AAAA\\",
           \\"file\\": \\"main.js\\",
           \\"sourcesContent\\": [
             \\"module.exports = 'Test';\\\\n\\"
