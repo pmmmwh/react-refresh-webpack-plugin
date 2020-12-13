@@ -36,7 +36,7 @@ export type ErrorOverlayOptions = {
    */
   sockProtocol?: 'http' | 'https' | 'ws' | 'wss' | undefined;
   /**
-   * Uses a custom SocketJS implementation for older versions of webpack-dev-server.
+   * Uses a custom SocketJS implementation for older versions of WDS.
    */
   useLegacyWDSSockets?: boolean | undefined;
 };
@@ -58,7 +58,7 @@ export type NormalizedErrorOverlayOptions = {
    */
   sockProtocol?: 'http' | 'https' | 'ws' | 'wss' | undefined;
   /**
-   * Uses a custom SocketJS implementation for older versions of webpack-dev-server.
+   * Uses a custom SocketJS implementation for older versions of WDS.
    */
   useLegacyWDSSockets?: boolean | undefined;
   /**
@@ -92,6 +92,10 @@ export type ReactRefreshPluginOptions = {
    */
   include?: string | RegExp | (string | RegExp)[] | undefined;
   /**
+   * Name of the library bundle.
+   */
+  library?: string | undefined;
+  /**
    * Modifies how the error overlay integration works in the plugin.
    */
   overlay?: boolean | ErrorOverlayOptions | undefined;
@@ -109,6 +113,10 @@ export type NormalizedPluginOptions = Pick<
      */
     forceEnable?: boolean | undefined;
     /**
+     * Name of the library bundle.
+     */
+    library?: string | undefined;
+    /**
      * Files to explicitly include for processing.
      */
     include: string | RegExp | Array<string | RegExp>;
@@ -117,6 +125,6 @@ export type NormalizedPluginOptions = Pick<
      */
     exclude: string | RegExp | Array<string | RegExp>;
   },
-  'include' | 'exclude' | 'forceEnable'
+  'include' | 'exclude' | 'forceEnable' | 'library'
 > &
   OverlayOverrides;
