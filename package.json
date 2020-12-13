@@ -51,8 +51,8 @@
     "ansi-html": "^0.0.7",
     "error-stack-parser": "^2.0.6",
     "html-entities": "^1.2.1",
-    "native-url": "^0.2.6",
-    "schema-utils": "^2.6.5",
+    "native-url": "^0.3.4",
+    "schema-utils": "^3.0.0",
     "source-map": "^0.7.3"
   },
   "devDependencies": {
@@ -127,6 +127,6 @@
     }
   },
   "engines": {
-    "node": ">= 10.x"
+    "node": ">= 10.13"
   }
 }
