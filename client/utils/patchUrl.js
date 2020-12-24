@@ -1,4 +1,4 @@
-/* global __react_refresh_url_polyfill__ */
+/* global __react_refresh_polyfill_url__ */
 
 /**
  * @typedef {Object} UrlAPIs
@@ -16,13 +16,13 @@ function runWithURLPatch(callback) {
   let __originalURLSearchParams;
 
   // Polyfill the DOM URL and URLSearchParams constructors
-  if (__react_refresh_url_polyfill__ || !window.URL) {
+  if (__react_refresh_polyfill_url__ || !window.URL) {
     const SafeURL = require('core-js-pure/web/url');
 
     __originalURL = window.URL;
     window.URL = SafeURL;
   }
-  if (__react_refresh_url_polyfill__ || !window.URLSearchParams) {
+  if (__react_refresh_polyfill_url__ || !window.URLSearchParams) {
     const SafeURLSearchParams = require('core-js-pure/web/url-search-params');
 
     __originalURLSearchParams = window.URLSearchParams;
