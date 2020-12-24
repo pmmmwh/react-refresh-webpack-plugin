@@ -35,7 +35,7 @@
         "useURLPolyfill": { "type": "boolean" }
       }
     },
-    "Path": { "type": "string", "absolutePath": true }
+    "Path": { "type": "string" }
   },
   "properties": {
     "exclude": {

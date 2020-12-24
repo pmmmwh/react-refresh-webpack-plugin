@@ -13,19 +13,16 @@ describe('validateOptions', () => {
     }).not.toThrow();
   });
 
-  it('should accept "exclude" when it is an array of RegExp or absolute path strings', () => {
+  it('should accept "exclude" when it is a string', () => {
     expect(() => {
-      new ReactRefreshPlugin({ exclude: [/test/, '/test'] });
+      new ReactRefreshPlugin({ exclude: 'test' });
     }).not.toThrow();
   });
 
-  it('should reject "exclude" when it is a string', () => {
+  it('should accept "exclude" when it is an array of RegExp or strings', () => {
     expect(() => {
-      new ReactRefreshPlugin({ exclude: 'test' });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.exclude: The provided value \\"test\\" is not an absolute path!"
-    `);
+      new ReactRefreshPlugin({ exclude: [/test/, 'test'] });
+    }).not.toThrow();
   });
 
   it('should reject "exclude" when it is an object', () => {
@@ -79,19 +76,16 @@ describe('validateOptions', () => {
     }).not.toThrow();
   });
 
-  it('should accept "include" when it is an array of RegExp or absolute path strings', () => {
+  it('should accept "include" when it is a string', () => {
     expect(() => {
-      new ReactRefreshPlugin({ include: [/test/, '/test'] });
+      new ReactRefreshPlugin({ include: 'test' });
     }).not.toThrow();
   });
 
-  it('should reject "include" when it is a string', () => {
+  it('should accept "include" when it is an array of RegExp or strings', () => {
     expect(() => {
-      new ReactRefreshPlugin({ include: 'test' });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.include: The provided value \\"test\\" is not an absolute path!"
-    `);
+      new ReactRefreshPlugin({ include: [/test/, 'test'] });
+    }).not.toThrow();
   });
 
   it('should reject "include" when it is an object', () => {
@@ -167,23 +161,20 @@ describe('validateOptions', () => {
     }).not.toThrow();
   });
 
+  it('should accept "overlay.entry" when it is a string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { entry: 'test' },
+      });
+    }).not.toThrow();
+  });
+
   it('should accept "overlay.entry" when it is false', () => {
     expect(() => {
       new ReactRefreshPlugin({
         overlay: { entry: false },
       });
     }).not.toThrow();
-  });
-
-  it('should reject "overlay.entry" when it is a string', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { entry: 'test' },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.entry: The provided value \\"test\\" is not an absolute path!"
-    `);
   });
 
   it('should reject "overlay.entry" when it is not a string nor false', () => {
@@ -212,23 +203,20 @@ describe('validateOptions', () => {
     }).not.toThrow();
   });
 
+  it('should accept "overlay.module" when it is a string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { module: 'test' },
+      });
+    }).not.toThrow();
+  });
+
   it('should accept "overlay.module" when it is false', () => {
     expect(() => {
       new ReactRefreshPlugin({
         overlay: { module: false },
       });
     }).not.toThrow();
-  });
-
-  it('should reject "overlay.module" when it is a string', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { module: 'test' },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.module: The provided value \\"test\\" is not an absolute path!"
-    `);
   });
 
   it('should reject "overlay.module" when it is not a string nor false', () => {
@@ -281,23 +269,20 @@ describe('validateOptions', () => {
     }).not.toThrow();
   });
 
+  it('should accept "overlay.sockIntegration" when it is a string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({
+        overlay: { sockIntegration: 'test' },
+      });
+    }).not.toThrow();
+  });
+
   it('should accept "overlay.sockIntegration" when it is false', () => {
     expect(() => {
       new ReactRefreshPlugin({
         overlay: { sockIntegration: false },
       });
     }).not.toThrow();
-  });
-
-  it('should reject "overlay.sockIntegration" when it is a string', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockIntegration: 'test' },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.sockIntegration: The provided value \\"test\\" is not an absolute path!"
-    `);
   });
 
   it('should reject "overlay.sockIntegration" when it is not a string nor false', () => {
