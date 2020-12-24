@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "ansi-html": "^0.0.7",
+    "core-js-pure": "^3.8.1",
     "error-stack-parser": "^2.0.6",
     "html-entities": "^1.2.1",
     "native-url": "^0.3.4",
@@ -66,7 +67,6 @@
     "@types/puppeteer": "^5.4.0",
     "@types/webpack": "^4.41.22",
     "babel-loader": "^8.1.0",
-    "core-js-pure": "^3.8.1",
     "cross-spawn": "^7.0.3",
     "eslint": "^7.9.0",
     "eslint-config-prettier": "^7.0.0",
@@ -99,7 +99,6 @@
   },
   "peerDependencies": {
     "@types/webpack": "4.x",
-    "core-js-pure": "^3.8.1",
     "react-refresh": ">=0.8.3 <0.10.0",
     "sockjs-client": "^1.4.0",
     "type-fest": ">=0.13.1 <1.0.0",
@@ -110,9 +109,6 @@
   },
   "peerDependenciesMeta": {
     "@types/webpack": {
-      "optional": true
-    },
-    "core-js-pure": {
       "optional": true
     },
     "sockjs-client": {

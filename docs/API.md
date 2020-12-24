@@ -242,17 +242,4 @@ Type: `boolean`
 **This is relevant for `webpack-dev-server` only.**
 
 Uses a polyfill for the DOM URL API to maintain compatibility in IE11.
-This is only applied to the plugins' code.
-
-You will also need to install `core-js-pure` as a peer dependency with one of the commands below:
-
-```sh
-# if you prefer npm
-npm install -D core-js-pure
-
-# if you prefer yarn
-yarn add -D core-js-pure
-
-# if you prefer pnpm
-pnpm add -D core-js-pure
-```
+This is only applied to code from the plugin.
