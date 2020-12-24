@@ -84,10 +84,6 @@ export type NormalizedErrorOverlayOptions = {
 };
 export type ReactRefreshPluginOptions = {
   /**
-   * Disables detection of react-refresh's Babel plugin (Deprecated since v0.3.0).
-   */
-  disableRefreshCheck?: boolean | undefined;
-  /**
    * Files to explicitly exclude from processing.
    */
   exclude?: string | RegExp | (string | RegExp)[] | undefined;
