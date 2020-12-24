@@ -96,6 +96,7 @@ interface ErrorOverlayOptions {
   sockPort?: number;
   sockProtocol?: 'http' | 'https' | 'ws' | 'wss';
   useLegacyWDSSockets?: boolean;
+  useURLPolyfill?: boolean;
 }
 ```
 
@@ -200,7 +201,7 @@ Useful if you set `devServer.sockPath` to something other than `/sockjs-node`.
 
 ### `sockProtocol`
 
-Default: parsed from current url
+Default: Parsed from current URL
 
 Type: `http`, `https`, `ws` or `wss`
 
@@ -230,4 +231,28 @@ yarn add -D sockjs-client@1.3.0
 
 # if you prefer pnpm
 pnpm add -D sockjs-client@1.3.0
+```
+
+#### `useURLPolyfill`
+
+Default: Detected from availability in the global scope
+
+Type: `boolean`
+
+**This is relevant for `webpack-dev-server` only.**
+
+Uses a polyfill for the DOM URL API to maintain compatibility in IE11.
+This is only applied to the plugins' code.
+
+You will also need to install `core-js-pure` as a peer dependency with one of the commands below:
+
+```sh
+# if you prefer npm
+npm install -D core-js-pure
+
+# if you prefer yarn
+yarn add -D core-js-pure
+
+# if you prefer pnpm
+pnpm add -D core-js-pure
 ```

@@ -17,30 +17,27 @@ That in turn breaks mechanisms the plugin depends on to deliver the experience.
 
 ## Compatibility with IE11 (`webpack-dev-server` only)
 
-If you need to develop on IE11, you will need to polyfill the DOM URL API.
-This can be done by adding the following before any of your code in the main entry (either one is fine):
+Our socket implementation depends on the DOM URL API,
+and as a consequence, a polyfill is needed when running in IE11.
 
-**Using `url-polyfill`**
+The plugin by default will detect whether the `URL` and `URLSearchParams` constructors are available on the global scope,
+and will fallback to a pony-fill approach (polyfill without global scope pollution) when it is not.
 
-```js
-import 'url-polyfill';
-```
-
-**Using `core-js`**
-
-```js
-import 'core-js/features/url';
-import 'core-js/features/url-search-params';
-```
-
-**Using `react-app-polyfill`**
+If for some reason you need to force this behaviour,
+e.g. working on browsers with a broken URL implementation,
+you can use the `overlay.useURLPolyfill` option:
 
 ```js
-import 'react-app-polyfill/ie11';
-import 'react-app-polyfill/stable';
+module.exports = {
+  plugins: [
+    new ReactRefreshPlugin({
+      overlay: {
+        useURLPolyfill: true,
+      },
+    }),
+  ],
+};
 ```
-
-Note that `react-app-polyfill` also polyfills other APIs that are not available on IE11 (potentially expensive).
 
 ## Usage with Indirection (like Workers and JS Templates)
 
