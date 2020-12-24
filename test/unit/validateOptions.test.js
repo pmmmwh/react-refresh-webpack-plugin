@@ -151,11 +151,11 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }
          Details:
           * options.overlay should be a boolean.
           * options.overlay should be an object:
-            object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }"
+            object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }"
     `);
   });
 
@@ -194,7 +194,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }
          Details:
           * options.overlay.entry should be one of these:
             false | string
@@ -239,7 +239,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }
          Details:
           * options.overlay.module should be one of these:
             false | string
@@ -308,7 +308,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }
          Details:
           * options.overlay.sockIntegration should be one of these:
             false | \\"wds\\" | \\"whm\\" | \\"wps\\" | string

@@ -32,6 +32,7 @@ describe('normalizeOptions', () => {
           sockPort: 9000,
           sockProtocol: 'https',
           useLegacyWDSSockets: true,
+          useURLPolyfill: true,
         },
       })
     ).toStrictEqual({
@@ -48,6 +49,7 @@ describe('normalizeOptions', () => {
         sockPort: 9000,
         sockProtocol: 'https',
         useLegacyWDSSockets: true,
+        useURLPolyfill: true,
       },
     });
   });

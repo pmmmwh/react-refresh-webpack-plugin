@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "ansi-html": "^0.0.7",
+    "core-js-pure": "^3.8.1",
     "error-stack-parser": "^2.0.6",
     "html-entities": "^1.2.1",
     "native-url": "^0.3.4",

@@ -39,6 +39,10 @@ export type ErrorOverlayOptions = {
    * Uses a custom SocketJS implementation for older versions of WDS.
    */
   useLegacyWDSSockets?: boolean | undefined;
+  /**
+   * Uses a polyfill for the DOM URL API (WDS only).
+   */
+  useURLPolyfill?: boolean | undefined;
 };
 export type NormalizedErrorOverlayOptions = {
   /**
@@ -61,6 +65,10 @@ export type NormalizedErrorOverlayOptions = {
    * Uses a custom SocketJS implementation for older versions of WDS.
    */
   useLegacyWDSSockets?: boolean | undefined;
+  /**
+   * Uses a polyfill for the DOM URL API (WDS only).
+   */
+  useURLPolyfill?: boolean | undefined;
   /**
    * The error overlay module to use.
    */
@@ -106,25 +114,21 @@ export type OverlayOverrides = {
    */
   overlay: false | NormalizedErrorOverlayOptions;
 };
-export type NormalizedPluginOptions = Pick<
-  {
-    /**
-     * Enables the plugin forcefully.
-     */
-    forceEnable?: boolean | undefined;
-    /**
-     * Name of the library bundle.
-     */
-    library?: string | undefined;
-    /**
-     * Files to explicitly include for processing.
-     */
-    include: string | RegExp | Array<string | RegExp>;
-    /**
-     * Files to explicitly exclude from processing.
-     */
-    exclude: string | RegExp | Array<string | RegExp>;
-  },
-  'include' | 'exclude' | 'forceEnable' | 'library'
-> &
-  OverlayOverrides;
+export type NormalizedPluginOptions = {
+  /**
+   * Enables the plugin forcefully.
+   */
+  forceEnable?: boolean | undefined;
+  /**
+   * Name of the library bundle.
+   */
+  library?: string | undefined;
+  /**
+   * Files to explicitly include for processing.
+   */
+  include: string | RegExp | Array<string | RegExp>;
+  /**
+   * Files to explicitly exclude from processing.
+   */
+  exclude: string | RegExp | Array<string | RegExp>;
+} & OverlayOverrides;
