@@ -269,3 +269,21 @@ module.exports = {
   ],
 };
 ```
+
+## Webpack 5 compatibility issues with `webpack-dev-server@3`
+
+In `webpack-dev-server@3`,
+there is a bug causing it to mis-judge the runtime environment when the Webpack 5 `browserslist` target is used.
+
+It then fallbacks to thinking a non-browser target is being used,
+in turn skipping injection of the HMR runtime,
+and thus breaking downstream integrations like this plugin.
+
+To overcome this,
+you can conditionally apply the `browserslist` only in production modes in your Webpack configuration:
+
+```js
+module.exports = {
+  target: process.env.NODE_ENV !== 'production' ? 'web' : 'browserslist',
+};
+```

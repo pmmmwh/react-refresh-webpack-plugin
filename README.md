@@ -49,7 +49,7 @@ pnpm add -D @pmmmwh/react-refresh-webpack-plugin react-refresh
 ```
 
 The plugin depends on a package from the React team - `react-refresh`,
-so you will have to install and configure it separately as demonstrated in the [Usage](#usage) section, too.
+so you will have to install and configure it separately as demonstrated in the [Usage](#usage) section.
 
 ### TypeScript
 
