@@ -245,6 +245,16 @@ To make fast refresh work properly, make sure your Webpack configuration comply 
 If you are running on a micro-frontend architecture (e.g. Module Federation in Webpack 5),
 you should set the `library` output to ensure proper namespacing in the runtime injection script.
 
+**Using Webpack's `output.uniqueName` option (Webpack 5 only)**
+
+```js
+module.exports = {
+  output: {
+    uniqueName: 'YourLibrary',
+  },
+};
+```
+
 **Using Webpack's `output.library` option**
 
 ```js

@@ -54,10 +54,10 @@ This is similar to the `module.rules` option in Webpack.
 
 Type: `string`
 
-Default: `''` or Webpack's `output.library` if set
+Default: `''`, or `output.uniqueName` in Webpack 5, or `output.library` for both Webpack 4/5 if set
 
 Sets a namespace for the React Refresh runtime.
-This is similar to the `output.library` option in Webpack.
+This is similar to the `output.uniqueName` in Webpack 5 or the `output.library` option in Webpack 4/5.
 
 It is most useful when multiple instances of React Refresh is running together simultaneously.
 
