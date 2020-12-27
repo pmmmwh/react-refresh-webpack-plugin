@@ -14,7 +14,7 @@ function initWDSSocket(messageHandler, resourceQuery) {
     const SocketClient = __webpack_dev_server_client__;
 
     const urlParts = getSocketUrlParts(resourceQuery);
-    
+
     const connection = new SocketClient(formatUrl(urlParts));
 
     connection.onMessage(function onSocketMessage(data) {
