@@ -1,7 +1,7 @@
 /* global __webpack_dev_server_client__ */
 
-const url = require('native-url');
 const getSocketUrlParts = require('./utils/getSocketUrlParts');
+const formatUrl = require('./utils/formatUrl');
 
 /**
  * Initializes a socket server for HMR for webpack-dev-server.
@@ -14,7 +14,8 @@ function initWDSSocket(messageHandler, resourceQuery) {
     const SocketClient = __webpack_dev_server_client__;
 
     const urlParts = getSocketUrlParts(resourceQuery);
-    const connection = new SocketClient(url.format(urlParts));
+    
+    const connection = new SocketClient(formatUrl(urlParts));
 
     connection.onMessage(function onSocketMessage(data) {
       const message = JSON.parse(data);
