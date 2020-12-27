@@ -1,6 +1,6 @@
 const url = require('native-url');
 /**
- * @param {import('./getSocketUrlParts/SocketUrlParts')} urlParts
+ * @param {import('./getSocketUrlParts').SocketUrlParts} urlParts
  * @returns {string}
  */
 module.exports = function formatUrl(urlParts) {
