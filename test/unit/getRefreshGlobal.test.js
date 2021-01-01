@@ -13,16 +13,16 @@ describe('getRefreshGlobal', () => {
     const refreshGlobalTemplate = getRefreshGlobal();
     expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
       "__webpack_require__.$Refresh$ = {
-      	init: function() {
-      		__webpack_require__.$Refresh$.cleanup = function() { return undefined; };
-      		__webpack_require__.$Refresh$.register = function() { return undefined; };
-      		__webpack_require__.$Refresh$.runtime = {};
-      		__webpack_require__.$Refresh$.signature = function() { return function(type) { return type; }; };
-      	},
       	setup: function(currentModuleId) {
+      		var prevRuntime = __webpack_require__.$Refresh$.runtime;
+      		var prevRegister = __webpack_require__.$Refresh$.register;
+      		var prevSignature = __webpack_require__.$Refresh$.signature;
       		var prevCleanup = __webpack_require__.$Refresh$.cleanup;
-      		var prevReg = __webpack_require__.$Refresh$.register;
-      		var prevSig = __webpack_require__.$Refresh$.signature;
+
+      		__webpack_require__.$Refresh$.runtime = {
+      			createSignatureFunctionForTransform: function() { return function(type) { return type; }; },
+      			register: function() { return undefined; }
+      		};
 
       		__webpack_require__.$Refresh$.register = function(type, id) {
       			var typeId = currentModuleId + \\" \\" + id;
@@ -33,12 +33,13 @@ describe('getRefreshGlobal', () => {
 
       		__webpack_require__.$Refresh$.cleanup = function(cleanupModuleId) {
       			if (currentModuleId === cleanupModuleId) {
-      				__webpack_require__.$Refresh$.register = prevReg;
-      				__webpack_require__.$Refresh$.signature = prevSig;
+      				__webpack_require__.$Refresh$.runtime = prevRuntime;
+      				__webpack_require__.$Refresh$.register = prevRegister;
+      				__webpack_require__.$Refresh$.signature = prevSignature;
       				__webpack_require__.$Refresh$.cleanup = prevCleanup;
       			}
       		}
-      	},
+      	}
       };"
     `);
     expect(() => {
@@ -47,12 +48,14 @@ describe('getRefreshGlobal', () => {
 
     const refreshGlobal = global.__webpack_require__.$Refresh$;
     expect(() => {
-      refreshGlobal.init();
+      refreshGlobal.setup();
     }).not.toThrow();
+    expect(typeof refreshGlobal.runtime).toBe('object');
+    expect(typeof refreshGlobal.runtime.createSignatureFunctionForTransform).toBe('function');
+    expect(typeof refreshGlobal.runtime.register).toBe('function');
     expect(typeof refreshGlobal.cleanup).toBe('function');
     expect(typeof refreshGlobal.register).toBe('function');
     expect(typeof refreshGlobal.signature).toBe('function');
-    expect(typeof refreshGlobal.runtime).toBe('object');
   });
 
   it.skipIf(
@@ -65,16 +68,16 @@ describe('getRefreshGlobal', () => {
       );
       expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
         "__webpack_require__.$Refresh$ = {
-        	init: () => {
-        		__webpack_require__.$Refresh$.cleanup = () => undefined;
-        		__webpack_require__.$Refresh$.register = () => undefined;
-        		__webpack_require__.$Refresh$.runtime = {};
-        		__webpack_require__.$Refresh$.signature = () => (type) => type;
-        	},
         	setup: (currentModuleId) => {
+        		const prevRuntime = __webpack_require__.$Refresh$.runtime;
+        		const prevRegister = __webpack_require__.$Refresh$.register;
+        		const prevSignature = __webpack_require__.$Refresh$.signature;
         		const prevCleanup = __webpack_require__.$Refresh$.cleanup;
-        		const prevReg = __webpack_require__.$Refresh$.register;
-        		const prevSig = __webpack_require__.$Refresh$.signature;
+
+        		__webpack_require__.$Refresh$.runtime = {
+        			createSignatureFunctionForTransform: () => (type) => type,
+        			register: () => undefined
+        		};
 
         		__webpack_require__.$Refresh$.register = (type, id) => {
         			const typeId = currentModuleId + \\" \\" + id;
@@ -85,12 +88,13 @@ describe('getRefreshGlobal', () => {
 
         		__webpack_require__.$Refresh$.cleanup = (cleanupModuleId) => {
         			if (currentModuleId === cleanupModuleId) {
-        				__webpack_require__.$Refresh$.register = prevReg;
-        				__webpack_require__.$Refresh$.signature = prevSig;
+        				__webpack_require__.$Refresh$.runtime = prevRuntime;
+        				__webpack_require__.$Refresh$.register = prevRegister;
+        				__webpack_require__.$Refresh$.signature = prevSignature;
         				__webpack_require__.$Refresh$.cleanup = prevCleanup;
         			}
         		}
-        	},
+        	}
         };"
       `);
       expect(() => {
@@ -99,12 +103,14 @@ describe('getRefreshGlobal', () => {
 
       const refreshGlobal = global.__webpack_require__.$Refresh$;
       expect(() => {
-        refreshGlobal.init();
+        refreshGlobal.setup();
       }).not.toThrow();
+      expect(typeof refreshGlobal.runtime).toBe('object');
+      expect(typeof refreshGlobal.runtime.createSignatureFunctionForTransform).toBe('function');
+      expect(typeof refreshGlobal.runtime.register).toBe('function');
       expect(typeof refreshGlobal.cleanup).toBe('function');
       expect(typeof refreshGlobal.register).toBe('function');
       expect(typeof refreshGlobal.signature).toBe('function');
-      expect(typeof refreshGlobal.runtime).toBe('object');
     }
   );
 });
