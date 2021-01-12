@@ -58,7 +58,7 @@ In the entry of your indirect code path (e.g. some `index.js`), add the followin
 
 ```js
 self.$RefreshReg$ = () => {};
-self.$RefreshSig$$ = () => () => {};
+self.$RefreshSig$ = () => () => {};
 ```
 
 This basically acts as a "polyfill" for helpers expected by `react-refresh/babel`, so the worker can run properly.
