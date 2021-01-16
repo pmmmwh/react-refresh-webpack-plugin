@@ -122,6 +122,8 @@ module.exports = {
 
 You need to install [react-refresh-typescript](https://github.com/Jack-Works/react-refresh-transformer/tree/main/typescript) and your TypeScript must be at least 4.0.
 
+Emit module must be `ESModule` not `CommonJS`. You can overwrite it in `ts-loader` and still use `CommonJS` in your tsconfig file.
+
 > ⚠ This package is maintained by the community not by Facebook.
 
 ```sh
@@ -138,7 +140,7 @@ pnpm add -D react-refresh-typescript
 ```js
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const webpack = require('webpack');
-const ReactRefreshTypeScript = require('react-refresh-typescript').default;
+const ReactRefreshTypeScript = require('react-refresh-typescript');
 // ... your other imports
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
