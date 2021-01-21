@@ -16,8 +16,8 @@ function initWHMEventSource(messageHandler) {
   client.useCustomOverlay({
     showProblems: function showProblems(type, data) {
       const error = {
-        type,
-        data,
+        data: data,
+        type: type,
       };
 
       messageHandler(error);
