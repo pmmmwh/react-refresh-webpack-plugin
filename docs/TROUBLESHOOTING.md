@@ -39,9 +39,9 @@ module.exports = {
 };
 ```
 
-## Usage with Indirection (like Workers and JS Templates)
+## Usage with Indirection (like Workers, JS Templates)
 
-If you share the Babel config for files in an indirect code path (e.g. Web Workers, JS Templates with partial pre-render) and all your other source files, you might experience this error:
+If you share the Babel config for files in an indirect code path (e.g. Web Workers, JS Templates with partial pre-render, Electron Main process) and all your other source files, you might experience this error:
 
 ```
 Uncaught ReferenceError: $RefreshReg$ is not defined
