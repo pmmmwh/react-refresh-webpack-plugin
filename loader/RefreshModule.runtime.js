@@ -79,7 +79,7 @@ module.exports = function () {
         }
       }
     } else {
-      if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+      if (isHotUpdate) {
         module.hot.invalidate();
       }
     }
