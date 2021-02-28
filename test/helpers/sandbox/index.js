@@ -10,10 +10,12 @@ jest.setTimeout(1000 * 60 * 5);
 
 // Setup a global "queue" of cleanup handlers to allow auto-teardown of tests,
 // even when they did not run the cleanup function.
-/** @type {Set<function(): Promise<void>>} */
-const cleanupHandlers = new Set();
+/** @type {Map<string, function(): Promise<void>>} */
+const cleanupHandlers = new Map();
 afterEach(async () => {
-  await Promise.all([...cleanupHandlers].map((callback) => callback()));
+  for (const [, callback] of cleanupHandlers) {
+    await callback();
+  }
 });
 
 /**
@@ -137,7 +139,7 @@ async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
       }
 
       // Remove current cleanup handler from the global queue since it has been called
-      cleanupHandlers.delete(cleanupSandbox);
+      cleanupHandlers.delete(id);
     } catch (e) {
       // Do nothing
     }
@@ -145,7 +147,7 @@ async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
 
   // Cache the cleanup handler for global cleanup
   // This is done in case tests fail and async handlers are kept alive
-  cleanupHandlers.add(cleanupSandbox);
+  cleanupHandlers.set(id, cleanupSandbox);
 
   return [
     {
