@@ -1,5 +1,5 @@
 /* eslint-disable no-global-assign, no-unused-vars */
-/* global $RefreshRuntime$, $RefreshSetup$ */
+/* global $RefreshRuntime$ */
 
 /**
  * Code prepended to each JS-like module to setup react-refresh globals.
@@ -10,5 +10,4 @@
  */
 module.exports = function () {
   $RefreshRuntime$ = require('$RefreshRuntimePath$');
-  $RefreshSetup$(module.id);
 };

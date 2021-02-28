@@ -9,7 +9,6 @@ describe('loader', () => {
 
       expect(parsed).toMatchInlineSnapshot(`
         "$RefreshRuntime$ = require('react-refresh/runtime');
-        $RefreshSetup$(module.id);
 
         module.exports = 'Test';
 
@@ -88,7 +87,6 @@ describe('loader', () => {
         /***/ (function(module, exports, __webpack_require__) {
 
         $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
-        $RefreshSetup$(module.i);
 
         module.exports = 'Test';
 
@@ -171,7 +169,6 @@ describe('loader', () => {
 
       expect(parsed).toMatchInlineSnapshot(`
         "$RefreshRuntime$ = require('react-refresh/runtime');
-        $RefreshSetup$(module.id);
 
         export default 'Test';
 
@@ -252,7 +249,6 @@ describe('loader', () => {
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
         $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
-        $RefreshSetup$(module.i);
 
         /* harmony default export */ __webpack_exports__[\\"default\\"] = ('Test');
 
@@ -334,20 +330,20 @@ describe('loader', () => {
       const { execution, sourceMap } = compilation.module;
 
       expect(sourceMap).toMatchInlineSnapshot(`
-              "{
-                \\"version\\": 3,
-                \\"sources\\": [
-                  \\"webpack:///./index.cjs.js\\"
-                ],
-                \\"names\\": [],
-                \\"mappings\\": \\";;;;;;;;;;;;AAAA\\",
-                \\"file\\": \\"main.js\\",
-                \\"sourcesContent\\": [
-                  \\"module.exports = 'Test';\\\\n\\"
-                ],
-                \\"sourceRoot\\": \\"\\"
-              }"
-          `);
+        "{
+          \\"version\\": 3,
+          \\"sources\\": [
+            \\"webpack:///./index.cjs.js\\"
+          ],
+          \\"names\\": [],
+          \\"mappings\\": \\";;;;;;;;;;;AAAA\\",
+          \\"file\\": \\"main.js\\",
+          \\"sourcesContent\\": [
+            \\"module.exports = 'Test';\\\\n\\"
+          ],
+          \\"sourceRoot\\": \\"\\"
+        }"
+      `);
       expect(() => {
         validate(execution, sourceMap);
       }).not.toThrow();
@@ -361,7 +357,6 @@ describe('loader', () => {
 
       expect(parsed).toMatchInlineSnapshot(`
         "$RefreshRuntime$ = require('react-refresh/runtime');
-        $RefreshSetup$(module.id);
 
         module.exports = 'Test';
 
@@ -439,7 +434,6 @@ describe('loader', () => {
         /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
         $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
-        $RefreshSetup$(module.id);
 
         module.exports = 'Test';
 
@@ -523,7 +517,6 @@ describe('loader', () => {
 
       expect(parsed).toMatchInlineSnapshot(`
         "$RefreshRuntime$ = require('react-refresh/runtime');
-        $RefreshSetup$(module.id);
 
         export default 'Test';
 
@@ -606,7 +599,6 @@ describe('loader', () => {
         /* harmony export */   \\"default\\": () => __WEBPACK_DEFAULT_EXPORT__
         /* harmony export */ });
         $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime */ \\"../../../node_modules/react-refresh/runtime.js\\");
-        $RefreshSetup$(module.id);
 
         /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ('Test');
 
@@ -695,7 +687,7 @@ describe('loader', () => {
             \\"webpack:///./index.cjs.js\\"
           ],
           \\"names\\": [],
-          \\"mappings\\": \\";;;;;;;;;;;AAAA\\",
+          \\"mappings\\": \\";;;;;;;;;;AAAA\\",
           \\"file\\": \\"main.js\\",
           \\"sourcesContent\\": [
             \\"module.exports = 'Test';\\\\n\\"
