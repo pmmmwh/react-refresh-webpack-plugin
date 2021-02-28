@@ -19,7 +19,7 @@ describe('loader', () => {
 
         if (module.hot) {
           const isHotUpdate = !!module.hot.data;
-          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : undefined;
 
           if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
             module.hot.dispose(
@@ -70,7 +70,7 @@ describe('loader', () => {
               }
             }
           } else {
-            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+            if (isHotUpdate && typeof prevExports !== 'undefined') {
               module.hot.invalidate();
             }
           }
@@ -97,7 +97,7 @@ describe('loader', () => {
 
         if (true) {
           const isHotUpdate = !!module.hot.data;
-          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : undefined;
 
           if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
             module.hot.dispose(
@@ -148,7 +148,7 @@ describe('loader', () => {
               }
             }
           } else {
-            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+            if (isHotUpdate && typeof prevExports !== 'undefined') {
               module.hot.invalidate();
             }
           }
@@ -179,7 +179,7 @@ describe('loader', () => {
 
         if (module.hot) {
           const isHotUpdate = !!module.hot.data;
-          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : undefined;
 
           if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
             module.hot.dispose(
@@ -230,7 +230,7 @@ describe('loader', () => {
               }
             }
           } else {
-            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+            if (isHotUpdate && typeof prevExports !== 'undefined') {
               module.hot.invalidate();
             }
           }
@@ -259,7 +259,7 @@ describe('loader', () => {
 
         if (true) {
           const isHotUpdate = !!module.hot.data;
-          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : undefined;
 
           if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
             module.hot.dispose(
@@ -310,7 +310,7 @@ describe('loader', () => {
               }
             }
           } else {
-            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+            if (isHotUpdate && typeof prevExports !== 'undefined') {
               module.hot.invalidate();
             }
           }
@@ -367,7 +367,7 @@ describe('loader', () => {
 
         if (module.hot) {
           const isHotUpdate = !!module.hot.data;
-          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : undefined;
 
           if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
             module.hot.dispose(
@@ -418,7 +418,7 @@ describe('loader', () => {
               }
             }
           } else {
-            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+            if (isHotUpdate && typeof prevExports !== 'undefined') {
               module.hot.invalidate();
             }
           }
@@ -444,7 +444,7 @@ describe('loader', () => {
 
         if (true) {
           const isHotUpdate = !!module.hot.data;
-          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : undefined;
 
           if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
             module.hot.dispose(
@@ -495,7 +495,7 @@ describe('loader', () => {
               }
             }
           } else {
-            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+            if (isHotUpdate && typeof prevExports !== 'undefined') {
               module.hot.invalidate();
             }
           }
@@ -527,7 +527,7 @@ describe('loader', () => {
 
         if (module.hot) {
           const isHotUpdate = !!module.hot.data;
-          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : undefined;
 
           if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
             module.hot.dispose(
@@ -578,7 +578,7 @@ describe('loader', () => {
               }
             }
           } else {
-            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+            if (isHotUpdate && typeof prevExports !== 'undefined') {
               module.hot.invalidate();
             }
           }
@@ -609,7 +609,7 @@ describe('loader', () => {
 
         if (true) {
           const isHotUpdate = !!module.hot.data;
-          const prevExports = isHotUpdate ? module.hot.data.prevExports : null;
+          const prevExports = isHotUpdate ? module.hot.data.prevExports : undefined;
 
           if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
             module.hot.dispose(
@@ -660,7 +660,7 @@ describe('loader', () => {
               }
             }
           } else {
-            if (isHotUpdate && __react_refresh_utils__.isReactRefreshBoundary(prevExports)) {
+            if (isHotUpdate && typeof prevExports !== 'undefined') {
               module.hot.invalidate();
             }
           }
