@@ -1,11 +1,9 @@
 const ansiHTML = require('ansi-html');
-const HtmlEntities = require('html-entities');
+const entities = require('html-entities');
 const theme = require('../theme');
 const formatFilename = require('../utils/formatFilename');
 
 ansiHTML.setColors(theme);
-
-const entities = new HtmlEntities.Html5Entities();
 
 /**
  * @typedef {Object} CompileErrorTraceProps
@@ -29,7 +27,10 @@ function CompileErrorTrace(document, root, props) {
   errorParts.unshift(errorMessage);
 
   const stackContainer = document.createElement('pre');
-  stackContainer.innerHTML = entities.decode(ansiHTML(entities.encode(errorParts.join('\n'))));
+  stackContainer.innerHTML = entities.decode(
+    ansiHTML(entities.encode(errorParts.join('\n'), { level: 'html5', mode: 'nonAscii' })),
+    { level: 'html5' }
+  );
   stackContainer.style.fontFamily = [
     '"Operator Mono SSm"',
     '"Operator Mono"',
