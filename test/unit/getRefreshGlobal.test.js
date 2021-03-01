@@ -75,8 +75,8 @@ describe('getRefreshGlobal', () => {
         		const prevCleanup = __webpack_require__.$Refresh$.cleanup;
 
         		__webpack_require__.$Refresh$.runtime = {
-        			createSignatureFunctionForTransform: () => (type) => type,
-        			register: () => undefined
+        			createSignatureFunctionForTransform: () => ((type) => (type)),
+        			register: () => (undefined)
         		};
 
         		__webpack_require__.$Refresh$.register = (type, id) => {
