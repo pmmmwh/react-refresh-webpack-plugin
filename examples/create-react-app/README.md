@@ -1,3 +1,8 @@
+## Version Notice
+
+> This example illustrates usage of the plugin with `create-react-app` v3.
+> For the best experience, update to `create-react-app` v4, where integration with this plugin is provided out-of-the-box.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
