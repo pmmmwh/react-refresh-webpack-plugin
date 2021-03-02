@@ -24,7 +24,8 @@ function getSocketUrlParts(resourceQuery) {
   /** @type {string | undefined} */
   let auth;
   let hostname = urlParts.hostname;
-  let protocol = urlParts.protocol || window.location.protocol;
+  let protocol =
+    urlParts.protocol === 'https:' || window.location.protocol === 'https:' ? 'https:' : 'http:';
   let pathname = '/sockjs-node'; // This is hard-coded in WDS
   let port = urlParts.port;
 
@@ -61,13 +62,6 @@ function getSocketUrlParts(resourceQuery) {
     window.location.protocol.indexOf('http') !== -1
   ) {
     hostname = window.location.hostname;
-  }
-
-  // We only re-assign `protocol` when `hostname` is available and is empty,
-  // since otherwise we risk creating an invalid URL.
-  // We also do this when `https` is used as it mandates the use of secure sockets.
-  if (hostname && (isEmptyHostname || window.location.protocol === 'https:')) {
-    protocol = window.location.protocol;
   }
 
   // We only re-assign port when it is not available or `empty`
