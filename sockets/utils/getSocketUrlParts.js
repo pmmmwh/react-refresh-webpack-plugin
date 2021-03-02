@@ -24,7 +24,7 @@ function getSocketUrlParts(resourceQuery) {
   /** @type {string | undefined} */
   let auth;
   let hostname = urlParts.hostname;
-  let protocol = urlParts.protocol;
+  let protocol = urlParts.protocol || window.location.protocol;
   let pathname = '/sockjs-node'; // This is hard-coded in WDS
   let port = urlParts.port;
 
