@@ -1,4 +1,3 @@
-const url = require('native-url');
 const getCurrentScriptSource = require('./getCurrentScriptSource');
 const parseQuery = require('./parseQuery');
 
@@ -19,32 +18,34 @@ const parseQuery = require('./parseQuery');
  */
 function getSocketUrlParts(resourceQuery) {
   const scriptSource = getCurrentScriptSource();
-  const urlParts = url.parse(scriptSource || '');
+
+  let url = {};
+  try {
+    // The placeholder `baseURL` with `window.location.href`,
+    // is to allow parsing of path-relative or protocol-relative URLs,
+    // and will have no effect if `scriptSource` is a fully valid URL.
+    url = new URL(scriptSource, window.location.href);
+  } catch (e) {
+    // URL parsing failed, do nothing.
+    // We will still proceed to see if we can recover using `resourceQuery`
+  }
 
   /** @type {string | undefined} */
   let auth;
-  let hostname = urlParts.hostname;
-  let protocol = urlParts.protocol;
+  let hostname = url.hostname;
+  let protocol = url.protocol;
   let pathname = '/sockjs-node'; // This is hard-coded in WDS
-  let port = urlParts.port;
+  let port = url.port;
 
-  // FIXME:
-  // This is a hack to work-around `native-url`'s parse method,
-  // which filters out falsy values when concatenating the `auth` string.
-  // In reality, we need to check for both values to correctly inject them.
-  // Ref: GoogleChromeLabs/native-url#32
-  // The placeholder `baseURL` is to allow parsing of relative paths,
-  // and will have no effect if `scriptSource` is a proper URL.
-  const authUrlParts = new URL(scriptSource, 'http://foo.bar');
   // Parse authentication credentials in case we need them
-  if (authUrlParts.username) {
-    auth = authUrlParts.username;
+  if (url.username) {
+    auth = url.username;
 
     // Since HTTP basic authentication does not allow empty username,
     // we only include password if the username is not empty.
-    if (authUrlParts.password) {
+    if (url.password) {
       // Result: <username>:<password>
-      auth = auth.concat(':', authUrlParts.password);
+      auth = auth.concat(':', url.password);
     }
   }
 
@@ -52,7 +53,7 @@ function getSocketUrlParts(resourceQuery) {
   // This is important because `hostname` can be empty for some hosts,
   // such as `about:blank` or `file://` URLs.
   const isEmptyHostname =
-    urlParts.hostname === '0.0.0.0' || urlParts.hostname === '::' || urlParts.hostname === null;
+    url.hostname === '0.0.0.0' || url.hostname === '[::]' || url.hostname === null;
 
   // We only re-assign the hostname if we are using HTTP/HTTPS protocols
   if (
