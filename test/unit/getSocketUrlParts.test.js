@@ -212,7 +212,7 @@ describe('getSocketUrlParts', () => {
 
   it('should work when script source has no protocol defined and location is https', () => {
     mockLocation('https://localhost:8080');
-    getCurrentScriptSource.mockImplementationOnce(() => '//localhost:8080');
+    getCurrentScriptSource.mockImplementationOnce(() => '//localhost:8080/index.js');
 
     expect(getSocketUrlParts()).toStrictEqual({
       auth: undefined,
@@ -225,7 +225,7 @@ describe('getSocketUrlParts', () => {
 
   it('should work when script source has no protocol defined and location is http', () => {
     mockLocation('http://localhost:8080');
-    getCurrentScriptSource.mockImplementationOnce(() => '//localhost:8080');
+    getCurrentScriptSource.mockImplementationOnce(() => '//localhost:8080/index.js');
 
     expect(getSocketUrlParts()).toStrictEqual({
       auth: undefined,
