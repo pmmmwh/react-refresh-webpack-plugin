@@ -11,7 +11,8 @@ function getCurrentScriptSource() {
 
   // Fallback to getting all scripts running in the document.
   const scriptElements = document.scripts || [];
-  const currentScript = scriptElements[scriptElements.length - 1];
+  const nonNullScriptElements = [...scriptElements].filter((elm) => elm.getAttribute('src'));
+  const currentScript = nonNullScriptElements[nonNullScriptElements.length - 1];
   if (currentScript) {
     return currentScript.getAttribute('src');
   }
