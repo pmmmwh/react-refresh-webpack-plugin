@@ -209,4 +209,30 @@ describe('getSocketUrlParts', () => {
       '[React Refresh] Failed to get an URL for the socket connection.'
     );
   });
+
+  it('should work when script source has no protocol defined and location is https', () => {
+    mockLocation('https://localhost:8080');
+    getCurrentScriptSource.mockImplementationOnce(() => '//localhost:8080/index.js');
+
+    expect(getSocketUrlParts()).toStrictEqual({
+      auth: undefined,
+      hostname: 'localhost',
+      pathname: '/sockjs-node',
+      port: '8080',
+      protocol: 'https:',
+    });
+  });
+
+  it('should work when script source has no protocol defined and location is http', () => {
+    mockLocation('http://localhost:8080');
+    getCurrentScriptSource.mockImplementationOnce(() => '//localhost:8080/index.js');
+
+    expect(getSocketUrlParts()).toStrictEqual({
+      auth: undefined,
+      hostname: 'localhost',
+      pathname: '/sockjs-node',
+      port: '8080',
+      protocol: 'http:',
+    });
+  });
 });

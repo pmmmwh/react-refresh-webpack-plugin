@@ -16,9 +16,7 @@ const location = (href) => {
 
   cleanupHandlers.add(mockRestore);
 
-  return {
-    mockRestore,
-  };
+  return { mockRestore };
 };
 
 module.exports = location;
