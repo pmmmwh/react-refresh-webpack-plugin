@@ -11,6 +11,6 @@
     "strict": true,
     "target": "es2017"
   },
-  "include": ["./lib/*"],
+  "include": ["./lib/*", "./loader/*", "./options/*"],
   "exclude": ["node_modules"]
 }
