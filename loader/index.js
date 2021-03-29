@@ -5,9 +5,12 @@
 const originalFetch = global.fetch;
 delete global.fetch;
 
+const { getOptions } = require('loader-utils');
+const { validate: validateOptions } = require('schema-utils');
 const { SourceMapConsumer, SourceNode } = require('source-map');
 const { Template } = require('webpack');
 const getIdentitySourceMap = require('./utils/getIdentitySourceMap');
+const schema = require('./options.json');
 
 /**
  * Gets a runtime template from provided function.
@@ -35,6 +38,14 @@ const RefreshModuleRuntime = getTemplate(require('./RefreshModule.runtime'));
  * @returns {void}
  */
 function ReactRefreshLoader(source, inputSourceMap, meta) {
+  let options = getOptions(this);
+  validateOptions(schema, options, {
+    baseDataPath: 'options',
+    name: 'React Refresh Loader',
+  });
+
+  options = normalizeOptions(options);
+
   const callback = this.async();
 
   /**
