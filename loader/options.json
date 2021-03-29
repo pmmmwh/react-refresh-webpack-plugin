@@ -1,0 +1,36 @@
+{
+  "additionalProperties": false,
+  "type": "object",
+  "definitions": {
+    "MatchCondition": {
+      "anyOf": [{ "instanceof": "RegExp", "tsType": "RegExp" }, { "$ref": "#/definitions/Path" }]
+    },
+    "MatchConditions": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/MatchCondition" },
+      "minItems": 1
+    },
+    "ESModuleOptions": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "exclude": {
+          "anyOf": [
+            { "$ref": "#/definitions/MatchCondition" },
+            { "$ref": "#/definitions/MatchConditions" }
+          ]
+        },
+        "include": {
+          "anyOf": [
+            { "$ref": "#/definitions/MatchCondition" },
+            { "$ref": "#/definitions/MatchConditions" }
+          ]
+        }
+      }
+    }
+  },
+  "properties": {
+    "blockIdentifier": { "type": "boolean" },
+    "esModule": { "anyOf": [{ "type": "boolean" }, { "$ref": "#/definitions/ESModuleOptions" }] }
+  }
+}
