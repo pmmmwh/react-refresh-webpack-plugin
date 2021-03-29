@@ -14,10 +14,13 @@ describe('getRefreshGlobal', () => {
     expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
       "__webpack_require__.$Refresh$ = {
       	setup: function(currentModuleId) {
+      		var prevModuleId = __webpack_require__.$Refresh$.moduleId;
       		var prevRuntime = __webpack_require__.$Refresh$.runtime;
       		var prevRegister = __webpack_require__.$Refresh$.register;
       		var prevSignature = __webpack_require__.$Refresh$.signature;
       		var prevCleanup = __webpack_require__.$Refresh$.cleanup;
+
+      		__webpack_require__.$Refresh$.moduleId = currentModuleId;
 
       		__webpack_require__.$Refresh$.runtime = {
       			createSignatureFunctionForTransform: function() { return function(type) { return type; }; },
@@ -33,6 +36,7 @@ describe('getRefreshGlobal', () => {
 
       		__webpack_require__.$Refresh$.cleanup = function(cleanupModuleId) {
       			if (currentModuleId === cleanupModuleId) {
+      				__webpack_require__.$Refresh$.moduleId = prevModuleId;
       				__webpack_require__.$Refresh$.runtime = prevRuntime;
       				__webpack_require__.$Refresh$.register = prevRegister;
       				__webpack_require__.$Refresh$.signature = prevSignature;
@@ -69,10 +73,13 @@ describe('getRefreshGlobal', () => {
       expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
         "__webpack_require__.$Refresh$ = {
         	setup: (currentModuleId) => {
+        		const prevModuleId = __webpack_require__.$Refresh$.moduleId;
         		const prevRuntime = __webpack_require__.$Refresh$.runtime;
         		const prevRegister = __webpack_require__.$Refresh$.register;
         		const prevSignature = __webpack_require__.$Refresh$.signature;
         		const prevCleanup = __webpack_require__.$Refresh$.cleanup;
+
+        		__webpack_require__.$Refresh$.moduleId = currentModuleId;
 
         		__webpack_require__.$Refresh$.runtime = {
         			createSignatureFunctionForTransform: () => ((type) => (type)),
@@ -88,6 +95,7 @@ describe('getRefreshGlobal', () => {
 
         		__webpack_require__.$Refresh$.cleanup = (cleanupModuleId) => {
         			if (currentModuleId === cleanupModuleId) {
+        				__webpack_require__.$Refresh$.moduleId = prevModuleId;
         				__webpack_require__.$Refresh$.runtime = prevRuntime;
         				__webpack_require__.$Refresh$.register = prevRegister;
         				__webpack_require__.$Refresh$.signature = prevSignature;
