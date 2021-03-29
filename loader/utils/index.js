@@ -1,11 +1,11 @@
 const getIdentitySourceMap = require('./getIdentitySourceMap');
 const getModuleSystem = require('./getModuleSystem');
+const getRefreshModuleRuntime = require('./getRefreshModuleRuntime');
 const normalizeOptions = require('./normalizeOptions');
-const renderTemplate = require('./renderTemplate');
 
 module.exports = {
   getIdentitySourceMap,
   getModuleSystem,
+  getRefreshModuleRuntime,
   normalizeOptions,
-  renderTemplate,
 };

@@ -6,7 +6,7 @@ const { d, n } = require('../../options');
  * @returns {import('../types').NormalizedLoaderOptions} Normalized loader options.
  */
 const normalizeOptions = (options) => {
-  d(options, 'blockIdentifier', false);
+  d(options, 'const', false);
 
   n(options, 'esModule', (esModule) => {
     if (typeof esModule === 'boolean' || typeof esModule === 'undefined') {

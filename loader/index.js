@@ -8,12 +8,12 @@ delete global.fetch;
 const { getOptions } = require('loader-utils');
 const { validate: validateOptions } = require('schema-utils');
 const { SourceMapConsumer, SourceNode } = require('source-map');
-const RefreshModuleRuntimeTemplate = require('./RefreshModule.runtime');
+const { Template } = require('webpack');
 const {
   getIdentitySourceMap,
   getModuleSystem,
+  getRefreshModuleRuntime,
   normalizeOptions,
-  renderTemplate,
 } = require('./utils');
 const schema = require('./options.json');
 
@@ -23,16 +23,11 @@ const RefreshRuntimePath = require
   .replace(/'/g, "\\'");
 
 const RefreshSetupRuntimes = {
-  cjs: renderTemplate(`$RefreshRuntime$ = require('__refresh_runtime_path__');`, {
-    __refresh_runtime_path__: RefreshRuntimePath,
-  }),
-  esm: renderTemplate(
-    `
-  import * as __react_refresh_runtime__ from '__refresh_runtime_path__';
-  $RefreshRuntime$ = __react_refresh_runtime__;
-  `,
-    { __refresh_runtime_path__: RefreshRuntimePath }
-  ),
+  cjs: Template.asString(`$RefreshRuntime$ = require('${RefreshRuntimePath}');`),
+  esm: Template.asString([
+    `import * as __react_refresh_runtime__ from '${RefreshRuntimePath}';`,
+    '$RefreshRuntime$ = __react_refresh_runtime__;',
+  ]),
 };
 
 /**
@@ -66,11 +61,7 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
     const moduleSystem = await getModuleSystem(this, options);
 
     const RefreshSetupRuntime = RefreshSetupRuntimes[moduleSystem];
-    const RefreshModuleRuntime = renderTemplate(RefreshModuleRuntimeTemplate, {
-      ['/** @const */']: options.blockIdentifier ? 'const' : 'var',
-      ['/** @let */']: options.blockIdentifier ? 'let' : 'var',
-      __webpack_hot__: moduleSystem === 'esm' ? 'import.meta.webpackHot' : 'module.hot',
-    });
+    const RefreshModuleRuntime = getRefreshModuleRuntime({ const: options.const, moduleSystem });
 
     if (this.sourceMap) {
       let originalSourceMap = inputSourceMap;
