@@ -8,24 +8,32 @@ delete global.fetch;
 const { getOptions } = require('loader-utils');
 const { validate: validateOptions } = require('schema-utils');
 const { SourceMapConsumer, SourceNode } = require('source-map');
-const { Template } = require('webpack');
-const getIdentitySourceMap = require('./utils/getIdentitySourceMap');
+const RefreshModuleRuntimeTemplate = require('./RefreshModule.runtime');
+const {
+  getIdentitySourceMap,
+  getModuleSystem,
+  normalizeOptions,
+  renderTemplate,
+} = require('./utils');
 const schema = require('./options.json');
 
-/**
- * Gets a runtime template from provided function.
- * @param {function(): void} fn A function containing the runtime template.
- * @returns {string} The "sanitized" runtime template.
- */
-function getTemplate(fn) {
-  return Template.getFunctionContent(fn).trim().replace(/^ {2}/gm, '');
-}
+const RefreshRuntimePath = require
+  .resolve('react-refresh/runtime.js')
+  .replace(/\\/g, '/')
+  .replace(/'/g, "\\'");
 
-const RefreshSetupRuntime = getTemplate(require('./RefreshSetup.runtime')).replace(
-  '$RefreshRuntimePath$',
-  require.resolve('react-refresh/runtime').replace(/\\/g, '/').replace(/'/g, "\\'")
-);
-const RefreshModuleRuntime = getTemplate(require('./RefreshModule.runtime'));
+const RefreshSetupRuntimes = {
+  cjs: renderTemplate(`$RefreshRuntime$ = require('__refresh_runtime_path__');`, {
+    __refresh_runtime_path__: RefreshRuntimePath,
+  }),
+  esm: renderTemplate(
+    `
+  import * as __react_refresh_runtime__ from '__refresh_runtime_path__';
+  $RefreshRuntime$ = __react_refresh_runtime__;
+  `,
+    { __refresh_runtime_path__: RefreshRuntimePath }
+  ),
+};
 
 /**
  * A simple Webpack loader to inject react-refresh HMR code into modules.
@@ -55,6 +63,15 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
    * @returns {Promise<[string, import('source-map').RawSourceMap]>}
    */
   async function _loader(source, inputSourceMap) {
+    const moduleSystem = await getModuleSystem(this, options);
+
+    const RefreshSetupRuntime = RefreshSetupRuntimes[moduleSystem];
+    const RefreshModuleRuntime = renderTemplate(RefreshModuleRuntimeTemplate, {
+      ['/** @const */']: options.blockIdentifier ? 'const' : 'var',
+      ['/** @let */']: options.blockIdentifier ? 'let' : 'var',
+      __webpack_hot__: moduleSystem === 'esm' ? 'import.meta.webpackHot' : 'module.hot',
+    });
+
     if (this.sourceMap) {
       let originalSourceMap = inputSourceMap;
       if (!originalSourceMap) {
