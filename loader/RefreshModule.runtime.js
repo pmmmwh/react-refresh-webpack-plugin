@@ -1,4 +1,14 @@
-/* global __react_refresh_error_overlay__, __react_refresh_test__, __react_refresh_utils__, __webpack_require__ */
+/*
+global
+__react_refresh_error_overlay__,
+__react_refresh_test__,
+__react_refresh_utils__,
+__webpack_hot__,
+__webpack_require__
+*/
+/* eslint-disable no-undef */
+
+// TODO: Consider refactoring to use `Template.asString` instead of a template file
 
 /**
  * Code appended to each JS-like module for react-refresh capabilities.
@@ -11,15 +21,24 @@
  * [Reference for HMR Error Recovery](https://github.com/webpack/webpack/issues/418#issuecomment-490296365)
  */
 module.exports = function () {
-  const currentExports = __react_refresh_utils__.getModuleExports(module.id);
-  __react_refresh_utils__.registerExportsForReactRefresh(currentExports, module.id);
+  /** @const */ $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+  /** @const */ $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
+    $ReactRefreshModuleId$
+  );
+  __react_refresh_utils__.registerExportsForReactRefresh(
+    $ReactRefreshCurrentExports$,
+    $ReactRefreshModuleId$
+  );
 
-  if (module.hot) {
-    const isHotUpdate = !!module.hot.data;
-    const prevExports = isHotUpdate ? module.hot.data.prevExports : undefined;
+  if (__webpack_hot__) {
+    /** @const */ $ReactRefreshHotUpdate$ = !!__webpack_hot__.data;
+    /** @let */ $ReactRefreshPrevExports$;
+    if ($ReactRefreshHotUpdate$) {
+      $ReactRefreshPrevExports$ = __webpack_hot__.data.prevExports;
+    }
 
-    if (__react_refresh_utils__.isReactRefreshBoundary(currentExports)) {
-      module.hot.dispose(
+    if (__react_refresh_utils__.isReactRefreshBoundary($ReactRefreshCurrentExports$)) {
+      __webpack_hot__.dispose(
         /**
          * A callback to performs a full refresh if React has unrecoverable errors,
          * and also caches the to-be-disposed module.
@@ -28,10 +47,10 @@ module.exports = function () {
          */
         function hotDisposeCallback(data) {
           // We have to mutate the data object to get data registered and cached
-          data.prevExports = currentExports;
+          data.prevExports = $ReactRefreshCurrentExports$;
         }
       );
-      module.hot.accept(
+      __webpack_hot__.accept(
         /**
          * An error handler to allow self-recovering behaviours.
          * @param {Error} error An error occurred during evaluation of a module.
@@ -51,16 +70,19 @@ module.exports = function () {
             }
           }
 
-          __webpack_require__.c[module.id].hot.accept(hotErrorHandler);
+          __webpack_require__.c[$ReactRefreshModuleId$].hot.accept(hotErrorHandler);
         }
       );
 
-      if (isHotUpdate) {
+      if ($ReactRefreshHotUpdate$) {
         if (
-          __react_refresh_utils__.isReactRefreshBoundary(prevExports) &&
-          __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(prevExports, currentExports)
+          __react_refresh_utils__.isReactRefreshBoundary($ReactRefreshPrevExports$) &&
+          __react_refresh_utils__.shouldInvalidateReactRefreshBoundary(
+            $ReactRefreshPrevExports$,
+            $ReactRefreshCurrentExports$
+          )
         ) {
-          module.hot.invalidate();
+          __webpack_hot__.invalidate();
         } else {
           __react_refresh_utils__.enqueueUpdate(
             /**
@@ -79,8 +101,8 @@ module.exports = function () {
         }
       }
     } else {
-      if (isHotUpdate && typeof prevExports !== 'undefined') {
-        module.hot.invalidate();
+      if ($ReactRefreshHotUpdate$ && typeof $ReactRefreshPrevExports$ !== 'undefined') {
+        __webpack_hot__.invalidate();
       }
     }
   }
