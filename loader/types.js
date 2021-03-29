@@ -6,12 +6,12 @@
 
 /**
  * @typedef {Object} ReactRefreshLoaderOptions
- * @property {boolean} [blockIdentifier] Enables the plugin forcefully.
- * @property {boolean | ESModuleOptions} [esModule] Files to explicitly exclude from processing.
+ * @property {boolean} [const]
+ * @property {boolean | ESModuleOptions} [esModule]
  */
 
 /**
- * @typedef {import('type-fest').SetRequired<ReactRefreshLoaderOptions, 'blockIdentifier'>} NormalizedLoaderOptions
+ * @typedef {import('type-fest').SetRequired<ReactRefreshLoaderOptions, 'const'>} NormalizedLoaderOptions
  */
 
 module.exports = {};

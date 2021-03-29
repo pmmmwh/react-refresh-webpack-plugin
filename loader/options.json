@@ -31,7 +31,7 @@
     }
   },
   "properties": {
-    "blockIdentifier": { "type": "boolean" },
+    "const": { "type": "boolean" },
     "esModule": { "anyOf": [{ "type": "boolean" }, { "$ref": "#/definitions/ESModuleOptions" }] }
   }
 }
