@@ -1,4 +1,4 @@
-const fs = require('fs/promises');
+const { promises: fsPromises } = require('fs');
 const path = require('path');
 const { ModuleFilenameHelpers } = require('webpack');
 
@@ -46,7 +46,7 @@ async function getModuleSystem(loaderContext, options) {
   if (!packageJsonType) {
     try {
       const packageJsonPath = require.resolve(path.join(loaderContext.rootContext, 'package.json'));
-      const buffer = await fs.readFile(packageJsonPath, { encoding: 'utf-8' });
+      const buffer = await fsPromises.readFile(packageJsonPath, { encoding: 'utf-8' });
       const rawPackageJson = buffer.toString('utf-8');
       ({ type: packageJsonType } = JSON.parse(rawPackageJson));
     } catch (e) {
