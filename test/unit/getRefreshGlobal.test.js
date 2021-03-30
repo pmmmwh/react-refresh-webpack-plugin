@@ -54,7 +54,7 @@ describe('getRefreshGlobal', () => {
     expect(() => {
       refreshGlobal.setup('1');
     }).not.toThrow();
-    expect(refreshGlobal.moduleId).toStrictEqual('1');
+    expect(refreshGlobal.moduleId).toBe('1');
     expect(typeof refreshGlobal.runtime).toBe('object');
     expect(typeof refreshGlobal.runtime.createSignatureFunctionForTransform).toBe('function');
     expect(typeof refreshGlobal.runtime.register).toBe('function');
@@ -114,7 +114,7 @@ describe('getRefreshGlobal', () => {
       expect(() => {
         refreshGlobal.setup('1');
       }).not.toThrow();
-      expect(refreshGlobal.moduleId).toStrictEqual('1');
+      expect(refreshGlobal.moduleId).toBe('1');
       expect(typeof refreshGlobal.runtime).toBe('object');
       expect(typeof refreshGlobal.runtime.createSignatureFunctionForTransform).toBe('function');
       expect(typeof refreshGlobal.runtime.register).toBe('function');

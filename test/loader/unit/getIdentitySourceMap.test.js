@@ -13,6 +13,6 @@ describe('getIdentitySourceMap', () => {
     }).not.toThrow();
 
     const sourceMapConsumer = await new SourceMapConsumer(identityMap);
-    expect(sourceMapConsumer.sourceContentFor(path)).toStrictEqual(source);
+    expect(sourceMapConsumer.sourceContentFor(path)).toBe(source);
   });
 });
