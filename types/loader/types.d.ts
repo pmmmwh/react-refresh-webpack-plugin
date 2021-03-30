@@ -9,16 +9,10 @@ export type ESModuleOptions = {
   include?: string | RegExp | (string | RegExp)[] | undefined;
 };
 export type ReactRefreshLoaderOptions = {
-  /**
-   * Enables the plugin forcefully.
-   */
-  blockIdentifier?: boolean | undefined;
-  /**
-   * Files to explicitly exclude from processing.
-   */
+  const?: boolean | undefined;
   esModule?: boolean | ESModuleOptions | undefined;
 };
 export type NormalizedLoaderOptions = import('type-fest').SetRequired<
   ReactRefreshLoaderOptions,
-  'blockIdentifier'
+  'const'
 >;
