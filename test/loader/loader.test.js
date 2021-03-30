@@ -8,7 +8,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "$RefreshRuntime$ = require('react-refresh/runtime.js');
+        "__webpack_require__.$Refresh$.runtime = require('react-refresh/runtime.js');
 
         module.exports = 'Test';
 
@@ -109,7 +109,7 @@ describe('loader', () => {
         /*! no static exports found */
         /***/ (function(module, exports, __webpack_require__) {
 
-        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
 
         module.exports = 'Test';
 
@@ -214,7 +214,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "$RefreshRuntime$ = require('react-refresh/runtime.js');
+        "__webpack_require__.$Refresh$.runtime = require('react-refresh/runtime.js');
 
         export default 'Test';
 
@@ -317,7 +317,7 @@ describe('loader', () => {
 
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
 
         /* harmony default export */ __webpack_exports__[\\"default\\"] = ('Test');
 
@@ -448,7 +448,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "$RefreshRuntime$ = require('react-refresh/runtime.js');
+        "__webpack_require__.$Refresh$.runtime = require('react-refresh/runtime.js');
 
         module.exports = 'Test';
 
@@ -548,7 +548,7 @@ describe('loader', () => {
           \\\\**********************/
         /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
 
         module.exports = 'Test';
 
@@ -654,7 +654,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "$RefreshRuntime$ = require('react-refresh/runtime.js');
+        "__webpack_require__.$Refresh$.runtime = require('react-refresh/runtime.js');
 
         export default 'Test';
 
@@ -759,7 +759,7 @@ describe('loader', () => {
         /* harmony export */ __webpack_require__.d(__webpack_exports__, {
         /* harmony export */   \\"default\\": () => (__WEBPACK_DEFAULT_EXPORT__)
         /* harmony export */ });
-        $RefreshRuntime$ = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
 
         /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ('Test');
 
