@@ -16,7 +16,7 @@ const { Template } = require('webpack');
 function getRefreshModuleRuntime(options) {
   const constDeclaration = options.const ? 'const' : 'var';
   const letDeclaration = options.const ? 'let' : 'var';
-  const webpackHot = options.moduleSystem === 'esm' ? 'import.meta.webpackhot' : 'module.hot';
+  const webpackHot = options.moduleSystem === 'esm' ? 'import.meta.webpackHot' : 'module.hot';
   return Template.asString([
     `${constDeclaration} $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;`,
     `${constDeclaration} $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(`,
