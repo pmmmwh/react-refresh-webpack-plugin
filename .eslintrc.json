@@ -48,7 +48,7 @@
       }
     },
     {
-      "files": ["test/**/fixtures/*.esm.js"],
+      "files": ["test/**/fixtures/esm/*.js"],
       "parserOptions": {
         "ecmaVersion": 2015,
         "sourceType": "module"
