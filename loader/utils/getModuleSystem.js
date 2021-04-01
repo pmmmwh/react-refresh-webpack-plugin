@@ -6,10 +6,10 @@ const { ModuleFilenameHelpers } = require('webpack');
 let packageJsonType;
 
 /**
- *
- * @param {import('webpack').loader.LoaderContext} loaderContext
- * @param {import('../types').NormalizedLoaderOptions} options
- * @return {Promise<'esm' | 'cjs'>}
+ * Infers the current active module system from loader context and options.
+ * @param {import('webpack').loader.LoaderContext} loaderContext The Webpack loader context.
+ * @param {import('../types').NormalizedLoaderOptions} options The normalized loader options.
+ * @return {Promise<'esm' | 'cjs'>} The inferred module system.
  */
 async function getModuleSystem(loaderContext, options) {
   // Check loader options -
