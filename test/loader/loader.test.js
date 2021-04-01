@@ -12,7 +12,7 @@ describe('loader', () => {
 
   describe.skipIf(WEBPACK_VERSION !== 4, 'on Webpack 4', () => {
     it('should work for CommonJS', async () => {
-      const compilation = await getCompilation('./cjs/index.js');
+      const compilation = await getCompilation('cjs');
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
@@ -110,14 +110,14 @@ describe('loader', () => {
       expect(execution).toMatchInlineSnapshot(`
         "(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([[\\"main\\"],{
 
-        /***/ \\"./cjs/index.js\\":
-        /*!**********************!*\\\\
-          !*** ./cjs/index.js ***!
-          \\\\**********************/
+        /***/ \\"./index.js\\":
+        /*!******************!*\\\\
+          !*** ./index.js ***!
+          \\\\******************/
         /*! no static exports found */
         /***/ (function(module, exports, __webpack_require__) {
 
-        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../../node_modules/react-refresh/runtime.js\\");
 
         module.exports = 'Test';
 
@@ -210,7 +210,7 @@ describe('loader', () => {
 
         /***/ })
 
-        },[[\\"./cjs/index.js\\",\\"runtime\\",\\"vendors\\"]]]);"
+        },[[\\"./index.js\\",\\"runtime\\",\\"vendors\\"]]]);"
       `);
 
       expect(compilation.errors).toStrictEqual([]);
@@ -218,7 +218,7 @@ describe('loader', () => {
     });
 
     it('should work for ES Modules', async () => {
-      const compilation = await getCompilation('./esm/index.js');
+      const compilation = await getCompilation('esm');
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
@@ -316,16 +316,16 @@ describe('loader', () => {
       expect(execution).toMatchInlineSnapshot(`
         "(window[\\"webpackJsonp\\"] = window[\\"webpackJsonp\\"] || []).push([[\\"main\\"],{
 
-        /***/ \\"./esm/index.js\\":
-        /*!**********************!*\\\\
-          !*** ./esm/index.js ***!
-          \\\\**********************/
+        /***/ \\"./index.js\\":
+        /*!******************!*\\\\
+          !*** ./index.js ***!
+          \\\\******************/
         /*! exports provided: default */
         /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../../node_modules/react-refresh/runtime.js\\");
 
         /* harmony default export */ __webpack_exports__[\\"default\\"] = ('Test');
 
@@ -418,7 +418,7 @@ describe('loader', () => {
 
         /***/ })
 
-        },[[\\"./esm/index.js\\",\\"runtime\\",\\"vendors\\"]]]);"
+        },[[\\"./index.js\\",\\"runtime\\",\\"vendors\\"]]]);"
       `);
 
       expect(compilation.errors).toStrictEqual([]);
@@ -426,14 +426,14 @@ describe('loader', () => {
     });
 
     it('should generate valid source map when the "devtool" option is specified', async () => {
-      const compilation = await getCompilation('./cjs/index.js', { devtool: 'source-map' });
+      const compilation = await getCompilation('cjs', { devtool: 'source-map' });
       const { execution, sourceMap } = compilation.module;
 
       expect(sourceMap).toMatchInlineSnapshot(`
         "{
           \\"version\\": 3,
           \\"sources\\": [
-            \\"webpack:///./cjs/index.js\\"
+            \\"webpack:///./index.js\\"
           ],
           \\"names\\": [],
           \\"mappings\\": \\";;;;;;;;;;;AAAA\\",
@@ -452,7 +452,7 @@ describe('loader', () => {
 
   describe.skipIf(WEBPACK_VERSION !== 5, 'on Webpack 5', () => {
     it('should work for CommonJS', async () => {
-      const compilation = await getCompilation('./cjs/index.js');
+      const compilation = await getCompilation('cjs');
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
@@ -548,15 +548,15 @@ describe('loader', () => {
         }"
       `);
       expect(execution).toMatchInlineSnapshot(`
-        "(self[\\"webpackChunk\\"] = self[\\"webpackChunk\\"] || []).push([[\\"main\\"],{
+        "(self[\\"webpackChunkcjs\\"] = self[\\"webpackChunkcjs\\"] || []).push([[\\"main\\"],{
 
-        /***/ \\"./cjs/index.js\\":
-        /*!**********************!*\\\\
-          !*** ./cjs/index.js ***!
-          \\\\**********************/
+        /***/ \\"./index.js\\":
+        /*!******************!*\\\\
+          !*** ./index.js ***!
+          \\\\******************/
         /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../../node_modules/react-refresh/runtime.js\\");
 
         module.exports = 'Test';
 
@@ -650,7 +650,7 @@ describe('loader', () => {
         /***/ })
 
         },
-        0,[[\\"./cjs/index.js\\",\\"runtime\\",\\"defaultVendors\\"]]]);"
+        0,[[\\"./index.js\\",\\"runtime\\",\\"defaultVendors\\"]]]);"
       `);
 
       expect(compilation.errors).toStrictEqual([]);
@@ -658,7 +658,7 @@ describe('loader', () => {
     });
 
     it('should work for ES Modules', async () => {
-      const compilation = await getCompilation('./esm/index.js');
+      const compilation = await getCompilation('esm');
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
@@ -754,12 +754,12 @@ describe('loader', () => {
         }"
       `);
       expect(execution).toMatchInlineSnapshot(`
-        "(self[\\"webpackChunk\\"] = self[\\"webpackChunk\\"] || []).push([[\\"main\\"],{
+        "(self[\\"webpackChunkesm\\"] = self[\\"webpackChunkesm\\"] || []).push([[\\"main\\"],{
 
-        /***/ \\"./esm/index.js\\":
-        /*!**********************!*\\\\
-          !*** ./esm/index.js ***!
-          \\\\**********************/
+        /***/ \\"./index.js\\":
+        /*!******************!*\\\\
+          !*** ./index.js ***!
+          \\\\******************/
         /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
         \\"use strict\\";
@@ -861,7 +861,7 @@ describe('loader', () => {
         /***/ })
 
         },
-        0,[[\\"./esm/index.js\\",\\"runtime\\"]]]);"
+        0,[[\\"./index.js\\",\\"runtime\\"]]]);"
       `);
 
       expect(compilation.errors).toStrictEqual([]);
@@ -869,14 +869,14 @@ describe('loader', () => {
     });
 
     it('should generate valid source map when the "devtool" option is specified', async () => {
-      const compilation = await getCompilation('./cjs/index.js', { devtool: 'source-map' });
+      const compilation = await getCompilation('cjs', { devtool: 'source-map' });
       const { execution, sourceMap } = compilation.module;
 
       expect(sourceMap).toMatchInlineSnapshot(`
         "{
           \\"version\\": 3,
           \\"sources\\": [
-            \\"webpack:///./cjs/index.js\\"
+            \\"webpack://cjs/./index.js\\"
           ],
           \\"names\\": [],
           \\"mappings\\": \\";;;;;;;;;;AAAA\\",
@@ -894,7 +894,7 @@ describe('loader', () => {
   });
 
   it('should generate valid source map when undefined source map is provided', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       devtool: 'source-map',
       prevSourceMap: undefined,
     });
@@ -906,7 +906,7 @@ describe('loader', () => {
   });
 
   it('should generate valid source map when null source map is provided', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       devtool: 'source-map',
       prevSourceMap: null,
     });
@@ -918,11 +918,11 @@ describe('loader', () => {
   });
 
   it('should generate valid source map when source map string is provided', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       devtool: 'source-map',
       prevSourceMap: JSON.stringify({
         version: 3,
-        sources: ['./cjs/index.js'],
+        sources: ['cjs'],
         names: [],
         mappings: 'AAAA;AACA',
         sourcesContent: ["module.exports = 'Test';\n"],
@@ -936,11 +936,11 @@ describe('loader', () => {
   });
 
   it('should generate valid source map when source map object is provided', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       devtool: 'source-map',
       prevSourceMap: {
         version: 3,
-        sources: ['./cjs/index.js'],
+        sources: ['cjs'],
         names: [],
         mappings: 'AAAA;AACA',
         sourcesContent: ["module.exports = 'Test';\n"],
@@ -956,7 +956,7 @@ describe('loader', () => {
   it('should work with global fetch polyfill', async () => {
     const [fetch] = mockFetch();
 
-    await expect(getCompilation('./cjs/index.js')).resolves.not.toThrow();
+    await expect(getCompilation('cjs')).resolves.not.toThrow();
     expect(global.fetch).toStrictEqual(fetch);
   });
 });

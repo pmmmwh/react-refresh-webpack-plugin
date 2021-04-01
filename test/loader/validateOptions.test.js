@@ -8,17 +8,17 @@ describe('validateOptions', () => {
   });
 
   it('should accept "const" when it is true', async () => {
-    const compilation = await getCompilation('./cjs/index.js', { loaderOptions: { const: true } });
+    const compilation = await getCompilation('cjs', { loaderOptions: { const: true } });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should accept "const" when it is false', async () => {
-    const compilation = await getCompilation('./cjs/index.js', { loaderOptions: { const: false } });
+    const compilation = await getCompilation('cjs', { loaderOptions: { const: false } });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should reject "const" when it is not a boolean', async () => {
-    const compilation = await getCompilation('./cjs/index.js', { loaderOptions: { const: 1 } });
+    const compilation = await getCompilation('cjs', { loaderOptions: { const: 1 } });
     expect(compilation.errors).toHaveLength(1);
     expect(compilation.errors[0]).toMatchInlineSnapshot(`
       "Invalid options object. React Refresh Loader has been initialized using an options object that does not match the API schema.
@@ -27,31 +27,31 @@ describe('validateOptions', () => {
   });
 
   it.skipIf(WEBPACK_VERSION !== 5, 'should accept "esModule" when it is true', async () => {
-    const compilation = await getCompilation('./esm/index.js', {
+    const compilation = await getCompilation('esm', {
       loaderOptions: { esModule: true },
     });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should accept "esModule" when it is false', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       loaderOptions: { esModule: false },
     });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should accept "esModule" when it is undefined', async () => {
-    const compilation = await getCompilation('./cjs/index.js', { loaderOptions: {} });
+    const compilation = await getCompilation('cjs', { loaderOptions: {} });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should accept "esModule" when it is an empty object', async () => {
-    const compilation = await getCompilation('./cjs/index.js', { loaderOptions: { esModule: {} } });
+    const compilation = await getCompilation('cjs', { loaderOptions: { esModule: {} } });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should reject "esModule" when it is not a boolean nor an object', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       loaderOptions: { esModule: 'esModule' },
     });
     expect(compilation.errors).toHaveLength(1);
@@ -67,35 +67,35 @@ describe('validateOptions', () => {
   });
 
   it('should accept "esModule.exclude" when it is a RegExp', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       loaderOptions: { esModule: { exclude: /index\.js/ } },
     });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should accept "esModule.exclude" when it is an absolute path string', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       loaderOptions: { esModule: { exclude: '/index.js' } },
     });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should accept "esModule.exclude" when it is a string', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       loaderOptions: { esModule: { exclude: 'index.js' } },
     });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should accept "esModule.exclude" when it is an array of RegExp or strings', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       loaderOptions: { esModule: { exclude: [/index\.js/, 'index.js'] } },
     });
     expect(compilation.errors).toStrictEqual([]);
   });
 
   it('should reject "esModule.exclude" when it is an object', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       loaderOptions: { esModule: { exclude: {} } },
     });
     expect(compilation.errors).toHaveLength(1);
@@ -120,7 +120,7 @@ describe('validateOptions', () => {
     WEBPACK_VERSION !== 5,
     'should accept "esModule.include" when it is a RegExp',
     async () => {
-      const compilation = await getCompilation('./esm/index.js', {
+      const compilation = await getCompilation('esm', {
         loaderOptions: { esModule: { include: /index\.js/ } },
       });
       expect(compilation.errors).toStrictEqual([]);
@@ -131,7 +131,7 @@ describe('validateOptions', () => {
     WEBPACK_VERSION !== 5,
     'should accept "esModule.include" when it is an absolute path string',
     async () => {
-      const compilation = await getCompilation('./esm/index.js', {
+      const compilation = await getCompilation('esm', {
         loaderOptions: { esModule: { include: '/index.js' } },
       });
       expect(compilation.errors).toStrictEqual([]);
@@ -142,7 +142,7 @@ describe('validateOptions', () => {
     WEBPACK_VERSION !== 5,
     'should accept "esModule.include" when it is a string',
     async () => {
-      const compilation = await getCompilation('./esm/index.js', {
+      const compilation = await getCompilation('esm', {
         loaderOptions: { esModule: { include: 'index.js' } },
       });
       expect(compilation.errors).toStrictEqual([]);
@@ -153,7 +153,7 @@ describe('validateOptions', () => {
     WEBPACK_VERSION !== 5,
     'should accept "esModule.include" when it is an array of RegExp or strings',
     async () => {
-      const compilation = await getCompilation('./esm/index.js', {
+      const compilation = await getCompilation('esm', {
         loaderOptions: { esModule: { include: [/index\.js/, 'index.js'] } },
       });
       expect(compilation.errors).toStrictEqual([]);
@@ -161,7 +161,7 @@ describe('validateOptions', () => {
   );
 
   it('should reject "esModule.include" when it is an object', async () => {
-    const compilation = await getCompilation('./esm/index.js', {
+    const compilation = await getCompilation('esm', {
       loaderOptions: { esModule: { include: {} } },
     });
     expect(compilation.errors).toHaveLength(1);
@@ -183,7 +183,7 @@ describe('validateOptions', () => {
   });
 
   it('should reject any unknown options', async () => {
-    const compilation = await getCompilation('./cjs/index.js', {
+    const compilation = await getCompilation('cjs', {
       loaderOptions: { unknown: 'unknown' },
     });
     expect(compilation.errors).toHaveLength(1);
