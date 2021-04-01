@@ -21,13 +21,13 @@ async function getModuleSystem(loaderContext, options) {
     case 'object': {
       if (
         options.esModule.include &&
-        ModuleFilenameHelpers.matchPart(options.esModule.include, loaderContext.resourcePath)
+        ModuleFilenameHelpers.matchPart(loaderContext.resourcePath, options.esModule.include)
       ) {
         return 'esm';
       }
       if (
         options.esModule.exclude &&
-        ModuleFilenameHelpers.matchPart(options.esModule.exclude, loaderContext.resourcePath)
+        ModuleFilenameHelpers.matchPart(loaderContext.resourcePath, options.esModule.exclude)
       ) {
         return 'cjs';
       }
