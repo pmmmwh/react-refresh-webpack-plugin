@@ -32,6 +32,7 @@ const OUTPUT_PATH = path.join(__dirname, 'dist');
 async function getCompilation(fixtureFile, options = {}) {
   const compiler = webpack({
     mode: 'development',
+    cache: false,
     context: CONTEXT_PATH,
     devtool: options.devtool || false,
     entry: {
