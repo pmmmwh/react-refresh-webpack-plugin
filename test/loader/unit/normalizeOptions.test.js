@@ -15,11 +15,17 @@ describe('normalizeOptions', () => {
     expect(
       normalizeOptions({
         const: true,
-        esModule: true,
+        esModule: {
+          exclude: 'exclude',
+          include: 'include',
+        },
       })
     ).toStrictEqual({
       const: true,
-      esModule: true,
+      esModule: {
+        exclude: 'exclude',
+        include: 'include',
+      },
     });
   });
 
@@ -34,6 +40,13 @@ describe('normalizeOptions', () => {
     expect(normalizeOptions({ esModule: false })).toStrictEqual({
       ...DEFAULT_OPTIONS,
       esModule: false,
+    });
+  });
+
+  it('should return undefined for esModule when it is undefined', () => {
+    expect(normalizeOptions({ esModule: undefined })).toStrictEqual({
+      ...DEFAULT_OPTIONS,
+      esModule: undefined,
     });
   });
 
