@@ -23,19 +23,21 @@ const OUTPUT_PATH = path.join(__dirname, 'dist');
 
 /**
  * Gets a Webpack compiler instance to test loader operations.
- * @param {string} fixtureFile
+ * @param {string} subContext
  * @param {Object} [options]
  * @param {boolean | string} [options.devtool]
+ * @param {import('../../../loader/types').ReactRefreshLoaderOptions} [options.loaderOptions]
  * @param {*} [options.prevSourceMap]
  * @returns {Promise<CompilationSession>}
  */
-async function getCompilation(fixtureFile, options = {}) {
+async function getCompilation(subContext, options = {}) {
   const compiler = webpack({
     mode: 'development',
-    context: CONTEXT_PATH,
+    cache: false,
+    context: path.join(CONTEXT_PATH, subContext),
     devtool: options.devtool || false,
     entry: {
-      [BUNDLE_FILENAME]: path.join(CONTEXT_PATH, fixtureFile),
+      [BUNDLE_FILENAME]: './index.js',
     },
     output: {
       filename: '[name].js',
@@ -46,7 +48,10 @@ async function getCompilation(fixtureFile, options = {}) {
         {
           test: /\.js$/,
           use: [
-            require.resolve('@pmmmwh/react-refresh-webpack-plugin/loader'),
+            {
+              loader: require.resolve('@pmmmwh/react-refresh-webpack-plugin/loader'),
+              options: options.loaderOptions,
+            },
             !!options.devtool &&
               Object.prototype.hasOwnProperty.call(options, 'prevSourceMap') && {
                 loader: path.join(__dirname, 'fixtures/source-map-loader.js'),
@@ -118,7 +123,7 @@ async function getCompilation(fixtureFile, options = {}) {
         throw new Error('Module compilation stats not found!');
       }
 
-      const parsed = compilationModules.find(({ name }) => name === fixtureFile);
+      const parsed = compilationModules.find(({ name }) => name === './index.js');
       if (!parsed) {
         throw new Error('Fixture module is not found in compilation stats!');
       }

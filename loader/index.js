@@ -5,50 +5,31 @@
 const originalFetch = global.fetch;
 delete global.fetch;
 
-const { SourceMapConsumer, SourceMapGenerator, SourceNode } = require('source-map');
+const { getOptions } = require('loader-utils');
+const { validate: validateOptions } = require('schema-utils');
+const { SourceMapConsumer, SourceNode } = require('source-map');
 const { Template } = require('webpack');
+const { refreshGlobal } = require('../lib/globals');
+const {
+  getIdentitySourceMap,
+  getModuleSystem,
+  getRefreshModuleRuntime,
+  normalizeOptions,
+} = require('./utils');
+const schema = require('./options.json');
 
-/**
- * Generates an identity source map from a source file.
- * @param {string} source The content of the source file.
- * @param {string} resourcePath The name of the source file.
- * @returns {import('source-map').RawSourceMap} The identity source map.
- */
-function getIdentitySourceMap(source, resourcePath) {
-  const sourceMap = new SourceMapGenerator();
-  sourceMap.setSourceContent(resourcePath, source);
+const RefreshRuntimePath = require
+  .resolve('react-refresh/runtime.js')
+  .replace(/\\/g, '/')
+  .replace(/'/g, "\\'");
 
-  source.split('\n').forEach((line, index) => {
-    sourceMap.addMapping({
-      source: resourcePath,
-      original: {
-        line: index + 1,
-        column: 0,
-      },
-      generated: {
-        line: index + 1,
-        column: 0,
-      },
-    });
-  });
-
-  return sourceMap.toJSON();
-}
-
-/**
- * Gets a runtime template from provided function.
- * @param {function(): void} fn A function containing the runtime template.
- * @returns {string} The "sanitized" runtime template.
- */
-function getTemplate(fn) {
-  return Template.getFunctionContent(fn).trim().replace(/^ {2}/gm, '');
-}
-
-const RefreshSetupRuntime = getTemplate(require('./RefreshSetup.runtime')).replace(
-  '$RefreshRuntimePath$',
-  require.resolve('react-refresh/runtime').replace(/\\/g, '/').replace(/'/g, "\\'")
-);
-const RefreshModuleRuntime = getTemplate(require('./RefreshModule.runtime'));
+const RefreshSetupRuntimes = {
+  cjs: Template.asString(`${refreshGlobal}.runtime = require('${RefreshRuntimePath}');`),
+  esm: Template.asString([
+    `import * as __react_refresh_runtime__ from '${RefreshRuntimePath}';`,
+    `${refreshGlobal}.runtime = __react_refresh_runtime__;`,
+  ]),
+};
 
 /**
  * A simple Webpack loader to inject react-refresh HMR code into modules.
@@ -61,6 +42,14 @@ const RefreshModuleRuntime = getTemplate(require('./RefreshModule.runtime'));
  * @returns {void}
  */
 function ReactRefreshLoader(source, inputSourceMap, meta) {
+  let options = getOptions(this);
+  validateOptions(schema, options, {
+    baseDataPath: 'options',
+    name: 'React Refresh Loader',
+  });
+
+  options = normalizeOptions(options);
+
   const callback = this.async();
 
   /**
@@ -70,6 +59,11 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
    * @returns {Promise<[string, import('source-map').RawSourceMap]>}
    */
   async function _loader(source, inputSourceMap) {
+    const moduleSystem = await getModuleSystem(this, options);
+
+    const RefreshSetupRuntime = RefreshSetupRuntimes[moduleSystem];
+    const RefreshModuleRuntime = getRefreshModuleRuntime({ const: options.const, moduleSystem });
+
     if (this.sourceMap) {
       let originalSourceMap = inputSourceMap;
       if (!originalSourceMap) {

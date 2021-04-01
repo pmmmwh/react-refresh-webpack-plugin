@@ -20,7 +20,14 @@ function removeCwd(str) {
  * @return {string[]}
  */
 function normalizeErrors(errors) {
-  return errors.map((error) => removeCwd(error.toString().split('\n').slice(0, 2).join('\n')));
+  return errors.map((error) => {
+    // Output nested error messages in full -
+    // this is useful for checking loader validation errors, for example.
+    if ('error' in error) {
+      return removeCwd(error.error.message);
+    }
+    return removeCwd(error.message.split('\n').slice(0, 2).join('\n'));
+  });
 }
 
 module.exports = normalizeErrors;
