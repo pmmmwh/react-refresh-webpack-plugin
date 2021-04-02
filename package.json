@@ -94,12 +94,11 @@
     "typescript": "4.2.2",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
-    "webpack-cli.latest": "npm:webpack-cli@^4.5.0",
+    "webpack-cli.latest": "npm:webpack-cli@4.x",
     "webpack-dev-server": "^3.11.0",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-plugin-serve": "^1.0.1",
-    "webpack-tooling": "webpack/tooling#v1.14.1",
-    "webpack.latest": "npm:webpack@^5.24.2",
+    "webpack.latest": "npm:webpack@5.x",
     "yn": "^4.0.0"
   },
   "peerDependencies": {
