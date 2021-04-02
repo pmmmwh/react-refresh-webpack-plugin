@@ -5,8 +5,8 @@ import formatWebpackErrors from './utils/formatWebpackErrors.js';
 import runWithPatchedUrl from './utils/patchUrl.js';
 
 // Setup error states
-var isHotReload = false;
-var hasRuntimeErrors = false;
+let isHotReload = false;
+let hasRuntimeErrors = false;
 
 /**
  * Try dismissing the compile error overlay.
@@ -40,7 +40,7 @@ function handleCompileSuccess() {
 function handleCompileErrors(errors) {
   isHotReload = true;
 
-  var formattedErrors = formatWebpackErrors(errors);
+  const formattedErrors = formatWebpackErrors(errors);
 
   // Only show the first error
   __react_refresh_error_overlay__.showCompileError(formattedErrors[0]);

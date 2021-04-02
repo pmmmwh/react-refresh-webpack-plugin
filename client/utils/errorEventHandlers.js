@@ -58,7 +58,7 @@ function createWindowEventHandler(eventType, createHandler) {
   /**
    * @type {EventHandler | null} A cached event handler function.
    */
-  var eventHandler = null;
+  let eventHandler = null;
 
   /**
    * Unregisters an EventListener if it has been registered.
@@ -90,8 +90,8 @@ function createWindowEventHandler(eventType, createHandler) {
   return register;
 }
 
-export var handleError = createWindowEventHandler('error', createErrorHandler);
-export var handleUnhandledRejection = createWindowEventHandler(
+export const handleError = createWindowEventHandler('error', createErrorHandler);
+export const handleUnhandledRejection = createWindowEventHandler(
   'unhandledrejection',
   createRejectionHandler
 );

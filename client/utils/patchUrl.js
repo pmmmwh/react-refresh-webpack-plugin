@@ -14,8 +14,8 @@ import SafeURLSearchParams from 'core-js-pure/web/url-search-params';
  * @returns {void}
  */
 function runWithPatchedUrl(callback) {
-  var __originalURL;
-  var __originalURLSearchParams;
+  let __originalURL;
+  let __originalURLSearchParams;
 
   // Polyfill the DOM URL and URLSearchParams constructors
   if (__react_refresh_polyfill_url__ || !window.URL) {
