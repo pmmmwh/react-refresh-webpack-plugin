@@ -69,7 +69,7 @@ describe('getRefreshGlobal', () => {
     () => {
       const RuntimeTemplate = require('webpack/lib/RuntimeTemplate');
       const refreshGlobalTemplate = getRefreshGlobal(
-        new RuntimeTemplate({ environment: { arrowFunction: true, const: true } }, (i) => i)
+        new RuntimeTemplate({}, { environment: { arrowFunction: true, const: true } }, (i) => i)
       );
       expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
         "__webpack_require__.$Refresh$ = {
