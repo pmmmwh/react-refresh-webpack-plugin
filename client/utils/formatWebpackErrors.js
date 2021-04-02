@@ -5,7 +5,7 @@
  * @property {string} message
  */
 
-const friendlySyntaxErrorLabel = 'Syntax error:';
+var friendlySyntaxErrorLabel = 'Syntax error:';
 
 /**
  * Checks if the error message is for a syntax error.
@@ -24,7 +24,7 @@ function isLikelyASyntaxError(message) {
  * @returns {string} The formatted Webpack error message.
  */
 function formatMessage(message) {
-  let lines = message.split('\n');
+  var lines = message.split('\n');
 
   // Strip Webpack-added headers off errors/warnings
   // https://github.com/webpack/webpack/blob/master/lib/ModuleError.js
@@ -76,7 +76,7 @@ function formatMessage(message) {
  * @returns {string[]} The formatted Webpack error messages.
  */
 function formatWebpackErrors(errors) {
-  let formattedErrors = errors.map(function (errorObjOrMessage) {
+  var formattedErrors = errors.map(function (errorObjOrMessage) {
     // Webpack 5 compilation errors are in the form of descriptor objects,
     // so we have to join pieces to get the format we want.
     if (typeof errorObjOrMessage === 'object') {
@@ -85,6 +85,7 @@ function formatWebpackErrors(errors) {
     // Webpack 4 compilation errors are strings
     return formatMessage(errorObjOrMessage);
   });
+
   if (formattedErrors.some(isLikelyASyntaxError)) {
     // If there are any syntax errors, show just them.
     formattedErrors = formattedErrors.filter(isLikelyASyntaxError);
@@ -92,4 +93,4 @@ function formatWebpackErrors(errors) {
   return formattedErrors;
 }
 
-module.exports = formatWebpackErrors;
+export default formatWebpackErrors;
