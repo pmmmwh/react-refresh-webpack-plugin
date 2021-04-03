@@ -16,4 +16,4 @@ function Spacer(document, root, props) {
   root.appendChild(spacer);
 }
 
-module.exports = Spacer;
+export default Spacer;
