@@ -2,16 +2,16 @@ version: 2.1
 
 anchors:
   - &node-version-enum
-    - '10.23'
-    - '12.19'
-    - '14.15'
-    - '15.2'
+    - '10.24'
+    - '12.22'
+    - '14.16'
+    - '15.11'
   - &webpack-version-enum
     - '4'
     - '5'
   - &node-version-param
     node-version:
-      default: '12.19'
+      default: '14.16'
       enum: *node-version-enum
       type: enum
   - &webpack-version-param
