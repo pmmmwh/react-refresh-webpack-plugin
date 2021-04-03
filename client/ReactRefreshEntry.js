@@ -1,9 +1,10 @@
 /* global __react_refresh_library__ */
 
-const safeThis = require('./utils/safeThis');
+import safeThis from 'core-js-pure/features/global-this';
+import * as RefreshRuntime from 'react-refresh/runtime';
 
 if (process.env.NODE_ENV !== 'production' && typeof safeThis !== 'undefined') {
-  let $RefreshInjected$ = '__reactRefreshInjected';
+  var $RefreshInjected$ = '__reactRefreshInjected';
   // Namespace the injected flag (if necessary) for monorepo compatibility
   if (typeof __react_refresh_library__ !== 'undefined' && __react_refresh_library__) {
     $RefreshInjected$ += '_' + __react_refresh_library__;
@@ -11,7 +12,6 @@ if (process.env.NODE_ENV !== 'production' && typeof safeThis !== 'undefined') {
 
   // Only inject the runtime if it hasn't been injected
   if (!safeThis[$RefreshInjected$]) {
-    const RefreshRuntime = require('react-refresh/runtime');
     // Inject refresh runtime into global scope
     RefreshRuntime.injectIntoGlobalHook(safeThis);
 

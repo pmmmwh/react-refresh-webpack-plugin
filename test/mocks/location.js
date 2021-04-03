@@ -20,4 +20,4 @@ const mockLocation = (href) => {
   return [locationMock, mockRestore];
 };
 
-module.exports = mockLocation;
+export default mockLocation;

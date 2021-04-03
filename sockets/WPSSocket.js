@@ -1,4 +1,5 @@
 /* global ʎɐɹɔosǝʌɹǝs */
+import { ClientSocket } from 'webpack-plugin-serve/lib/client/ClientSocket.js';
 
 /**
  * Initializes a socket server for HMR for webpack-plugin-serve.
@@ -20,7 +21,6 @@ function initWPSSocket(messageHandler) {
     return;
   }
 
-  const { ClientSocket } = require('webpack-plugin-serve/lib/client/ClientSocket');
   const { address, client = {}, secure } = options;
   const protocol = secure ? 'wss' : 'ws';
   const socket = new ClientSocket(client, protocol + '://' + (client.address || address) + '/wps');
@@ -48,4 +48,4 @@ function initWPSSocket(messageHandler) {
   });
 }
 
-module.exports = initWPSSocket;
+export const init = initWPSSocket;

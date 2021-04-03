@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-const parseQuery = require('../../sockets/utils/parseQuery');
+import parseQuery from '../../sockets/utils/parseQuery';
 
 describe('parseQuery', () => {
   it('should handle valid query string', () => {

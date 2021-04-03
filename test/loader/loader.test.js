@@ -650,7 +650,14 @@ describe('loader', () => {
         /***/ })
 
         },
-        0,[[\\"./index.js\\",\\"runtime\\",\\"defaultVendors\\"]]]);"
+        /******/ __webpack_require__ => { // webpackRuntimeModules
+        /******/ \\"use strict\\";
+        /******/ 
+        /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+        /******/ __webpack_require__.O(0, [\\"defaultVendors\\"], () => (__webpack_exec__(\\"./index.js\\")));
+        /******/ var __webpack_exports__ = __webpack_require__.O();
+        /******/ }
+        ]);"
       `);
 
       expect(compilation.errors).toStrictEqual([]);
@@ -861,7 +868,13 @@ describe('loader', () => {
         /***/ })
 
         },
-        0,[[\\"./index.js\\",\\"runtime\\"]]]);"
+        /******/ __webpack_require__ => { // webpackRuntimeModules
+        /******/ \\"use strict\\";
+        /******/ 
+        /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+        /******/ var __webpack_exports__ = (__webpack_exec__(\\"./index.js\\"));
+        /******/ }
+        ]);"
       `);
 
       expect(compilation.errors).toStrictEqual([]);
