@@ -99,8 +99,8 @@ module.exports = {
               // ... other options
               plugins: [
                 // ... other plugins
-                isDevelopment && require.resolve('react-refresh/babel'),
-              ].filter(Boolean),
+                ...isDevelopment ? [require.resolve('react-refresh/babel')] : [],
+              ],
             },
           },
         ],
@@ -109,9 +109,9 @@ module.exports = {
   },
   plugins: [
     // ... other plugins
-    isDevelopment && new webpack.HotModuleReplacementPlugin(),
-    isDevelopment && new ReactRefreshWebpackPlugin(),
-  ].filter(Boolean),
+    ...isDevelopment ? [new webpack.HotModuleReplacementPlugin()] : [],
+    ...isDevelopment ? [new ReactRefreshWebpackPlugin()] : [],
+  ],
   // ... other configuration options
 };
 ```
