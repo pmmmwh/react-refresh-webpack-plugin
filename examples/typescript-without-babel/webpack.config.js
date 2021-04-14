@@ -2,6 +2,7 @@ const path = require('path');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ReactRefreshTypeScript = require('react-refresh-typescript').default;
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -16,13 +17,14 @@ module.exports = {
         test: /\.tsx?$/,
         include: path.join(__dirname, 'src'),
         use: [
-          isDevelopment && {
-            loader: 'babel-loader',
-            options: { plugins: ['react-refresh/babel'] },
-          },
           {
             loader: 'ts-loader',
-            options: { transpileOnly: true },
+            options: {
+              transpileOnly: true,
+              getCustomTransformers: () => ({
+                before: isDevelopment ? [ReactRefreshTypeScript()] : [],
+              }),
+            },
           },
         ].filter(Boolean),
       },

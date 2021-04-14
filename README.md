@@ -72,6 +72,8 @@ pnpm add -D type-fest
 
 The most basic setup to enable "Fast Refresh" is to update your `webpack.config.js` (or `.ts`) as follows:
 
+### With babel-loader
+
 ```js
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const webpack = require('webpack');
@@ -116,6 +118,68 @@ module.exports = {
 };
 ```
 
+### With ts-loader
+
+You need to install [react-refresh-typescript](https://github.com/Jack-Works/react-refresh-transformer/tree/main/typescript) and your TypeScript must be at least 4.0.
+
+Emit module must be `ESModule` not `CommonJS`. You can overwrite it in `ts-loader` and still use `CommonJS` in your tsconfig file.
+
+> ⚠ This package is maintained by the community not by Facebook.
+
+```sh
+# if you prefer npm
+npm install -D react-refresh-typescript
+
+# if you prefer yarn
+yarn add -D react-refresh-typescript
+
+# if you prefer pnpm
+pnpm add -D react-refresh-typescript
+```
+
+```js
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const webpack = require('webpack');
+const ReactRefreshTypeScript = require('react-refresh-typescript');
+// ... your other imports
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+module.exports = {
+  // It is suggested to run both `react-refresh-typescript` and the plugin in the `development` mode only,
+  // even though both of them have optimisations in place to do nothing in the `production` mode.
+  // If you would like to override Webpack's defaults for modes, you can also use the `none` mode -
+  // you then will need to set `forceEnable: true` in the plugin's options.
+  mode: isDevelopment ? 'development' : 'production',
+  module: {
+    rules: [
+      // ... other rules
+      {
+        test: /\.[jt]sx?$/,
+        exclude: /node_modules/,
+        use: [
+          // ... other loaders
+          {
+            loader: require.resolve('ts-loader'),
+            options: {
+              getCustomTransformers: () => ({
+                before: isDevelopment ? [ReactRefreshTypeScript()] : [],
+              }),
+            },
+          },
+        ],
+      },
+    ],
+  },
+  plugins: [
+    // ... other plugins
+    isDevelopment && new webpack.HotModuleReplacementPlugin(),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
+  // ... other configuration options
+};
+```
+
 You might want to further tweak the configuration to accommodate your setup:
 
 - `isDevelopment`
@@ -131,9 +195,6 @@ You might want to further tweak the configuration to accommodate your setup:
   If you use `webpack-dev-server` or `webpack-plugin-serve`,
   you can set `devServer.hot`/`devServer.hotOnly` and `hmr` to `true` respectively,
   instead of adding the HMR plugin to your plugin list.
-
-> Note: If you are using TypeScript (instead of Babel) as a transpiler, you will still need to use `babel-loader` to process your source code.
-> Check out this [sample project](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/examples/typescript-without-babel) on how to set this up.
 
 ### Integration Support for Overlay
 
