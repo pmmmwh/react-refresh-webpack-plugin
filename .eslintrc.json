@@ -10,15 +10,10 @@
   },
   "overrides": [
     {
-      "files": [
-        "client/**/*.js",
-        "overlay/**/*.js",
-        "lib/runtime/**/*.js",
-        "loader/*.runtime.js",
-        "sockets/**/*.js"
-      ],
+      "files": ["client/**/*.js", "overlay/**/*.js", "lib/runtime/**/*.js", "sockets/**/*.js"],
       "parserOptions": {
-        "ecmaVersion": 2015
+        "ecmaVersion": 2015,
+        "sourceType": "module"
       },
       "env": {
         "browser": true,
@@ -39,6 +34,9 @@
         "__DEBUG__": true,
         "WEBPACK_VERSION": true,
         "browser": true
+      },
+      "parserOptions": {
+        "sourceType": "module"
       }
     },
     {
@@ -48,7 +46,7 @@
       }
     },
     {
-      "files": ["test/**/fixtures/*.esm.js"],
+      "files": ["test/**/fixtures/esm/*.js"],
       "parserOptions": {
         "ecmaVersion": 2015,
         "sourceType": "module"

@@ -1,8 +1,8 @@
-/* global __react_refresh_error_overlay__, __react_refresh_init_socket__, __resourceQuery */
+/* global __react_refresh_error_overlay__, __react_refresh_socket__, __resourceQuery */
 
-const errorEventHandlers = require('./utils/errorEventHandlers');
-const formatWebpackErrors = require('./utils/formatWebpackErrors');
-const runWithPatchedUrl = require('./utils/patchUrl');
+import { handleError, handleUnhandledRejection } from './utils/errorEventHandlers.js';
+import formatWebpackErrors from './utils/formatWebpackErrors.js';
+import runWithPatchedUrl from './utils/patchUrl.js';
 
 // Setup error states
 let isHotReload = false;
@@ -34,7 +34,7 @@ function handleCompileSuccess() {
 
 /**
  * A function called after a compile errored signal is received from Webpack.
- * @param {string} errors
+ * @param {string[]} errors
  * @returns {void}
  */
 function handleCompileErrors(errors) {
@@ -76,13 +76,13 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
     // Only register if no other overlay have been registered
     if (!window.__reactRefreshOverlayInjected) {
       // Registers handlers for compile errors
-      __react_refresh_init_socket__(compileMessageHandler, __resourceQuery);
+      __react_refresh_socket__.init(compileMessageHandler, __resourceQuery);
       // Registers handlers for runtime errors
-      errorEventHandlers.error(function handleError(error) {
+      handleError(function handleError(error) {
         hasRuntimeErrors = true;
         __react_refresh_error_overlay__.handleRuntimeError(error);
       });
-      errorEventHandlers.unhandledRejection(function handleUnhandledPromiseRejection(error) {
+      handleUnhandledRejection(function handleUnhandledPromiseRejection(error) {
         hasRuntimeErrors = true;
         __react_refresh_error_overlay__.handleRuntimeError(error);
       });

@@ -4,11 +4,12 @@ afterEach(() => {
   [...cleanupHandlers].map((callback) => callback());
 });
 
-const location = (href) => {
+const mockLocation = (href) => {
   const originalLocation = global.window.location;
 
   delete global.window.location;
-  global.window.location = new URL(href);
+  const locationMock = new URL(href);
+  global.window.location = locationMock;
 
   function mockRestore() {
     global.window.location = originalLocation;
@@ -16,7 +17,7 @@ const location = (href) => {
 
   cleanupHandlers.add(mockRestore);
 
-  return { mockRestore };
+  return [locationMock, mockRestore];
 };
 
-module.exports = location;
+export default mockLocation;

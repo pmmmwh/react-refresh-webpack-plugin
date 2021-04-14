@@ -402,17 +402,17 @@ it('provides fresh value for exports.* in parents', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1631-L1727
 it('provides fresh value for ES6 named import in parents', async () => {
-  const [session] = await getSandbox();
+  const [session] = await getSandbox({ esModule: WEBPACK_VERSION === 5 });
 
   await session.write('root.js', `export default function Noop() { return null; };`);
-  await session.write('index.js', `import Root from './root'; Root();`);
+  await session.write('index.js', `import Root from './root.js'; Root();`);
   await session.reload();
 
   await session.write(
     'foo.js',
     // This module accepts itself
     `
-    import { value as BarValue } from './bar';
+    import { value as BarValue } from './bar.js';
     window.log('init FooV1 with BarValue = ' + BarValue);
     export function Foo() {};`
   );
@@ -425,7 +425,7 @@ it('provides fresh value for ES6 named import in parents', async () => {
   session.resetState();
   await session.patch(
     'root.js',
-    `import './foo'; export default function Noop() { return null; };`
+    `import './foo.js'; export default function Noop() { return null; };`
   );
   expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1 with BarValue = 1']);
 
@@ -445,7 +445,7 @@ it('provides fresh value for ES6 named import in parents', async () => {
   await session.patch(
     'foo.js',
     `
-    import { value as BarValue } from './bar';
+    import { value as BarValue } from './bar.js';
     window.log('init FooV2 with BarValue = ' + BarValue);
     export function Foo() {};`
   );
@@ -464,17 +464,17 @@ it('provides fresh value for ES6 named import in parents', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1729-L1825
 it('provides fresh value for ES6 default import in parents', async () => {
-  const [session] = await getSandbox();
+  const [session] = await getSandbox({ esModule: WEBPACK_VERSION === 5 });
 
   await session.write('root.js', `export default function Noop() { return null; };`);
-  await session.write('index.js', `import Root from './root'; Root();`);
+  await session.write('index.js', `import Root from './root.js'; Root();`);
   await session.reload();
 
   await session.write(
     'foo.js',
     // This module accepts itself
     `
-    import BarValue from './bar';
+    import BarValue from './bar.js';
     window.log('init FooV1 with BarValue = ' + BarValue);
     export default function Foo() {};`
   );
@@ -487,7 +487,7 @@ it('provides fresh value for ES6 default import in parents', async () => {
   session.resetState();
   await session.patch(
     'root.js',
-    `import './foo'; export default function Noop() { return null; };`
+    `import './foo.js'; export default function Noop() { return null; };`
   );
   expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1 with BarValue = 1']);
 
@@ -507,7 +507,7 @@ it('provides fresh value for ES6 default import in parents', async () => {
   await session.patch(
     'foo.js',
     `
-    import BarValue from './bar';
+    import BarValue from './bar.js';
     window.log('init FooV2 with BarValue = ' + BarValue);
     export default function Foo() {};`
   );
@@ -634,13 +634,13 @@ it('can continue hot updates after module-level errors with module.exports', asy
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2051-L2162
 it('can continue hot updates after module-level errors with ES6 exports', async () => {
-  const [session] = await getSandbox();
+  const [session] = await getSandbox({ esModule: WEBPACK_VERSION === 5 });
 
   await session.write('root.js', `export default function Noop() { return null; };`);
-  await session.write('index.js', `import Root from './root'; Root();`);
+  await session.write('index.js', `import Root from './root.js'; Root();`);
   await session.reload();
 
-  await session.write('foo.js', `import Bar from './bar'; Bar(); window.log('init FooV1');`);
+  await session.write('foo.js', `import Bar from './bar.js'; Bar(); window.log('init FooV1');`);
   await session.write(
     'bar.js',
     // This module accepts itself
@@ -650,7 +650,7 @@ it('can continue hot updates after module-level errors with ES6 exports', async 
   session.resetState();
   await session.patch(
     'root.js',
-    `import './foo'; export default function Noop() { return null; };`
+    `import './foo.js'; export default function Noop() { return null; };`
   );
   expect(session.logs).toStrictEqual(['init BarV1', 'init FooV1']);
   expect(session.errors).toHaveLength(0);

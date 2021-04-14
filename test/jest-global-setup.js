@@ -3,6 +3,7 @@ const yn = require('yn');
 
 async function setup() {
   const browser = await puppeteer.launch({
+    devtools: yn(process.env.DEBUG, { default: false }),
     headless: yn(process.env.HEADLESS, { default: false }),
   });
 

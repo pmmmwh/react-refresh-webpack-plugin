@@ -85,6 +85,7 @@ function formatWebpackErrors(errors) {
     // Webpack 4 compilation errors are strings
     return formatMessage(errorObjOrMessage);
   });
+
   if (formattedErrors.some(isLikelyASyntaxError)) {
     // If there are any syntax errors, show just them.
     formattedErrors = formattedErrors.filter(isLikelyASyntaxError);
@@ -92,4 +93,4 @@ function formatWebpackErrors(errors) {
   return formattedErrors;
 }
 
-module.exports = formatWebpackErrors;
+export default formatWebpackErrors;

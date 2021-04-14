@@ -3,7 +3,7 @@ const normalizeOptions = require('../../lib/utils/normalizeOptions');
 /** @type {Partial<import('../../types/types').ReactRefreshPluginOptions>} */
 const DEFAULT_OPTIONS = {
   exclude: /node_modules/i,
-  include: /\.([jt]sx?|flow)$/i,
+  include: /\.([cm]js|[jt]sx?|flow)$/i,
   overlay: {
     entry: require.resolve('../../client/ErrorOverlayEntry'),
     module: require.resolve('../../overlay'),

@@ -442,7 +442,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options has an unknown property 'unknown'. These properties are valid:
-         object { exclude?, forceEnable?, include?, library?, overlay? }"
+         object { esModule?, exclude?, forceEnable?, include?, library?, overlay? }"
     `);
   });
 });

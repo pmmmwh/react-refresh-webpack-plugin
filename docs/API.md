@@ -13,6 +13,7 @@ interface ReactRefreshPluginOptions {
   exclude?: string | RegExp | Array<string | RegExp>;
   include?: string | RegExp | Array<string | RegExp>;
   library?: string;
+  esModule?: boolean | ESModuleOptions;
   overlay?: boolean | ErrorOverlayOptions;
 }
 ```
@@ -61,6 +62,21 @@ This is similar to the `output.uniqueName` in Webpack 5 or the `output.library` 
 
 It is most useful when multiple instances of React Refresh is running together simultaneously.
 
+### `esModule`
+
+Type: `boolean | ESModuleOptions`
+
+Default: `undefined` (auto-detection)
+
+Enables strict ES Modules compatible runtime.
+By default, the plugin will try to infer the module system same as Webpack 5,
+either via the `type` property in `package.json` (`commonjs` and `module`),
+or via the file extension (`.cjs` and `.mjs`).
+
+It is most useful when you want to enforce output of native ESM code.
+
+See the [`ESModuleOptions`](#esmoduleoptions) section below for more details on the object API.
+
 ### `overlay`
 
 Type: `boolean | ErrorOverlayOptions`
@@ -83,6 +99,33 @@ Modifies behaviour of the plugin's error overlay integration:
   (\*NOTE: This is targeted for ADVANCED use cases.).
 
 See the [`ErrorOverlayOptions`](#erroroverlayoptions) section below for more details on the object API.
+
+## `ESModuleOptions`
+
+```ts
+interface ESModuleOptions {
+  exclude?: string | RegExp | Array<string | RegExp>;
+  include?: string | RegExp | Array<string | RegExp>;
+}
+```
+
+### `exclude`
+
+Type: `string | RegExp | Array<string | RegExp>`
+
+Default: `/node_modules/`
+
+Exclude files from being processed as ESM.
+This is similar to the `module.rules` option in Webpack.
+
+### `include`
+
+Type: `string | RegExp | Array<string | RegExp>`
+
+Default: `/\.([jt]sx?|flow)$/i`
+
+Include files to be processed as ESM.
+This is similar to the `module.rules` option in Webpack.
 
 ## `ErrorOverlayOptions`
 

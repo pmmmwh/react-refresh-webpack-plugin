@@ -14,10 +14,13 @@ describe('getRefreshGlobal', () => {
     expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
       "__webpack_require__.$Refresh$ = {
       	setup: function(currentModuleId) {
+      		var prevModuleId = __webpack_require__.$Refresh$.moduleId;
       		var prevRuntime = __webpack_require__.$Refresh$.runtime;
       		var prevRegister = __webpack_require__.$Refresh$.register;
       		var prevSignature = __webpack_require__.$Refresh$.signature;
       		var prevCleanup = __webpack_require__.$Refresh$.cleanup;
+
+      		__webpack_require__.$Refresh$.moduleId = currentModuleId;
 
       		__webpack_require__.$Refresh$.runtime = {
       			createSignatureFunctionForTransform: function() { return function(type) { return type; }; },
@@ -33,6 +36,7 @@ describe('getRefreshGlobal', () => {
 
       		__webpack_require__.$Refresh$.cleanup = function(cleanupModuleId) {
       			if (currentModuleId === cleanupModuleId) {
+      				__webpack_require__.$Refresh$.moduleId = prevModuleId;
       				__webpack_require__.$Refresh$.runtime = prevRuntime;
       				__webpack_require__.$Refresh$.register = prevRegister;
       				__webpack_require__.$Refresh$.signature = prevSignature;
@@ -48,8 +52,9 @@ describe('getRefreshGlobal', () => {
 
     const refreshGlobal = global.__webpack_require__.$Refresh$;
     expect(() => {
-      refreshGlobal.setup();
+      refreshGlobal.setup('1');
     }).not.toThrow();
+    expect(refreshGlobal.moduleId).toBe('1');
     expect(typeof refreshGlobal.runtime).toBe('object');
     expect(typeof refreshGlobal.runtime.createSignatureFunctionForTransform).toBe('function');
     expect(typeof refreshGlobal.runtime.register).toBe('function');
@@ -64,15 +69,18 @@ describe('getRefreshGlobal', () => {
     () => {
       const RuntimeTemplate = require('webpack/lib/RuntimeTemplate');
       const refreshGlobalTemplate = getRefreshGlobal(
-        new RuntimeTemplate({ environment: { arrowFunction: true, const: true } }, (i) => i)
+        new RuntimeTemplate({}, { environment: { arrowFunction: true, const: true } }, (i) => i)
       );
       expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
         "__webpack_require__.$Refresh$ = {
         	setup: (currentModuleId) => {
+        		const prevModuleId = __webpack_require__.$Refresh$.moduleId;
         		const prevRuntime = __webpack_require__.$Refresh$.runtime;
         		const prevRegister = __webpack_require__.$Refresh$.register;
         		const prevSignature = __webpack_require__.$Refresh$.signature;
         		const prevCleanup = __webpack_require__.$Refresh$.cleanup;
+
+        		__webpack_require__.$Refresh$.moduleId = currentModuleId;
 
         		__webpack_require__.$Refresh$.runtime = {
         			createSignatureFunctionForTransform: () => ((type) => (type)),
@@ -88,6 +96,7 @@ describe('getRefreshGlobal', () => {
 
         		__webpack_require__.$Refresh$.cleanup = (cleanupModuleId) => {
         			if (currentModuleId === cleanupModuleId) {
+        				__webpack_require__.$Refresh$.moduleId = prevModuleId;
         				__webpack_require__.$Refresh$.runtime = prevRuntime;
         				__webpack_require__.$Refresh$.register = prevRegister;
         				__webpack_require__.$Refresh$.signature = prevSignature;
@@ -103,8 +112,9 @@ describe('getRefreshGlobal', () => {
 
       const refreshGlobal = global.__webpack_require__.$Refresh$;
       expect(() => {
-        refreshGlobal.setup();
+        refreshGlobal.setup('1');
       }).not.toThrow();
+      expect(refreshGlobal.moduleId).toBe('1');
       expect(typeof refreshGlobal.runtime).toBe('object');
       expect(typeof refreshGlobal.runtime.createSignatureFunctionForTransform).toBe('function');
       expect(typeof refreshGlobal.runtime.register).toBe('function');

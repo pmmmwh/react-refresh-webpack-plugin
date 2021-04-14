@@ -11,7 +11,7 @@ const singletonKey = '__webpack_hot_middleware_reporter__';
  * @returns {void}
  */
 function initWHMEventSource(messageHandler) {
-  const client = window[singletonKey] || require('webpack-hot-middleware/client');
+  const client = window[singletonKey];
 
   client.useCustomOverlay({
     showProblems: function showProblems(type, data) {
@@ -28,4 +28,4 @@ function initWHMEventSource(messageHandler) {
   });
 }
 
-module.exports = initWHMEventSource;
+export const init = initWHMEventSource;

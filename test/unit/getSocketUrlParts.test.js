@@ -4,9 +4,9 @@
 
 jest.mock('../../sockets/utils/getCurrentScriptSource');
 
-const getCurrentScriptSource = require('../../sockets/utils/getCurrentScriptSource');
-const getSocketUrlParts = require('../../sockets/utils/getSocketUrlParts');
-const mockLocation = require('../mocks/location');
+import getCurrentScriptSource from '../../sockets/utils/getCurrentScriptSource';
+import getSocketUrlParts from '../../sockets/utils/getSocketUrlParts';
+import mockLocation from '../mocks/location';
 
 describe('getSocketUrlParts', () => {
   beforeEach(() => {
