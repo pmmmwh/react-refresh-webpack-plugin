@@ -2,6 +2,7 @@
   "additionalProperties": false,
   "type": "object",
   "definitions": {
+    "Path": { "type": "string" },
     "MatchCondition": {
       "anyOf": [{ "instanceof": "RegExp" }, { "$ref": "#/definitions/Path" }]
     },
@@ -9,6 +10,24 @@
       "type": "array",
       "items": { "$ref": "#/definitions/MatchCondition" },
       "minItems": 1
+    },
+    "ESModuleOptions": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": {
+        "exclude": {
+          "anyOf": [
+            { "$ref": "#/definitions/MatchCondition" },
+            { "$ref": "#/definitions/MatchConditions" }
+          ]
+        },
+        "include": {
+          "anyOf": [
+            { "$ref": "#/definitions/MatchCondition" },
+            { "$ref": "#/definitions/MatchConditions" }
+          ]
+        }
+      }
     },
     "OverlayOptions": {
       "additionalProperties": false,
@@ -34,10 +53,12 @@
         "useLegacyWDSSockets": { "type": "boolean" },
         "useURLPolyfill": { "type": "boolean" }
       }
-    },
-    "Path": { "type": "string" }
+    }
   },
   "properties": {
+    "esModule": {
+      "anyOf": [{ "type": "boolean" }, { "$ref": "#/definitions/ESModuleOptions" }]
+    },
     "exclude": {
       "anyOf": [
         { "$ref": "#/definitions/MatchCondition" },

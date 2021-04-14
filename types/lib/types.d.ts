@@ -44,6 +44,10 @@ export type NormalizedErrorOverlayOptions = import('type-fest').SetRequired<
 >;
 export type ReactRefreshPluginOptions = {
   /**
+   * Enables strict ES Modules compatible runtime.
+   */
+  esModule?: boolean | import('../loader/types').ESModuleOptions | undefined;
+  /**
    * Files to explicitly exclude from processing.
    */
   exclude?: string | RegExp | (string | RegExp)[] | undefined;
