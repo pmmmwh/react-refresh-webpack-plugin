@@ -2,7 +2,7 @@ const path = require('path');
 const fse = require('fs-extra');
 const getPort = require('get-port');
 const { nanoid } = require('nanoid');
-const { getIndexHTML, getWDSConfig } = require('./configs');
+const { getIndexHTML, getPackageJson, getWDSConfig } = require('./configs');
 const { killTestProcess, spawnWDS, spawnWebpackServe } = require('./spawn');
 
 // Extends the timeout for tests using the sandbox
@@ -59,11 +59,12 @@ const spawnFn = WEBPACK_VERSION === 5 ? spawnWebpackServe : spawnWDS;
 /**
  * Creates a Webpack and Puppeteer backed sandbox to execute HMR operations on.
  * @param {Object} [options]
+ * @param {boolean} [options.esModule]
  * @param {string} [options.id]
  * @param {Map<string, string>} [options.initialFiles]
  * @returns {Promise<[SandboxSession, function(): Promise<void>]>}
  */
-async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
+async function getSandbox({ esModule = false, id = nanoid(), initialFiles = new Map() } = {}) {
   const port = await getPort();
 
   // Get sandbox directory paths
@@ -75,11 +76,14 @@ async function getSandbox({ id = nanoid(), initialFiles = new Map() } = {}) {
   await fse.mkdirp(srcDir);
 
   // Write necessary files to sandbox
+  await fse.writeFile(path.join(srcDir, 'package.json'), getPackageJson(esModule));
   await fse.writeFile(path.join(sandboxDir, 'webpack.config.js'), getWDSConfig(srcDir));
   await fse.writeFile(path.join(sandboxDir, 'index.html'), getIndexHTML(port));
   await fse.writeFile(
     path.join(srcDir, 'index.js'),
-    `export default function Sandbox() { return 'new sandbox'; }`
+    esModule
+      ? `export default function Sandbox() { return 'new sandbox'; }`
+      : "module.exports = function Sandbox() { return 'new sandbox'; };"
   );
 
   // Write initial files to sandbox

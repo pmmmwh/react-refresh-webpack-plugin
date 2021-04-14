@@ -23,6 +23,18 @@ function getIndexHTML(port) {
 }
 
 /**
+ * @param {boolean} esModule
+ * @returns {string}
+ */
+function getPackageJson(esModule = false) {
+  return `
+{
+  "type": "${esModule ? 'module' : 'commonjs'}"
+}
+`;
+}
+
+/**
  * @param {string} srcDir
  * @returns {string}
  */
@@ -68,4 +80,4 @@ module.exports = {
 `;
 }
 
-module.exports = { getIndexHTML, getWDSConfig };
+module.exports = { getIndexHTML, getPackageJson, getWDSConfig };
