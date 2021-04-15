@@ -90,8 +90,8 @@
     "puppeteer": "^8.0.0",
     "react-refresh": "^0.10.0",
     "sourcemap-validator": "^2.1.0",
-    "type-fest": "^0.21.2",
-    "typescript": "4.2.2",
+    "type-fest": "^1.0.2",
+    "typescript": "4.2.4",
     "webpack": "^4.44.2",
     "webpack-cli": "^3.3.12",
     "webpack-cli.latest": "npm:webpack-cli@4.x",
@@ -105,7 +105,7 @@
     "@types/webpack": "4.x",
     "react-refresh": "^0.10.0",
     "sockjs-client": "^1.4.0",
-    "type-fest": ">=0.13.1 <1.0.0",
+    "type-fest": "^1.0.2",
     "webpack": ">=4.43.0 <6.0.0",
     "webpack-dev-server": "3.x || 4.x",
     "webpack-hot-middleware": "2.x",
@@ -130,6 +130,9 @@
     "webpack-plugin-serve": {
       "optional": true
     }
+  },
+  "resolutions": {
+    "type-fest": "^1.0.2"
   },
   "engines": {
     "node": ">= 10.13"
