@@ -31,6 +31,7 @@
     "client",
     "lib",
     "loader",
+    "options",
     "overlay",
     "sockets",
     "types"
