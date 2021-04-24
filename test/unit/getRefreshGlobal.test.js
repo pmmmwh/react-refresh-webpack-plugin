@@ -13,6 +13,8 @@ describe('getRefreshGlobal', () => {
     const refreshGlobalTemplate = getRefreshGlobal();
     expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
       "__webpack_require__.$Refresh$ = {
+      	register: function() { return undefined; },
+      	signature: function() { return function(type) { return type; }; },
       	setup: function(currentModuleId) {
       		var prevModuleId = __webpack_require__.$Refresh$.moduleId;
       		var prevRuntime = __webpack_require__.$Refresh$.runtime;
@@ -73,6 +75,8 @@ describe('getRefreshGlobal', () => {
       );
       expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
         "__webpack_require__.$Refresh$ = {
+        	register: () => (undefined),
+        	signature: () => ((type) => (type)),
         	setup: (currentModuleId) => {
         		const prevModuleId = __webpack_require__.$Refresh$.moduleId;
         		const prevRuntime = __webpack_require__.$Refresh$.runtime;
