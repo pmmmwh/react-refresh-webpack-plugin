@@ -126,19 +126,19 @@ describe('injectRefreshEntry', () => {
 
   it('should throw when empty array entry is received', () => {
     expect(() => injectRefreshEntry([], DEFAULT_ENTRIES)).toThrowErrorMatchingInlineSnapshot(
-      `"[React Refresh] Failed to parse the Webpack \`entry\` object! Please ensure the \`entry\` option in your Webpack config is specified."`
+      `"[ReactRefreshPlugin] Failed to parse the Webpack \`entry\` object! Please ensure the \`entry\` option in your Webpack config is specified."`
     );
   });
 
   it('should throw when empty object entry is received', () => {
     expect(() => injectRefreshEntry({}, DEFAULT_ENTRIES)).toThrowErrorMatchingInlineSnapshot(
-      `"[React Refresh] Failed to parse the Webpack \`entry\` object! Please ensure the \`entry\` option in your Webpack config is specified."`
+      `"[ReactRefreshPlugin] Failed to parse the Webpack \`entry\` object! Please ensure the \`entry\` option in your Webpack config is specified."`
     );
   });
 
   it('should throw when invalid entry is received', () => {
     expect(() => injectRefreshEntry(1, DEFAULT_ENTRIES)).toThrowErrorMatchingInlineSnapshot(
-      `"[React Refresh] Failed to parse the Webpack \`entry\` object! Please ensure the \`entry\` option in your Webpack config is specified."`
+      `"[ReactRefreshPlugin] Failed to parse the Webpack \`entry\` object! Please ensure the \`entry\` option in your Webpack config is specified."`
     );
   });
 });
