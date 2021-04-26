@@ -74,7 +74,7 @@ function compileMessageHandler(message) {
 if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
   runWithPatchedUrl(function setupOverlay() {
     // Only register if no other overlay have been registered
-    if (!window.__reactRefreshOverlayInjected) {
+    if (!window.__reactRefreshOverlayInjected && __react_refresh_socket__) {
       // Registers handlers for compile errors
       __react_refresh_socket__.init(compileMessageHandler, __resourceQuery);
       // Registers handlers for runtime errors
