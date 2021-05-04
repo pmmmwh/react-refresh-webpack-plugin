@@ -75,19 +75,6 @@ describe('getSocketUrlParts', () => {
     });
   });
 
-  it('should work when script source port is 0', () => {
-    mockLocation('http://localhost:8080');
-    getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost:0');
-
-    expect(getSocketUrlParts()).toStrictEqual({
-      auth: undefined,
-      hostname: 'localhost',
-      pathname: '/sockjs-node',
-      port: '8080',
-      protocol: 'http:',
-    });
-  });
-
   it('should work when script source port is unavailable', () => {
     mockLocation('http://localhost:8080');
     getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost');
