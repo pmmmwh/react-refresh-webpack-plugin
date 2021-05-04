@@ -11,8 +11,8 @@ The `react-refresh/babel` plugin provide support to directive comments out of th
 ```
 
 This directive tells React Refresh to force reset state on every refresh (current file only).
-This can be useful, for example,
-to reset error boundary components' state so they don't persist after code changes.
+This can be useful, for example, to reset error boundary components' state,
+so it doesn't persist when new code is executed.
 
 ## Options
 
