@@ -32,28 +32,26 @@ function getSocketUrlParts(resourceQuery) {
 
   /** @type {string | undefined} */
   let auth;
+  /** @type {string | undefined} */
   let hostname = url.hostname;
+  /** @type {string | undefined} */
   let protocol = url.protocol;
   let pathname = '/sockjs-node'; // This is hard-coded in WDS
+  /** @type {string | undefined} */
   let port = url.port;
 
   // Parse authentication credentials in case we need them
   if (url.username) {
-    auth = url.username;
-
     // Since HTTP basic authentication does not allow empty username,
     // we only include password if the username is not empty.
-    if (url.password) {
-      // Result: <username>:<password>
-      auth = auth.concat(':', url.password);
-    }
+    // Result: <username>:<password>
+    auth = [url.username, url.password].filter(Boolean).join(':');
   }
 
   // Check for IPv4 and IPv6 host addresses that corresponds to `any`/`empty`.
   // This is important because `hostname` can be empty for some hosts,
   // such as `about:blank` or `file://` URLs.
-  const isEmptyHostname =
-    url.hostname === '0.0.0.0' || url.hostname === '[::]' || url.hostname === null;
+  const isEmptyHostname = url.hostname === '0.0.0.0' || url.hostname === '[::]' || !url.hostname;
 
   // We only re-assign the hostname if we are using HTTP/HTTPS protocols
   if (
@@ -71,8 +69,8 @@ function getSocketUrlParts(resourceQuery) {
     protocol = window.location.protocol;
   }
 
-  // We only re-assign port when it is not available or `empty`
-  if (!port || port === '0') {
+  // We only re-assign port when it is not available
+  if (!port) {
     port = window.location.port;
   }
 
