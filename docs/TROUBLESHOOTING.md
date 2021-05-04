@@ -206,10 +206,12 @@ To make fast refresh work properly, make sure your Webpack configuration comply 
 
    **Using DLL plugin**
 
-   Ensure the entries for the DLL include `react-refresh/runtime`.
+   Ensure the entries for the DLL include `react-refresh/runtime`,
+   and the `mode` option is set to `development`.
 
    ```js
    module.exports = {
+     mode: 'development',
      entry: ['react', 'react-dom', 'react-refresh/runtime'],
    };
    ```
