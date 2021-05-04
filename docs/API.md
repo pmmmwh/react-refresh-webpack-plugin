@@ -1,11 +1,27 @@
 # API
 
+## Directives
+
+The `react-refresh/babel` plugin provide support to directive comments out of the box.
+
+### `reset`
+
+```js
+/* @refresh reset */
+```
+
+This directive tells React Refresh to force reset state on every refresh (current file only).
+This can be useful, for example, to reset error boundary components' state,
+so it doesn't persist when new code is executed.
+
+## Options
+
 This plugin accepts a few options to tweak its behaviour.
 
 In usual scenarios, you probably wouldn't have to reach for them -
 they exist specifically to enable integration in more advanced/complicated setups.
 
-## `ReactRefreshPluginOptions`
+### `ReactRefreshPluginOptions`
 
 ```ts
 interface ReactRefreshPluginOptions {
@@ -18,7 +34,7 @@ interface ReactRefreshPluginOptions {
 }
 ```
 
-### `forceEnable`
+#### `forceEnable`
 
 Type: `boolean`
 
@@ -33,7 +49,7 @@ It is useful if you want to:
 - Use the plugin in environments we do not support, such as `electron-prerender`
   (**WARNING: Proceed at your own risk!**).
 
-### `exclude`
+#### `exclude`
 
 Type: `string | RegExp | Array<string | RegExp>`
 
@@ -42,7 +58,7 @@ Default: `/node_modules/`
 Exclude files from being processed by the plugin.
 This is similar to the `module.rules` option in Webpack.
 
-### `include`
+#### `include`
 
 Type: `string | RegExp | Array<string | RegExp>`
 
@@ -51,7 +67,7 @@ Default: `/\.([jt]sx?|flow)$/i`
 Include files to be processed by the plugin.
 This is similar to the `module.rules` option in Webpack.
 
-### `library`
+#### `library`
 
 Type: `string`
 
@@ -62,7 +78,7 @@ This is similar to the `output.uniqueName` in Webpack 5 or the `output.library` 
 
 It is most useful when multiple instances of React Refresh is running together simultaneously.
 
-### `esModule`
+#### `esModule`
 
 Type: `boolean | ESModuleOptions`
 
@@ -77,7 +93,7 @@ It is most useful when you want to enforce output of native ESM code.
 
 See the [`ESModuleOptions`](#esmoduleoptions) section below for more details on the object API.
 
-### `overlay`
+#### `overlay`
 
 Type: `boolean | ErrorOverlayOptions`
 
@@ -100,7 +116,7 @@ Modifies behaviour of the plugin's error overlay integration:
 
 See the [`ErrorOverlayOptions`](#erroroverlayoptions) section below for more details on the object API.
 
-## `ESModuleOptions`
+### `ESModuleOptions`
 
 ```ts
 interface ESModuleOptions {
@@ -109,7 +125,7 @@ interface ESModuleOptions {
 }
 ```
 
-### `exclude`
+#### `exclude`
 
 Type: `string | RegExp | Array<string | RegExp>`
 
@@ -118,7 +134,7 @@ Default: `/node_modules/`
 Exclude files from being processed as ESM.
 This is similar to the `module.rules` option in Webpack.
 
-### `include`
+#### `include`
 
 Type: `string | RegExp | Array<string | RegExp>`
 
@@ -127,7 +143,7 @@ Default: `/\.([jt]sx?|flow)$/i`
 Include files to be processed as ESM.
 This is similar to the `module.rules` option in Webpack.
 
-## `ErrorOverlayOptions`
+### `ErrorOverlayOptions`
 
 ```ts
 interface ErrorOverlayOptions {
@@ -143,7 +159,7 @@ interface ErrorOverlayOptions {
 }
 ```
 
-### `entry`
+#### `entry`
 
 Type: `string | false`
 
@@ -154,7 +170,7 @@ Both **ABSOLUTE** and **RELATIVE** paths are acceptable, but it is recommended t
 
 When set to `false`, no code will be injected for this stage.
 
-### `module`
+#### `module`
 
 Type: `string | false`
 
@@ -188,7 +204,7 @@ function clearCompileErrors() {}
 > you should instead use `react-dev-utils/refreshOverlayInterop` or implement a similar interop.
 > The APIs expected by this plugin is slightly different from what `react-error-overlay` provides out-of-the-box.
 
-### `sockIntegration`
+#### `sockIntegration`
 
 Default: `wds`
 
@@ -209,7 +225,7 @@ If you use any other HMR integrations (e.g. custom ones), or if you want to cust
 you will need to implement a message client in the provided file/module.
 You can reference implementations inside the [`sockets`](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/sockets) directory.
 
-### `sockHost`
+#### `sockHost`
 
 Default: `window.location.hostname`
 
@@ -220,7 +236,7 @@ Type: `string`
 Set a custom host for the error overlay to listen to Webpack build messages.
 Useful if you set `devServer.sockHost` to something other than `window.location.hostname`.
 
-### `sockPort`
+#### `sockPort`
 
 Default: `window.location.port`
 
@@ -231,7 +247,7 @@ Type: `number`
 Set a custom port for the error overlay to listen to Webpack build messages.
 Useful if you set `devServer.sockPort` to something other than `window.location.port`.
 
-### `sockPath`
+#### `sockPath`
 
 Default: `/sockjs-node`
 
@@ -242,7 +258,7 @@ Type: `string`
 Set a custom path for the error overlay to listen to Webpack build messages.
 Useful if you set `devServer.sockPath` to something other than `/sockjs-node`.
 
-### `sockProtocol`
+#### `sockProtocol`
 
 Default: Parsed from current URL
 

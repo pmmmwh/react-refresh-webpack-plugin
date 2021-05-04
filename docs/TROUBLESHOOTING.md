@@ -39,6 +39,20 @@ module.exports = {
 };
 ```
 
+## Compatibility with `npm@7`
+
+`npm@7` have brought back the behaviour of auto-installing peer dependencies with new semantics,
+but their support for optional peer dependencies,
+used by this plugin to provide support to multiple integrations without bundling them all,
+are known to be a bit lacking.
+
+If you encounter the `ERESOLVE` error code while running `npm install` -
+you can fallback to use the legacy dependency resolution algorithm and it should resolve the issue:
+
+```sh
+npm install --legacy-peer-deps
+```
+
 ## Usage with Indirection (like Workers and JS Templates)
 
 If you share the Babel config for files in an indirect code path (e.g. Web Workers, JS Templates with partial pre-render) and all your other source files, you might experience this error:
@@ -206,10 +220,12 @@ To make fast refresh work properly, make sure your Webpack configuration comply 
 
    **Using DLL plugin**
 
-   Ensure the entries for the DLL include `react-refresh/runtime`.
+   Ensure the entries for the DLL include `react-refresh/runtime`,
+   and the `mode` option is set to `development`.
 
    ```js
    module.exports = {
+     mode: 'development',
      entry: ['react', 'react-dom', 'react-refresh/runtime'],
    };
    ```
