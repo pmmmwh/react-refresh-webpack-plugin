@@ -4,10 +4,10 @@ import parseQuery from './parseQuery.js';
 /**
  * @typedef {Object} SocketUrlParts
  * @property {string} [auth]
- * @property {string} [hostname]
+ * @property {string} hostname
  * @property {string} [protocol]
- * @property {string} [pathname]
- * @property {string} [port]
+ * @property {string} pathname
+ * @property {string} port
  */
 
 /**
