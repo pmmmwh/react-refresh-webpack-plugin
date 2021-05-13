@@ -1,10 +1,19 @@
 /**
  * Create a valid URL from parsed URL parts.
  * @param {import('./getSocketUrlParts').SocketUrlParts} urlParts The parsed URL parts.
+ * @param {boolean} [enforceWs] Enforce using the WebSocket protocols.
  * @returns {string} The generated URL.
  */
-function urlFromParts(urlParts) {
-  const fullProtocol = (urlParts.protocol || 'http:') + '//';
+function urlFromParts(urlParts, enforceWs) {
+  let fullProtocol = 'http:';
+  if (urlParts.protocol) {
+    fullProtocol = urlParts.protocol;
+  }
+  if (enforceWs) {
+    fullProtocol = fullProtocol.replace(/^(?:http|.+-extension|file)/i, 'ws');
+  }
+
+  fullProtocol = fullProtocol + '//';
 
   let fullHost = urlParts.hostname;
   if (urlParts.auth) {

@@ -14,7 +14,13 @@ function initWDSSocket(messageHandler, resourceQuery) {
     const SocketClient = __webpack_dev_server_client__;
 
     const urlParts = getSocketUrlParts(resourceQuery);
-    const connection = new SocketClient(getUrlFromParts(urlParts));
+
+    let enforceWs = false;
+    if (SocketClient.name.toLowerCase().includes('websocket')) {
+      enforceWs = true;
+    }
+
+    const connection = new SocketClient(getUrlFromParts(urlParts, enforceWs));
 
     connection.onMessage(function onSocketMessage(data) {
       const message = JSON.parse(data);
