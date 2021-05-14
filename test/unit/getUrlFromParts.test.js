@@ -88,4 +88,34 @@ describe('getUrlFromParts', () => {
       })
     ).toStrictEqual('http://username:password@localhost:8080/sockjs-node');
   });
+
+  it('should force WS when enforceWs is true and protocol is HTTP', () => {
+    expect(
+      getUrlFromParts(
+        {
+          auth: undefined,
+          hostname: 'localhost',
+          pathname: '/sockjs-node',
+          port: '8080',
+          protocol: 'http:',
+        },
+        true
+      )
+    ).toStrictEqual('ws://localhost:8080/sockjs-node');
+  });
+
+  it('should force WSS when enforceWs is true and protocol is HTTPS', () => {
+    expect(
+      getUrlFromParts(
+        {
+          auth: undefined,
+          hostname: 'localhost',
+          pathname: '/sockjs-node',
+          port: '8080',
+          protocol: 'https:',
+        },
+        true
+      )
+    ).toStrictEqual('wss://localhost:8080/sockjs-node');
+  });
 });
