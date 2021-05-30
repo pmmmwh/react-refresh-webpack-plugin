@@ -101,7 +101,12 @@ describe('injectRefreshEntry', () => {
   });
 
   it('should not append overlay entry when unused', () => {
-    expect(injectRefreshEntry('test.js', {})).toStrictEqual(['test.js']);
+    expect(
+      injectRefreshEntry('test.js', {
+        prependEntries: [],
+        overlayEntries: [],
+      })
+    ).toStrictEqual(['test.js']);
   });
 
   it('should append overlay entry for a string after socket-related entries', () => {
