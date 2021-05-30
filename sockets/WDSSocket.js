@@ -16,7 +16,11 @@ function initWDSSocket(messageHandler, resourceQuery) {
     const urlParts = getSocketUrlParts(resourceQuery);
 
     let enforceWs = false;
-    if (SocketClient.name.toLowerCase().includes('websocket')) {
+    if (
+      typeof SocketClient.name !== 'undefined' &&
+      SocketClient.name !== null &&
+      SocketClient.name.toLowerCase().includes('websocket')
+    ) {
       enforceWs = true;
     }
 
