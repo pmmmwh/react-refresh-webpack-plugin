@@ -9,7 +9,6 @@ const { getOptions } = require('loader-utils');
 const { validate: validateOptions } = require('schema-utils');
 const { SourceMapConsumer, SourceNode } = require('source-map');
 const { Template } = require('webpack');
-const { refreshGlobal } = require('../lib/globals');
 const {
   getIdentitySourceMap,
   getModuleSystem,
@@ -24,10 +23,12 @@ const RefreshRuntimePath = require
   .replace(/'/g, "\\'");
 
 const RefreshSetupRuntimes = {
-  cjs: Template.asString(`${refreshGlobal}.runtime = require('${RefreshRuntimePath}');`),
+  cjs: Template.asString(
+    `__webpack_require__.$Refresh$.runtime = require('${RefreshRuntimePath}');`
+  ),
   esm: Template.asString([
     `import * as __react_refresh_runtime__ from '${RefreshRuntimePath}';`,
-    `${refreshGlobal}.runtime = __react_refresh_runtime__;`,
+    `__webpack_require__.$Refresh$.runtime = __react_refresh_runtime__;`,
   ]),
 };
 
