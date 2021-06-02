@@ -1,8 +1,12 @@
+const { Template } = require('webpack');
 const getRefreshModuleRuntime = require('../../../loader/utils/getRefreshModuleRuntime');
 
 describe('getRefreshModuleRuntime', () => {
   it('should return working refresh module runtime without const using CommonJS', () => {
-    const refreshModuleRuntime = getRefreshModuleRuntime({ const: false, moduleSystem: 'cjs' });
+    const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
+      const: false,
+      moduleSystem: 'cjs',
+    });
 
     expect(refreshModuleRuntime.indexOf('var')).not.toBe(-1);
     expect(refreshModuleRuntime.indexOf('const')).toBe(-1);
@@ -99,7 +103,10 @@ describe('getRefreshModuleRuntime', () => {
   });
 
   it('should return working refresh module runtime with const using CommonJS', () => {
-    const refreshModuleRuntime = getRefreshModuleRuntime({ const: true, moduleSystem: 'cjs' });
+    const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
+      const: true,
+      moduleSystem: 'cjs',
+    });
 
     expect(refreshModuleRuntime.indexOf('var')).toBe(-1);
     expect(refreshModuleRuntime.indexOf('const')).not.toBe(-1);
@@ -196,7 +203,10 @@ describe('getRefreshModuleRuntime', () => {
   });
 
   it('should return working refresh module runtime without const using ES Modules', () => {
-    const refreshModuleRuntime = getRefreshModuleRuntime({ const: false, moduleSystem: 'esm' });
+    const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
+      const: false,
+      moduleSystem: 'esm',
+    });
 
     expect(refreshModuleRuntime.indexOf('var')).not.toBe(-1);
     expect(refreshModuleRuntime.indexOf('const')).toBe(-1);
@@ -293,7 +303,10 @@ describe('getRefreshModuleRuntime', () => {
   });
 
   it('should return working refresh module runtime with const using ES Modules', () => {
-    const refreshModuleRuntime = getRefreshModuleRuntime({ const: true, moduleSystem: 'esm' });
+    const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
+      const: true,
+      moduleSystem: 'esm',
+    });
 
     expect(refreshModuleRuntime.indexOf('var')).toBe(-1);
     expect(refreshModuleRuntime.indexOf('const')).not.toBe(-1);

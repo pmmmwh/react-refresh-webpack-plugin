@@ -1,17 +1,17 @@
 const { promises: fsPromises } = require('fs');
 const path = require('path');
-const { ModuleFilenameHelpers } = require('webpack');
 
 /** @type {string | undefined} */
 let packageJsonType;
 
 /**
  * Infers the current active module system from loader context and options.
- * @param {import('webpack').loader.LoaderContext} loaderContext The Webpack loader context.
+ * @this {import('webpack').loader.LoaderContext}
+ * @param {import('webpack').ModuleFilenameHelpers} ModuleFilenameHelpers Webpack's module filename helpers.
  * @param {import('../types').NormalizedLoaderOptions} options The normalized loader options.
  * @return {Promise<'esm' | 'cjs'>} The inferred module system.
  */
-async function getModuleSystem(loaderContext, options) {
+async function getModuleSystem(ModuleFilenameHelpers, options) {
   // Check loader options -
   // if `esModule` is set we don't have to do extra guess work.
   switch (typeof options.esModule) {
@@ -21,13 +21,13 @@ async function getModuleSystem(loaderContext, options) {
     case 'object': {
       if (
         options.esModule.include &&
-        ModuleFilenameHelpers.matchPart(loaderContext.resourcePath, options.esModule.include)
+        ModuleFilenameHelpers.matchPart(this.resourcePath, options.esModule.include)
       ) {
         return 'esm';
       }
       if (
         options.esModule.exclude &&
-        ModuleFilenameHelpers.matchPart(loaderContext.resourcePath, options.esModule.exclude)
+        ModuleFilenameHelpers.matchPart(this.resourcePath, options.esModule.exclude)
       ) {
         return 'cjs';
       }
@@ -38,14 +38,14 @@ async function getModuleSystem(loaderContext, options) {
   }
 
   // Check current resource's extension
-  if (/\.mjs$/.test(loaderContext.resourcePath)) return 'esm';
-  if (/\.cjs$/.test(loaderContext.resourcePath)) return 'cjs';
+  if (/\.mjs$/.test(this.resourcePath)) return 'esm';
+  if (/\.cjs$/.test(this.resourcePath)) return 'cjs';
 
   // Load users' `package.json` -
   // We will cache the results in a global variable so it will only be parsed once.
   if (!packageJsonType) {
     try {
-      const packageJsonPath = require.resolve(path.join(loaderContext.rootContext, 'package.json'));
+      const packageJsonPath = require.resolve(path.join(this.rootContext, 'package.json'));
       const buffer = await fsPromises.readFile(packageJsonPath, { encoding: 'utf-8' });
       const rawPackageJson = buffer.toString('utf-8');
       ({ type: packageJsonType } = JSON.parse(rawPackageJson));

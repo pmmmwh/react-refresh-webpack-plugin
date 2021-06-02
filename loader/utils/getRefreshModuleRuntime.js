@@ -1,5 +1,3 @@
-const { Template } = require('webpack');
-
 /**
  * @typedef ModuleRuntimeOptions {Object}
  * @property {boolean} const Use ES6 `const` and `let` in generated runtime code.
@@ -14,10 +12,11 @@ const { Template } = require('webpack');
  * [Reference for Runtime Injection](https://github.com/webpack/webpack/blob/b07d3b67d2252f08e4bb65d354a11c9b69f8b434/lib/HotModuleReplacementPlugin.js#L419)
  * [Reference for HMR Error Recovery](https://github.com/webpack/webpack/issues/418#issuecomment-490296365)
  *
+ * @param {import('webpack').Template} Webpack's templating helpers.
  * @param {ModuleRuntimeOptions} options The refresh module runtime options.
  * @returns {string} The refresh module runtime template.
  */
-function getRefreshModuleRuntime(options) {
+function getRefreshModuleRuntime(Template, options) {
   const constDeclaration = options.const ? 'const' : 'var';
   const letDeclaration = options.const ? 'let' : 'var';
   const webpackHot = options.moduleSystem === 'esm' ? 'import.meta.webpackHot' : 'module.hot';
