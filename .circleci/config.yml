@@ -4,14 +4,14 @@ anchors:
   - &node-version-enum
     - '10.24'
     - '12.22'
-    - '14.16'
-    - '15.11'
+    - '14.17'
+    - '16.2'
   - &webpack-version-enum
     - '4'
     - '5'
   - &node-version-param
     node-version:
-      default: '14.16'
+      default: '14.17'
       enum: *node-version-enum
       type: enum
   - &webpack-version-param
