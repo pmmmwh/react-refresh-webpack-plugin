@@ -23,7 +23,7 @@ describe('getSocketIntegration', () => {
 
   it('should throw when non-path string is provided', () => {
     expect(() => getSocketIntegration('unknown')).toThrowErrorMatchingInlineSnapshot(
-      `"Cannot find module 'unknown' from 'lib/utils/getSocketIntegration.js'"`
+      `"Cannot find module 'unknown' from '../lib/utils/getSocketIntegration.js'"`
     );
   });
 });
