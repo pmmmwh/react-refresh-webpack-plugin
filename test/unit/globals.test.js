@@ -14,11 +14,11 @@ describe('getRefreshGlobalScope', () => {
 describe('getWebpackVersion', () => {
   it.skipIf(WEBPACK_VERSION !== 4, 'should work for Webpack 4', () => {
     const { Compiler } = require('webpack');
-    expect(getWebpackVersion(new Compiler())).toStrictEqual(4);
+    expect(getWebpackVersion(new Compiler(''))).toStrictEqual(4);
   });
 
   it.skipIf(WEBPACK_VERSION !== 5, 'should work for Webpack 5', () => {
     const { Compiler } = require('webpack');
-    expect(getWebpackVersion(new Compiler({}))).toStrictEqual(5);
+    expect(getWebpackVersion(new Compiler(''))).toStrictEqual(5);
   });
 });
