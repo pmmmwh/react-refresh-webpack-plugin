@@ -17,6 +17,13 @@ describe('getAdditionalEntries', () => {
     });
   });
 
+  it('should skip overlay entries when overlay is false in options', () => {
+    expect(getAdditionalEntries({ options: { overlay: false } })).toStrictEqual({
+      overlayEntries: [],
+      prependEntries: [ReactRefreshEntry],
+    });
+  });
+
   it('should append legacy WDS entry when required', () => {
     expect(
       getAdditionalEntries({
@@ -141,11 +148,12 @@ describe('getAdditionalEntries', () => {
     });
   });
 
-  it('should use the devServer sockHost and sockPort options over port and host if they are available', () => {
+  it('should use the devServer sockHost, sockPath and sockPort options over host, path and port if they are available', () => {
     expect(
       getAdditionalEntries({
         options: DEFAULT_OPTIONS,
         devServer: {
+          path: '/socket',
           port: 8888,
           host: 'otherhost',
           sockPort: 9999,
@@ -154,7 +162,9 @@ describe('getAdditionalEntries', () => {
       })
     ).toStrictEqual({
       prependEntries: [ReactRefreshEntry],
-      overlayEntries: [`${ErrorOverlayEntry}?sockHost=localhost&sockPort=9999&sockProtocol=http`],
+      overlayEntries: [
+        `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=9999&sockProtocol=http`,
+      ],
     });
   });
 });

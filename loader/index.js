@@ -8,8 +8,6 @@ delete global.fetch;
 const { getOptions } = require('loader-utils');
 const { validate: validateOptions } = require('schema-utils');
 const { SourceMapConsumer, SourceNode } = require('source-map');
-const { Template } = require('webpack');
-const { refreshGlobal } = require('../lib/globals');
 const {
   getIdentitySourceMap,
   getModuleSystem,
@@ -22,14 +20,6 @@ const RefreshRuntimePath = require
   .resolve('react-refresh/runtime.js')
   .replace(/\\/g, '/')
   .replace(/'/g, "\\'");
-
-const RefreshSetupRuntimes = {
-  cjs: Template.asString(`${refreshGlobal}.runtime = require('${RefreshRuntimePath}');`),
-  esm: Template.asString([
-    `import * as __react_refresh_runtime__ from '${RefreshRuntimePath}';`,
-    `${refreshGlobal}.runtime = __react_refresh_runtime__;`,
-  ]),
-};
 
 /**
  * A simple Webpack loader to inject react-refresh HMR code into modules.
@@ -52,6 +42,18 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
 
   const callback = this.async();
 
+  const { ModuleFilenameHelpers, Template } = this._compiler.webpack || require('webpack');
+
+  const RefreshSetupRuntimes = {
+    cjs: Template.asString(
+      `__webpack_require__.$Refresh$.runtime = require('${RefreshRuntimePath}');`
+    ),
+    esm: Template.asString([
+      `import * as __react_refresh_runtime__ from '${RefreshRuntimePath}';`,
+      `__webpack_require__.$Refresh$.runtime = __react_refresh_runtime__;`,
+    ]),
+  };
+
   /**
    * @this {import('webpack').loader.LoaderContext}
    * @param {string} source
@@ -59,10 +61,13 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
    * @returns {Promise<[string, import('source-map').RawSourceMap]>}
    */
   async function _loader(source, inputSourceMap) {
-    const moduleSystem = await getModuleSystem(this, options);
+    const moduleSystem = await getModuleSystem.call(this, ModuleFilenameHelpers, options);
 
     const RefreshSetupRuntime = RefreshSetupRuntimes[moduleSystem];
-    const RefreshModuleRuntime = getRefreshModuleRuntime({ const: options.const, moduleSystem });
+    const RefreshModuleRuntime = getRefreshModuleRuntime(Template, {
+      const: options.const,
+      moduleSystem,
+    });
 
     if (this.sourceMap) {
       let originalSourceMap = inputSourceMap;

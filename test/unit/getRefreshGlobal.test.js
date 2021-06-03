@@ -1,3 +1,4 @@
+const { RuntimeGlobals, Template } = require('webpack');
 const getRefreshGlobal = require('../../lib/utils/getRefreshGlobal');
 
 describe('getRefreshGlobal', () => {
@@ -10,7 +11,7 @@ describe('getRefreshGlobal', () => {
   });
 
   it('should return working refresh global without providing runtime template', () => {
-    const refreshGlobalTemplate = getRefreshGlobal();
+    const refreshGlobalTemplate = getRefreshGlobal(Template);
     expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
       "__webpack_require__.$Refresh$ = {
       	register: function() { return undefined; },
@@ -67,10 +68,12 @@ describe('getRefreshGlobal', () => {
 
   it.skipIf(
     WEBPACK_VERSION !== 5,
-    'should return working refresh global with provided runtime template',
+    'should return working refresh global with provided runtime globals and runtime template',
     () => {
       const RuntimeTemplate = require('webpack/lib/RuntimeTemplate');
       const refreshGlobalTemplate = getRefreshGlobal(
+        Template,
+        RuntimeGlobals,
         new RuntimeTemplate({}, { environment: { arrowFunction: true, const: true } }, (i) => i)
       );
       expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
