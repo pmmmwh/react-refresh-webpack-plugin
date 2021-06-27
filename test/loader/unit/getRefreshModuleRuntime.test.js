@@ -28,12 +28,12 @@ function $ReactRefreshModuleRuntime$(exports) {
 	if (typeof __react_refresh_test__ !== 'undefined') {
 		testMode = __react_refresh_test__;
 	}
-	return __react_refresh_module_runtime__(
+	return __react_refresh_utils__.executeRuntime(
 		exports,
 		$ReactRefreshModuleId$,
 		module.hot,
 		errorOverlay,
-		isTest
+		testMode
 	);
 }
 
@@ -71,12 +71,12 @@ function $ReactRefreshModuleRuntime$(exports) {
 	if (typeof __react_refresh_test__ !== 'undefined') {
 		testMode = __react_refresh_test__;
 	}
-	return __react_refresh_module_runtime__(
+	return __react_refresh_utils__.executeRuntime(
 		exports,
 		$ReactRefreshModuleId$,
 		module.hot,
 		errorOverlay,
-		isTest
+		testMode
 	);
 }
 
@@ -114,12 +114,12 @@ function $ReactRefreshModuleRuntime$(exports) {
 	if (typeof __react_refresh_test__ !== 'undefined') {
 		testMode = __react_refresh_test__;
 	}
-	return __react_refresh_module_runtime__(
+	return __react_refresh_utils__.executeRuntime(
 		exports,
 		$ReactRefreshModuleId$,
 		import.meta.webpackHot,
 		errorOverlay,
-		isTest
+		testMode
 	);
 }
 
@@ -157,12 +157,12 @@ function $ReactRefreshModuleRuntime$(exports) {
 	if (typeof __react_refresh_test__ !== 'undefined') {
 		testMode = __react_refresh_test__;
 	}
-	return __react_refresh_module_runtime__(
+	return __react_refresh_utils__.executeRuntime(
 		exports,
 		$ReactRefreshModuleId$,
 		import.meta.webpackHot,
 		errorOverlay,
-		isTest
+		testMode
 	);
 }
 
