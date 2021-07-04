@@ -6,6 +6,5 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest-test-setup.js'],
   testEnvironment: '<rootDir>/jest-environment.js',
   testMatch: ['<rootDir>/**/*.test.js'],
-  testRunner: 'jest-circus/runner',
   watchPlugins: ['jest-watch-typeahead/filename', 'jest-watch-typeahead/testname'],
 };

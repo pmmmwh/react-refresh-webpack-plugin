@@ -30,14 +30,9 @@ if (yn(process.env.DEBUG)) {
   argv.push('--verbose');
 }
 
-if (parseInt(process.env.WEBPACK_VERSION || 4, 10) === 5) {
+if (parseInt(process.env.WEBPACK_VERSION || 5, 10) === 4) {
   // Apply Webpack npm aliases in Jest's module system
-  argv.push(
-    `--moduleNameMapper="${JSON.stringify({
-      '^webpack($|/.*)': 'webpack.latest$1',
-      '^webpack-cli($|/.*)': 'webpack-cli.latest$1',
-    })}"`
-  );
+  argv.push(`--moduleNameMapper="${JSON.stringify({ '^webpack($|/.*)': 'webpack.legacy$1' })}"`);
 }
 
 void jest.run(argv);
