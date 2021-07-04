@@ -1,9 +1,9 @@
 const express = require('express');
 const webpack = require('webpack');
 const config = require('./webpack.config.js');
-const compiler = webpack(config);
 
 const app = express();
+const compiler = webpack(config);
 
 app.use(
   require('webpack-dev-middleware')(compiler, {
@@ -19,4 +19,4 @@ app.use(
   })
 );
 
-app.listen(3000, () => console.log('App is listening on port 3000!'));
+app.listen(8080, () => console.log('App is listening on port 8080!'));
