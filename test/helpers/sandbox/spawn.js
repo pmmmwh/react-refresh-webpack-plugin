@@ -46,12 +46,16 @@ function killTestProcess(instance) {
 }
 
 /**
+ * @typedef {Object} SpawnOptions
+ * @property {string} [cwd]
+ * @property {*} [env]
+ * @property {string | RegExp} [successMessage]
+ */
+
+/**
  * @param {string} processPath
  * @param {*[]} argv
- * @param {Object} [options]
- * @param {string} [options.cwd]
- * @param {*} [options.env]
- * @param {string | RegExp} [options.successMessage]
+ * @param {SpawnOptions} [options]
  * @returns {Promise<import('child_process').ChildProcess | void>}
  */
 function spawnTestProcess(processPath, argv, options = {}) {
@@ -116,30 +120,7 @@ function spawnTestProcess(processPath, argv, options = {}) {
 /**
  * @param {number} port
  * @param {string} directory
- * @param {*} [options]
- * @returns {Promise<import('child_process').ChildProcess | void>}
- */
-function spawnWDS(port, directory, options = {}) {
-  const wdsBin = getPackageExecutable('webpack-dev-server');
-  return spawnTestProcess(
-    wdsBin,
-    [
-      '--config',
-      path.resolve(directory, 'webpack.config.js'),
-      '--content-base',
-      directory,
-      '--hot',
-      '--port',
-      port,
-    ],
-    options
-  );
-}
-
-/**
- * @param {number} port
- * @param {string} directory
- * @param {*} [options]
+ * @param {SpawnOptions} [options]
  * @returns {Promise<import('child_process').ChildProcess | void>}
  */
 function spawnWebpackServe(port, directory, options = {}) {
@@ -155,23 +136,17 @@ function spawnWebpackServe(port, directory, options = {}) {
       '--hot',
       '--port',
       port,
-      '--resolve-alias-name',
-      'webpack',
-      '--resolve-alias-alias',
-      'webpack.latest',
-      '--resolve-alias-name',
-      'webpack-cli',
-      '--resolve-alias-alias',
-      'webpack-cli.latest',
     ],
     {
       ...options,
       env: {
         ...options.env,
-        // This requires a script to alias `webpack` and `webpack-cli` -
-        // both v4 and v5 is installed side by side,
-        // so we have to ensure that they resolve to the `latest` variant.
-        NODE_OPTIONS: `--require "${require.resolve('./aliasLatestWebpack')}"`,
+        ...(WEBPACK_VERSION === 4 && {
+          // This requires a script to alias `webpack` and `webpack-cli` -
+          // both v4 and v5 is installed side by side,
+          // so we have to ensure that they resolve to the `legacy` variant.
+          NODE_OPTIONS: `--require "${require.resolve('./aliasLegacyWebpack')}"`,
+        }),
       },
     }
   );
@@ -179,6 +154,5 @@ function spawnWebpackServe(port, directory, options = {}) {
 
 module.exports = {
   killTestProcess,
-  spawnWDS,
   spawnWebpackServe,
 };

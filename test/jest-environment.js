@@ -7,7 +7,7 @@ class SandboxEnvironment extends NodeEnvironment {
     await super.setup();
 
     this.global.__DEBUG__ = yn(process.env.DEBUG);
-    this.global.WEBPACK_VERSION = parseInt(process.env.WEBPACK_VERSION || '4', 10);
+    this.global.WEBPACK_VERSION = parseInt(process.env.WEBPACK_VERSION || '5', 10);
 
     const wsEndpoint = process.env.PUPPETEER_WS_ENDPOINT;
     if (!wsEndpoint) {
