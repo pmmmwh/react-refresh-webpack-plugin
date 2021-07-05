@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "target": "es6",
-    "module": "esNext",
-    "moduleResolution": "node",
+    "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "sourceMap": true,
-    "jsx": "react"
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "target": "ESNext",
+    "sourceMap": true
   },
   "include": ["src"]
 }

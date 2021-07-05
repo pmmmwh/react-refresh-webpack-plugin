@@ -2,7 +2,7 @@ const path = require('path');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ReactRefreshTypeScript = require('react-refresh-typescript').default;
+const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -20,9 +20,12 @@ module.exports = {
           {
             loader: 'ts-loader',
             options: {
+              configFile: isDevelopment ? 'tsconfig.dev.json' : 'tsconfig.json',
               transpileOnly: true,
-              getCustomTransformers: () => ({
-                before: isDevelopment ? [ReactRefreshTypeScript()] : [],
+              ...(isDevelopment && {
+                getCustomTransformers: () => ({
+                  before: [ReactRefreshTypeScript()],
+                }),
               }),
             },
           },

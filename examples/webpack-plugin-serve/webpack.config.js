@@ -28,6 +28,7 @@ module.exports = {
   plugins: [
     isDevelopment &&
       new ServePlugin({
+        port: 8080,
         static: outputPath,
         status: false,
       }),
