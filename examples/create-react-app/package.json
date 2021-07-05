@@ -3,27 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
-    "@testing-library/dom": "^7.24.2",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.0.4",
-    "@testing-library/user-event": "^12.1.5",
-    "babel-loader": "^8.1.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0-rc.0",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^12.0.0",
     "customize-cra": "^1.0.0",
-    "react-app-rewired": "^2.1.6",
-    "react-refresh": "^0.9.0",
-    "react-scripts": "3.4.4",
-    "webpack": "^4.44.2"
+    "react-app-rewired": "^2.1.8",
+    "react-refresh": "^0.10.0",
+    "react-scripts": "3.4.4"
   },
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject"
+  },
+  "resolutions": {
+    "browserslist": "^4.16.6",
+    "postcss": "^7.0.36",
+    "webpack": "^4.46.0"
   },
   "eslintConfig": {
     "extends": "react-app"
