@@ -3,6 +3,7 @@
 import { handleError, handleUnhandledRejection } from './utils/errorEventHandlers.js';
 import formatWebpackErrors from './utils/formatWebpackErrors.js';
 import runWithPatchedUrl from './utils/patchUrl.js';
+import runWithRetry from './utils/retry.js';
 
 // Setup error states
 let isHotReload = false;
@@ -75,8 +76,11 @@ if (process.env.NODE_ENV !== 'production' && typeof window !== 'undefined') {
   runWithPatchedUrl(function setupOverlay() {
     // Only register if no other overlay have been registered
     if (!window.__reactRefreshOverlayInjected && __react_refresh_socket__) {
-      // Registers handlers for compile errors
-      __react_refresh_socket__.init(compileMessageHandler, __resourceQuery);
+      // Registers handlers for compile errors with retry -
+      // This is to prevent mismatching injection order causing errors to be thrown
+      runWithRetry(function initSocket() {
+        __react_refresh_socket__.init(compileMessageHandler, __resourceQuery);
+      }, 3);
       // Registers handlers for runtime errors
       handleError(function handleError(error) {
         hasRuntimeErrors = true;
