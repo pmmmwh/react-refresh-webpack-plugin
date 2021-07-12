@@ -2,7 +2,7 @@
 
 import { handleError, handleUnhandledRejection } from './utils/errorEventHandlers.js';
 import formatWebpackErrors from './utils/formatWebpackErrors.js';
-import runWithPatchedUrl from './utils/patchUrl.js';
+import runWithPatchedUrl from './utils/patchUrl.cjs';
 import runWithRetry from './utils/retry.js';
 
 // Setup error states

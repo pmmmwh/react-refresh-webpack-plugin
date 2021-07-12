@@ -45,7 +45,7 @@ describe.skipIf(WEBPACK_VERSION !== 5, 'makeRefreshRuntimeModule', () => {
 		try {
 			originalFactory.call(this, moduleObject, moduleExports, webpackRequire);
 		} finally {
-			if (moduleObject.exports instanceof __webpack_require__.g.Promise) {
+			if (typeof Promise !== 'undefined' && moduleObject.exports instanceof Promise) {
 				options.module.exports.then(
 					function(result) {
 						__webpack_require__.$Refresh$.cleanup(options.id);
@@ -127,7 +127,7 @@ __webpack_require__.$Refresh$ = {
 		try {
 			originalFactory.call(this, moduleObject, moduleExports, webpackRequire);
 		} finally {
-			if (moduleObject.exports instanceof __webpack_require__.g.Promise) {
+			if (typeof Promise !== 'undefined' && moduleObject.exports instanceof Promise) {
 				options.module.exports.then(
 					(result) => {
 						__webpack_require__.$Refresh$.cleanup(options.id);
