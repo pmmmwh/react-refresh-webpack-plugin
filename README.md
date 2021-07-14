@@ -165,6 +165,9 @@ module.exports = {
               getCustomTransformers: () => ({
                 before: isDevelopment ? [ReactRefreshTypeScript()] : [],
               }),
+              // `ts-loader` does not work with HMR unless `transpileOnly` is used.
+              // If you need type checking, `ForkTsCheckerWebpackPlugin` is an alternative.
+              transpileOnly: isDevelopment,
             },
           },
         ],
