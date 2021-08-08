@@ -19,12 +19,18 @@ ansiHTML.setColors(theme);
  */
 function CompileErrorTrace(document, root, props) {
   const errorParts = props.errorMessage.split('\n');
-  const errorMessage = errorParts
-    .splice(1, 1)[0]
-    // Strip filename from the error message
-    .replace(/^(.*:)\s.*:(\s.*)$/, '$1$2');
-  errorParts[0] = formatFilename(errorParts[0]);
-  errorParts.unshift(errorMessage);
+  if (errorParts.length) {
+    const errorMessage = errorParts
+      .splice(1, 1)[0]
+      // Strip filename from the error message
+      .replace(/^(.*:)\s.*:(\s.*)$/, '$1$2');
+
+    if (errorParts[0]) {
+      errorParts[0] = formatFilename(errorParts[0]);
+    }
+
+    errorParts.unshift(errorMessage);
+  }
 
   const stackContainer = document.createElement('pre');
   stackContainer.innerHTML = entities.decode(
