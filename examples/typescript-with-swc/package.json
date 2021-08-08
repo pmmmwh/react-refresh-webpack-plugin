@@ -1,5 +1,5 @@
 {
-  "name": "using-typescript-without-babel",
+  "name": "using-typescript-with-swc",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
