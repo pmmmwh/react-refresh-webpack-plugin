@@ -1,5 +1,5 @@
-import theme from '../theme.js';
-import Spacer from './Spacer.js';
+const Spacer = require('./Spacer.js');
+const theme = require('../theme.js');
 
 /**
  * @typedef {Object} PageHeaderProps
@@ -53,4 +53,4 @@ function PageHeader(document, root, props) {
   });
 }
 
-export default PageHeader;
+module.exports = PageHeader;

@@ -17,4 +17,4 @@ function runWithRetry(callback, maxRetries) {
   executeWithRetryAndTimeout(0);
 }
 
-export default runWithRetry;
+module.exports = runWithRetry;

@@ -1,9 +1,9 @@
-import RuntimeErrorFooter from './components/RuntimeErrorFooter.js';
-import RuntimeErrorHeader from './components/RuntimeErrorHeader.js';
-import CompileErrorContainer from './containers/CompileErrorContainer.js';
-import RuntimeErrorContainer from './containers/RuntimeErrorContainer.js';
-import theme from './theme.js';
-import { debounce, removeAllChildren } from './utils.js';
+const RuntimeErrorFooter = require('./components/RuntimeErrorFooter.js');
+const RuntimeErrorHeader = require('./components/RuntimeErrorHeader.js');
+const CompileErrorContainer = require('./containers/CompileErrorContainer.js');
+const RuntimeErrorContainer = require('./containers/RuntimeErrorContainer.js');
+const theme = require('./theme.js');
+const { debounce, removeAllChildren } = require('./utils.js');
 
 /**
  * @callback RenderFn
@@ -235,7 +235,7 @@ function cleanup() {
  * Clears Webpack compilation errors and dismisses the compile error overlay.
  * @returns {void}
  */
-export function clearCompileError() {
+function clearCompileError() {
   if (!root || currentMode !== 'compileError') {
     return;
   }
@@ -250,7 +250,7 @@ export function clearCompileError() {
  * @param {boolean} [dismissOverlay] Whether to dismiss the overlay or not.
  * @returns {void}
  */
-export function clearRuntimeErrors(dismissOverlay) {
+function clearRuntimeErrors(dismissOverlay) {
   if (!root || currentMode !== 'runtimeError') {
     return;
   }
@@ -269,7 +269,7 @@ export function clearRuntimeErrors(dismissOverlay) {
  * @param {string} message
  * @returns {void}
  */
-export function showCompileError(message) {
+function showCompileError(message) {
   if (!message) {
     return;
   }
@@ -284,7 +284,7 @@ export function showCompileError(message) {
  * @param {Error[]} errors
  * @returns {void}
  */
-export function showRuntimeErrors(errors) {
+function showRuntimeErrors(errors) {
   if (!errors || !errors.length) {
     return;
   }
@@ -317,9 +317,17 @@ function isWebpackCompileError(error) {
  * @param {Error} error A valid error object.
  * @returns {void}
  */
-export function handleRuntimeError(error) {
+function handleRuntimeError(error) {
   if (error && !isWebpackCompileError(error) && currentRuntimeErrors.indexOf(error) === -1) {
     currentRuntimeErrors = currentRuntimeErrors.concat(error);
   }
   debouncedShowRuntimeErrors(currentRuntimeErrors);
 }
+
+module.exports = Object.freeze({
+  clearCompileError: clearCompileError,
+  clearRuntimeErrors: clearRuntimeErrors,
+  handleRuntimeError: handleRuntimeError,
+  showCompileError: showCompileError,
+  showRuntimeErrors: showRuntimeErrors,
+});

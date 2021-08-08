@@ -20,4 +20,4 @@ function getCurrentScriptSource() {
   }
 }
 
-export default getCurrentScriptSource;
+module.exports = getCurrentScriptSource;
