@@ -185,7 +185,7 @@ module.exports = {
 
 ### With swc-loader
 
-Your `@swc/core` version must be at least 1.2.52 and `swc-loader` version greater than 0.1.13 is recommened.
+Your `@swc/core` version must be at least 1.2.52 and `swc-loader` version greater than 0.1.13 is recommended.
 
 > ⚠ `@swc/core` and `swc-loader` are maintained by the community not by Facebook.
 
