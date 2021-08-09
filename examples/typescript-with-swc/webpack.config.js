@@ -27,6 +27,9 @@ module.exports = {
                 },
                 transform: {
                   react: {
+                    // swc-loader will check whether webpack mode is 'development'
+                    // and set this automatically starting from 0.1.13. You could also set it yourself.
+                    // swc won't enable fast refresh when development is false
                     runtime: 'automatic',
                     refresh: isDevelopment,
                   },
