@@ -37,17 +37,22 @@
     "types"
   ],
   "scripts": {
-    "pretest": "yalc publish --no-scripts && yalc add --dev @pmmmwh/react-refresh-webpack-plugin",
-    "posttest": "yalc remove --all",
-    "test": "node scripts/test.js",
+    "test": "run-s -c test:pre \"test:exec {@}\" test:post --",
     "test:webpack-4": "cross-env WEBPACK_VERSION=4 yarn test",
+    "test:pre": "run-s yalc:publish yalc:add",
+    "test:exec": "node scripts/test.js",
+    "test:post": "yalc remove --all",
+    "yalc:add": "yalc add --dev @pmmmwh/react-refresh-webpack-plugin",
+    "yalc:publish": "yalc publish --no-scripts",
     "lint": "eslint --report-unused-disable-directives --ext .js,.jsx .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "generate-types": "tsc -p tsconfig.json && yarn prune-private-types && yarn format --loglevel silent",
-    "prune-private-types": "del \"types/*/*\" \"!types/{lib,loader,options}/{index,types}.d.ts\"",
-    "prepublishOnly": "rimraf types && yarn generate-types"
+    "types:clean": "rimraf types",
+    "types:compile": "tsc -p tsconfig.json",
+    "types:prune-private": "del \"types/*/*\" \"!types/{lib,loader,options}/{index,types}.d.ts\"",
+    "generate-types": "run-s types:compile types:prune-private \"format --loglevel silent\"",
+    "prepublishOnly": "run-s types:clean generate-types"
   },
   "dependencies": {
     "ansi-html": "^0.0.7",
@@ -86,6 +91,7 @@
     "memfs": "^3.2.0",
     "module-alias": "^2.2.2",
     "nanoid": "^3.1.23",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.3.0",
     "puppeteer": "^9.1.1",
     "react-refresh": "^0.10.0",
