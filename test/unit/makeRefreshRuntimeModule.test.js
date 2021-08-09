@@ -66,19 +66,17 @@ describe.skipIf(WEBPACK_VERSION !== 5, 'makeRefreshRuntimeModule', () => {
 __webpack_require__.$Refresh$ = {
 	register: function() { return undefined; },
 	signature: function() { return function(type) { return type; }; },
+	runtime: {
+		createSignatureFunctionForTransform: function() { return function(type) { return type; }; },
+		register: function() { return undefined; }
+	},
 	setup: function(currentModuleId) {
 		var prevModuleId = __webpack_require__.$Refresh$.moduleId;
-		var prevRuntime = __webpack_require__.$Refresh$.runtime;
 		var prevRegister = __webpack_require__.$Refresh$.register;
 		var prevSignature = __webpack_require__.$Refresh$.signature;
 		var prevCleanup = __webpack_require__.$Refresh$.cleanup;
 
 		__webpack_require__.$Refresh$.moduleId = currentModuleId;
-
-		__webpack_require__.$Refresh$.runtime = {
-			createSignatureFunctionForTransform: function() { return function(type) { return type; }; },
-			register: function() { return undefined; }
-		};
 
 		__webpack_require__.$Refresh$.register = function(type, id) {
 			var typeId = currentModuleId + \\" \\" + id;
@@ -90,7 +88,6 @@ __webpack_require__.$Refresh$ = {
 		__webpack_require__.$Refresh$.cleanup = function(cleanupModuleId) {
 			if (currentModuleId === cleanupModuleId) {
 				__webpack_require__.$Refresh$.moduleId = prevModuleId;
-				__webpack_require__.$Refresh$.runtime = prevRuntime;
 				__webpack_require__.$Refresh$.register = prevRegister;
 				__webpack_require__.$Refresh$.signature = prevSignature;
 				__webpack_require__.$Refresh$.cleanup = prevCleanup;
@@ -148,19 +145,17 @@ __webpack_require__.$Refresh$ = {
 __webpack_require__.$Refresh$ = {
 	register: () => (undefined),
 	signature: () => ((type) => (type)),
+	runtime: {
+		createSignatureFunctionForTransform: () => ((type) => (type)),
+		register: () => (undefined)
+	},
 	setup: (currentModuleId) => {
 		const prevModuleId = __webpack_require__.$Refresh$.moduleId;
-		const prevRuntime = __webpack_require__.$Refresh$.runtime;
 		const prevRegister = __webpack_require__.$Refresh$.register;
 		const prevSignature = __webpack_require__.$Refresh$.signature;
 		const prevCleanup = __webpack_require__.$Refresh$.cleanup;
 
 		__webpack_require__.$Refresh$.moduleId = currentModuleId;
-
-		__webpack_require__.$Refresh$.runtime = {
-			createSignatureFunctionForTransform: () => ((type) => (type)),
-			register: () => (undefined)
-		};
 
 		__webpack_require__.$Refresh$.register = (type, id) => {
 			const typeId = currentModuleId + \\" \\" + id;
@@ -172,7 +167,6 @@ __webpack_require__.$Refresh$ = {
 		__webpack_require__.$Refresh$.cleanup = (cleanupModuleId) => {
 			if (currentModuleId === cleanupModuleId) {
 				__webpack_require__.$Refresh$.moduleId = prevModuleId;
-				__webpack_require__.$Refresh$.runtime = prevRuntime;
 				__webpack_require__.$Refresh$.register = prevRegister;
 				__webpack_require__.$Refresh$.signature = prevSignature;
 				__webpack_require__.$Refresh$.cleanup = prevCleanup;

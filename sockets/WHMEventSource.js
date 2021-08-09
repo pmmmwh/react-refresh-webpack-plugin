@@ -28,4 +28,4 @@ function initWHMEventSource(messageHandler) {
   });
 }
 
-export const init = initWHMEventSource;
+module.exports = { init: initWHMEventSource };

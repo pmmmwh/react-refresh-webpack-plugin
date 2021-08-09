@@ -90,8 +90,13 @@ function createWindowEventHandler(eventType, createHandler) {
   return register;
 }
 
-export const handleError = createWindowEventHandler('error', createErrorHandler);
-export const handleUnhandledRejection = createWindowEventHandler(
+const handleError = createWindowEventHandler('error', createErrorHandler);
+const handleUnhandledRejection = createWindowEventHandler(
   'unhandledrejection',
   createRejectionHandler
 );
+
+module.exports = {
+  handleError: handleError,
+  handleUnhandledRejection: handleUnhandledRejection,
+};

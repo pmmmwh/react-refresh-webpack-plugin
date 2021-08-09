@@ -4,7 +4,7 @@
  * @param {number} wait Milliseconds to wait before invoking again.
  * @return {function(...*): void} The debounced function.
  */
-export function debounce(fn, wait) {
+function debounce(fn, wait) {
   /**
    * A cached setTimeout handler.
    * @type {number | undefined}
@@ -32,7 +32,7 @@ export function debounce(fn, wait) {
  * @param {string} filename The filename to be formatted.
  * @returns {string} The formatted filename.
  */
-export function formatFilename(filename) {
+function formatFilename(filename) {
   // Strip away protocol and domain for compiled files
   const htmlMatch = /^https?:\/\/(.*)\/(.*)/.exec(filename);
   if (htmlMatch && htmlMatch[1] && htmlMatch[2]) {
@@ -55,7 +55,7 @@ export function formatFilename(filename) {
  * @param {number} [skip] Number of elements to skip removing.
  * @returns {void}
  */
-export function removeAllChildren(element, skip) {
+function removeAllChildren(element, skip) {
   /** @type {Node[]} */
   const childList = Array.prototype.slice.call(
     element.childNodes,
@@ -66,3 +66,9 @@ export function removeAllChildren(element, skip) {
     element.removeChild(childList[i]);
   }
 }
+
+module.exports = {
+  debounce: debounce,
+  formatFilename: formatFilename,
+  removeAllChildren: removeAllChildren,
+};

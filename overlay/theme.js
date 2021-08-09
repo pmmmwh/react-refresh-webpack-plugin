@@ -36,4 +36,4 @@ const theme = {
   dimgrey: '343434',
 };
 
-export default theme;
+module.exports = theme;

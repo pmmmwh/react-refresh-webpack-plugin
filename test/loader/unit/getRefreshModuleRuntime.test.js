@@ -20,21 +20,23 @@ var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (module.hot) {
+		var errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		var testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			module.hot,
+			errorOverlay,
+			testMode
+		);
 	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
@@ -63,21 +65,23 @@ const $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	let errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (module.hot) {
+		let errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		let testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			module.hot,
+			errorOverlay,
+			testMode
+		);
 	}
-	let testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
@@ -106,21 +110,23 @@ var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (import.meta.webpackHot) {
+		var errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		var testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			import.meta.webpackHot,
+			errorOverlay,
+			testMode
+		);
 	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		import.meta.webpackHot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
@@ -149,21 +155,23 @@ const $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	let errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (import.meta.webpackHot) {
+		let errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		let testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			import.meta.webpackHot,
+			errorOverlay,
+			testMode
+		);
 	}
-	let testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		import.meta.webpackHot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {

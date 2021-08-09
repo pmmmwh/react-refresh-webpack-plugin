@@ -37,11 +37,11 @@
     "types"
   ],
   "scripts": {
-    "pretest": "yarn link && yarn link \"@pmmmwh/react-refresh-webpack-plugin\"",
-    "posttest": "yarn unlink \"@pmmmwh/react-refresh-webpack-plugin\"",
+    "pretest": "yalc publish --no-scripts && yalc add --dev @pmmmwh/react-refresh-webpack-plugin",
+    "posttest": "yalc remove --all",
     "test": "node scripts/test.js",
     "test:webpack-4": "cross-env WEBPACK_VERSION=4 yarn test",
-    "lint": "eslint --report-unused-disable-directives --ext .js .",
+    "lint": "eslint --report-unused-disable-directives --ext .js,.jsx .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\"",
@@ -100,6 +100,7 @@
     "webpack-hot-middleware": "^2.25.0",
     "webpack-plugin-serve": "^1.4.1",
     "webpack.legacy": "npm:webpack@4.x",
+    "yalc": "^1.0.0-pre.53",
     "yn": "^4.0.0"
   },
   "peerDependencies": {

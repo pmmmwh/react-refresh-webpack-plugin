@@ -1,5 +1,5 @@
-import getCurrentScriptSource from './getCurrentScriptSource.js';
-import parseQuery from './parseQuery.js';
+const getCurrentScriptSource = require('./getCurrentScriptSource.js');
+const parseQuery = require('./parseQuery.js');
 
 /**
  * @typedef {Object} SocketUrlParts
@@ -106,4 +106,4 @@ function getSocketUrlParts(resourceQuery) {
   };
 }
 
-export default getSocketUrlParts;
+module.exports = getSocketUrlParts;

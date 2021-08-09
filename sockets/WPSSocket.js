@@ -1,5 +1,5 @@
 /* global ʎɐɹɔosǝʌɹǝs */
-import { ClientSocket } from 'webpack-plugin-serve/lib/client/ClientSocket.js';
+const { ClientSocket } = require('webpack-plugin-serve/lib/client/ClientSocket.js');
 
 /**
  * Initializes a socket server for HMR for webpack-plugin-serve.
@@ -48,4 +48,4 @@ function initWPSSocket(messageHandler) {
   });
 }
 
-export const init = initWPSSocket;
+module.exports = { init: initWPSSocket };

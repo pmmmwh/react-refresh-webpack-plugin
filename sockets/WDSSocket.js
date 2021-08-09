@@ -1,7 +1,7 @@
 /* global __webpack_dev_server_client__ */
 
-import getSocketUrlParts from './utils/getSocketUrlParts.js';
-import getUrlFromParts from './utils/getUrlFromParts';
+const getSocketUrlParts = require('./utils/getSocketUrlParts.js');
+const getUrlFromParts = require('./utils/getUrlFromParts');
 
 /**
  * Initializes a socket server for HMR for webpack-dev-server.
@@ -33,4 +33,4 @@ function initWDSSocket(messageHandler, resourceQuery) {
   }
 }
 
-export const init = initWDSSocket;
+module.exports = { init: initWDSSocket };

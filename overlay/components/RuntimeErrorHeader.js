@@ -1,5 +1,5 @@
-import theme from '../theme.js';
-import Spacer from './Spacer.js';
+const Spacer = require('./Spacer.js');
+const theme = require('../theme.js');
 
 /**
  * @typedef {Object} RuntimeErrorHeaderProps
@@ -34,4 +34,4 @@ function RuntimeErrorHeader(document, root, props) {
   Spacer(document, root, { space: '2.5rem' });
 }
 
-export default RuntimeErrorHeader;
+module.exports = RuntimeErrorHeader;

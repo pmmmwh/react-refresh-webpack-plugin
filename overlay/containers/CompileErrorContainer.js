@@ -1,6 +1,6 @@
-import CompileErrorTrace from '../components/CompileErrorTrace.js';
-import PageHeader from '../components/PageHeader.js';
-import Spacer from '../components/Spacer.js';
+const CompileErrorTrace = require('../components/CompileErrorTrace.js');
+const PageHeader = require('../components/PageHeader.js');
+const Spacer = require('../components/Spacer.js');
 
 /**
  * @typedef {Object} CompileErrorContainerProps
@@ -22,4 +22,4 @@ function CompileErrorContainer(document, root, props) {
   Spacer(document, root, { space: '1rem' });
 }
 
-export default CompileErrorContainer;
+module.exports = CompileErrorContainer;
