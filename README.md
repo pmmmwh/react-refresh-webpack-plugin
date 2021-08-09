@@ -183,6 +183,59 @@ module.exports = {
 };
 ```
 
+### With swc-loader
+
+Your `@swc/core` version must be at least 1.2.52 and `swc-loader` version greater than 0.1.13 is recommended.
+
+> ⚠ `@swc/core` and `swc-loader` are maintained by the community not by Facebook.
+
+```js
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const webpack = require('webpack');
+// ... your other imports
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
+module.exports = {
+  mode: isDevelopment ? 'development' : 'production',
+  module: {
+    rules: [
+      // ... other rules
+      {
+        test: /\.[jt]sx?$/,
+        exclude: /node_modules/,
+        use: [
+          // ... other loaders
+          {
+            loader: require.resolve('swc-loader'),
+            options: {
+              jsc: {
+                // ... other options
+                transform: {
+                  react: {
+                    // swc-loader will check whether webpack mode is 'development'
+                    // and set this automatically starting from 0.1.13. You could also set it yourself.
+                    // swc won't enable fast refresh when development is false
+                    development: isDevelopment
+                    refresh: isDevelopment,
+                  },
+                },
+              },
+            },
+          },
+        ],
+      },
+    ],
+  },
+  plugins: [
+    // ... other plugins
+    isDevelopment && new webpack.HotModuleReplacementPlugin(),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
+  // ... other configuration options
+};
+```
+
 You might want to further tweak the configuration to accommodate your setup:
 
 - `isDevelopment`
