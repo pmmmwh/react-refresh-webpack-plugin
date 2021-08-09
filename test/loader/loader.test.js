@@ -273,62 +273,60 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
         }"
       `);
       expect(execution).toMatchInlineSnapshot(`
-        "(self[\\"webpackChunkcjs\\"] = self[\\"webpackChunkcjs\\"] || []).push([[\\"main\\"],{
+"(self[\\"webpackChunkcjs\\"] = self[\\"webpackChunkcjs\\"] || []).push([[\\"main\\"],{
 
-        /***/ \\"./index.js\\":
-        /*!******************!*\\\\
-          !*** ./index.js ***!
-          \\\\******************/
-        /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+/***/ \\"./index.js\\":
+/*!******************!*\\\\
+  !*** ./index.js ***!
+  \\\\******************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../../node_modules/react-refresh/runtime.js\\");
+__webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../../node_modules/react-refresh/runtime.js\\");
 
-        module.exports = 'Test';
+module.exports = 'Test';
 
 
-        var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
-        var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
-        	$ReactRefreshModuleId$
-        );
+var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
+	$ReactRefreshModuleId$
+);
 
-        function $ReactRefreshModuleRuntime$(exports) {
-        	if (true) {
-        		var errorOverlay;
-        		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-        			errorOverlay = __react_refresh_error_overlay__;
-        		}
-        		var testMode;
-        		if (typeof __react_refresh_test__ !== 'undefined') {
-        			testMode = __react_refresh_test__;
-        		}
-        		return __react_refresh_utils__.executeRuntime(
-        			exports,
-        			$ReactRefreshModuleId$,
-        			module.hot,
-        			errorOverlay,
-        			testMode
-        		);
-        	}
-        }
+function $ReactRefreshModuleRuntime$(exports) {
+	if (true) {
+		var errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		var testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			module.hot,
+			errorOverlay,
+			testMode
+		);
+	}
+}
 
-        if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
-        	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
-        } else {
-        	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
-        }
+if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
+	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
+} else {
+	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
+}
 
-        /***/ })
+/***/ })
 
-        },
-        /******/ __webpack_require__ => { // webpackRuntimeModules
-        /******/ \\"use strict\\";
-        /******/ 
-        /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-        /******/ __webpack_require__.O(0, [\\"defaultVendors\\"], () => (__webpack_exec__(\\"./index.js\\")));
-        /******/ var __webpack_exports__ = __webpack_require__.O();
-        /******/ }
-        ]);"
-      `);
+},
+/******/ __webpack_require__ => { // webpackRuntimeModules
+/******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+/******/ __webpack_require__.O(0, [\\"defaultVendors\\"], () => (__webpack_exec__(\\"./index.js\\")));
+/******/ var __webpack_exports__ = __webpack_require__.O();
+/******/ }
+]);"
+`);
 
       expect(compilation.errors).toStrictEqual([]);
       expect(compilation.warnings).toStrictEqual([]);
@@ -376,7 +374,8 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
 }"
 `);
       expect(execution).toMatchInlineSnapshot(`
-"(self[\\"webpackChunkesm\\"] = self[\\"webpackChunkesm\\"] || []).push([[\\"main\\"],{
+"\\"use strict\\";
+(self[\\"webpackChunkesm\\"] = self[\\"webpackChunkesm\\"] || []).push([[\\"main\\"],{
 
 /***/ \\"./index.js\\":
 /*!******************!*\\\\
@@ -384,7 +383,6 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
   \\\\******************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
-\\"use strict\\";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   \\"default\\": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -429,8 +427,6 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
 
 },
 /******/ __webpack_require__ => { // webpackRuntimeModules
-/******/ \\"use strict\\";
-/******/ 
 /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
 /******/ var __webpack_exports__ = (__webpack_exec__(\\"./index.js\\"));
 /******/ }
@@ -448,15 +444,15 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
       expect(sourceMap).toMatchInlineSnapshot(`
 "{
   \\"version\\": 3,
+  \\"file\\": \\"main.js\\",
+  \\"mappings\\": \\";;;;;;;;;;AAAA\\",
   \\"sources\\": [
     \\"webpack://cjs/./index.js\\"
   ],
-  \\"names\\": [],
-  \\"mappings\\": \\";;;;;;;;;;AAAA\\",
-  \\"file\\": \\"main.js\\",
   \\"sourcesContent\\": [
     \\"module.exports = 'Test';\\\\n\\"
   ],
+  \\"names\\": [],
   \\"sourceRoot\\": \\"\\"
 }"
 `);
