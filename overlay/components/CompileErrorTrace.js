@@ -1,7 +1,7 @@
-import * as ansiHTML from 'ansi-html';
-import * as entities from 'html-entities';
-import theme from '../theme.js';
-import { formatFilename } from '../utils.js';
+const ansiHTML = require('ansi-html');
+const entities = require('html-entities');
+const theme = require('../theme.js');
+const { formatFilename } = require('../utils.js');
 
 ansiHTML.setColors(theme);
 
@@ -50,4 +50,4 @@ function CompileErrorTrace(document, root, props) {
   root.appendChild(stackContainer);
 }
 
-export default CompileErrorTrace;
+module.exports = CompileErrorTrace;

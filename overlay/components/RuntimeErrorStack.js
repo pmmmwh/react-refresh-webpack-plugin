@@ -1,6 +1,6 @@
-import * as ErrorStackParser from 'error-stack-parser';
-import theme from '../theme.js';
-import { formatFilename } from '../utils.js';
+const ErrorStackParser = require('error-stack-parser');
+const theme = require('../theme.js');
+const { formatFilename } = require('../utils.js');
 
 /**
  * @typedef {Object} RuntimeErrorStackProps
@@ -76,4 +76,4 @@ function RuntimeErrorStack(document, root, props) {
   root.appendChild(stackContainer);
 }
 
-export default RuntimeErrorStack;
+module.exports = RuntimeErrorStack;

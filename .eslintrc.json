@@ -12,8 +12,7 @@
     {
       "files": ["client/**/*.js", "overlay/**/*.js", "lib/runtime/**/*.js", "sockets/**/*.js"],
       "parserOptions": {
-        "ecmaVersion": 2015,
-        "sourceType": "module"
+        "ecmaVersion": 2015
       },
       "env": {
         "browser": true,

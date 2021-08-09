@@ -93,4 +93,4 @@ function formatWebpackErrors(errors) {
   return formattedErrors;
 }
 
-export default formatWebpackErrors;
+module.exports = formatWebpackErrors;

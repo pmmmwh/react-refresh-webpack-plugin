@@ -28,4 +28,4 @@ function urlFromParts(urlParts, enforceWs) {
   return url.href;
 }
 
-export default urlFromParts;
+module.exports = urlFromParts;

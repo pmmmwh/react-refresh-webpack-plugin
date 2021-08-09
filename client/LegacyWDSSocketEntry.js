@@ -1,4 +1,4 @@
-import * as SockJS from 'sockjs-client/dist/sockjs.js';
+const SockJS = require('sockjs-client/dist/sockjs.js');
 
 /**
  * A SockJS client adapted for use with webpack-dev-server.
