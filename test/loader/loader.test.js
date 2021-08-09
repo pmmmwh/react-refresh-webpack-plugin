@@ -27,21 +27,23 @@ var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (module.hot) {
+		var errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		var testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			module.hot,
+			errorOverlay,
+			testMode
+		);
 	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
@@ -71,21 +73,23 @@ var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (true) {
+		var errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		var testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			module.hot,
+			errorOverlay,
+			testMode
+		);
 	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
@@ -119,21 +123,23 @@ var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (module.hot) {
+		var errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		var testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			module.hot,
+			errorOverlay,
+			testMode
+		);
 	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
@@ -165,21 +171,23 @@ var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (true) {
+		var errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		var testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			module.hot,
+			errorOverlay,
+			testMode
+		);
 	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
@@ -228,95 +236,99 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-"__webpack_require__.$Refresh$.runtime = require('react-refresh/runtime.js');
+        "__webpack_require__.$Refresh$.runtime = require('react-refresh/runtime.js');
 
-module.exports = 'Test';
+        module.exports = 'Test';
 
 
-var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
-var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
-	$ReactRefreshModuleId$
-);
+        var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+        var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
+        	$ReactRefreshModuleId$
+        );
 
-function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
-	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
-}
+        function $ReactRefreshModuleRuntime$(exports) {
+        	if (module.hot) {
+        		var errorOverlay;
+        		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+        			errorOverlay = __react_refresh_error_overlay__;
+        		}
+        		var testMode;
+        		if (typeof __react_refresh_test__ !== 'undefined') {
+        			testMode = __react_refresh_test__;
+        		}
+        		return __react_refresh_utils__.executeRuntime(
+        			exports,
+        			$ReactRefreshModuleId$,
+        			module.hot,
+        			errorOverlay,
+        			testMode
+        		);
+        	}
+        }
 
-if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
-	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
-} else {
-	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
-}"
-`);
+        if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
+        	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
+        } else {
+        	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
+        }"
+      `);
       expect(execution).toMatchInlineSnapshot(`
-"(self[\\"webpackChunkcjs\\"] = self[\\"webpackChunkcjs\\"] || []).push([[\\"main\\"],{
+        "(self[\\"webpackChunkcjs\\"] = self[\\"webpackChunkcjs\\"] || []).push([[\\"main\\"],{
 
-/***/ \\"./index.js\\":
-/*!******************!*\\\\
-  !*** ./index.js ***!
-  \\\\******************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+        /***/ \\"./index.js\\":
+        /*!******************!*\\\\
+          !*** ./index.js ***!
+          \\\\******************/
+        /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-__webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../../node_modules/react-refresh/runtime.js\\");
 
-module.exports = 'Test';
+        module.exports = 'Test';
 
 
-var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
-var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
-	$ReactRefreshModuleId$
-);
+        var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+        var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
+        	$ReactRefreshModuleId$
+        );
 
-function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
-	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
-}
+        function $ReactRefreshModuleRuntime$(exports) {
+        	if (true) {
+        		var errorOverlay;
+        		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+        			errorOverlay = __react_refresh_error_overlay__;
+        		}
+        		var testMode;
+        		if (typeof __react_refresh_test__ !== 'undefined') {
+        			testMode = __react_refresh_test__;
+        		}
+        		return __react_refresh_utils__.executeRuntime(
+        			exports,
+        			$ReactRefreshModuleId$,
+        			module.hot,
+        			errorOverlay,
+        			testMode
+        		);
+        	}
+        }
 
-if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
-	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
-} else {
-	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
-}
+        if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
+        	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
+        } else {
+        	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
+        }
 
-/***/ })
+        /***/ })
 
-},
-/******/ __webpack_require__ => { // webpackRuntimeModules
-/******/ \\"use strict\\";
-/******/ 
-/******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-/******/ __webpack_require__.O(0, [\\"defaultVendors\\"], () => (__webpack_exec__(\\"./index.js\\")));
-/******/ var __webpack_exports__ = __webpack_require__.O();
-/******/ }
-]);"
-`);
+        },
+        /******/ __webpack_require__ => { // webpackRuntimeModules
+        /******/ \\"use strict\\";
+        /******/ 
+        /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+        /******/ __webpack_require__.O(0, [\\"defaultVendors\\"], () => (__webpack_exec__(\\"./index.js\\")));
+        /******/ var __webpack_exports__ = __webpack_require__.O();
+        /******/ }
+        ]);"
+      `);
 
       expect(compilation.errors).toStrictEqual([]);
       expect(compilation.warnings).toStrictEqual([]);
@@ -338,21 +350,23 @@ var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (module.hot) {
+		var errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		var testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			module.hot,
+			errorOverlay,
+			testMode
+		);
 	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
@@ -386,21 +400,23 @@ var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
 );
 
 function $ReactRefreshModuleRuntime$(exports) {
-	var errorOverlay;
-	if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-		errorOverlay = __react_refresh_error_overlay__;
+	if (module.hot) {
+		var errorOverlay;
+		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+			errorOverlay = __react_refresh_error_overlay__;
+		}
+		var testMode;
+		if (typeof __react_refresh_test__ !== 'undefined') {
+			testMode = __react_refresh_test__;
+		}
+		return __react_refresh_utils__.executeRuntime(
+			exports,
+			$ReactRefreshModuleId$,
+			module.hot,
+			errorOverlay,
+			testMode
+		);
 	}
-	var testMode;
-	if (typeof __react_refresh_test__ !== 'undefined') {
-		testMode = __react_refresh_test__;
-	}
-	return __react_refresh_utils__.executeRuntime(
-		exports,
-		$ReactRefreshModuleId$,
-		module.hot,
-		errorOverlay,
-		testMode
-	);
 }
 
 if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
@@ -430,20 +446,20 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
       const { execution, sourceMap } = compilation.module;
 
       expect(sourceMap).toMatchInlineSnapshot(`
-        "{
-          \\"version\\": 3,
-          \\"sources\\": [
-            \\"webpack://cjs/./index.js\\"
-          ],
-          \\"names\\": [],
-          \\"mappings\\": \\";;;;;;;;;;AAAA\\",
-          \\"file\\": \\"main.js\\",
-          \\"sourcesContent\\": [
-            \\"module.exports = 'Test';\\\\n\\"
-          ],
-          \\"sourceRoot\\": \\"\\"
-        }"
-      `);
+"{
+  \\"version\\": 3,
+  \\"sources\\": [
+    \\"webpack://cjs/./index.js\\"
+  ],
+  \\"names\\": [],
+  \\"mappings\\": \\";;;;;;;;;;AAAA\\",
+  \\"file\\": \\"main.js\\",
+  \\"sourcesContent\\": [
+    \\"module.exports = 'Test';\\\\n\\"
+  ],
+  \\"sourceRoot\\": \\"\\"
+}"
+`);
       expect(() => {
         validate(execution, sourceMap);
       }).not.toThrow();
