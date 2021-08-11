@@ -10,7 +10,7 @@
     "@babel/core": "^7.14.6",
     "@babel/preset-env": "^7.14.7",
     "@babel/preset-react": "^7.14.5",
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0-rc.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0-rc.3",
     "babel-loader": "^8.2.2",
     "cross-env": "^7.0.3",
     "html-webpack-plugin": "^5.3.2",
