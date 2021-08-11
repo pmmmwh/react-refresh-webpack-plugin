@@ -1,5 +1,5 @@
 {
-  "name": "using-typescript-without-babel",
+  "name": "using-typescript-with-tsc",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -7,7 +7,7 @@
     "react-dom": "^17.0.2"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0-rc.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.0-rc.3",
     "@types/react": "^17.0.13",
     "@types/react-dom": "^17.0.8",
     "cross-env": "^7.0.3",
