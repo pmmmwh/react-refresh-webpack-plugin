@@ -310,3 +310,5 @@ module.exports = {
   target: process.env.NODE_ENV !== 'production' ? 'web' : 'browserslist',
 };
 ```
+
+P.S.: Don't believe so much the official webpack doc saying it is `web` by default. Set it anyway.
