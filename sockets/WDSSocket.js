@@ -12,7 +12,7 @@ const getUrlFromParts = require('./utils/getUrlFromParts');
 function initWDSSocket(messageHandler, resourceQuery) {
   if (typeof __webpack_dev_server_client__ !== 'undefined') {
     let SocketClient = __webpack_dev_server_client__;
-    if (typeof __webpack_dev_server_client__.default !== "undefined") {
+    if (typeof __webpack_dev_server_client__.default !== 'undefined') {
       SocketClient = __webpack_dev_server_client__.default;
     }
 
