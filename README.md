@@ -20,12 +20,12 @@ Also, ensure that you are using the minimum supported versions of the plugin's p
 older versions unfortunately do not contain code to orchestrate "Fast Refresh",
 and thus cannot be made compatible.
 
-| Dependency         | Minimum                                            | Best       |
-| ------------------ | -------------------------------------------------- | ---------- |
-| `react`            | `16.9.0`                                           | `16.13.0`+ |
-| `react-dom`        | `16.9.0`                                           | `16.13.0`+ |
-| `react-reconciler` | `0.22.0`                                           | `0.25.0`+  |
-| `webpack`          | `4.0.0` (for `0.3.x`)<br />`4.43.0` (for `0.4.x`+) | `4.43.0`+  |
+| Dependency         | Minimum                                                      | Best                   |
+| ------------------ | ------------------------------------------------------------ | ---------------------- |
+| `react`            | `16.9.0`                                                     | `16.13.0`+             |
+| `react-dom`        | `16.9.0`                                                     | `16.13.0`+             |
+| `react-reconciler` | `0.22.0`                                                     | `0.25.0`+              |
+| `webpack`          | `4.0.0` (for `0.3.x`)<br />`4.43.0` / `5.0.0` (for `0.4.x`+) | `4.43.0`+<br/>`5.2.0`+ |
 
 > You only need `react-dom` if you're rendering to the DOM.
 
@@ -216,7 +216,7 @@ module.exports = {
                     // swc-loader will check whether webpack mode is 'development'
                     // and set this automatically starting from 0.1.13. You could also set it yourself.
                     // swc won't enable fast refresh when development is false
-                    development: isDevelopment
+                    development: isDevelopment,
                     refresh: isDevelopment,
                   },
                 },
