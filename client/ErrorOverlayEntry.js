@@ -2,7 +2,7 @@
 
 const { handleError, handleUnhandledRejection } = require('./utils/errorEventHandlers.js');
 const formatWebpackErrors = require('./utils/formatWebpackErrors.js');
-const runWithPatchedUrl = require('./utils/patchUrl.cjs');
+const runWithPatchedUrl = require('./utils/patchUrl.js');
 const runWithRetry = require('./utils/retry.js');
 
 // Setup error states
