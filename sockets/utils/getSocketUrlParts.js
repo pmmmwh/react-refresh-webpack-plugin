@@ -12,10 +12,15 @@ const getCurrentScriptSource = require('./getCurrentScriptSource.js');
 /**
  * Parse current location and Webpack's `__resourceQuery` into parts that can create a valid socket URL.
  * @param {string} [resourceQuery] The Webpack `__resourceQuery` string.
+ * @param {import('./getWDSMetadata').WDSMetaObj} [metadata] The parsed WDS metadata object.
  * @returns {SocketUrlParts} The parsed URL parts.
  * @see https://webpack.js.org/api/module-variables/#__resourcequery-webpack-specific
  */
-function getSocketUrlParts(resourceQuery) {
+function getSocketUrlParts(resourceQuery, metadata) {
+  if (typeof metadata === 'undefined') {
+    metadata = {};
+  }
+
   const scriptSource = getCurrentScriptSource();
 
   let url = {};
@@ -35,9 +40,15 @@ function getSocketUrlParts(resourceQuery) {
   let hostname = url.hostname;
   /** @type {string | undefined} */
   let protocol = url.protocol;
-  let pathname = '/sockjs-node'; // This is hard-coded in WDS
   /** @type {string | undefined} */
   let port = url.port;
+
+  // This is hard-coded in WDS v3
+  let pathname = '/sockjs-node';
+  if (metadata.version === 4) {
+    // This is hard-coded in WDS v4
+    pathname = '/ws';
+  }
 
   // Parse authentication credentials in case we need them
   if (url.username) {
@@ -51,7 +62,7 @@ function getSocketUrlParts(resourceQuery) {
   // parse it and overwrite everything we received from the script host.
   const parsedQuery = {};
   if (resourceQuery) {
-    const searchParams = new URLSearchParams((resourceQuery || '').slice(1));
+    const searchParams = new URLSearchParams(resourceQuery.slice(1));
     searchParams.forEach(function (value, key) {
       parsedQuery[key] = value;
     });
