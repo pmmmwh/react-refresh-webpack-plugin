@@ -1,5 +1,4 @@
 const getCurrentScriptSource = require('./getCurrentScriptSource.js');
-const parseQuery = require('./parseQuery.js');
 
 /**
  * @typedef {Object} SocketUrlParts
@@ -48,12 +47,31 @@ function getSocketUrlParts(resourceQuery) {
     auth = [url.username, url.password].filter(Boolean).join(':');
   }
 
-  // Check for IPv4 and IPv6 host addresses that corresponds to `any`/`empty`.
-  // This is important because `hostname` can be empty for some hosts,
-  // such as `about:blank` or `file://` URLs.
-  const isEmptyHostname = url.hostname === '0.0.0.0' || url.hostname === '[::]' || !url.hostname;
+  // If the resource query is available,
+  // parse it and overwrite everything we received from the script host.
+  const parsedQuery = {};
+  if (resourceQuery) {
+    const searchParams = new URLSearchParams((resourceQuery || '').slice(1));
+    searchParams.forEach(function (value, key) {
+      parsedQuery[key] = value;
+    });
+  }
 
-  // We only re-assign the hostname if we are using HTTP/HTTPS protocols
+  hostname = parsedQuery.sockHost || hostname;
+  pathname = parsedQuery.sockPath || pathname;
+  port = parsedQuery.sockPort || port;
+
+  // Make sure the protocol from resource query has a trailing colon
+  if (parsedQuery.sockProtocol) {
+    protocol = parsedQuery.sockProtocol + ':';
+  }
+
+  // Check for IPv4 and IPv6 host addresses that corresponds to any/empty.
+  // This is important because `hostname` can be empty for some hosts,
+  // such as 'about:blank' or 'file://' URLs.
+  const isEmptyHostname = url.hostname === '0.0.0.0' || url.hostname === '[::]' || !url.hostname;
+  // We only re-assign the hostname if it is empty,
+  // and if we are using HTTP/HTTPS protocols.
   if (
     isEmptyHostname &&
     window.location.hostname &&
@@ -64,7 +82,7 @@ function getSocketUrlParts(resourceQuery) {
 
   // We only re-assign `protocol` when `hostname` is available and is empty,
   // since otherwise we risk creating an invalid URL.
-  // We also do this when `https` is used as it mandates the use of secure sockets.
+  // We also do this when 'https' is used as it mandates the use of secure sockets.
   if (hostname && (isEmptyHostname || window.location.protocol === 'https:')) {
     protocol = window.location.protocol;
   }
@@ -72,18 +90,6 @@ function getSocketUrlParts(resourceQuery) {
   // We only re-assign port when it is not available
   if (!port) {
     port = window.location.port;
-  }
-
-  // If the resource query is available,
-  // parse it and overwrite everything we received from the script host.
-  const parsedQuery = parseQuery(resourceQuery || '');
-  hostname = parsedQuery.sockHost || hostname;
-  pathname = parsedQuery.sockPath || pathname;
-  port = parsedQuery.sockPort || port;
-
-  // Make sure the protocol from resource query has a trailing colon
-  if (parsedQuery.sockProtocol) {
-    protocol = parsedQuery.sockProtocol + ':';
   }
 
   if (!hostname || !pathname || !port) {
