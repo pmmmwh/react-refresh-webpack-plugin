@@ -62,6 +62,7 @@ module.exports = {
           {
             loader: require.resolve('babel-loader'),
             options: {
+              babelrc: false,
               plugins: [require.resolve('react-refresh/babel')],
             }
           }
