@@ -54,8 +54,11 @@ function getSocketUrlParts(resourceQuery, metadata) {
   if (url.username) {
     // Since HTTP basic authentication does not allow empty username,
     // we only include password if the username is not empty.
-    // Result: <username>:<password>
-    auth = [url.username, url.password].filter(Boolean).join(':');
+    // Result: <username> or <username>:<password>
+    auth = url.username;
+    if (url.password) {
+      auth += ':' + url.password;
+    }
   }
 
   // If the resource query is available,
@@ -80,7 +83,7 @@ function getSocketUrlParts(resourceQuery, metadata) {
   // Check for IPv4 and IPv6 host addresses that corresponds to any/empty.
   // This is important because `hostname` can be empty for some hosts,
   // such as 'about:blank' or 'file://' URLs.
-  const isEmptyHostname = url.hostname === '0.0.0.0' || url.hostname === '[::]' || !url.hostname;
+  const isEmptyHostname = hostname === '0.0.0.0' || hostname === '[::]' || !hostname;
   // We only re-assign the hostname if it is empty,
   // and if we are using HTTP/HTTPS protocols.
   if (
