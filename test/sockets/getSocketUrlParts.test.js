@@ -222,4 +222,16 @@ describe('getSocketUrlParts', () => {
       protocol: 'http:',
     });
   });
+
+  it('should force /ws when metadata.version is 4', () => {
+    getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost:8080');
+
+    expect(getSocketUrlParts(undefined, { version: 4 })).toStrictEqual({
+      auth: undefined,
+      hostname: 'localhost',
+      pathname: '/ws',
+      port: '8080',
+      protocol: 'http:',
+    });
+  });
 });

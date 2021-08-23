@@ -89,7 +89,7 @@ describe('getUrlFromParts', () => {
     ).toStrictEqual('http://username:password@localhost:8080/sockjs-node');
   });
 
-  it('should force WS when enforceWs is true and protocol is HTTP', () => {
+  it('should force WS when metadata.enforceWs is true and protocol is HTTP', () => {
     expect(
       getUrlFromParts(
         {
@@ -99,12 +99,12 @@ describe('getUrlFromParts', () => {
           port: '8080',
           protocol: 'http:',
         },
-        true
+        { enforceWs: true }
       )
     ).toStrictEqual('ws://localhost:8080/sockjs-node');
   });
 
-  it('should force WSS when enforceWs is true and protocol is HTTPS', () => {
+  it('should force WSS when metadata.enforceWs is true and protocol is HTTPS', () => {
     expect(
       getUrlFromParts(
         {
@@ -114,7 +114,7 @@ describe('getUrlFromParts', () => {
           port: '8080',
           protocol: 'https:',
         },
-        true
+        { enforceWs: true }
       )
     ).toStrictEqual('wss://localhost:8080/sockjs-node');
   });

@@ -2,6 +2,7 @@
 
 const getSocketUrlParts = require('./utils/getSocketUrlParts.js');
 const getUrlFromParts = require('./utils/getUrlFromParts');
+const getWDSMetadata = require('./utils/getWDSMetadata');
 
 /**
  * Initializes a socket server for HMR for webpack-dev-server.
@@ -16,18 +17,10 @@ function initWDSSocket(messageHandler, resourceQuery) {
       SocketClient = __webpack_dev_server_client__.default;
     }
 
-    const urlParts = getSocketUrlParts(resourceQuery);
+    const wdsMeta = getWDSMetadata(SocketClient);
+    const urlParts = getSocketUrlParts(resourceQuery, wdsMeta);
 
-    let enforceWs = false;
-    if (
-      typeof SocketClient.name !== 'undefined' &&
-      SocketClient.name !== null &&
-      SocketClient.name.toLowerCase().includes('websocket')
-    ) {
-      enforceWs = true;
-    }
-
-    const connection = new SocketClient(getUrlFromParts(urlParts, enforceWs));
+    const connection = new SocketClient(getUrlFromParts(urlParts, wdsMeta));
 
     connection.onMessage(function onSocketMessage(data) {
       const message = JSON.parse(data);

@@ -1,15 +1,19 @@
 /**
  * Create a valid URL from parsed URL parts.
  * @param {import('./getSocketUrlParts').SocketUrlParts} urlParts The parsed URL parts.
- * @param {boolean} [enforceWs] Enforce using the WebSocket protocols.
+ * @param {import('./getWDSMetadata').WDSMetaObj} [metadata] The parsed WDS metadata object.
  * @returns {string} The generated URL.
  */
-function urlFromParts(urlParts, enforceWs) {
+function urlFromParts(urlParts, metadata) {
+  if (typeof metadata === 'undefined') {
+    metadata = {};
+  }
+
   let fullProtocol = 'http:';
   if (urlParts.protocol) {
     fullProtocol = urlParts.protocol;
   }
-  if (enforceWs) {
+  if (metadata.enforceWs) {
     fullProtocol = fullProtocol.replace(/^(?:http|.+-extension|file)/i, 'ws');
   }
 
