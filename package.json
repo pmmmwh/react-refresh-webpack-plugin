@@ -138,6 +138,9 @@
       "optional": true
     }
   },
+  "resolutions": {
+    "type-fest": "1.4.0"
+  },
   "engines": {
     "node": ">= 10.13"
   }
