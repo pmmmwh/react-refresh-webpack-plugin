@@ -1,5 +1,7 @@
 const { promises: fsPromises } = require('fs');
 const path = require('path');
+const commonPathPrefix = require('common-path-prefix');
+const findUp = require('find-up');
 
 /** @type {string | undefined} */
 let packageJsonType;
@@ -45,7 +47,17 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
   // We will cache the results in a global variable so it will only be parsed once.
   if (!packageJsonType) {
     try {
-      const packageJsonPath = require.resolve(path.join(this.rootContext, 'package.json'));
+      const commonPath = commonPathPrefix([this.rootContext, this.resourcePath], '/');
+      const stopPath = path.resolve(commonPath, '..');
+
+      const packageJsonPath = await findUp(
+        (dir) => {
+          if (dir === stopPath) return findUp.stop;
+          return 'package.json';
+        },
+        { cwd: path.dirname(this.resourcePath) }
+      );
+
       const buffer = await fsPromises.readFile(packageJsonPath, { encoding: 'utf-8' });
       const rawPackageJson = buffer.toString('utf-8');
       ({ type: packageJsonType } = JSON.parse(rawPackageJson));
