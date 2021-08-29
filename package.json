@@ -25,6 +25,7 @@
   },
   "license": "MIT",
   "author": "Michael Mok",
+  "type": "commonjs",
   "main": "lib/index.js",
   "types": "types/lib/index.d.ts",
   "files": [
