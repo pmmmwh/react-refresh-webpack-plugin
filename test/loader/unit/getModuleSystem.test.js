@@ -62,7 +62,7 @@ describe('getModuleSystem', () => {
     await expect(
       getModuleSystem.call(
         {
-          resourcePath: 'index.js',
+          resourcePath: path.resolve(__dirname, '..', 'fixtures/esm', 'index.js'),
           rootContext: path.resolve(__dirname, '..', 'fixtures/esm'),
         },
         ModuleFilenameHelpers,
@@ -75,7 +75,7 @@ describe('getModuleSystem', () => {
     await expect(
       getModuleSystem.call(
         {
-          resourcePath: 'index.js',
+          resourcePath: path.resolve(__dirname, '..', 'fixtures/cjs', 'index.js'),
           rootContext: path.resolve(__dirname, '..', 'fixtures/cjs'),
         },
         ModuleFilenameHelpers,
@@ -88,7 +88,7 @@ describe('getModuleSystem', () => {
     await expect(
       getModuleSystem.call(
         {
-          resourcePath: 'index.js',
+          resourcePath: path.resolve(__dirname, '..', 'fixtures/auto', 'index.js'),
           rootContext: path.resolve(__dirname, '..', 'fixtures/auto'),
         },
         ModuleFilenameHelpers,
