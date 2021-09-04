@@ -53,10 +53,6 @@ If the renderer is not compatible, please file them an issue instead.
 
 </details>
 
-You would also need an integration to enable Webpack's Hot Module Replacement (HMR).
-We default to using `webpack-dev-server`,
-but you can set the [`overlay.sockIntegration`](docs/API.md#sockintegration) option to match what you're using.
-
 ### Installation
 
 With all prerequisites met, you can install this plugin with your package manager of choice:
@@ -179,8 +175,10 @@ module.exports = {
 };
 ```
 
-Even though both the Babel transform (`react-refresh/babel`) and this plugin have optimisations to do nothing in `production`,
-it is suggested to only have them both enabled in `development` mode to prevent shipping any additional code accidentally.
+> **:memo: Note**:
+>
+> Even though both the Babel transform (`react-refresh/babel`) and this plugin have optimisations to do nothing in `production`,
+> it is suggested to only have them both enabled in `development` mode to prevent shipping any additional code accidentally.
 
 <details>
 <summary>Using <code>ts-loader</code></summary>
@@ -283,6 +281,20 @@ module.exports = {
 > `swc` won't enable fast refresh when `development` is `false`.
 
 </details>
+
+### Overlay Integration
+
+This plugin integrates with the most common Webpack HMR solutions to surface errors during development using an overlay.
+By default, `webpack-dev-server` is used,
+but you can set the [`overlay.sockIntegration`](docs/API.md#sockintegration) option to match what you're using.
+
+The supported versions are as follows:
+
+| Dependency               | Version           |
+| ------------------------ | ----------------- |
+| `wewbpack-dev-server`    | `3.6.0`+ or `4.x` |
+| `webpack-hot-middleware` | `2.x`             |
+| `webpack-plugin-serve`   | `0.x` or `1.x`    |
 
 ## API
 
