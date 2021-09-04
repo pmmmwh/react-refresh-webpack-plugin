@@ -55,7 +55,8 @@ npm install --legacy-peer-deps
 
 ## Usage with Indirection (like Workers and JS Templates)
 
-If you share the Babel config for files in an indirect code path (e.g. Web Workers, JS Templates with partial pre-render) and all your other source files, you might experience this error:
+If you share the Babel config for files in an indirect code path (e.g. Web Workers, JS Templates with partial pre-render) and all your other source files,
+you might experience this error:
 
 ```
 Uncaught ReferenceError: $RefreshReg$ is not defined
@@ -82,7 +83,8 @@ This basically acts as a "polyfill" for helpers expected by `react-refresh/babel
 Ensure all exports within the indirect code path are not named in `PascalCase`.
 This will tell the Babel plugin to do nothing when it hits those files.
 
-In general, the `PascalCase` naming scheme should be reserved for React components only, and it doesn't really make sense for them to exist within non-React-rendering contexts.
+In general, the `PascalCase` naming scheme should be reserved for React components only,
+and it doesn't really make sense for them to exist within non-React-rendering contexts.
 
 **Robust but complex**
 
@@ -128,7 +130,8 @@ In your Webpack configuration, alter the Babel setup as follows:
 }
 ```
 
-This would ensure that your indirect code path will not be processed by `react-refresh/babel`, thus eliminating the problem completely.
+This would ensure that your indirect code path will not be processed by `react-refresh/babel`,
+thus eliminating the problem completely.
 
 ## Hot Module Replacement (HMR) is not enabled
 
@@ -255,6 +258,34 @@ To make fast refresh work properly, make sure your Webpack configuration comply 
      },
    };
    ```
+
+## Externalising React
+
+Fast refresh relies on initialising code before **ANY** React code is ran.
+If you externalise React, however, it is likely that this plugin cannot inject the necessary runtime code before it.
+
+You can deal with this in a few ways (also see pmmmwh/react-refresh-webpack-plugin#334 for relevant discussion).
+
+**Production-only externalisation**
+
+The simplest solution to this issue is to simply not externalise React in development.
+This would guarantee any code injected by this plugin run before any React code,
+and would require the least manual tweaking.
+
+**Use React DevTools**
+
+If the execution environment is something you can control, and you wanted to externalise React in development,
+you can use React DevTools which would inject hooks to the environment for React to attach to.
+
+React Refresh should be able to hook into copies of React connected this way even it runs afterwards,
+but do note that React DevTools does not inject hooks over a frame boundary (`iframe`).
+
+**Externalise React Refresh**
+
+If all solutions above are not applicable, you can also externalise `react-refresh/runtime` together with React.
+
+Using this, however, would require you to ensure the injected entry from this plugin is executed before React.
+You can check out [this sandbox](https://codesandbox.io/s/react-refresh-externals-14fpn) for an example on how this could be done.
 
 ## Running multiple instances of React Refresh simultaneously
 
