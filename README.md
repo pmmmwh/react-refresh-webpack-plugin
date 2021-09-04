@@ -29,6 +29,7 @@ We recommend using at least the following versions:
 
 <details>
 <summary>Minimum requirements</summary>
+<br />
 
 | Dependency      | Version  |
 | --------------- | -------- |
@@ -43,6 +44,7 @@ We recommend using at least the following versions:
 <summary>
 Using custom renderers (e.g. <code>react-three-fiber</code>, <code>react-pdf</code>, <code>ink</code>)
 </summary>
+<br />
 
 To ensure full support of "Fast Refresh" with components rendered by custom renderers,
 you should ensure the version of the renderer you're using depend on a recent version of `react-reconciler`.
@@ -73,6 +75,7 @@ We recommend using version `0.10.0` or above.
 
 <details>
 <summary>Support for TypeScript</summary>
+<br />
 
 TypeScript support is available out-of-the-box for those who use `webpack.config.ts`.
 
@@ -113,6 +116,7 @@ module.exports = {
 
 <details>
 <summary>Using <code>webpack-hot-middleware</code></summary>
+<br />
 
 ```js
 const webpack = require('webpack');
@@ -129,6 +133,7 @@ module.exports = {
 
 <details>
 <summary>Using <code>webpack-plugin-serve</code></summary>
+<br />
 
 ```js
 const { WebpackPluginServe } = require('webpack-plugin-serve');
@@ -182,6 +187,7 @@ module.exports = {
 
 <details>
 <summary>Using <code>ts-loader</code></summary>
+<br />
 
 > **:warning: Warning**:
 > This is an un-official integration maintained by the community.
@@ -239,6 +245,7 @@ module.exports = {
 
 <details>
 <summary>Using <code>swc-loader</code></summary>
+<br />
 
 > **:warning: Warning**:
 > This is an un-official integration maintained by the community.
