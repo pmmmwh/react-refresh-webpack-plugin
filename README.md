@@ -1,9 +1,17 @@
 # React Refresh Webpack Plugin
 
-[![Latest Version](https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/latest)](https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/latest)
-[![Next Version](https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/next)](https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/next)
-[![CircleCI](https://img.shields.io/circleci/project/github/pmmmwh/react-refresh-webpack-plugin/main)](https://app.circleci.com/pipelines/github/pmmmwh/react-refresh-webpack-plugin)
-[![License](https://img.shields.io/github/license/pmmmwh/react-refresh-webpack-plugin)](./LICENSE)
+[circleci]: https://app.circleci.com/pipelines/github/pmmmwh/react-refresh-webpack-plugin
+[circleci:badge]: https://img.shields.io/circleci/project/github/pmmmwh/react-refresh-webpack-plugin/main
+[license:badge]: https://img.shields.io/github/license/pmmmwh/react-refresh-webpack-plugin
+[npm:latest]: https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/latest
+[npm:latest:badge]: https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/latest
+[npm:next]: https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/next
+[npm:next:badge]: https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/next
+
+[![CircleCI][circleci:badge]][circleci]
+[![License][license:badge]](./LICENSE)
+[![Latest Version][npm:latest:badge]][npm:latest]
+[![Next Version][npm:next:badge]][npm:next]
 
 An **EXPERIMENTAL** Webpack plugin to enable "Fast Refresh" (also known as _Hot Reloading_) for React components.
 
@@ -18,14 +26,14 @@ Ensure that you are using at least the minimum supported versions of this plugin
 older versions unfortunately do not contain code to orchestrate "Fast Refresh",
 and thus cannot be made compatible.
 
-We recommend using at least the following versions:
+We recommend using the following versions:
 
-| Dependency      | Version             |
-| --------------- | ------------------- |
-| `react`         | `16.13.0` or `17.x` |
-| `react-dom`     | `16.13.0` or `17.x` |
-| `react-refresh` | `0.10.0`            |
-| `webpack`       | `4.46.0` or `5.2.0` |
+| Dependency      | Version               |
+| --------------- | --------------------- |
+| `react`         | `16.13.0`+ or `17.x`  |
+| `react-dom`     | `16.13.0`+ or `17.x`  |
+| `react-refresh` | `0.10.0`+             |
+| `webpack`       | `4.46.0`+ or `5.2.0`+ |
 
 <details>
 <summary>Minimum requirements</summary>
@@ -47,7 +55,7 @@ Using custom renderers (e.g. <code>react-three-fiber</code>, <code>react-pdf</co
 <br />
 
 To ensure full support of "Fast Refresh" with components rendered by custom renderers,
-you should ensure the version of the renderer you're using depend on a recent version of `react-reconciler`.
+you should ensure the renderer you're using depends on a recent version of `react-reconciler`.
 
 We recommend version `0.25.0` or above, but any versions above `0.22.0` should work.
 
@@ -57,7 +65,7 @@ If the renderer is not compatible, please file them an issue instead.
 
 ### Installation
 
-With all prerequisites met, you can install this plugin with your package manager of choice:
+With all prerequisites met, you can install this plugin using your package manager of choice:
 
 ```sh
 # if you prefer npm
@@ -96,7 +104,7 @@ pnpm add -D type-fest
 
 ### Usage
 
-For most setups, we recommend using `babel-loader`.
+For most setups, we recommend integrate using `babel-loader`.
 It covers the most use cases and is officially supported by the React team.
 
 The examples below will also assume you're using `webpack-dev-server`.
@@ -147,11 +155,11 @@ module.exports = {
 ```
 
 > **:memo: Note**:
-> `webpack-plugin-server` officially only supports Webpack 4.
+> `webpack-plugin-serve` officially only supports Webpack 4.
 
 </details>
 
-Then, add the `react-refresh/babel` plugin to your Babel configuration and add this plugin to your Webpack configuration.
+Then, add the `react-refresh/babel` plugin to your Babel configuration and this plugin to your Webpack configuration.
 
 ```js
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
@@ -211,7 +219,6 @@ you can wire-up `react-refresh-typescript` with `ts-loader`:
 
 ```js
 const ReactRefreshTypeScript = require('react-refresh-typescript');
-// ... other imports
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -254,7 +261,7 @@ Ensure your `@swc/core` version is at least `1.2.52`.
 It is also recommended to use `swc-loader` version `0.1.13` or above.
 
 Then, instead of wiring up `react-refresh/babel` via `babel-loader`,
-you can wire-up `swc-loader` to use the `refresh` transform:
+you can wire-up `swc-loader` and use the `refresh` transform:
 
 ```js
 module.exports = {
@@ -284,14 +291,16 @@ module.exports = {
 };
 ```
 
-> Starting from version `0.1.13`, `swc-loader` will detect the `development` option based on the current Webpack mode.
+> Starting from version `0.1.13`, `swc-loader` will set the `development` option based on Webpack's `mode` option.
 > `swc` won't enable fast refresh when `development` is `false`.
 
 </details>
 
 ### Overlay Integration
 
-This plugin integrates with the most common Webpack HMR solutions to surface errors during development using an overlay.
+This plugin integrates with the most common Webpack HMR solutions to surface errors during development -
+in the form of an error overlay.
+
 By default, `webpack-dev-server` is used,
 but you can set the [`overlay.sockIntegration`](docs/API.md#sockintegration) option to match what you're using.
 
