@@ -30,10 +30,6 @@ export type ErrorOverlayOptions = {
    */
   sockProtocol?: 'http' | 'https' | 'ws' | 'wss' | undefined;
   /**
-   * Uses a custom SocketJS implementation for older versions of WDS.
-   */
-  useLegacyWDSSockets?: boolean | undefined;
-  /**
    * Uses a polyfill for the DOM URL API (WDS only).
    */
   useURLPolyfill?: boolean | undefined;

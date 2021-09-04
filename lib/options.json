@@ -50,7 +50,6 @@
         "sockPath": { "type": "string" },
         "sockPort": { "type": "number", "minimum": 0 },
         "sockProtocol": { "enum": ["http", "https", "ws", "wss"] },
-        "useLegacyWDSSockets": { "type": "boolean" },
         "useURLPolyfill": { "type": "boolean" }
       }
     }

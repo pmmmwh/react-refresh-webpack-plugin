@@ -31,7 +31,6 @@ describe('normalizeOptions', () => {
           sockPath: '/socket',
           sockPort: 9000,
           sockProtocol: 'https',
-          useLegacyWDSSockets: true,
           useURLPolyfill: true,
         },
       })
@@ -48,7 +47,6 @@ describe('normalizeOptions', () => {
         sockPath: '/socket',
         sockPort: 9000,
         sockProtocol: 'https',
-        useLegacyWDSSockets: true,
         useURLPolyfill: true,
       },
     });
