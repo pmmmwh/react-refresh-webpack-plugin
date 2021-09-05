@@ -324,6 +324,12 @@ Please refer to [the Troubleshooting guide](docs/TROUBLESHOOTING.md) for FAQs an
 
 This project is licensed under the terms of the [MIT License](/LICENSE).
 
-## Related Work
+## Special Thanks
 
-- [Initial Implementation by @maisano](https://gist.github.com/maisano/441a4bc6b2954205803d68deac04a716)
+<a href="https://jb.gg/OpenSource?from=ReactRefreshWebpackPlugin" target="_blank">
+  <img
+    alt="JetBrains Logo"
+    src="https://user-images.githubusercontent.com/9338255/132110580-61d3dba5-f5c7-4479-bd8e-39cd65b42fc5.png"
+    width="120"
+  />
+</a>
