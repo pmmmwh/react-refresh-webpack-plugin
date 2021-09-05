@@ -24,22 +24,6 @@ describe('getAdditionalEntries', () => {
     });
   });
 
-  it('should append legacy WDS entry when required', () => {
-    expect(
-      getAdditionalEntries({
-        options: {
-          overlay: {
-            entry: ErrorOverlayEntry,
-            useLegacyWDSSockets: true,
-          },
-        },
-      })
-    ).toStrictEqual({
-      overlayEntries: [require.resolve('../../client/LegacyWDSSocketEntry'), ErrorOverlayEntry],
-      prependEntries: [ReactRefreshEntry],
-    });
-  });
-
   it('should append resource queries to the overlay entry when specified in overlay options', () => {
     expect(
       getAdditionalEntries({

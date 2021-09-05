@@ -154,7 +154,6 @@ interface ErrorOverlayOptions {
   sockPath?: string;
   sockPort?: number;
   sockProtocol?: 'http' | 'https' | 'ws' | 'wss';
-  useLegacyWDSSockets?: boolean;
   useURLPolyfill?: boolean;
 }
 ```
@@ -268,29 +267,6 @@ Type: `http`, `https`, `ws` or `wss`
 
 Force a protocol for the error overlay to listen for Webpack build messages.
 Useful if you want to enforce https communication, or if you're working under a non-HTTP path.
-
-#### `useLegacyWDSSockets`
-
-Default: `undefined`
-
-Type: `boolean`
-
-**This is relevant for `webpack-dev-server` only.**
-
-Wraps the `SockJS` client from `webpack-dev-server` prior to version `3.7.0` to make it compatible with the plugin.
-
-You will also need to install `sockjs-client@1.3.0` as a peer dependency with one of the commands below:
-
-```sh
-# if you prefer npm
-npm install -D sockjs-client@1.3.0
-
-# if you prefer yarn
-yarn add -D sockjs-client@1.3.0
-
-# if you prefer pnpm
-pnpm add -D sockjs-client@1.3.0
-```
 
 #### `useURLPolyfill`
 

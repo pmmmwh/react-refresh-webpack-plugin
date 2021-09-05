@@ -145,11 +145,11 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
          Details:
           * options.overlay should be a boolean.
           * options.overlay should be an object:
-            object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }"
+            object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }"
     `);
   });
 
@@ -185,7 +185,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
          Details:
           * options.overlay.entry should be one of these:
             false | string
@@ -227,7 +227,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
          Details:
           * options.overlay.module should be one of these:
             false | string
@@ -293,7 +293,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useLegacyWDSSockets?, useURLPolyfill? }
+         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
          Details:
           * options.overlay.sockIntegration should be one of these:
             false | \\"wds\\" | \\"whm\\" | \\"wps\\" | string
@@ -406,33 +406,6 @@ describe('validateOptions', () => {
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options.overlay.sockProtocol should be one of these:
          \\"http\\" | \\"https\\" | \\"ws\\" | \\"wss\\""
-    `);
-  });
-
-  it('should accept "overlay.useLegacyWDSSockets" when it is true', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { useLegacyWDSSockets: true },
-      });
-    }).not.toThrow();
-  });
-
-  it('should accept "overlay.useLegacyWDSSockets" when it is false', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { useLegacyWDSSockets: false },
-      });
-    }).not.toThrow();
-  });
-
-  it('should reject "overlay.useLegacyWDSSockets" when it is not a boolean', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { useLegacyWDSSockets: 1 },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.useLegacyWDSSockets should be a boolean."
     `);
   });
 
