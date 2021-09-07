@@ -1,4 +1,4 @@
-const ansiHTML = require('ansi-html');
+const ansiHTML = require('ansi-html-community');
 const entities = require('html-entities');
 const theme = require('../theme.js');
 const { formatFilename } = require('../utils.js');
