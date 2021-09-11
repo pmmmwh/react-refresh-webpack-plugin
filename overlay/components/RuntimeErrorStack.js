@@ -1,6 +1,6 @@
 const ErrorStackParser = require('error-stack-parser');
 const theme = require('../theme.js');
-const { formatFilename } = require('../utils.js');
+const utils = require('../utils.js');
 
 /**
  * @typedef {Object} RuntimeErrorStackProps
@@ -59,7 +59,7 @@ function RuntimeErrorStack(document, root, props) {
     const fileName = document.createElement('div');
     fileName.innerHTML =
       '&emsp;&emsp;' +
-      formatFilename(currentStack.fileName) +
+      utils.formatFilename(currentStack.fileName) +
       ':' +
       currentStack.lineNumber +
       ':' +
