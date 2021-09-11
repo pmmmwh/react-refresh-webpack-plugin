@@ -1,7 +1,7 @@
 const ansiHTML = require('ansi-html-community');
 const entities = require('html-entities');
 const theme = require('../theme.js');
-const { formatFilename } = require('../utils.js');
+const utils = require('../utils.js');
 
 ansiHTML.setColors(theme);
 
@@ -26,7 +26,7 @@ function CompileErrorTrace(document, root, props) {
       .replace(/^(.*:)\s.*:(\s.*)$/, '$1$2');
 
     if (errorParts[0]) {
-      errorParts[0] = formatFilename(errorParts[0]);
+      errorParts[0] = utils.formatFilename(errorParts[0]);
     }
 
     errorParts.unshift(errorMessage);

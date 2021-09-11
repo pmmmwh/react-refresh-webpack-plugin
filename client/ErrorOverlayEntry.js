@@ -1,6 +1,6 @@
 /* global __react_refresh_error_overlay__, __react_refresh_socket__, __resourceQuery */
 
-const { handleError, handleUnhandledRejection } = require('./utils/errorEventHandlers.js');
+const events = require('./utils/errorEventHandlers.js');
 const formatWebpackErrors = require('./utils/formatWebpackErrors.js');
 const runWithPatchedUrl = require('./utils/patchUrl.js');
 const runWithRetry = require('./utils/retry.js');
@@ -83,11 +83,11 @@ if (process.env.NODE_ENV !== 'production') {
           __react_refresh_socket__.init(compileMessageHandler, __resourceQuery);
         }, 3);
         // Registers handlers for runtime errors
-        handleError(function handleError(error) {
+        events.handleError(function handleError(error) {
           hasRuntimeErrors = true;
           __react_refresh_error_overlay__.handleRuntimeError(error);
         });
-        handleUnhandledRejection(function handleUnhandledPromiseRejection(error) {
+        events.handleUnhandledRejection(function handleUnhandledPromiseRejection(error) {
           hasRuntimeErrors = true;
           __react_refresh_error_overlay__.handleRuntimeError(error);
         });

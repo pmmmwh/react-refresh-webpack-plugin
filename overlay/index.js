@@ -3,7 +3,7 @@ const RuntimeErrorHeader = require('./components/RuntimeErrorHeader.js');
 const CompileErrorContainer = require('./containers/CompileErrorContainer.js');
 const RuntimeErrorContainer = require('./containers/RuntimeErrorContainer.js');
 const theme = require('./theme.js');
-const { debounce, removeAllChildren } = require('./utils.js');
+const utils = require('./utils.js');
 
 /**
  * @callback RenderFn
@@ -176,7 +176,7 @@ function render() {
       currentFocusId = currentFocus.id;
     }
 
-    removeAllChildren(root);
+    utils.removeAllChildren(root);
 
     if (currentCompileErrorMessage) {
       currentMode = 'compileError';
@@ -300,7 +300,7 @@ function showRuntimeErrors(errors) {
  * @param {Error[]} errors
  * @returns {void}
  */
-const debouncedShowRuntimeErrors = debounce(showRuntimeErrors, 30);
+const debouncedShowRuntimeErrors = utils.debounce(showRuntimeErrors, 30);
 
 /**
  * Detects if an error is a Webpack compilation error.
