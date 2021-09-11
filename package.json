@@ -55,7 +55,7 @@
     "prepublishOnly": "run-s types:clean generate-types"
   },
   "dependencies": {
-    "ansi-html": "^0.0.7",
+    "ansi-html-community": "^0.0.8",
     "common-path-prefix": "^3.0.0",
     "core-js-pure": "^3.8.1",
     "error-stack-parser": "^2.0.6",
