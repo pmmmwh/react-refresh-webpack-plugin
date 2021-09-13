@@ -1,3 +1,56 @@
+## 0.5.0 (14 September 2021)
+
+### BREAKING
+
+- While most of the public API did not change,
+  we've re-written a large chunk of the runtime code to support a wider range of use cases.
+  This is likely to provide more stability, but if `0.4.x` works in your setup but `0.5.x` doesn't,
+  please file us an issue - we would love to address it!
+- The `disableRefreshCheck` option have been removed (#285).
+  It has long been effect-less and deprecated since `0.3.x`.
+- The `overlay.useLegacyWDSSockets` have been removed (#498).
+  It is aimed to support WDS below `3.6.0` (published in June 2019),
+  but looking at current usage and download stats,
+  we've decided it is best to drop support for the old socket format moving forward.
+- Handling of port `0` have been removed (#337).
+- `html-entities` have been bumped to `2.x` (#321).
+- `react-refresh` have been bumped to `0.10.0` (#353).
+
+### Features
+
+- Added WDS v4 support with new socket defaults through Webpack config (#241, #286, #392, #413, #479)
+- Added the `overlay.sockProtocol` option (#242)
+- Added monorepo compatibility via the the `library` option (#273)
+- Rewritten URL handling using WHATWG `URL` APIs with automatic pony-filling (#278, #332, #378)
+- Rewritten Webpack 5 compatibility using new APIs and hooks (#319, #372, #434, #483)
+- Rewritten refresh runtime to be fully module system aware (#337, #461, #482, #492)
+- Rewritten Webpack 4 and 5 checks using feature detection on compiler (#415)
+- Added support for `experiments.topLevelAwait` (#435, #447, #493)
+- Added retry logic when socket initialisation fails (#446)
+
+### Fixes
+
+- Relaxed peer dependency requirement on `type-fest` (#257, c02018a, #484)
+- Relaxed requirement on the `overlay` option to accept relative paths (#284)
+- Patched unstable initialisation of global scope across module boundaries (#290, #369, #464, #505)
+- Patched quote escaping in injected runtime code (#306)
+- Invalidate updates outside of Refresh boundary for consistency (#307)
+- Properly throw when an ambiguous entrypoint is received while using Webpack 4 (#320)
+- Fixed overlay script source detection for WDS when no `src` is found (#331)
+- Fixed possible Stack Overflow through self-referencing (#370, #380)
+- Relaxed errors on HMR not found to not crash JS parsing (#371)
+- Ensure overlay code won't run if disabled (#374)
+- Relaxed peer dependency requirement on `@types/webpack` (#414)
+- Fixed compiler error overlay crashes when messages are empty (#462)
+- Swapped `ansi-html` to `ansi-html-community` to fix ReDoS vulnerability (#501)
+
+### Internal
+
+- More stable testing infrastructure (#234)
+- Run tests by default on Webpack 5 (#440)
+- Rewrite documentation and fix outstanding issues (#283, #291, #311, #376, #480, #497, #499)
+- Added documentation on community plugins: `react-refresh-typescript` and `swc` (#248, fbe1f27, #450)
+
 ## 0.4.3 (2 November 2020)
 
 ### Fixes
@@ -25,11 +78,11 @@
 ### BREAKING
 
 - Minimum required Node.js version have been bumped to 10 as Node.js 8 is EOL now.
-- Minimum required Webpack version is now `v4.43.0` or later as we adopted the new `module.hot.invalidate` API (#).
+- Minimum required Webpack version is now `v4.43.0` or later as we adopted the new `module.hot.invalidate` API (#89).
   The new API enabled us to bail out of the HMR loop less frequently and provide a better experience.
   If you really cannot upgrade, you can stay on `0.3.3` for the time being.
 - While most of our public API did not change, this release is closer to a rewrite than a refactor.
-  A lot of files have moved to provide easier access to files for advanced users and frameworks (#122).
+  A lot of files have moved to provide easier access for advanced users and frameworks (#122).
   You can check the difference in the PR to see what have moved and where they are now.
 - The `useLegacyWDSSockets` option is now scoped under the `overlay` option (#153).
 
