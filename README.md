@@ -294,7 +294,7 @@ module.exports = {
 </details>
 
 For more information on how to set up "Fast Refresh" with different integrations,
-checkout our examples [here](examples).
+please checkout [our examples](examples).
 
 ### Overlay Integration
 
