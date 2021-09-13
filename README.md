@@ -107,7 +107,7 @@ pnpm add -D type-fest
 For most setups, we recommend integrate using `babel-loader`.
 It covers the most use cases and is officially supported by the React team.
 
-The examples below will also assume you're using `webpack-dev-server`.
+The example below will assume you're using `webpack-dev-server`.
 
 If you haven't done so, set up your development Webpack configuration for Hot Module Replacement (HMR).
 
@@ -292,6 +292,9 @@ module.exports = {
 > `swc` won't enable fast refresh when `development` is `false`.
 
 </details>
+
+For more information on how to set up "Fast Refresh" with different integrations,
+checkout our examples [here](examples).
 
 ### Overlay Integration
 
