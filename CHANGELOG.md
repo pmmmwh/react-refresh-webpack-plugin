@@ -23,7 +23,7 @@
 - Added monorepo compatibility via the the `library` option (#273)
 - Rewritten URL handling using WHATWG `URL` APIs with automatic pony-filling (#278, #332, #378)
 - Rewritten Webpack 5 compatibility using new APIs and hooks (#319, #372, #434, #483)
-- Rewritten refresh runtime to be fully module system aware (#337, #369, #461, #464, #482, #492)
+- Rewritten refresh runtime to be fully module system aware (#337, #461, #482, #492)
 - Rewritten Webpack 4 and 5 checks using feature detection on compiler (#415)
 - Added support for `experiments.topLevelAwait` (#435, #447, #493)
 - Added retry logic when socket initialisation fails (#446)
@@ -32,7 +32,7 @@
 
 - Relaxed peer dependency requirement on `type-fest` (#257, c02018a, #484)
 - Relaxed requirement on the `overlay` option to accept relative paths (#284)
-- Patched unstable initialisation of global scope across module boundaries (#290)
+- Patched unstable initialisation of global scope across module boundaries (#290, #369, #464, #505)
 - Patched quote escaping in injected runtime code (#306)
 - Invalidate updates outside of Refresh boundary for consistency (#307)
 - Properly throw when an ambiguous entrypoint is received while using Webpack 4 (#320)
