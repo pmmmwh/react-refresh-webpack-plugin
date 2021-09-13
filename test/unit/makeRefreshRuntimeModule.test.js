@@ -83,7 +83,7 @@ __webpack_require__.$Refresh$ = {
 			__webpack_require__.$Refresh$.runtime.register(type, typeId);
 		}
 
-		__webpack_require__.$Refresh$.signature = __webpack_require__.$Refresh$.runtime.createSignatureFunctionForTransform;
+		__webpack_require__.$Refresh$.signature = function() { return __webpack_require__.$Refresh$.runtime.createSignatureFunctionForTransform(); };
 
 		__webpack_require__.$Refresh$.cleanup = function(cleanupModuleId) {
 			if (currentModuleId === cleanupModuleId) {
@@ -162,7 +162,7 @@ __webpack_require__.$Refresh$ = {
 			__webpack_require__.$Refresh$.runtime.register(type, typeId);
 		}
 
-		__webpack_require__.$Refresh$.signature = __webpack_require__.$Refresh$.runtime.createSignatureFunctionForTransform;
+		__webpack_require__.$Refresh$.signature = () => (__webpack_require__.$Refresh$.runtime.createSignatureFunctionForTransform());
 
 		__webpack_require__.$Refresh$.cleanup = (cleanupModuleId) => {
 			if (currentModuleId === cleanupModuleId) {
