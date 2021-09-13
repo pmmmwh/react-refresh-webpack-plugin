@@ -154,9 +154,6 @@ module.exports = {
 };
 ```
 
-> **:memo: Note**:
-> `webpack-plugin-serve` officially only supports Webpack 4.
-
 </details>
 
 Then, add the `react-refresh/babel` plugin to your Babel configuration and this plugin to your Webpack configuration.
