@@ -114,7 +114,7 @@
     "@types/webpack": "4.x || 5.x",
     "react-refresh": "^0.10.0",
     "sockjs-client": "^1.4.0",
-    "type-fest": ">=0.17.0 <2.0.0",
+    "type-fest": ">=0.17.0 <3.0.0",
     "webpack": ">=4.43.0 <6.0.0",
     "webpack-dev-server": "3.x || 4.x",
     "webpack-hot-middleware": "2.x",
