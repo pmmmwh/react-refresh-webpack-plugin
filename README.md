@@ -100,6 +100,11 @@ yarn add -D type-fest
 pnpm add -D type-fest
 ```
 
+> **:memo: Note**:
+>
+> `type-fest@2.x` only supports Node.js v12.20 or above.
+> If you're using an older version of Node.js, please install `type-fest@1.x`.
+
 </details>
 
 ### Usage
