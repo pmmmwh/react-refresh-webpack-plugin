@@ -1,3 +1,13 @@
+## 0.5.1 (15 September 2021)
+
+### Fixes
+
+- Relaxed peer dependency requirement on `type-fest` to allow v2.x (#507, #508)
+
+### Internal
+
+- Fixed typos in README (#509)
+
 ## 0.5.0 (14 September 2021)
 
 ### BREAKING
