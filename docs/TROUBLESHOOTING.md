@@ -264,7 +264,7 @@ To make fast refresh work properly, make sure your Webpack configuration comply 
 Fast refresh relies on initialising code before **ANY** React code is ran.
 If you externalise React, however, it is likely that this plugin cannot inject the necessary runtime code before it.
 
-You can deal with this in a few ways (also see pmmmwh/react-refresh-webpack-plugin#334 for relevant discussion).
+You can deal with this in a few ways (also see [#334](https://github.com/pmmmwh/react-refresh-webpack-plugin/issues/334) for relevant discussion).
 
 **Production-only externalisation**
 
