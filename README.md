@@ -313,7 +313,7 @@ The supported versions are as follows:
 
 | Dependency               | Version           |
 | ------------------------ | ----------------- |
-| `wewbpack-dev-server`    | `3.6.0`+ or `4.x` |
+| `webpack-dev-server`     | `3.6.0`+ or `4.x` |
 | `webpack-hot-middleware` | `2.x`             |
 | `webpack-plugin-serve`   | `0.x` or `1.x`    |
 
