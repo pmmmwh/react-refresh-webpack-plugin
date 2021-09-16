@@ -259,7 +259,7 @@ module.exports = {
 > **:warning: Warning**:
 > This is an un-official integration maintained by the community.
 
-Ensure your `@swc/core` version is at least `1.2.52`.
+Ensure your `@swc/core` version is at least `1.2.86`.
 It is also recommended to use `swc-loader` version `0.1.13` or above.
 
 Then, instead of wiring up `react-refresh/babel` via `babel-loader`,
