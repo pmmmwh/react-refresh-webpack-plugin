@@ -103,7 +103,7 @@
     "webpack": "^5.42.0",
     "webpack-cli": "^4.7.2",
     "webpack-cli.legacy": "npm:webpack-cli@3.x",
-    "webpack-dev-server": "^3.11.2",
+    "webpack-dev-server": "^4.2.1",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-plugin-serve": "^1.4.1",
     "webpack.legacy": "npm:webpack@4.x",
