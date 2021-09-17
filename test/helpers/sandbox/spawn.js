@@ -95,7 +95,10 @@ function spawnTestProcess(processPath, argv, options = {}) {
      */
     function handleStderr(data) {
       const message = data.toString();
-      process.stderr.write(message);
+
+      if (__DEBUG__) {
+        process.stderr.write(message);
+      }
     }
 
     instance.stdout.on('data', handleStdout);
@@ -119,20 +122,23 @@ function spawnTestProcess(processPath, argv, options = {}) {
 
 /**
  * @param {number} port
- * @param {string} directory
+ * @param {Object} dirs
+ * @param {string} dirs.public
+ * @param {string} dirs.root
+ * @param {string} dirs.src
  * @param {SpawnOptions} [options]
  * @returns {Promise<import('child_process').ChildProcess | void>}
  */
-function spawnWebpackServe(port, directory, options = {}) {
+function spawnWebpackServe(port, dirs, options = {}) {
   const webpackBin = getPackageExecutable('webpack-cli');
   return spawnTestProcess(
     webpackBin,
     [
       'serve',
       '--config',
-      path.resolve(directory, 'webpack.config.js'),
-      '--content-base',
-      directory,
+      path.join(dirs.root, 'webpack.config.js'),
+      '--static-directory',
+      dirs.public,
       '--hot',
       '--port',
       port,
