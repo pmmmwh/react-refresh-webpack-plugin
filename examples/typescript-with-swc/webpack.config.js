@@ -19,6 +19,7 @@ module.exports = {
           {
             loader: 'swc-loader',
             options: {
+              env: { mode: 'usage' },
               jsc: {
                 parser: {
                   syntax: 'typescript',
