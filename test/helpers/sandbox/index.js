@@ -6,7 +6,7 @@ const { getIndexHTML, getPackageJson, getWDSConfig } = require('./configs');
 const { killTestProcess, spawnWebpackServe } = require('./spawn');
 
 // Extends the timeout for tests using the sandbox
-jest.setTimeout(1000 * 60 * 5);
+jest.setTimeout(1000 * 60);
 
 // Setup a global "queue" of cleanup handlers to allow auto-teardown of tests,
 // even when they did not run the cleanup function.
