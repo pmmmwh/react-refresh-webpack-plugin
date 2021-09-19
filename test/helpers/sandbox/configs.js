@@ -75,9 +75,14 @@ module.exports = {
     new ReactRefreshPlugin(),
   ],
   resolve: {
-    alias: {
-      webpack: '${WEBPACK_VERSION === 4 ? 'webpack.legacy' : 'webpack'}'
-    },
+    alias: ${JSON.stringify(
+      {
+        ...(WEBPACK_VERSION === 4 && { webpack: 'webpack.legacy' }),
+        ...(WDS_VERSION === 3 && { 'webpack-dev-server': 'webpack-dev-server.legacy' }),
+      },
+      null,
+      2
+    )},
     extensions: ['.js', '.jsx'],
   },
 };

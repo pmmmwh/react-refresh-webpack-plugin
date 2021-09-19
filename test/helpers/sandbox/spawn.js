@@ -131,13 +131,27 @@ function spawnTestProcess(processPath, argv, options = {}) {
  */
 function spawnWebpackServe(port, dirs, options = {}) {
   const webpackBin = getPackageExecutable('webpack-cli');
+
+  const NODE_OPTIONS = [
+    // This requires a script to alias `webpack` and `webpack-cli` -
+    // both v4 and v5 is installed side by side,
+    // so we have to ensure that they resolve to the `legacy` variant.
+    WEBPACK_VERSION === 4 && `--require "${require.resolve('./aliasLegacyWebpack')}"`,
+    // This requires a script to alias `webpack-dev-server` for Node.js v10.x -
+    // both v3 and v4 is installed side by side,
+    // so we have to ensure that it resolves to the `legacy` variant.
+    WDS_VERSION === 3 && `--require "${require.resolve('./aliasLegacyWebpackDevServer')}"`,
+  ]
+    .filter(Boolean)
+    .join(' ');
+
   return spawnTestProcess(
     webpackBin,
     [
       'serve',
       '--config',
       path.join(dirs.root, 'webpack.config.js'),
-      WEBPACK_VERSION === 4 ? '--content-base' : '--static-directory',
+      WDS_VERSION === 3 ? '--content-base' : '--static-directory',
       dirs.public,
       '--hot',
       '--port',
@@ -145,15 +159,7 @@ function spawnWebpackServe(port, dirs, options = {}) {
     ],
     {
       ...options,
-      env: {
-        ...options.env,
-        ...(WEBPACK_VERSION === 4 && {
-          // This requires a script to alias `webpack` and `webpack-cli` -
-          // both v4 and v5 is installed side by side,
-          // so we have to ensure that they resolve to the `legacy` variant.
-          NODE_OPTIONS: `--require "${require.resolve('./aliasLegacyWebpack')}"`,
-        }),
-      },
+      env: { ...options.env, ...(NODE_OPTIONS && { NODE_OPTIONS }) },
     }
   );
 }

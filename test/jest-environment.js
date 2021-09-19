@@ -1,5 +1,6 @@
 const NodeEnvironment = require('jest-environment-node');
 const puppeteer = require('puppeteer');
+const semver = require('semver');
 const yn = require('yn');
 
 class SandboxEnvironment extends NodeEnvironment {
@@ -8,6 +9,7 @@ class SandboxEnvironment extends NodeEnvironment {
 
     this.global.__DEBUG__ = yn(process.env.DEBUG);
     this.global.WEBPACK_VERSION = parseInt(process.env.WEBPACK_VERSION || '5', 10);
+    this.global.WDS_VERSION = semver.major(process.version) < 12 ? 3 : 4;
 
     const wsEndpoint = process.env.PUPPETEER_WS_ENDPOINT;
     if (!wsEndpoint) {
