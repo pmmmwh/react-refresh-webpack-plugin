@@ -149,6 +149,7 @@ function spawnWebpackServe(port, dirs, options = {}) {
     webpackBin,
     [
       'serve',
+      '--no-color',
       '--config',
       path.join(dirs.root, 'webpack.config.js'),
       WDS_VERSION === 3 ? '--content-base' : '--static-directory',
