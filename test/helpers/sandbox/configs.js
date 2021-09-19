@@ -40,7 +40,7 @@ function getPackageJson(esModule = false) {
  */
 function getWDSConfig(srcDir) {
   return `
-const { DefinePlugin } = require('webpack');
+const { DefinePlugin, ProgressPlugin } = require('webpack');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
@@ -72,6 +72,11 @@ module.exports = {
   },
   plugins: [
     new DefinePlugin({ __react_refresh_test__: true }),
+    new ProgressPlugin((percentage) => {
+      if (percentage === 1) {
+        console.log("Webpack compilation complete.");
+      }
+    }),
     new ReactRefreshPlugin(),
   ],
   resolve: {

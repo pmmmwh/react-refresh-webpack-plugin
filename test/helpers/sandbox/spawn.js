@@ -65,7 +65,7 @@ function spawnTestProcess(processPath, argv, options = {}) {
     NODE_ENV: 'development',
     ...options.env,
   };
-  const successRegex = new RegExp(options.successMessage || 'compiled successfully', 'i');
+  const successRegex = new RegExp(options.successMessage || 'webpack compilation complete.', 'i');
 
   return new Promise((resolve, reject) => {
     const instance = spawn(processPath, argv, { cwd, env });
