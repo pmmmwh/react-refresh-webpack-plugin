@@ -85,6 +85,9 @@ module.exports = {
     )},
     extensions: ['.js', '.jsx'],
   },
+  stats: {
+    colors: false,
+  },
 };
 `;
 }
