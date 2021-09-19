@@ -35,7 +35,7 @@ commands:
           command: |-
             # Ignore engines mismatch for Node.js v10.x
             extra_args=""
-            if [ "<< parameters.node-version >>" = "10" ]; then
+            if [[ "<< parameters.node-version >>" == 10* ]]; then
               extra_args+="--ignore-engines"
             fi
 
