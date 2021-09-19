@@ -137,7 +137,7 @@ function spawnWebpackServe(port, dirs, options = {}) {
       'serve',
       '--config',
       path.join(dirs.root, 'webpack.config.js'),
-      '--static-directory',
+      WEBPACK_VERSION === 4 ? '--content-base' : '--static-directory',
       dirs.public,
       '--hot',
       '--port',
