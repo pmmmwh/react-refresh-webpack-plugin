@@ -97,9 +97,9 @@ function getSocketUrlParts(resourceQuery, metadata) {
   // We only re-assign `protocol` when `hostname` is available and is empty,
   // since otherwise we risk creating an invalid URL.
   // We also do this when 'https' is used as it mandates the use of secure sockets.
-  if (hostname && (isEmptyHostname || window.location.protocol === 'https:')) {
-    protocol = window.location.protocol;
-  }
+  //   if (hostname && (isEmptyHostname || window.location.protocol === 'https:')) {
+  //     protocol = window.location.protocol;
+  //   }
 
   // We only re-assign port when it is not available
   if (!port) {
