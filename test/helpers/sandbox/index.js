@@ -6,7 +6,7 @@ const { getIndexHTML, getPackageJson, getWDSConfig } = require('./configs');
 const { killTestProcess, spawnWebpackServe } = require('./spawn');
 
 // Extends the timeout for tests using the sandbox
-jest.setTimeout(1000 * 60 * 5);
+jest.setTimeout(1000 * 60);
 
 // Setup a global "queue" of cleanup handlers to allow auto-teardown of tests,
 // even when they did not run the cleanup function.
@@ -69,15 +69,18 @@ async function getSandbox({ esModule = false, id = nanoid(), initialFiles = new 
   // Get sandbox directory paths
   const sandboxDir = path.join(rootSandboxDir, id);
   const srcDir = path.join(sandboxDir, 'src');
+  const publicDir = path.join(sandboxDir, 'public');
   // In case of an ID clash, remove the existing sandbox directory
   await fse.remove(sandboxDir);
   // Create the sandbox source directory
   await fse.mkdirp(srcDir);
+  // Create the sandbox public directory
+  await fse.mkdirp(publicDir);
 
   // Write necessary files to sandbox
-  await fse.writeFile(path.join(srcDir, 'package.json'), getPackageJson(esModule));
   await fse.writeFile(path.join(sandboxDir, 'webpack.config.js'), getWDSConfig(srcDir));
-  await fse.writeFile(path.join(sandboxDir, 'index.html'), getIndexHTML(port));
+  await fse.writeFile(path.join(publicDir, 'index.html'), getIndexHTML(port));
+  await fse.writeFile(path.join(srcDir, 'package.json'), getPackageJson(esModule));
   await fse.writeFile(
     path.join(srcDir, 'index.js'),
     esModule
@@ -91,7 +94,7 @@ async function getSandbox({ esModule = false, id = nanoid(), initialFiles = new 
   }
 
   // TODO: Add handling for webpack-hot-middleware and webpack-plugin-serve
-  const app = await spawnWebpackServe(port, sandboxDir);
+  const app = await spawnWebpackServe(port, { public: publicDir, root: sandboxDir, src: srcDir });
   /** @type {import('puppeteer').Page} */
   const page = await browser.newPage();
 

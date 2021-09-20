@@ -5,7 +5,7 @@ anchors:
     - '10.24'
     - '12.22'
     - '14.17'
-    - '16.4'
+    - '16.8'
   - &webpack-version-enum
     - '4'
     - '5'
@@ -32,7 +32,17 @@ commands:
             - node-deps-v1-<< parameters.node-version >>-
       - run:
           name: Install project dependencies
-          command: yarn install --cache-folder ~/.cache/yarn --frozen-lockfile
+          command: |-
+            # Ignore engines mismatch for Node.js v10.x
+            extra_args=""
+            if [[ "<< parameters.node-version >>" == 10* ]]; then
+              extra_args+="--ignore-engines"
+            fi
+
+            yarn install \
+              --cache-folder ~/.cache/yarn \
+              --frozen-lockfile \
+              $extra_args
       - save_cache:
           key: node-deps-v1-<< parameters.node-version >>-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
