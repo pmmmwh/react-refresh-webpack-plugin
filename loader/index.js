@@ -46,11 +46,11 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
 
   const RefreshSetupRuntimes = {
     cjs: Template.asString(
-      `__webpack_require__.$Refresh$.runtime = require('${RefreshRuntimePath}');`
+      `__webpack_require__.$Refresh$.runtime = window.__sharing_react_refresh_runtime__ || require('${RefreshRuntimePath}');`
     ),
     esm: Template.asString([
       `import * as __react_refresh_runtime__ from '${RefreshRuntimePath}';`,
-      `__webpack_require__.$Refresh$.runtime = __react_refresh_runtime__;`,
+      `__webpack_require__.$Refresh$.runtime = window.__sharing_react_refresh_runtime__ || __react_refresh_runtime__;`,
     ]),
   };
 
