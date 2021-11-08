@@ -151,4 +151,84 @@ describe('getAdditionalEntries', () => {
       ],
     });
   });
+
+  it('should use the devServer client.webSocketURL if it is an object', () => {
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
+          client: {
+            webSocketURL: {
+              hostname: 'localhost',
+              pathname: '/socket',
+              password: 'password',
+              protocol: 'ws',
+              port: 8080,
+              username: 'username',
+            },
+          },
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [
+        `${ErrorOverlayEntry}?sockHost=username:password@localhost&sockPath=/socket&sockPort=8080&sockProtocol=ws`,
+      ],
+    });
+  });
+
+  it('should handle devServer client.webSocketURL magic values', () => {
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
+          client: {
+            webSocketURL: {
+              hostname: '0.0.0.0',
+              pathname: '/socket',
+              protocol: 'auto',
+              port: 0,
+            },
+          },
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [`${ErrorOverlayEntry}?sockHost=0.0.0.0&sockPath=/socket&sockProtocol=ws`],
+    });
+  });
+
+  it('should handle devServer client.webSocketURL missing values', () => {
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
+          client: {
+            webSocketURL: {},
+          },
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [`${ErrorOverlayEntry}?sockProtocol=http`],
+    });
+  });
+
+  it('should use the devServer client.webSocketURL if it is a string', () => {
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
+          client: {
+            webSocketURL: 'ws://localhost:8080/socket',
+          },
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [
+        `${ErrorOverlayEntry}?sockHost=localhost&sockPath=/socket&sockPort=8080&sockProtocol=ws`,
+      ],
+    });
+  });
 });
