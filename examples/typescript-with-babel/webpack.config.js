@@ -15,30 +15,7 @@ module.exports = {
       {
         test: /\.tsx?$/,
         include: path.join(__dirname, 'src'),
-        use: [
-          {
-            loader: 'swc-loader',
-            options: {
-              env: { mode: 'usage' },
-              jsc: {
-                parser: {
-                  syntax: 'typescript',
-                  tsx: true,
-                  dynamicImport: true,
-                },
-                transform: {
-                  react: {
-                    // swc-loader will check whether webpack mode is 'development'
-                    // and set this automatically starting from 0.1.13. You could also set it yourself.
-                    // swc won't enable fast refresh when development is false
-                    runtime: 'automatic',
-                    refresh: isDevelopment,
-                  },
-                },
-              },
-            },
-          },
-        ],
+        use: 'babel-loader',
       },
     ],
   },
