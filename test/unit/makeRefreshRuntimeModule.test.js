@@ -119,7 +119,7 @@ __webpack_require__.$Refresh$ = {
     expect(runtime).toMatchInlineSnapshot(`
 "__webpack_require__.i.push((options) => {
 	const originalFactory = options.factory;
-	options.factory = function(moduleObject, moduleExports, webpackRequire) {
+	options.factory = function (moduleObject, moduleExports, webpackRequire) {
 		__webpack_require__.$Refresh$.setup(options.id);
 		try {
 			originalFactory.call(this, moduleObject, moduleExports, webpackRequire);
