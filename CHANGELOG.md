@@ -1,3 +1,14 @@
+## 0.5.2 (19 November 2021)
+
+### Features
+
+- Added support for WDS v4 `client.webSocketURL` (#529)
+
+### Fixes
+
+- Fixed lost module context due to interceptor by always using regular functions (#531)
+- Relaxed peer dependency requirement on `react-refresh` (#534)
+
 ## 0.5.1 (15 September 2021)
 
 ### Fixes
