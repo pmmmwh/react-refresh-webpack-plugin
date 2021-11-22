@@ -75,7 +75,7 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
         originalSourceMap = getIdentitySourceMap(source, this.resourcePath);
       }
 
-      return await SourceMapConsumer.with(originalSourceMap, undefined, (consumer) => {
+      return SourceMapConsumer.with(originalSourceMap, undefined, (consumer) => {
         const node = SourceNode.fromStringWithSourceMap(source, consumer);
 
         node.prepend([RefreshSetupRuntime, '\n\n']);
