@@ -75,16 +75,15 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
         originalSourceMap = getIdentitySourceMap(source, this.resourcePath);
       }
 
-      const node = SourceNode.fromStringWithSourceMap(
-        source,
-        await new SourceMapConsumer(originalSourceMap)
-      );
+      return SourceMapConsumer.with(originalSourceMap, undefined, (consumer) => {
+        const node = SourceNode.fromStringWithSourceMap(source, consumer);
 
-      node.prepend([RefreshSetupRuntime, '\n\n']);
-      node.add(['\n\n', RefreshModuleRuntime]);
+        node.prepend([RefreshSetupRuntime, '\n\n']);
+        node.add(['\n\n', RefreshModuleRuntime]);
 
-      const { code, map } = node.toStringWithSourceMap();
-      return [code, map.toJSON()];
+        const { code, map } = node.toStringWithSourceMap();
+        return [code, map.toJSON()];
+      });
     } else {
       return [[RefreshSetupRuntime, source, RefreshModuleRuntime].join('\n\n'), inputSourceMap];
     }
