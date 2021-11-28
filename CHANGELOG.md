@@ -1,3 +1,10 @@
+## 0.5.3 (28 November 2021)
+
+### Fixes
+
+- Updated overlay for unsafe area in Safari (#528)
+- Fixed performance in large projects due to memory leak in loader (#537)
+
 ## 0.5.2 (19 November 2021)
 
 ### Features
