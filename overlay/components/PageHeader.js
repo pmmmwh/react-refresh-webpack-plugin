@@ -21,10 +21,12 @@ function PageHeader(document, root, props) {
   pageHeaderContainer.style.boxShadow = '0 1px 4px rgba(0, 0, 0, 0.3)';
   pageHeaderContainer.style.color = '#' + theme.white;
   pageHeaderContainer.style.left = '0';
+  pageHeaderContainer.style.right = '0';
   pageHeaderContainer.style.padding = '1rem 1.5rem';
+  pageHeaderContainer.style.paddingLeft = 'max(1.5rem, env(safe-area-inset-left))';
+  pageHeaderContainer.style.paddingRight = 'max(1.5rem, env(safe-area-inset-right))';
   pageHeaderContainer.style.position = 'fixed';
   pageHeaderContainer.style.top = props.topOffset || '0';
-  pageHeaderContainer.style.width = 'calc(100vw - 3rem)';
 
   const title = document.createElement('h3');
   title.innerText = props.title;

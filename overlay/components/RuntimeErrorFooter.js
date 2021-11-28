@@ -24,10 +24,12 @@ function RuntimeErrorFooter(document, root, props) {
   footer.style.boxShadow = '0 -1px 4px rgba(0, 0, 0, 0.3)';
   footer.style.height = '2.5rem';
   footer.style.left = '0';
+  footer.style.right = '0';
   footer.style.lineHeight = '2.5rem';
+  footer.style.paddingBottom = '0';
+  footer.style.paddingBottom = 'env(safe-area-inset-bottom)';
   footer.style.position = 'fixed';
   footer.style.textAlign = 'center';
-  footer.style.width = '100vw';
   footer.style.zIndex = '2';
 
   const BUTTON_CONFIGS = {

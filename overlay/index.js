@@ -73,8 +73,10 @@ function IframeRoot(document, root, props) {
   iframe.src = 'about:blank';
 
   iframe.style.border = 'none';
-  iframe.style.height = '100vh';
+  iframe.style.height = '100%';
   iframe.style.left = '0';
+  iframe.style.minHeight = '100vh';
+  iframe.style.minHeight = '-webkit-fill-available';
   iframe.style.position = 'fixed';
   iframe.style.top = '0';
   iframe.style.width = '100vw';
@@ -117,10 +119,14 @@ function OverlayRoot(document, root) {
     'Segoe UI Symbol',
   ].join(', ');
   div.style.fontSize = '0.875rem';
-  div.style.height = '100vh';
+  div.style.height = '100%';
   div.style.lineHeight = '1.3';
   div.style.overflow = 'auto';
   div.style.padding = '1rem 1.5rem 0';
+  div.style.paddingTop = 'max(1rem, env(safe-area-inset-top))';
+  div.style.paddingRight = 'max(1.5rem, env(safe-area-inset-right))';
+  div.style.paddingBottom = 'env(safe-area-inset-bottom)';
+  div.style.paddingLeft = 'max(1.5rem, env(safe-area-inset-left))';
   div.style.width = '100vw';
 
   root.appendChild(div);
