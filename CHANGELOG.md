@@ -1,3 +1,10 @@
+## 0.5.4 (22 December 2021)
+
+### Fixes
+
+- Skip loader injection for files referenced as assets (#545)
+- Changed failures of `exports` capturing to warn instead of throw (#546)
+
 ## 0.5.3 (28 November 2021)
 
 ### Fixes
