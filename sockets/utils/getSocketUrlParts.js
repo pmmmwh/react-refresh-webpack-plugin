@@ -73,7 +73,7 @@ function getSocketUrlParts(resourceQuery, metadata) {
 
   hostname = parsedQuery.sockHost || hostname;
   pathname = parsedQuery.sockPath || pathname;
-  port = parsedQuery.sockPort || port;
+  port = parsedQuery.sockPort === 'auto' ? port : parsedQuery.sockPort || port;
 
   // Make sure the protocol from resource query has a trailing colon
   if (parsedQuery.sockProtocol) {
