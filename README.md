@@ -217,10 +217,11 @@ pnpm add -D react-refresh-typescript
 ```
 
 Then, instead of wiring up `react-refresh/babel` via `babel-loader`,
-you can wire-up `react-refresh-typescript` with `ts-loader`:
+you can wire-up `react-refresh-typescript` with `ts-loader`, and you have to use `@pmmmwh/react-refresh-webpack-plugin`:
 
 ```js
 const ReactRefreshTypeScript = require('react-refresh-typescript');
+const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -244,6 +245,7 @@ module.exports = {
       },
     ],
   },
+  plugins: [new ReactRefreshPlugin()],
 };
 ```
 
