@@ -2,21 +2,21 @@ version: 2.1
 
 anchors:
   - &node-version-enum
-    - '10.24'
     - '12.22'
-    - '14.17'
-    - '16.8'
+    - '14.18'
+    - '16.13'
+    - '17.3'
   - &webpack-version-enum
     - '4'
     - '5'
   - &node-version-param
     node-version:
-      default: '14.17'
+      default: '16.13'
       enum: *node-version-enum
       type: enum
   - &webpack-version-param
     webpack-version:
-      default: '4'
+      default: '5'
       enum: *webpack-version-enum
       type: enum
 
@@ -33,16 +33,9 @@ commands:
       - run:
           name: Install project dependencies
           command: |-
-            # Ignore engines mismatch for Node.js v10.x
-            extra_args=""
-            if [[ "<< parameters.node-version >>" == 10* ]]; then
-              extra_args+="--ignore-engines"
-            fi
-
             yarn install \
               --cache-folder ~/.cache/yarn \
-              --frozen-lockfile \
-              $extra_args
+              --frozen-lockfile
       - save_cache:
           key: node-deps-v1-<< parameters.node-version >>-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
