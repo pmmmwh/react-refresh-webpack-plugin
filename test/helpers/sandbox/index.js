@@ -107,6 +107,8 @@ async function getSandbox({ esModule = false, id = nanoid(), initialFiles = new 
   let logs = [];
 
   // Expose logging and hot callbacks to the page
+  // FIXME: Puppeteer version stuck at v10 due to issues with detached frames
+  //  Ref: https://github.com/puppeteer/puppeteer/issues/7814
   await Promise.all([
     page.exposeFunction('log', (...args) => {
       logs.push(args.join(' '));
