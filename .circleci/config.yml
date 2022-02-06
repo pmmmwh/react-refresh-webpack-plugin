@@ -78,6 +78,21 @@ jobs:
       - checkout
       - install-deps:
           node-version: << parameters.node-version >>
+      - when:
+          condition:
+            and:
+              - equal:
+                  - '4'
+                  - << parameters.webpack-version >>
+              - matches:
+                  pattern: ^17
+                  value: << parameters.node-version >>
+          steps:
+            - run:
+                name: Use legacy OpenSSL for Webpack 4
+                command: |-
+                  echo 'export NODE_OPTIONS=--openssl-legacy-provider' >> $BASH_ENV
+                  source $BASH_ENV
       - run:
           name: Run Tests
           command: |
