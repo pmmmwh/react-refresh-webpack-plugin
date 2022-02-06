@@ -60,10 +60,10 @@ module.exports = {
         include: '${srcDir}',
         use: [
           {
-            loader: require.resolve('babel-loader'),
+            loader: ${require.resolve('babel-loader')},
             options: {
               babelrc: false,
-              plugins: [require.resolve('react-refresh/babel')],
+              plugins: [${require.resolve('react-refresh/babel')}],
             }
           }
         ],

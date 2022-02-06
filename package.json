@@ -41,8 +41,9 @@
     "test:webpack-4": "cross-env WEBPACK_VERSION=4 yarn test",
     "test:pre": "run-s yalc:publish yalc:add",
     "test:exec": "node scripts/test.js",
-    "test:post": "yalc remove --all",
+    "test:post": "yalc:clean",
     "yalc:add": "yalc add --dev @pmmmwh/react-refresh-webpack-plugin",
+    "yalc:clean": "yalc remove --all",
     "yalc:publish": "yalc publish --no-scripts",
     "lint": "eslint --report-unused-disable-directives --ext .js,.jsx .",
     "lint:fix": "yarn lint --fix",
@@ -51,8 +52,8 @@
     "types:clean": "rimraf types",
     "types:compile": "tsc -p tsconfig.json",
     "types:prune-private": "del \"types/*/*\" \"!types/{lib,loader,options}/{index,types}.d.ts\"",
-    "generate-types": "run-s types:compile types:prune-private \"format --loglevel silent\"",
-    "prepublishOnly": "run-s types:clean generate-types"
+    "generate-types": "run-s types:clean types:compile types:prune-private \"format --loglevel silent\"",
+    "prepublishOnly": "yarn generate-types"
   },
   "dependencies": {
     "ansi-html-community": "^0.0.8",
@@ -74,6 +75,7 @@
     "@types/json-schema": "^7.0.6",
     "@types/module-alias": "^2.0.0",
     "@types/node": "^17.0.8",
+    "@types/semver": "^7.3.9",
     "@types/webpack": "^5.28.0",
     "babel-loader": "^8.1.0",
     "cross-env": "^7.0.3",

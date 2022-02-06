@@ -87,7 +87,7 @@ jobs:
             - run:
                 name: Use legacy OpenSSL provider if necessary
                 command: |-
-                  if yarn semver --coerce ">=17" "<< parameters.node-version >>"; then
+                  if node scripts/node-version.js; then
                     echo "export NODE_OPTIONS=--openssl-legacy-provider" >> $BASH_ENV
                     source $BASH_ENV
                   fi
