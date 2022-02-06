@@ -192,7 +192,7 @@ module.exports = {
 
 > **:memo: Note**:
 >
-> Ensure you have only enabled both the Babel transform (`react-refresh/babel`) and this plugin in `development` mode!
+> Ensure both the Babel transform (`react-refresh/babel`) and this plugin are enabled only in `development` mode!
 
 <details>
 <summary>Using <code>ts-loader</code></summary>
