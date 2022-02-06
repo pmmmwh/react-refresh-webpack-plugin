@@ -192,8 +192,7 @@ module.exports = {
 
 > **:memo: Note**:
 >
-> Even though both the Babel transform (`react-refresh/babel`) and this plugin have optimisations to do nothing in `production`,
-> it is suggested to only have them both enabled in `development` mode to prevent shipping any additional code accidentally.
+> Ensure you have only enabled both the Babel transform (`react-refresh/babel`) and this plugin in `development` mode!
 
 <details>
 <summary>Using <code>ts-loader</code></summary>
@@ -220,11 +219,13 @@ Then, instead of wiring up `react-refresh/babel` via `babel-loader`,
 you can wire-up `react-refresh-typescript` with `ts-loader`:
 
 ```js
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const ReactRefreshTypeScript = require('react-refresh-typescript');
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
+  mode: isDevelopment ? 'development' : 'production',
   module: {
     rules: [
       {
@@ -244,6 +245,7 @@ module.exports = {
       },
     ],
   },
+  plugins: [isDevelopment && new ReactRefreshWebpackPlugin()].filter(Boolean),
 };
 ```
 
@@ -266,7 +268,12 @@ Then, instead of wiring up `react-refresh/babel` via `babel-loader`,
 you can wire-up `swc-loader` and use the `refresh` transform:
 
 ```js
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+
+const isDevelopment = process.env.NODE_ENV !== 'production';
+
 module.exports = {
+  mode: isDevelopment ? 'development' : 'production',
   module: {
     rules: [
       {
@@ -290,6 +297,7 @@ module.exports = {
       },
     ],
   },
+  plugins: [isDevelopment && new ReactRefreshWebpackPlugin()].filter(Boolean),
 };
 ```
 
