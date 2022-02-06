@@ -60,15 +60,18 @@ module.exports = {
         include: '${srcDir}',
         use: [
           {
-            loader: require.resolve('babel-loader'),
+            loader: '${require.resolve('babel-loader')}',
             options: {
               babelrc: false,
-              plugins: [require.resolve('react-refresh/babel')],
+              plugins: ['${require.resolve('react-refresh/babel')}'],
             }
           }
         ],
       },
     ],
+  },
+  output: {
+    hashFunction: ${WEBPACK_VERSION === 4 ? "'sha1'" : "'xxhash64'"},
   },
   plugins: [
     new DefinePlugin({ __react_refresh_test__: true }),

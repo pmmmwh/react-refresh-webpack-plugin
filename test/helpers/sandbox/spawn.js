@@ -1,5 +1,8 @@
 const path = require('path');
 const spawn = require('cross-spawn');
+const semver = require('semver');
+
+const isOpenSSL3 = semver.gte(process.versions.node, '17.0.0');
 
 /**
  * @param {string} packageName
@@ -137,10 +140,10 @@ function spawnWebpackServe(port, dirs, options = {}) {
     // both v4 and v5 is installed side by side,
     // so we have to ensure that they resolve to the `legacy` variant.
     WEBPACK_VERSION === 4 && `--require "${require.resolve('./aliasLegacyWebpack')}"`,
-    // This requires a script to alias `webpack-dev-server` for Node.js v10.x -
-    // both v3 and v4 is installed side by side,
-    // so we have to ensure that it resolves to the `legacy` variant.
-    WDS_VERSION === 3 && `--require "${require.resolve('./aliasLegacyWebpackDevServer')}"`,
+    // This make Node.js use the legacy OpenSSL provider -
+    // it is necessary as OpenSSL 3.0 removed support for MD4,
+    // which is the default hashing algorithm used in Webpack 4.
+    WEBPACK_VERSION === 4 && isOpenSSL3 && '--openssl-legacy-provider',
   ]
     .filter(Boolean)
     .join(' ');
