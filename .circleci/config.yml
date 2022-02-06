@@ -3,9 +3,9 @@ version: 2.1
 anchors:
   - &node-version-enum
     - '12.22'
-    - '14.18'
+    - '14.19'
     - '16.13'
-    - '17.3'
+    - '17.4'
   - &webpack-version-enum
     - '4'
     - '5'
@@ -78,19 +78,6 @@ jobs:
       - checkout
       - install-deps:
           node-version: << parameters.node-version >>
-      - when:
-          condition:
-            equal:
-              - '4'
-              - << parameters.webpack-version >>
-          steps:
-            - run:
-                name: Use legacy OpenSSL provider if necessary
-                command: |-
-                  if node scripts/node-version.js; then
-                    echo "export NODE_OPTIONS=--openssl-legacy-provider" >> $BASH_ENV
-                    source $BASH_ENV
-                  fi
       - run:
           name: Run Tests
           command: |

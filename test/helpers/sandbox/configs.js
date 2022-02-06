@@ -70,6 +70,9 @@ module.exports = {
       },
     ],
   },
+  output: {
+    hashFunction: ${WEBPACK_VERSION === 4 ? "'sha1'" : "'xxhash64'"},
+  },
   plugins: [
     new DefinePlugin({ __react_refresh_test__: true }),
     new ProgressPlugin((percentage) => {
