@@ -1,6 +1,6 @@
 const semver = require('semver');
 
-if (!semver.gte('17.0.0', process.versions.node)) {
+if (semver.lt(process.versions.node, '17.0.0')) {
   process.exitCode = 1;
 }
 
