@@ -41,6 +41,7 @@ async function getCompilation(subContext, options = {}) {
     },
     output: {
       filename: '[name].js',
+      hashFunction: WEBPACK_VERSION === 4 ? 'sha1' : 'xxhash64',
       path: OUTPUT_PATH,
     },
     module: {
@@ -78,7 +79,7 @@ async function getCompilation(subContext, options = {}) {
 
   // Use an in-memory file system to prevent emitting files
   compiler.outputFileSystem = createFsFromVolume(new Volume());
-  if (WEBPACK_VERSION !== 5) {
+  if (WEBPACK_VERSION === 4) {
     compiler.outputFileSystem.join = path.join.bind(path);
   }
 
@@ -96,7 +97,7 @@ async function getCompilation(subContext, options = {}) {
 
       compilationStats = stats;
 
-      if (WEBPACK_VERSION !== 5) {
+      if (WEBPACK_VERSION === 4) {
         resolve();
       } else {
         // The compiler have to be explicitly closed in Webpack 5
