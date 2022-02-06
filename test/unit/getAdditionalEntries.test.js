@@ -196,6 +196,24 @@ describe('getAdditionalEntries', () => {
       prependEntries: [ReactRefreshEntry],
       overlayEntries: [`${ErrorOverlayEntry}?sockHost=0.0.0.0&sockPath=/socket&sockProtocol=ws`],
     });
+    expect(
+      getAdditionalEntries({
+        options: DEFAULT_OPTIONS,
+        devServer: {
+          client: {
+            webSocketURL: {
+              hostname: '0.0.0.0',
+              pathname: '/socket',
+              protocol: 'auto',
+              port: 'auto',
+            },
+          },
+        },
+      })
+    ).toStrictEqual({
+      prependEntries: [ReactRefreshEntry],
+      overlayEntries: [`${ErrorOverlayEntry}?sockHost=0.0.0.0&sockPath=/socket&sockProtocol=ws`],
+    });
   });
 
   it('should handle devServer client.webSocketURL missing values', () => {
