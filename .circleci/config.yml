@@ -80,19 +80,17 @@ jobs:
           node-version: << parameters.node-version >>
       - when:
           condition:
-            and:
-              - equal:
-                  - '4'
-                  - << parameters.webpack-version >>
-              - matches:
-                  pattern: ^17
-                  value: << parameters.node-version >>
+            equal:
+              - '4'
+              - << parameters.webpack-version >>
           steps:
             - run:
-                name: Use legacy OpenSSL for Webpack 4
+                name: Use legacy OpenSSL provider if necessary
                 command: |-
-                  echo 'export NODE_OPTIONS=--openssl-legacy-provider' >> $BASH_ENV
-                  source $BASH_ENV
+                  if yarn semver --coerce ">=17" "<< parameters.node-version >>"; then
+                    echo "export NODE_OPTIONS=--openssl-legacy-provider" >> $BASH_ENV
+                    source $BASH_ENV
+                  fi
       - run:
           name: Run Tests
           command: |
