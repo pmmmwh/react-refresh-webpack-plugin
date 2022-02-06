@@ -2,6 +2,8 @@ const path = require('path');
 const spawn = require('cross-spawn');
 const semver = require('semver');
 
+const isOpenSSL3 = semver.gte(process.versions.node, '17.0.0');
+
 /**
  * @param {string} packageName
  * @returns {string}
@@ -141,7 +143,7 @@ function spawnWebpackServe(port, dirs, options = {}) {
     // This make Node.js use the legacy OpenSSL provider -
     // it is necessary as OpenSSL 3.0 removed support for MD4,
     // which is the default hashing algorithm used in Webpack 4.
-    WEBPACK_VERSION === 4 && semver.gte(process.versions.node, '17') && '--openssl-legacy-provider',
+    WEBPACK_VERSION === 4 && isOpenSSL3 && '--openssl-legacy-provider',
   ]
     .filter(Boolean)
     .join(' ');
