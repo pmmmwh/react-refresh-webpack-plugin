@@ -23,7 +23,7 @@
   },
   "resolutions": {
     "browserslist": "4.19.1",
-    "postcss": "7.0.38",
+    "postcss": "8.4.6",
     "webpack": "4.46.0"
   },
   "eslintConfig": {
