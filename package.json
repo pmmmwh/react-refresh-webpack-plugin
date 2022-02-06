@@ -41,7 +41,7 @@
     "test:webpack-4": "cross-env WEBPACK_VERSION=4 yarn test",
     "test:pre": "run-s yalc:publish yalc:add",
     "test:exec": "node scripts/test.js",
-    "test:post": "yalc:clean",
+    "test:post": "yarn yalc:clean",
     "yalc:add": "yalc add --dev @pmmmwh/react-refresh-webpack-plugin",
     "yalc:clean": "yalc remove --all",
     "yalc:publish": "yalc publish --no-scripts",
