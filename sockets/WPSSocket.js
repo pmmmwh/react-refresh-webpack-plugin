@@ -1,5 +1,5 @@
 /* global ʎɐɹɔosǝʌɹǝs */
-const { ClientSocket } = require('webpack-plugin-serve/lib/client/ClientSocket.js');
+const { ClientSocket } = require('webpack-plugin-serve/lib/client/ClientSocket');
 
 /**
  * Initializes a socket server for HMR for webpack-plugin-serve.

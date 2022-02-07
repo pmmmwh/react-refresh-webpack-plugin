@@ -17,7 +17,7 @@ const {
 const schema = require('./options.json');
 
 const RefreshRuntimePath = require
-  .resolve('react-refresh/runtime.js')
+  .resolve('react-refresh')
   .replace(/\\/g, '/')
   .replace(/'/g, "\\'");
 
