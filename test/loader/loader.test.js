@@ -16,7 +16,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "__webpack_require__.$Refresh$.runtime = require('react-refresh/runtime.js');
+        "__webpack_require__.$Refresh$.runtime = require('react-refresh');
 
         module.exports = 'Test';
 
@@ -62,7 +62,7 @@ describe('loader', () => {
         /*! no static exports found */
         /***/ (function(module, exports, __webpack_require__) {
 
-        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh */ \\"../../../../node_modules/react-refresh/runtime.js\\");
 
         module.exports = 'Test';
 
@@ -112,7 +112,7 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "__webpack_require__.$Refresh$.runtime = require('react-refresh/runtime.js');
+        "__webpack_require__.$Refresh$.runtime = require('react-refresh');
 
         export default 'Test';
 
@@ -160,7 +160,7 @@ describe('loader', () => {
 
         \\"use strict\\";
         __webpack_require__.r(__webpack_exports__);
-        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh/runtime.js */ \\"../../../../node_modules/react-refresh/runtime.js\\");
+        __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh */ \\"../../../../node_modules/react-refresh/runtime.js\\");
 
         /* harmony default export */ __webpack_exports__[\\"default\\"] = ('Test');
 
