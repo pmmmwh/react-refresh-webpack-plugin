@@ -20,16 +20,15 @@ ansiHTML.setColors(theme);
 function CompileErrorTrace(document, root, props) {
   const errorParts = props.errorMessage.split('\n');
   if (errorParts.length) {
-    const errorMessage = errorParts
-      .splice(1, 1)[0]
-      // Strip filename from the error message
-      .replace(/^(.*:)\s.*:(\s.*)$/, '$1$2');
-
     if (errorParts[0]) {
       errorParts[0] = utils.formatFilename(errorParts[0]);
     }
 
-    errorParts.unshift(errorMessage);
+    const errorMessage = errorParts.splice(1, 1)[0];
+    if (errorMessage) {
+      // Strip filename from the error message
+      errorParts.unshift(errorMessage.replace(/^(.*:)\s.*:(\s.*)$/, '$1$2'));
+    }
   }
 
   const stackContainer = document.createElement('pre');
