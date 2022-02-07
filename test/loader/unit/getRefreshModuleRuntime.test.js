@@ -14,37 +14,37 @@ describe('getRefreshModuleRuntime', () => {
     expect(refreshModuleRuntime.indexOf('module.hot')).not.toBe(-1);
     expect(refreshModuleRuntime.indexOf('import.meta.webpackHot')).toBe(-1);
     expect(refreshModuleRuntime).toMatchInlineSnapshot(`
-"var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
-var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
-	$ReactRefreshModuleId$
-);
+      "var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+      var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
+      	$ReactRefreshModuleId$
+      );
 
-function $ReactRefreshModuleRuntime$(exports) {
-	if (module.hot) {
-		var errorOverlay;
-		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-			errorOverlay = __react_refresh_error_overlay__;
-		}
-		var testMode;
-		if (typeof __react_refresh_test__ !== 'undefined') {
-			testMode = __react_refresh_test__;
-		}
-		return __react_refresh_utils__.executeRuntime(
-			exports,
-			$ReactRefreshModuleId$,
-			module.hot,
-			errorOverlay,
-			testMode
-		);
-	}
-}
+      function $ReactRefreshModuleRuntime$(exports) {
+      	if (module.hot) {
+      		var errorOverlay;
+      		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+      			errorOverlay = __react_refresh_error_overlay__;
+      		}
+      		var testMode;
+      		if (typeof __react_refresh_test__ !== 'undefined') {
+      			testMode = __react_refresh_test__;
+      		}
+      		return __react_refresh_utils__.executeRuntime(
+      			exports,
+      			$ReactRefreshModuleId$,
+      			module.hot,
+      			errorOverlay,
+      			testMode
+      		);
+      	}
+      }
 
-if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
-	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
-} else {
-	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
-}"
-`);
+      if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
+      	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
+      } else {
+      	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
+      }"
+    `);
   });
 
   it('should return working refresh module runtime with const using CommonJS', () => {
@@ -59,37 +59,37 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
     expect(refreshModuleRuntime.indexOf('module.hot')).not.toBe(-1);
     expect(refreshModuleRuntime.indexOf('import.meta.webpackHot')).toBe(-1);
     expect(refreshModuleRuntime).toMatchInlineSnapshot(`
-"const $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
-const $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
-	$ReactRefreshModuleId$
-);
+      "const $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+      const $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
+      	$ReactRefreshModuleId$
+      );
 
-function $ReactRefreshModuleRuntime$(exports) {
-	if (module.hot) {
-		let errorOverlay;
-		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-			errorOverlay = __react_refresh_error_overlay__;
-		}
-		let testMode;
-		if (typeof __react_refresh_test__ !== 'undefined') {
-			testMode = __react_refresh_test__;
-		}
-		return __react_refresh_utils__.executeRuntime(
-			exports,
-			$ReactRefreshModuleId$,
-			module.hot,
-			errorOverlay,
-			testMode
-		);
-	}
-}
+      function $ReactRefreshModuleRuntime$(exports) {
+      	if (module.hot) {
+      		let errorOverlay;
+      		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+      			errorOverlay = __react_refresh_error_overlay__;
+      		}
+      		let testMode;
+      		if (typeof __react_refresh_test__ !== 'undefined') {
+      			testMode = __react_refresh_test__;
+      		}
+      		return __react_refresh_utils__.executeRuntime(
+      			exports,
+      			$ReactRefreshModuleId$,
+      			module.hot,
+      			errorOverlay,
+      			testMode
+      		);
+      	}
+      }
 
-if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
-	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
-} else {
-	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
-}"
-`);
+      if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
+      	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
+      } else {
+      	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
+      }"
+    `);
   });
 
   it('should return working refresh module runtime without const using ES Modules', () => {
@@ -104,37 +104,37 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
     expect(refreshModuleRuntime.indexOf('module.hot')).toBe(-1);
     expect(refreshModuleRuntime.indexOf('import.meta.webpackHot')).not.toBe(-1);
     expect(refreshModuleRuntime).toMatchInlineSnapshot(`
-"var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
-var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
-	$ReactRefreshModuleId$
-);
+      "var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+      var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
+      	$ReactRefreshModuleId$
+      );
 
-function $ReactRefreshModuleRuntime$(exports) {
-	if (import.meta.webpackHot) {
-		var errorOverlay;
-		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-			errorOverlay = __react_refresh_error_overlay__;
-		}
-		var testMode;
-		if (typeof __react_refresh_test__ !== 'undefined') {
-			testMode = __react_refresh_test__;
-		}
-		return __react_refresh_utils__.executeRuntime(
-			exports,
-			$ReactRefreshModuleId$,
-			import.meta.webpackHot,
-			errorOverlay,
-			testMode
-		);
-	}
-}
+      function $ReactRefreshModuleRuntime$(exports) {
+      	if (import.meta.webpackHot) {
+      		var errorOverlay;
+      		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+      			errorOverlay = __react_refresh_error_overlay__;
+      		}
+      		var testMode;
+      		if (typeof __react_refresh_test__ !== 'undefined') {
+      			testMode = __react_refresh_test__;
+      		}
+      		return __react_refresh_utils__.executeRuntime(
+      			exports,
+      			$ReactRefreshModuleId$,
+      			import.meta.webpackHot,
+      			errorOverlay,
+      			testMode
+      		);
+      	}
+      }
 
-if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
-	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
-} else {
-	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
-}"
-`);
+      if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
+      	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
+      } else {
+      	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
+      }"
+    `);
   });
 
   it('should return working refresh module runtime with const using ES Modules', () => {
@@ -149,36 +149,36 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
     expect(refreshModuleRuntime.indexOf('module.hot')).toBe(-1);
     expect(refreshModuleRuntime.indexOf('import.meta.webpackHot')).not.toBe(-1);
     expect(refreshModuleRuntime).toMatchInlineSnapshot(`
-"const $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
-const $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
-	$ReactRefreshModuleId$
-);
+      "const $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+      const $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
+      	$ReactRefreshModuleId$
+      );
 
-function $ReactRefreshModuleRuntime$(exports) {
-	if (import.meta.webpackHot) {
-		let errorOverlay;
-		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
-			errorOverlay = __react_refresh_error_overlay__;
-		}
-		let testMode;
-		if (typeof __react_refresh_test__ !== 'undefined') {
-			testMode = __react_refresh_test__;
-		}
-		return __react_refresh_utils__.executeRuntime(
-			exports,
-			$ReactRefreshModuleId$,
-			import.meta.webpackHot,
-			errorOverlay,
-			testMode
-		);
-	}
-}
+      function $ReactRefreshModuleRuntime$(exports) {
+      	if (import.meta.webpackHot) {
+      		let errorOverlay;
+      		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
+      			errorOverlay = __react_refresh_error_overlay__;
+      		}
+      		let testMode;
+      		if (typeof __react_refresh_test__ !== 'undefined') {
+      			testMode = __react_refresh_test__;
+      		}
+      		return __react_refresh_utils__.executeRuntime(
+      			exports,
+      			$ReactRefreshModuleId$,
+      			import.meta.webpackHot,
+      			errorOverlay,
+      			testMode
+      		);
+      	}
+      }
 
-if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
-	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
-} else {
-	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
-}"
-`);
+      if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Promise) {
+      	$ReactRefreshCurrentExports$.then($ReactRefreshModuleRuntime$);
+      } else {
+      	$ReactRefreshModuleRuntime$($ReactRefreshCurrentExports$);
+      }"
+    `);
   });
 });
