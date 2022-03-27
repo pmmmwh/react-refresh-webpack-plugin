@@ -109,7 +109,7 @@ pnpm add -D type-fest
 
 ### Usage
 
-For most setups, we recommend integrate using `babel-loader`.
+For most setups, we recommend integrating with `babel-loader`.
 It covers the most use cases and is officially supported by the React team.
 
 The example below will assume you're using `webpack-dev-server`.
