@@ -8,7 +8,7 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
   entry: {
-    main: ['webpack-hot-middleware/client', './src/index.js'],
+    main: ['@gatsbyjs/webpack-hot-middleware/client', './src/index.js'],
   },
   output: {
     filename: 'bundle.js',
