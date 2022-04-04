@@ -189,7 +189,20 @@ describe('getSocketUrlParts', () => {
     });
   });
 
+  it('should work with incomplete resource query', () => {
+    getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost:8080');
+
+    expect(getSocketUrlParts('?sockHost=foo.com')).toStrictEqual({
+      auth: undefined,
+      hostname: 'foo.com',
+      pathname: '/sockjs-node',
+      port: undefined,
+      protocol: 'http:',
+    });
+  });
+
   it('should throw if script source and resource query are not defined', () => {
+    mockLocation('file://test/');
     getCurrentScriptSource.mockImplementationOnce(() => null);
 
     expect(() => getSocketUrlParts(null)).toThrow(
