@@ -7,6 +7,9 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
+  devServer: {
+    client: { overlay: false },
+  },
   entry: {
     main: './src/index.tsx',
   },
