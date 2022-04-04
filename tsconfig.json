@@ -9,7 +9,7 @@
     "outDir": "types",
     "resolveJsonModule": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2018"
   },
   "include": ["./lib/*", "./loader/*", "./options/*"],
   "exclude": ["node_modules"]
