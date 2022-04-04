@@ -6,7 +6,7 @@ const getCurrentScriptSource = require('./getCurrentScriptSource.js');
  * @property {string} hostname
  * @property {string} [protocol]
  * @property {string} pathname
- * @property {string} port
+ * @property {string} [port]
  */
 
 /**
@@ -21,92 +21,103 @@ function getSocketUrlParts(resourceQuery, metadata) {
     metadata = {};
   }
 
-  const scriptSource = getCurrentScriptSource();
-
-  let url = {};
-  try {
-    // The placeholder `baseURL` with `window.location.href`,
-    // is to allow parsing of path-relative or protocol-relative URLs,
-    // and will have no effect if `scriptSource` is a fully valid URL.
-    url = new URL(scriptSource, window.location.href);
-  } catch (e) {
-    // URL parsing failed, do nothing.
-    // We will still proceed to see if we can recover using `resourceQuery`
-  }
-
-  /** @type {string | undefined} */
-  let auth;
-  /** @type {string | undefined} */
-  let hostname = url.hostname;
-  /** @type {string | undefined} */
-  let protocol = url.protocol;
-  /** @type {string | undefined} */
-  let port = url.port;
-
-  // This is hard-coded in WDS v3
-  let pathname = '/sockjs-node';
-  if (metadata.version === 4) {
-    // This is hard-coded in WDS v4
-    pathname = '/ws';
-  }
-
-  // Parse authentication credentials in case we need them
-  if (url.username) {
-    // Since HTTP basic authentication does not allow empty username,
-    // we only include password if the username is not empty.
-    // Result: <username> or <username>:<password>
-    auth = url.username;
-    if (url.password) {
-      auth += ':' + url.password;
-    }
-  }
+  /** @type {SocketUrlParts} */
+  let urlParts = {};
 
   // If the resource query is available,
-  // parse it and overwrite everything we received from the script host.
-  const parsedQuery = {};
+  // parse it and ignore everything we received from the script host.
   if (resourceQuery) {
+    const parsedQuery = {};
     const searchParams = new URLSearchParams(resourceQuery.slice(1));
     searchParams.forEach(function (value, key) {
       parsedQuery[key] = value;
     });
+
+    urlParts.hostname = parsedQuery.sockHost;
+    urlParts.pathname = parsedQuery.sockPath;
+    urlParts.port = parsedQuery.sockPort;
+
+    // Make sure the protocol from resource query has a trailing colon
+    if (parsedQuery.sockProtocol) {
+      urlParts.protocol = parsedQuery.sockProtocol + ':';
+    }
+  } else {
+    const scriptSource = getCurrentScriptSource();
+
+    let url = {};
+    try {
+      // The placeholder `baseURL` with `window.location.href`,
+      // is to allow parsing of path-relative or protocol-relative URLs,
+      // and will have no effect if `scriptSource` is a fully valid URL.
+      url = new URL(scriptSource, window.location.href);
+    } catch (e) {
+      // URL parsing failed, do nothing.
+      // We will still proceed to see if we can recover using `resourceQuery`
+    }
+
+    // Parse authentication credentials in case we need them
+    if (url.username) {
+      // Since HTTP basic authentication does not allow empty username,
+      // we only include password if the username is not empty.
+      // Result: <username> or <username>:<password>
+      urlParts.auth = url.username;
+      if (url.password) {
+        urlParts.auth += ':' + url.password;
+      }
+    }
+
+    // `file://` URLs has `'null'` origin
+    if (url.origin !== 'null') {
+      urlParts.hostname = url.hostname;
+    }
+
+    urlParts.protocol = url.protocol;
+    urlParts.port = url.port;
   }
 
-  hostname = parsedQuery.sockHost || hostname;
-  pathname = parsedQuery.sockPath || pathname;
-  port = parsedQuery.sockPort || port;
-
-  // Make sure the protocol from resource query has a trailing colon
-  if (parsedQuery.sockProtocol) {
-    protocol = parsedQuery.sockProtocol + ':';
+  if (!urlParts.pathname) {
+    if (metadata.version === 4) {
+      // This is hard-coded in WDS v4
+      urlParts.pathname = '/ws';
+    } else {
+      // This is hard-coded in WDS v3
+      urlParts.pathname = '/sockjs-node';
+    }
   }
 
-  // Check for IPv4 and IPv6 host addresses that corresponds to any/empty.
+  // Check for IPv4 and IPv6 host addresses that correspond to any/empty.
   // This is important because `hostname` can be empty for some hosts,
   // such as 'about:blank' or 'file://' URLs.
-  const isEmptyHostname = hostname === '0.0.0.0' || hostname === '[::]' || !hostname;
+  const isEmptyHostname =
+    urlParts.hostname === '0.0.0.0' || urlParts.hostname === '[::]' || !urlParts.hostname;
   // We only re-assign the hostname if it is empty,
   // and if we are using HTTP/HTTPS protocols.
   if (
     isEmptyHostname &&
     window.location.hostname &&
-    window.location.protocol.indexOf('http') !== -1
+    window.location.protocol.indexOf('http') === 0
   ) {
-    hostname = window.location.hostname;
+    urlParts.hostname = window.location.hostname;
   }
 
-  // We only re-assign `protocol` when `hostname` is available and is empty,
+  // We only re-assign `protocol` when `protocol` is unavailable,
+  // or if `hostname` is available and is empty,
   // since otherwise we risk creating an invalid URL.
   // We also do this when 'https' is used as it mandates the use of secure sockets.
-  if (hostname && (isEmptyHostname || window.location.protocol === 'https:')) {
-    protocol = window.location.protocol;
+  if (
+    !urlParts.protocol ||
+    (urlParts.hostname && (isEmptyHostname || window.location.protocol === 'https:'))
+  ) {
+    urlParts.protocol = window.location.protocol;
   }
 
   // We only re-assign port when it is not available
-  if (!port) {
-    port = window.location.port;
+  if (!urlParts.port) {
+    urlParts.port = window.location.port;
   }
 
-  if (!hostname || !pathname || !port) {
+  if (!urlParts.hostname || !urlParts.pathname) {
+    console.log(urlParts);
     throw new Error(
       [
         '[React Refresh] Failed to get an URL for the socket connection.',
@@ -118,11 +129,11 @@ function getSocketUrlParts(resourceQuery, metadata) {
   }
 
   return {
-    auth: auth,
-    hostname: hostname,
-    pathname: pathname,
-    protocol: protocol,
-    port: port,
+    auth: urlParts.auth,
+    hostname: urlParts.hostname,
+    pathname: urlParts.pathname,
+    protocol: urlParts.protocol,
+    port: urlParts.port || undefined,
   };
 }
 
