@@ -11,8 +11,6 @@ if (process.env.NODE_ENV !== 'production') {
       $RefreshInjected$ += '_' + __react_refresh_library__;
     }
 
-    console.log('test safethis', safeThis);
-    console.log('test $RefreshInjected$', safeThis[$RefreshInjected$]);
     // Only inject the runtime if it hasn't been injected
     if (!safeThis[$RefreshInjected$]) {
       // Inject refresh runtime into global scope
