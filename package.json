@@ -1,6 +1,6 @@
 {
-  "name": "@pmmmwh/react-refresh-webpack-plugin",
-  "version": "0.5.5",
+  "name": "@exodus/react-refresh-webpack-plugin",
+  "version": "0.5.5-exodus-0",
   "description": "An **EXPERIMENTAL** Webpack plugin to enable \"Fast Refresh\" (also previously known as _Hot Reloading_) for React components.",
   "keywords": [
     "react",
@@ -15,13 +15,13 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/pmmmwh/react-refresh-webpack-plugin#readme",
+  "homepage": "https://github.com/ExodusMovement/react-refresh-webpack-plugin",
   "bugs": {
-    "url": "https://github.com/pmmmwh/react-refresh-webpack-plugin/issues"
+    "url": "https://github.com/ExodusMovement/react-refresh-webpack-plugin/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pmmmwh/react-refresh-webpack-plugin.git"
+    "url": "git+https://github.com/ExodusMovement/react-refresh-webpack-plugin.git"
   },
   "license": "MIT",
   "author": "Michael Mok",
