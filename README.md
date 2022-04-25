@@ -49,9 +49,7 @@ We recommend using the following versions:
 </details>
 
 <details>
-<summary>
-Using custom renderers (e.g. <code>react-three-fiber</code>, <code>react-pdf</code>, <code>ink</code>)
-</summary>
+<summary>Using custom renderers (e.g. <code>react-three-fiber</code>, <code>react-pdf</code>, <code>ink</code>)</summary>
 <br />
 
 To ensure full support of "Fast Refresh" with components rendered by custom renderers,
