@@ -226,7 +226,7 @@ You can reference implementations inside the [`sockets`](https://github.com/pmmm
 
 #### `sockHost`
 
-Default: `window.location.hostname`
+Default: Parsed from current URL
 
 Type: `string`
 
@@ -237,7 +237,7 @@ Useful if you set `devServer.sockHost` to something other than `window.location.
 
 #### `sockPort`
 
-Default: `window.location.port`
+Default: Parsed from current URL
 
 Type: `number`
 
@@ -248,7 +248,7 @@ Useful if you set `devServer.sockPort` to something other than `window.location.
 
 #### `sockPath`
 
-Default: `/sockjs-node`
+Default: `/ws` for WDS v4, `/sockjs-node` for WDS v3
 
 Type: `string`
 
