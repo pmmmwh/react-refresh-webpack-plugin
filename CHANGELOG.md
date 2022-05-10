@@ -1,3 +1,14 @@
+## 0.5.6 (10 May 2022)
+
+### Fixes
+
+- Fixed faulty `this` type import in loader (#624)
+- Made current script detection more robust for edge cases (#630)
+
+### Internal
+
+- Swapped to new `ReactDOM.createRoot` API in examples (#626)
+
 ## 0.5.5 (4 April 2022)
 
 ### Fixes
