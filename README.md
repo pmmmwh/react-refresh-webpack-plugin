@@ -28,12 +28,12 @@ and thus cannot be made compatible.
 
 We recommend using the following versions:
 
-| Dependency      | Version               |
-| --------------- | --------------------- |
-| `react`         | `16.13.0`+ or `17.x`  |
-| `react-dom`     | `16.13.0`+ or `17.x`  |
-| `react-refresh` | `0.10.0`+             |
-| `webpack`       | `4.46.0`+ or `5.2.0`+ |
+| Dependency      | Version                      |
+| --------------- | ---------------------------- |
+| `react`         | `16.13.0`+, `17.x` or `18.x` |
+| `react-dom`     | `16.13.0`+, `17.x` or `18.x` |
+| `react-refresh` | `0.10.0`+                    |
+| `webpack`       | `4.46.0`+ or `5.2.0`+        |
 
 <details>
 <summary>Minimum requirements</summary>
