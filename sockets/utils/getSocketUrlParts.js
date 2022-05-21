@@ -117,7 +117,6 @@ function getSocketUrlParts(resourceQuery, metadata) {
   }
 
   if (!urlParts.hostname || !urlParts.pathname) {
-    console.log(urlParts);
     throw new Error(
       [
         '[React Refresh] Failed to get an URL for the socket connection.',
