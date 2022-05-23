@@ -1,3 +1,13 @@
+## 0.5.7 (23 May 2022)
+
+### Fixes
+
+- Removed debug `console.log` statement (#631)
+
+### Internal
+
+- Run tests on Node.js 18 (#631)
+
 ## 0.5.6 (10 May 2022)
 
 ### Fixes
