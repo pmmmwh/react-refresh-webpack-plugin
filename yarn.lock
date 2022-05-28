@@ -1293,6 +1293,11 @@ ansi-html-community@0.0.8, ansi-html-community@^0.0.8:
   resolved "https://registry.yarnpkg.com/ansi-html-community/-/ansi-html-community-0.0.8.tgz#69fbc4d6ccbe383f9736934ae34c3f8290f1bf41"
   integrity sha512-1APHAyr3+PCamwNw3bXCPp4HFLONZt/yIH0sZp0/469KWNTEy+qN5jQ3GVX6DMZ1UXAi34yVwtTeaG/HpBuuzw==
 
+ansi-html-string@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/ansi-html-string/-/ansi-html-string-1.2.6.tgz#c53e566ba0adf70962cf48ac459233a1b57ed9e3"
+  integrity sha512-hm7md4cOt5hac1dEgZ+CVNKOlZ7wkyUlOUTueUXiqsNLPsWZtJdy/dl0UOlzwDarCBc5mRaqAJuSF72c3r8rgw==
+
 ansi-regex@^2.0.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-2.1.1.tgz#c3b33ab5ee360d86e0e628f0468ae7ef27d654df"

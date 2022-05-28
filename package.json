@@ -56,7 +56,7 @@
     "prepublishOnly": "yarn generate-types"
   },
   "dependencies": {
-    "ansi-html-community": "^0.0.8",
+    "ansi-html-string": "^1.2.6",
     "common-path-prefix": "^3.0.0",
     "core-js-pure": "^3.8.1",
     "error-stack-parser": "^2.0.6",
