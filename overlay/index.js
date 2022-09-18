@@ -309,6 +309,24 @@ function showRuntimeErrors(errors) {
 const debouncedShowRuntimeErrors = utils.debounce(showRuntimeErrors, 30);
 
 /**
+ * Detects if an error is a browser network error.
+ * @param {Error} error The error of interest.
+ * @returns {boolean} If the error is a browser network error.
+ */
+function isNetworkError(error) {
+  return (
+    // Chromium
+    /Failed to fetch/.test(error.message) ||
+    /net::/.test(error.message) ||
+    // Firefox
+    /NetworkError/.test(error.message) ||
+    // Safari
+    /Failed to load resource/.test(error.message) ||
+    /Load failed/.test(error.message)
+  );
+}
+
+/**
  * Detects if an error is a Webpack compilation error.
  * @param {Error} error The error of interest.
  * @returns {boolean} If the error is a Webpack compilation error.
@@ -324,7 +342,12 @@ function isWebpackCompileError(error) {
  * @returns {void}
  */
 function handleRuntimeError(error) {
-  if (error && !isWebpackCompileError(error) && currentRuntimeErrors.indexOf(error) === -1) {
+  if (
+    error &&
+    !isNetworkError(error) &&
+    !isWebpackCompileError(error) &&
+    currentRuntimeErrors.indexOf(error) === -1
+  ) {
     currentRuntimeErrors = currentRuntimeErrors.concat(error);
   }
   debouncedShowRuntimeErrors(currentRuntimeErrors);
