@@ -2,7 +2,6 @@ version: 2.1
 
 anchors:
   - &node-version-enum
-    - '12.22'
     - '14.20'
     - '16.17'
     - '18.9'
