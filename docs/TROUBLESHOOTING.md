@@ -53,6 +53,14 @@ you can fallback to use the legacy dependency resolution algorithm and it should
 npm install --legacy-peer-deps
 ```
 
+## Usage with CSS Files/Imports
+
+This plugin does not provide HMR for CSS. To achieve that,
+you should be using [`style-loader`](https://github.com/webpack-contrib/style-loader) or [`mini-css-extract-plugin`](https://github.com/webpack-contrib/mini-css-extract-plugin).
+
+Both provides HMR capabilities out of the box for Webpack 5 -
+if are still on Webpack 4 and uses `mini-css-extract-plugin`, you might have to [do some setup](https://github.com/webpack-contrib/mini-css-extract-plugin/#hot-module-reloading-hmr).
+
 ## Usage with Indirection (like Workers and JS Templates)
 
 If you share the Babel config for files in an indirect code path (e.g. Web Workers, JS Templates with partial pre-render) and all your other source files,
