@@ -55,7 +55,8 @@ npm install --legacy-peer-deps
 
 ## Usage with CSS Files/Imports
 
-This plugin does not provide HMR for CSS. To achieve that,
+This plugin does not provide HMR for CSS.
+To achieve that,
 you should be using [`style-loader`](https://github.com/webpack-contrib/style-loader) or [`mini-css-extract-plugin`](https://github.com/webpack-contrib/mini-css-extract-plugin).
 
 Both provides HMR capabilities out of the box for Webpack 5 -
