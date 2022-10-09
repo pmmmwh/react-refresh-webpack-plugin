@@ -1,3 +1,10 @@
+## 0.5.8 (9 Oct 2022)
+
+### Fixes
+
+- Fixed performance issue regarding `require.resolve` in loader injection (#669)
+- Bumped `core-js-pure` to not depend on deprecated versions (#674)
+
 ## 0.5.7 (23 May 2022)
 
 ### Fixes
