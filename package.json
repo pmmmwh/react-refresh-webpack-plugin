@@ -62,7 +62,7 @@
     "error-stack-parser": "^2.0.6",
     "find-up": "^5.0.0",
     "html-entities": "^2.1.0",
-    "loader-utils": "^2.0.0",
+    "loader-utils": "^2.0.3",
     "schema-utils": "^3.0.0",
     "source-map": "^0.7.3"
   },
