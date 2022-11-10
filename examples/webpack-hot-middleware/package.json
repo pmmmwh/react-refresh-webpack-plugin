@@ -16,7 +16,7 @@
     "cross-env": "^7.0.3",
     "express": "^4.17.3",
     "html-webpack-plugin": "^5.5.0",
-    "react-refresh": "^0.12.0",
+    "react-refresh": "^0.14.0",
     "webpack": "^5.71.0",
     "webpack-dev-middleware": "^5.3.1"
   },
