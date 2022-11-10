@@ -1,3 +1,9 @@
+## 0.5.9 (10 Nov 2022)
+
+### Fixes
+
+- Bumped `loader-utils` to fix security vulnerability (#685)
+
 ## 0.5.8 (9 Oct 2022)
 
 ### Fixes
