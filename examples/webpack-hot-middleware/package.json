@@ -17,7 +17,7 @@
     "express": "^4.17.3",
     "html-webpack-plugin": "^5.5.0",
     "react-refresh": "^0.14.0",
-    "webpack": "^5.71.0",
+    "webpack": "^5.76.0",
     "webpack-dev-middleware": "^5.3.1"
   },
   "scripts": {
