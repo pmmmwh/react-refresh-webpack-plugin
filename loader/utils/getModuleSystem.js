@@ -3,8 +3,8 @@ const path = require('path');
 const commonPathPrefix = require('common-path-prefix');
 const findUp = require('find-up');
 
-/** @type {string | undefined} */
-let packageJsonType;
+/** @type {Map<string, string | undefined>} */
+let packageJsonTypeMap = new Map();
 
 /**
  * Infers the current active module system from loader context and options.
@@ -43,9 +43,10 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
   if (/\.mjs$/.test(this.resourcePath)) return 'esm';
   if (/\.cjs$/.test(this.resourcePath)) return 'cjs';
 
+  let packageJsonType = packageJsonTypeMap.get(this.context);
   // Load users' `package.json` -
   // We will cache the results in a global variable so it will only be parsed once.
-  if (!packageJsonType) {
+  if (!packageJsonTypeMap.has(this.context)) {
     try {
       const commonPath = commonPathPrefix([this.rootContext, this.resourcePath], '/');
       const stopPath = path.resolve(commonPath, '..');
@@ -61,6 +62,7 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
       const buffer = await fsPromises.readFile(packageJsonPath, { encoding: 'utf-8' });
       const rawPackageJson = buffer.toString('utf-8');
       ({ type: packageJsonType } = JSON.parse(rawPackageJson));
+      packageJsonTypeMap.set(this.context, packageJsonType);
     } catch (e) {
       // Failed to parse `package.json`, do nothing.
     }
