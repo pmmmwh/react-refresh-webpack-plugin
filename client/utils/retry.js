@@ -8,9 +8,12 @@ function runWithRetry(callback, maxRetries) {
 
       callback();
     } catch (err) {
-      setTimeout(function () {
-        executeWithRetryAndTimeout(currentCount + 1);
-      }, Math.pow(10, currentCount));
+      setTimeout(
+        function () {
+          executeWithRetryAndTimeout(currentCount + 1);
+        },
+        Math.pow(10, currentCount)
+      );
     }
   }
 
