@@ -337,7 +337,8 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "__webpack_require__.$Refresh$.runtime = require('react-refresh');
+        "import * as __react_refresh_runtime__ from 'react-refresh';
+        __webpack_require__.$Refresh$.runtime = __react_refresh_runtime__;
 
         export default 'Test';
 
@@ -348,7 +349,7 @@ describe('loader', () => {
         );
 
         function $ReactRefreshModuleRuntime$(exports) {
-        	if (module.hot) {
+        	if (import.meta.webpackHot) {
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -360,7 +361,7 @@ describe('loader', () => {
         		return __react_refresh_utils__.executeRuntime(
         			exports,
         			$ReactRefreshModuleId$,
-        			module.hot,
+        			import.meta.webpackHot,
         			errorOverlay,
         			testMode
         		);
@@ -381,13 +382,15 @@ describe('loader', () => {
         /*!******************!*\\\\
           !*** ./index.js ***!
           \\\\******************/
-        /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+        /***/ ((__webpack_module__, __webpack_exports__, __webpack_require__) => {
 
         __webpack_require__.r(__webpack_exports__);
         /* harmony export */ __webpack_require__.d(__webpack_exports__, {
         /* harmony export */   \\"default\\": () => (__WEBPACK_DEFAULT_EXPORT__)
         /* harmony export */ });
-        __webpack_require__.$Refresh$.runtime = require('react-refresh');
+        /* harmony import */ var react_refresh__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-refresh */ \\"../../../../node_modules/react-refresh/runtime.js\\");
+
+        __webpack_require__.$Refresh$.runtime = react_refresh__WEBPACK_IMPORTED_MODULE_0__;
 
         /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ('Test');
 
@@ -398,7 +401,7 @@ describe('loader', () => {
         );
 
         function $ReactRefreshModuleRuntime$(exports) {
-        	if (module.hot) {
+        	if (true) {
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -410,7 +413,7 @@ describe('loader', () => {
         		return __react_refresh_utils__.executeRuntime(
         			exports,
         			$ReactRefreshModuleId$,
-        			module.hot,
+        			__webpack_module__.hot,
         			errorOverlay,
         			testMode
         		);
@@ -428,7 +431,8 @@ describe('loader', () => {
         },
         /******/ __webpack_require__ => { // webpackRuntimeModules
         /******/ var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-        /******/ var __webpack_exports__ = (__webpack_exec__(\\"./index.js\\"));
+        /******/ __webpack_require__.O(0, [\\"defaultVendors\\"], () => (__webpack_exec__(\\"./index.js\\")));
+        /******/ var __webpack_exports__ = __webpack_require__.O();
         /******/ }
         ]);"
       `);
