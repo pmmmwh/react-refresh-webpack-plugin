@@ -55,13 +55,18 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
   };
 
   /**
-   * @this {import('webpack').loader.LoaderContext}
+   * @this {import('webpack').LoaderContext<import('./types').ReactRefreshLoaderOptions>}
    * @param {string} source
    * @param {import('source-map').RawSourceMap} [inputSourceMap]
    * @returns {Promise<[string, import('source-map').RawSourceMap]>}
    */
   async function _loader(source, inputSourceMap) {
-    const moduleSystem = await getModuleSystem.call(this, ModuleFilenameHelpers, options);
+    /** @type {'esm' | 'cjs'} */
+    let moduleSystem = 'cjs';
+    // Only try to resolve the module system if the environment is known to support ES syntax
+    if (this.environment != null) {
+      moduleSystem = await getModuleSystem.call(this, ModuleFilenameHelpers, options);
+    }
 
     const RefreshSetupRuntime = RefreshSetupRuntimes[moduleSystem];
     const RefreshModuleRuntime = getRefreshModuleRuntime(Template, {
