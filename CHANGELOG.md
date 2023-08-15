@@ -1,3 +1,15 @@
+## 0.5.11 (15 Aug 2023)
+
+### Features
+
+- Added support to exclude dynamically generated modules from other loaders (#769)
+
+### Fixes
+
+- Fixed unnecessary memory leaks due to `prevExports`` (#766)
+- Relaxed peer dependency requirement on `type-fest` to allow v4.x (#767)
+- Fixed module type resolution when there is difference across contexts (#768)
+
 ## 0.5.10 (24 Nov 2022)
 
 ### Fixes
