@@ -62,11 +62,7 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
    */
   async function _loader(source, inputSourceMap) {
     /** @type {'esm' | 'cjs'} */
-    let moduleSystem = 'cjs';
-    // Only try to resolve the module system if the environment is known to support ES syntax
-    if (this.environment != null) {
-      moduleSystem = await getModuleSystem.call(this, ModuleFilenameHelpers, options);
-    }
+    const moduleSystem = await getModuleSystem.call(this, ModuleFilenameHelpers, options);
 
     const RefreshSetupRuntime = RefreshSetupRuntimes[moduleSystem];
     const RefreshModuleRuntime = getRefreshModuleRuntime(Template, {
