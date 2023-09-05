@@ -41,6 +41,12 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
   if (/\.mjs$/.test(this.resourcePath)) return 'esm';
   if (/\.cjs$/.test(this.resourcePath)) return 'cjs';
 
+  if (typeof this.addMissingDependency !== 'function') {
+    // This is Webpack 4 which does not support `import.meta` and cannot use ESM anwyay. We assume .js files
+    // are commonjs because the output cannot be ESM anyway
+    return 'cjs';
+  }
+
   // We will assume commonjs if we cannot determine otherwise
   let packageJsonType = '';
 
@@ -104,10 +110,7 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
     } catch (e) {
       // package.json does not exist. We track it as a missing dependency so we can reload if this
       // file is added
-      if (typeof this.addMissingDependency === 'function') {
-        // Webpack 4 does not have this method
-        this.addMissingDependency(packageJsonPath);
-      }
+      this.addMissingDependency(packageJsonPath);
     }
 
     // try again at the next level up
