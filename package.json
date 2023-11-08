@@ -112,6 +112,7 @@
     "yn": "^4.0.0"
   },
   "peerDependencies": {
+    "@rspack/core": "0.x || 1.x",
     "@types/webpack": "4.x || 5.x",
     "react-refresh": ">=0.10.0 <1.0.0",
     "sockjs-client": "^1.4.0",
@@ -122,6 +123,9 @@
     "webpack-plugin-serve": "0.x || 1.x"
   },
   "peerDependenciesMeta": {
+    "@rspack/core": {
+      "optional": true
+    },
     "@types/webpack": {
       "optional": true
     },
@@ -129,6 +133,9 @@
       "optional": true
     },
     "type-fest": {
+      "optional": true
+    },
+    "webpack": {
       "optional": true
     },
     "webpack-dev-server": {
