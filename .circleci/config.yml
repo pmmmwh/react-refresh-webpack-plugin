@@ -4,7 +4,7 @@ anchors:
   - &node-version-enum
     - '14.20'
     - '16.17'
-    - '18.9'
+    - '18.12'
   - &webpack-version-enum
     - '4'
     - '5'
