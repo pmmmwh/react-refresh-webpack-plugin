@@ -31,6 +31,7 @@ interface ReactRefreshPluginOptions {
   library?: string;
   esModule?: boolean | ESModuleOptions;
   overlay?: boolean | ErrorOverlayOptions;
+  acceptSelf?: boolean;
 }
 ```
 
@@ -115,6 +116,19 @@ Modifies behaviour of the plugin's error overlay integration:
   (\*NOTE: This is targeted for ADVANCED use cases.).
 
 See the [`ErrorOverlayOptions`](#erroroverlayoptions) section below for more details on the object API.
+
+#### `acceptSelf`
+
+Type: `boolean`
+
+Default: `undefined`
+
+Determines whether a module that is refreshed will self-accept.
+
+- If `acceptSelf` is not provided or `true`, the refreshed module will be self-`accept()`ed.
+- If `acceptSelf` is `false`, the refreshed module will not be self-`accept()`ed and HMR
+  invalidation will propagate up through the module tree. (**NOTE:** this is targeted for ADVANCED
+  use cases.)
 
 ### `ESModuleOptions`
 

@@ -61,9 +61,15 @@ const rootSandboxDir = path.join(__dirname, '../..', '__tmp__');
  * @param {boolean} [options.esModule]
  * @param {string} [options.id]
  * @param {Map<string, string>} [options.initialFiles]
+ * @param {Object} [options.pluginOptions]
  * @returns {Promise<[SandboxSession, function(): Promise<void>]>}
  */
-async function getSandbox({ esModule = false, id = nanoid(), initialFiles = new Map() } = {}) {
+async function getSandbox({
+  esModule = false,
+  id = nanoid(),
+  initialFiles = new Map(),
+  pluginOptions = {},
+} = {}) {
   const port = await getPort();
 
   // Get sandbox directory paths
@@ -78,7 +84,10 @@ async function getSandbox({ esModule = false, id = nanoid(), initialFiles = new 
   await fse.mkdirp(publicDir);
 
   // Write necessary files to sandbox
-  await fse.writeFile(path.join(sandboxDir, 'webpack.config.js'), getWDSConfig(srcDir));
+  await fse.writeFile(
+    path.join(sandboxDir, 'webpack.config.js'),
+    getWDSConfig(srcDir, pluginOptions)
+  );
   await fse.writeFile(path.join(publicDir, 'index.html'), getIndexHTML(port));
   await fse.writeFile(path.join(srcDir, 'package.json'), getPackageJson(esModule));
   await fse.writeFile(

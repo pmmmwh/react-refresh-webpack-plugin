@@ -28,6 +28,10 @@ describe('loader', () => {
 
         function $ReactRefreshModuleRuntime$(exports) {
         	if (module.hot) {
+        		var acceptSelf;
+        		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+        			acceptSelf = __react_refresh_accept_self__;
+        		}
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -41,7 +45,8 @@ describe('loader', () => {
         			$ReactRefreshModuleId$,
         			module.hot,
         			errorOverlay,
-        			testMode
+        			testMode,
+        			acceptSelf
         		);
         	}
         }
@@ -74,6 +79,10 @@ describe('loader', () => {
 
         function $ReactRefreshModuleRuntime$(exports) {
         	if (true) {
+        		var acceptSelf;
+        		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+        			acceptSelf = __react_refresh_accept_self__;
+        		}
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -87,7 +96,8 @@ describe('loader', () => {
         			$ReactRefreshModuleId$,
         			module.hot,
         			errorOverlay,
-        			testMode
+        			testMode,
+        			acceptSelf
         		);
         	}
         }
@@ -124,6 +134,10 @@ describe('loader', () => {
 
         function $ReactRefreshModuleRuntime$(exports) {
         	if (module.hot) {
+        		var acceptSelf;
+        		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+        			acceptSelf = __react_refresh_accept_self__;
+        		}
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -137,7 +151,8 @@ describe('loader', () => {
         			$ReactRefreshModuleId$,
         			module.hot,
         			errorOverlay,
-        			testMode
+        			testMode,
+        			acceptSelf
         		);
         	}
         }
@@ -172,6 +187,10 @@ describe('loader', () => {
 
         function $ReactRefreshModuleRuntime$(exports) {
         	if (true) {
+        		var acceptSelf;
+        		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+        			acceptSelf = __react_refresh_accept_self__;
+        		}
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -185,7 +204,8 @@ describe('loader', () => {
         			$ReactRefreshModuleId$,
         			module.hot,
         			errorOverlay,
-        			testMode
+        			testMode,
+        			acceptSelf
         		);
         	}
         }
@@ -248,6 +268,10 @@ describe('loader', () => {
 
         function $ReactRefreshModuleRuntime$(exports) {
         	if (module.hot) {
+        		var acceptSelf;
+        		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+        			acceptSelf = __react_refresh_accept_self__;
+        		}
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -261,7 +285,8 @@ describe('loader', () => {
         			$ReactRefreshModuleId$,
         			module.hot,
         			errorOverlay,
-        			testMode
+        			testMode,
+        			acceptSelf
         		);
         	}
         }
@@ -293,6 +318,10 @@ describe('loader', () => {
 
         function $ReactRefreshModuleRuntime$(exports) {
         	if (true) {
+        		var acceptSelf;
+        		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+        			acceptSelf = __react_refresh_accept_self__;
+        		}
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -306,7 +335,8 @@ describe('loader', () => {
         			$ReactRefreshModuleId$,
         			module.hot,
         			errorOverlay,
-        			testMode
+        			testMode,
+        			acceptSelf
         		);
         	}
         }
@@ -350,6 +380,10 @@ describe('loader', () => {
 
         function $ReactRefreshModuleRuntime$(exports) {
         	if (import.meta.webpackHot) {
+        		var acceptSelf;
+        		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+        			acceptSelf = __react_refresh_accept_self__;
+        		}
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -363,7 +397,8 @@ describe('loader', () => {
         			$ReactRefreshModuleId$,
         			import.meta.webpackHot,
         			errorOverlay,
-        			testMode
+        			testMode,
+        			acceptSelf
         		);
         	}
         }
@@ -402,6 +437,10 @@ describe('loader', () => {
 
         function $ReactRefreshModuleRuntime$(exports) {
         	if (true) {
+        		var acceptSelf;
+        		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+        			acceptSelf = __react_refresh_accept_self__;
+        		}
         		var errorOverlay;
         		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
         			errorOverlay = __react_refresh_error_overlay__;
@@ -415,7 +454,8 @@ describe('loader', () => {
         			$ReactRefreshModuleId$,
         			__webpack_module__.hot,
         			errorOverlay,
-        			testMode
+        			testMode,
+        			acceptSelf
         		);
         	}
         }

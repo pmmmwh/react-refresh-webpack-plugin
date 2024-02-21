@@ -40,6 +40,10 @@ export type NormalizedErrorOverlayOptions = import('type-fest').SetRequired<
 >;
 export type ReactRefreshPluginOptions = {
   /**
+   * Whether the refreshed module will be self-accepted.
+   */
+  acceptSelf?: boolean | undefined;
+  /**
    * Enables strict ES Modules compatible runtime.
    */
   esModule?: boolean | import('../loader/types').ESModuleOptions | undefined;
