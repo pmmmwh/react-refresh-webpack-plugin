@@ -384,13 +384,14 @@ describe('loader', () => {
           \\\\******************/
         /***/ ((__webpack_module__, __webpack_exports__, __webpack_require__) => {
 
+        var react_refresh__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
         __webpack_require__.r(__webpack_exports__);
         /* harmony export */ __webpack_require__.d(__webpack_exports__, {
         /* harmony export */   \\"default\\": () => (__WEBPACK_DEFAULT_EXPORT__)
         /* harmony export */ });
         /* harmony import */ var react_refresh__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-refresh */ \\"../../../../node_modules/react-refresh/runtime.js\\");
 
-        __webpack_require__.$Refresh$.runtime = react_refresh__WEBPACK_IMPORTED_MODULE_0__;
+        __webpack_require__.$Refresh$.runtime = /*#__PURE__*/ (react_refresh__WEBPACK_IMPORTED_MODULE_0___namespace_cache || (react_refresh__WEBPACK_IMPORTED_MODULE_0___namespace_cache = __webpack_require__.t(react_refresh__WEBPACK_IMPORTED_MODULE_0__, 2)));
 
         /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ('Test');
 

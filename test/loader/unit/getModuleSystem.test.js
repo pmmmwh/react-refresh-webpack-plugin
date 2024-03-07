@@ -64,6 +64,23 @@ describe('getModuleSystem', () => {
         {
           resourcePath: path.resolve(__dirname, '..', 'fixtures/esm', 'index.js'),
           rootContext: path.resolve(__dirname, '..', 'fixtures/esm'),
+          addDependency: () => {},
+          addMissingDependency: () => {},
+        },
+        ModuleFilenameHelpers,
+        {}
+      )
+    ).resolves.toBe('esm');
+  });
+
+  it('should return `esm` when `package.json` uses the `module` type nested inside a cjs package', async () => {
+    await expect(
+      getModuleSystem.call(
+        {
+          resourcePath: path.resolve(__dirname, '..', 'fixtures/cjs/esm', 'index.js'),
+          rootContext: path.resolve(__dirname, '..', 'fixtures/cjs'),
+          addDependency: () => {},
+          addMissingDependency: () => {},
         },
         ModuleFilenameHelpers,
         {}
@@ -77,6 +94,23 @@ describe('getModuleSystem', () => {
         {
           resourcePath: path.resolve(__dirname, '..', 'fixtures/cjs', 'index.js'),
           rootContext: path.resolve(__dirname, '..', 'fixtures/cjs'),
+          addDependency: () => {},
+          addMissingDependency: () => {},
+        },
+        ModuleFilenameHelpers,
+        {}
+      )
+    ).resolves.toBe('cjs');
+  });
+
+  it('should return `cjs` when `package.json` uses the `commonjs` type nexted insdie an esm package', async () => {
+    await expect(
+      getModuleSystem.call(
+        {
+          resourcePath: path.resolve(__dirname, '..', 'fixtures/esm/cjs', 'index.js'),
+          rootContext: path.resolve(__dirname, '..', 'fixtures/esm'),
+          addDependency: () => {},
+          addMissingDependency: () => {},
         },
         ModuleFilenameHelpers,
         {}
@@ -90,6 +124,8 @@ describe('getModuleSystem', () => {
         {
           resourcePath: path.resolve(__dirname, '..', 'fixtures/auto', 'index.js'),
           rootContext: path.resolve(__dirname, '..', 'fixtures/auto'),
+          addDependency: () => {},
+          addMissingDependency: () => {},
         },
         ModuleFilenameHelpers,
         { esModule: {} }

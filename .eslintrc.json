@@ -55,6 +55,24 @@
         "commonjs": false,
         "es6": true
       }
+    },
+    {
+      "files": ["test/**/fixtures/cjs/esm/*.js"],
+      "parserOptions": {
+        "ecmaVersion": 2015,
+        "sourceType": "module"
+      },
+      "env": {
+        "commonjs": false,
+        "es6": true
+      }
+    },
+    {
+      "files": ["test/**/fixtures/esm/cjs/*.js"],
+      "env": {
+        "commonjs": true,
+        "es6": true
+      }
     }
   ]
 }
