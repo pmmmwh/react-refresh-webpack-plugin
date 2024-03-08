@@ -36,9 +36,10 @@ function getPackageJson(esModule = false) {
 
 /**
  * @param {string} srcDir
+ * @param {Object} pluginOptions
  * @returns {string}
  */
-function getWDSConfig(srcDir) {
+function getWDSConfig(srcDir, pluginOptions) {
   return `
 const { DefinePlugin, ProgressPlugin } = require('webpack');
 const ReactRefreshPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
@@ -80,7 +81,7 @@ module.exports = {
         console.log("Webpack compilation complete.");
       }
     }),
-    new ReactRefreshPlugin(),
+    new ReactRefreshPlugin(${JSON.stringify(pluginOptions)}),
   ],
   resolve: {
     alias: ${JSON.stringify(

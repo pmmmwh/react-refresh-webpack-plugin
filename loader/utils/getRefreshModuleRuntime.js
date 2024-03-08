@@ -30,6 +30,10 @@ function getRefreshModuleRuntime(Template, options) {
     Template.indent([
       `if (${webpackHot}) {`,
       Template.indent([
+        `${letDeclaration} acceptSelf;`,
+        "if (typeof __react_refresh_accept_self__ !== 'undefined') {",
+        Template.indent('acceptSelf = __react_refresh_accept_self__;'),
+        '}',
         `${letDeclaration} errorOverlay;`,
         "if (typeof __react_refresh_error_overlay__ !== 'undefined') {",
         Template.indent('errorOverlay = __react_refresh_error_overlay__;'),
@@ -44,7 +48,8 @@ function getRefreshModuleRuntime(Template, options) {
           '$ReactRefreshModuleId$,',
           `${webpackHot},`,
           'errorOverlay,',
-          'testMode',
+          'testMode,',
+          'acceptSelf',
         ]),
         ');',
       ]),

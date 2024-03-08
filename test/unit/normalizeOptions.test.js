@@ -19,6 +19,7 @@ describe('normalizeOptions', () => {
   it('should return user options', () => {
     expect(
       normalizeOptions({
+        acceptSelf: false,
         exclude: 'exclude',
         forceEnable: true,
         include: 'include',
@@ -35,6 +36,7 @@ describe('normalizeOptions', () => {
         },
       })
     ).toStrictEqual({
+      acceptSelf: false,
       exclude: 'exclude',
       forceEnable: true,
       include: 'include',

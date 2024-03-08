@@ -21,6 +21,10 @@ describe('getRefreshModuleRuntime', () => {
 
       function $ReactRefreshModuleRuntime$(exports) {
       	if (module.hot) {
+      		var acceptSelf;
+      		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+      			acceptSelf = __react_refresh_accept_self__;
+      		}
       		var errorOverlay;
       		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
       			errorOverlay = __react_refresh_error_overlay__;
@@ -34,7 +38,8 @@ describe('getRefreshModuleRuntime', () => {
       			$ReactRefreshModuleId$,
       			module.hot,
       			errorOverlay,
-      			testMode
+      			testMode,
+      			acceptSelf
       		);
       	}
       }
@@ -66,6 +71,10 @@ describe('getRefreshModuleRuntime', () => {
 
       function $ReactRefreshModuleRuntime$(exports) {
       	if (module.hot) {
+      		let acceptSelf;
+      		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+      			acceptSelf = __react_refresh_accept_self__;
+      		}
       		let errorOverlay;
       		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
       			errorOverlay = __react_refresh_error_overlay__;
@@ -79,7 +88,8 @@ describe('getRefreshModuleRuntime', () => {
       			$ReactRefreshModuleId$,
       			module.hot,
       			errorOverlay,
-      			testMode
+      			testMode,
+      			acceptSelf
       		);
       	}
       }
@@ -111,6 +121,10 @@ describe('getRefreshModuleRuntime', () => {
 
       function $ReactRefreshModuleRuntime$(exports) {
       	if (import.meta.webpackHot) {
+      		var acceptSelf;
+      		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+      			acceptSelf = __react_refresh_accept_self__;
+      		}
       		var errorOverlay;
       		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
       			errorOverlay = __react_refresh_error_overlay__;
@@ -124,7 +138,8 @@ describe('getRefreshModuleRuntime', () => {
       			$ReactRefreshModuleId$,
       			import.meta.webpackHot,
       			errorOverlay,
-      			testMode
+      			testMode,
+      			acceptSelf
       		);
       	}
       }
@@ -156,6 +171,10 @@ describe('getRefreshModuleRuntime', () => {
 
       function $ReactRefreshModuleRuntime$(exports) {
       	if (import.meta.webpackHot) {
+      		let acceptSelf;
+      		if (typeof __react_refresh_accept_self__ !== 'undefined') {
+      			acceptSelf = __react_refresh_accept_self__;
+      		}
       		let errorOverlay;
       		if (typeof __react_refresh_error_overlay__ !== 'undefined') {
       			errorOverlay = __react_refresh_error_overlay__;
@@ -169,7 +188,8 @@ describe('getRefreshModuleRuntime', () => {
       			$ReactRefreshModuleId$,
       			import.meta.webpackHot,
       			errorOverlay,
-      			testMode
+      			testMode,
+      			acceptSelf
       		);
       	}
       }

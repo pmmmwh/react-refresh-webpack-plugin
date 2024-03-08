@@ -409,13 +409,34 @@ describe('validateOptions', () => {
     `);
   });
 
+  it('should accept "acceptSelf" when it is true', () => {
+    expect(() => {
+      new ReactRefreshPlugin({ acceptSelf: true });
+    }).not.toThrow();
+  });
+
+  it('should accept "acceptSelf" when it is false', () => {
+    expect(() => {
+      new ReactRefreshPlugin({ acceptSelf: false });
+    }).not.toThrow();
+  });
+
+  it('should reject "acceptSelf" when it is not a boolean', () => {
+    expect(() => {
+      new ReactRefreshPlugin({ acceptSelf: 1 });
+    }).toThrowErrorMatchingInlineSnapshot(`
+      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+       - options.acceptSelf should be a boolean."
+    `);
+  });
+
   it('should reject any unknown options', () => {
     expect(() => {
       new ReactRefreshPlugin({ unknown: true });
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options has an unknown property 'unknown'. These properties are valid:
-         object { esModule?, exclude?, forceEnable?, include?, library?, overlay? }"
+         object { acceptSelf?, esModule?, exclude?, forceEnable?, include?, library?, overlay? }"
     `);
   });
 });
