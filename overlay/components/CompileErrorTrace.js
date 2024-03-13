@@ -1,9 +1,22 @@
-const ansiHTML = require('ansi-html-community');
 const entities = require('html-entities');
 const theme = require('../theme.js');
 const utils = require('../utils.js');
 
-ansiHTML.setColors(theme);
+const ansiHTML = require('ansi-html-string').createConverter({
+  minimumContrastRatio: 1,
+  theme: {
+    foreground: theme.white,
+    black: theme.black,
+    red: theme.red,
+    green: theme.green,
+    yellow: theme.yellow,
+    blue: theme.blue,
+    magenta: theme.magenta,
+    cyan: theme.cyan,
+    white: theme.white,
+    gray: theme.darkgrey,
+  },
+}).toHtml;
 
 /**
  * @typedef {Object} CompileErrorTraceProps
