@@ -5,7 +5,6 @@
 const originalFetch = global.fetch;
 delete global.fetch;
 
-const { loaderContext } = require('loader-utils');
 const { validate: validateOptions } = require('schema-utils');
 const { SourceMapConsumer, SourceNode } = require('source-map');
 const {
