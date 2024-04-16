@@ -107,7 +107,8 @@ function getSocketUrlParts(resourceQuery, metadata) {
   // as it mandates the use of secure sockets.
   if (
     !urlParts.protocol ||
-    (urlParts.hostname && (isEmptyHostname || (!resourceQuery && window.location.protocol === 'https:')))
+    (urlParts.hostname &&
+      (isEmptyHostname || (!resourceQuery && window.location.protocol === 'https:')))
   ) {
     urlParts.protocol = window.location.protocol;
   }
