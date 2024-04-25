@@ -9,7 +9,8 @@ class SandboxEnvironment extends NodeEnvironment {
 
     this.global.__DEBUG__ = yn(process.env.DEBUG);
     this.global.WEBPACK_VERSION = parseInt(process.env.WEBPACK_VERSION || '5', 10);
-    this.global.WDS_VERSION = semver.major(process.version) < 12 ? 3 : 5;
+    this.global.WDS_VERSION =
+      semver.major(process.version) >= 18 ? 5 : semver.major(process.version) >= 12 ? 4 : 3;
 
     const wsEndpoint = process.env.PUPPETEER_WS_ENDPOINT;
     if (!wsEndpoint) {
