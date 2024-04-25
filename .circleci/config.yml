@@ -4,7 +4,7 @@ anchors:
   - &node-version-enum
     - '14.20'
     - '16.17'
-    - '18.9'
+    - '18.12'
   - &webpack-version-enum
     - '4'
     - '5'
@@ -34,6 +34,7 @@ commands:
           command: |-
             yarn install \
               --cache-folder ~/.cache/yarn \
+              --ignore-engines \
               --frozen-lockfile
       - save_cache:
           key: node-deps-v1-<< parameters.node-version >>-{{ .Branch }}-{{ checksum "yarn.lock" }}
