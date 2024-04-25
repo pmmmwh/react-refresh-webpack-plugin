@@ -103,10 +103,12 @@ function getSocketUrlParts(resourceQuery, metadata) {
   // We only re-assign `protocol` when `protocol` is unavailable,
   // or if `hostname` is available and is empty,
   // since otherwise we risk creating an invalid URL.
-  // We also do this when 'https' is used as it mandates the use of secure sockets.
+  // We also do this when no sockProtocol was passed to the config and 'https' is used,
+  // as it mandates the use of secure sockets.
   if (
     !urlParts.protocol ||
-    (urlParts.hostname && (isEmptyHostname || window.location.protocol === 'https:'))
+    (urlParts.hostname &&
+      (isEmptyHostname || (!resourceQuery && window.location.protocol === 'https:')))
   ) {
     urlParts.protocol = window.location.protocol;
   }
