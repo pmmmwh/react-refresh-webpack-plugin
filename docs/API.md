@@ -192,12 +192,12 @@ If the default `entry` is used, the file should contain two more **NAMED** expor
 
 ```ts
 function showCompileError(webpackErrorMessage: string) {}
-function clearCompileErrors() {}
+function clearCompileError() {}
 ```
 
 - `showCompileError` is invoked when an error occurred during a Webpack compilation
   (NOTE: `webpackErrorMessage` might be ANSI encoded depending on the integration);
-- `clearCompileErrors` is invoked when a new Webpack compilation is started (i.e. HMR rebuild).
+- `clearCompileError` is invoked when a new Webpack compilation is started (i.e. HMR rebuild).
 
 > Note: if you want to use `react-error-overlay` as a value to this option,
 > you should instead use `react-dev-utils/refreshOverlayInterop` or implement a similar interop.
