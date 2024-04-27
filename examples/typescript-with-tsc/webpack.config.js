@@ -24,7 +24,7 @@ module.exports = {
             loader: 'ts-loader',
             options: {
               configFile: isDevelopment ? 'tsconfig.dev.json' : 'tsconfig.json',
-              transpileOnly: true,
+              transpileOnly: isDevelopment,
               ...(isDevelopment && {
                 getCustomTransformers: () => ({
                   before: [ReactRefreshTypeScript()],
