@@ -85,8 +85,9 @@ module.exports = {
   resolve: {
     alias: ${JSON.stringify(
       {
-        ...(WEBPACK_VERSION === 4 && { webpack: 'webpack.legacy' }),
-        ...(WDS_VERSION === 3 && { 'webpack-dev-server': 'webpack-dev-server.legacy' }),
+        ...(WEBPACK_VERSION === 4 && { webpack: 'webpack-v4' }),
+        ...(WDS_VERSION === 3 && { 'webpack-dev-server': 'webpack-dev-server-v3' }),
+        ...(WDS_VERSION === 4 && { 'webpack-dev-server': 'webpack-dev-server-v4' }),
       },
       null,
       2

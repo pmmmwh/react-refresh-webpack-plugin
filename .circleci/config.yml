@@ -2,15 +2,15 @@ version: 2.1
 
 anchors:
   - &node-version-enum
-    - '14.20'
-    - '16.17'
-    - '18.9'
+    - '18.20'
+    - '20.12'
+    - '22.0'
   - &webpack-version-enum
     - '4'
     - '5'
   - &node-version-param
     node-version:
-      default: '16.17'
+      default: '20.12'
       enum: *node-version-enum
       type: enum
   - &webpack-version-param
@@ -45,7 +45,7 @@ executors:
     parameters:
       <<: *node-version-param
     docker:
-      - image: pmmmwh/puppeteer:<< parameters.node-version >>
+      - image: cimg/node:<< parameters.node-version >>-browsers
         auth:
           username: $DOCKER_LOGIN
           password: $DOCKER_PASSWORD

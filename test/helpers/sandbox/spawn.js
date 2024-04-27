@@ -8,15 +8,14 @@ const isOpenSSL3 = semver.gte(process.versions.node, '17.0.0');
  * @param {string} packageName
  * @returns {string}
  */
-function getPackageExecutable(packageName) {
+function getPackageExecutable(packageName, binName) {
   let { bin: binPath } = require(`${packageName}/package.json`);
-  if (!binPath) {
-    throw new Error(`Package ${packageName} does not have an executable!`);
-  }
-
   // "bin": { "package": "bin.js" }
   if (typeof binPath === 'object') {
-    binPath = binPath[packageName];
+    binPath = binPath[binName || packageName];
+  }
+  if (!binPath) {
+    throw new Error(`Package ${packageName} does not have an executable!`);
   }
 
   return require.resolve(path.join(packageName, binPath));
@@ -133,13 +132,21 @@ function spawnTestProcess(processPath, argv, options = {}) {
  * @returns {Promise<import('child_process').ChildProcess | void>}
  */
 function spawnWebpackServe(port, dirs, options = {}) {
-  const webpackBin = getPackageExecutable('webpack-cli');
+  const webpackBin = getPackageExecutable(
+    WDS_VERSION === 4 ? 'webpack-cli-v4' : 'webpack-cli',
+    'webpack-cli'
+  );
 
   const NODE_OPTIONS = [
-    // This requires a script to alias `webpack` and `webpack-cli` -
-    // both v4 and v5 is installed side by side,
-    // so we have to ensure that they resolve to the `legacy` variant.
-    WEBPACK_VERSION === 4 && `--require "${require.resolve('./aliasLegacyWebpack')}"`,
+    // This requires a script to alias `webpack` -
+    // both v4 and v5 are installed,
+    // so we have to ensure that they resolve to the correct variant.
+    WEBPACK_VERSION === 4 && `--require "${require.resolve('./aliasWebpackv4')}"`,
+    // This requires a script to alias `webpack-dev-server` -
+    // both v3, v4 and v5 are installed,
+    // so we have to ensure that they resolve to the correct variant.
+    WDS_VERSION === 3 && `--require "${require.resolve('./aliasWDSv3')}"`,
+    WDS_VERSION === 4 && `--require "${require.resolve('./aliasWDSv4')}"`,
     // This make Node.js use the legacy OpenSSL provider -
     // it is necessary as OpenSSL 3.0 removed support for MD4,
     // which is the default hashing algorithm used in Webpack 4.

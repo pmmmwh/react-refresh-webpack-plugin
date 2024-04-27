@@ -32,7 +32,7 @@ if (yn(process.env.DEBUG)) {
 
 if (parseInt(process.env.WEBPACK_VERSION || 5, 10) === 4) {
   // Apply Webpack npm aliases in Jest's module system
-  argv.push(`--moduleNameMapper="${JSON.stringify({ '^webpack($|/.*)': 'webpack.legacy$1' })}"`);
+  argv.push(`--moduleNameMapper="${JSON.stringify({ '^webpack($|/.*)': 'webpack-v4$1' })}"`);
 }
 
 void jest.run(argv);
