@@ -1,3 +1,10 @@
+## 0.5.12 (27 Apr 2024)
+
+### Fixes
+
+- Fixed incorrect `sockProtocol` override (#835)
+- Relaxed peer dependency requirement on `webpack-dev-server` to allow v5.x (#837)
+
 ## 0.5.11 (15 Aug 2023)
 
 ### Features
@@ -6,7 +13,7 @@
 
 ### Fixes
 
-- Fixed unnecessary memory leaks due to `prevExports`` (#766)
+- Fixed unnecessary memory leaks due to `prevExports` (#766)
 - Relaxed peer dependency requirement on `type-fest` to allow v4.x (#767)
 - Fixed module type resolution when there is difference across contexts (#768)
 
