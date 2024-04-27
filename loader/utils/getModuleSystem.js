@@ -42,40 +42,42 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
   if (/\.cjs$/.test(this.resourcePath)) return 'cjs';
 
   if (typeof this.addMissingDependency !== 'function') {
-    // This is Webpack 4 which does not support `import.meta` and cannot use ESM anwyay. We assume .js files
-    // are commonjs because the output cannot be ESM anyway
+    // This is Webpack 4 which does not support `import.meta`.
+    // We assume `.js` files are CommonJS because the output cannot be ESM anyway.
     return 'cjs';
   }
 
-  // We will assume commonjs if we cannot determine otherwise
+  // We will assume CommonJS if we cannot determine otherwise
   let packageJsonType = '';
 
-  // We begin our search for relevant package.json files at the directory of the
-  // resource being loaded.
-  // These paths should already be resolved but we resolve them again to ensure
-  // we are dealing with an aboslute path
+  // We begin our search for relevant `package.json` files,
+  // at the directory of the resource being loaded.
+  // These paths should already be resolved,
+  // but we resolve them again to ensure we are dealing with an aboslute path.
   const resourceContext = path.dirname(this.resourcePath);
   let searchPath = resourceContext;
   let previousSearchPath = '';
   // We start our search just above the root context of the webpack compilation
   const stopPath = path.dirname(this.rootContext);
 
-  // if the module context is a resolved symlink outside the rootContext path then we will never find
-  // the stopPath so we also halt when we hit the root. Note that there is a potential that the wrong
-  // package.json is found in some pathalogical cases like if a folder that is conceptually a package
-  // but does not have an ancestor package.json but there is a package.json higher up. This might happen if
-  // you have a folder of utility js files that you symlink but did not organize as a package. We consider
-  // this an edge case for now
+  // If the module context is a resolved symlink outside the `rootContext` path,
+  // then we will never find the `stopPath` - so we also halt when we hit the root.
+  // Note that there is a potential that the wrong `package.json` is found in some pathalogical cases,
+  // such as a folder that is conceptually a package + does not have an ancestor `package.json`,
+  // but there exists a `package.json` higher up.
+  // This might happen if you have a folder of utility JS files that you symlink but did not organize as a package.
+  // We consider this an unsupported edge case for now.
   while (searchPath !== stopPath && searchPath !== previousSearchPath) {
-    // If we have already determined the package.json type for this path we can stop searching. We do however
-    // still need to cache the found value from the resourcePath folder up to the matching searchPath to avoid
-    // retracing these steps when processing sibling resources.
+    // If we have already determined the `package.json` type for this path we can stop searching.
+    // We do however still need to cache the found value,
+    // from the `resourcePath` folder up to the matching `searchPath`,
+    // to avoid retracing these steps when processing sibling resources.
     if (packageJsonTypeMap.has(searchPath)) {
       packageJsonType = packageJsonTypeMap.get(searchPath);
 
       let currentPath = resourceContext;
       while (currentPath !== searchPath) {
-        // We set the found type at least level from this.resourcePath folder up to the matching searchPath
+        // We set the found type at least level from `resourcePath` folder up to the matching `searchPath`
         packageJsonTypeMap.set(currentPath, packageJsonType);
         currentPath = path.dirname(currentPath);
       }
@@ -88,32 +90,32 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
       try {
         const packageObject = JSON.parse(packageSource);
 
-        // Any package.json is sufficient as long as it can be parsed. If it does not explicitly have a type "module"
-        // it will be assumed to be commonjs.
+        // Any package.json is sufficient as long as it can be parsed.
+        // If it does not explicitly have a `type: "module"` it will be assumed to be CommonJS.
         packageJsonType = typeof packageObject.type === 'string' ? packageObject.type : '';
         packageJsonTypeMap.set(searchPath, packageJsonType);
 
-        // We set the type in the cache for all paths from the resourcePath folder up to the
-        // matching searchPath to avoid retracing these steps when processing sibling resources.
+        // We set the type in the cache for all paths from the `resourcePath` folder,
+        // up to the matching `searchPath` to avoid retracing these steps when processing sibling resources.
         let currentPath = resourceContext;
         while (currentPath !== searchPath) {
           packageJsonTypeMap.set(currentPath, packageJsonType);
           currentPath = path.dirname(currentPath);
         }
       } catch (e) {
-        // package.json exists but could not be parsed. we track it as a dependency so we can reload if
-        // this file changes
+        // `package.json` exists but could not be parsed.
+        // We track it as a dependency so we can reload if this file changes.
       }
-      this.addDependency(packageJsonPath);
 
+      this.addDependency(packageJsonPath);
       break;
     } catch (e) {
-      // package.json does not exist. We track it as a missing dependency so we can reload if this
-      // file is added
+      // `package.json` does not exist.
+      // We track it as a missing dependency so we can reload if this file is added.
       this.addMissingDependency(packageJsonPath);
     }
 
-    // try again at the next level up
+    // Try again at the next level up
     previousSearchPath = searchPath;
     searchPath = path.dirname(searchPath);
   }

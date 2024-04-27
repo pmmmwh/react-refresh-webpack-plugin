@@ -1,3 +1,9 @@
+## 0.5.13 (28 Apr 2024)
+
+### Fixes
+
+- Fixed module system inferring (ESM vs CJS) to start from the point of each file (#771)
+
 ## 0.5.12 (27 Apr 2024)
 
 ### Fixes
