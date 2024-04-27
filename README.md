@@ -100,7 +100,9 @@ pnpm add -D type-fest
 
 > **:memo: Note**:
 >
-> `type-fest@2.x` only supports Node.js v12.20 or above.
+> `type-fest@4.x` only supports Node.js v16 or above,
+> `type-fest@3.x` only supports Node.js v14.16 or above,
+> and `type-fest@2.x` only supports Node.js v12.20 or above.
 > If you're using an older version of Node.js, please install `type-fest@1.x`.
 
 </details>
@@ -247,8 +249,8 @@ module.exports = {
 };
 ```
 
-> `ts-loader` won't work with HMR unless `transpileOnly` is set to `true`.
-> You should use `ForkTsCheckerWebpackPlugin` if you need typechecking during development.
+> It is recommended to run `ts-loader` with `transpileOnly` is set to `true`.
+> You can use `ForkTsCheckerWebpackPlugin` as an alternative if you need typechecking during development.
 
 </details>
 
@@ -317,11 +319,11 @@ but you can set the [`overlay.sockIntegration`](docs/API.md#sockintegration) opt
 
 The supported versions are as follows:
 
-| Dependency               | Version           |
-| ------------------------ | ----------------- |
-| `webpack-dev-server`     | `3.6.0`+ or `4.x` |
-| `webpack-hot-middleware` | `2.x`             |
-| `webpack-plugin-serve`   | `0.x` or `1.x`    |
+| Dependency               | Version                    |
+| ------------------------ | -------------------------- |
+| `webpack-dev-server`     | `3.6.0`+ or `4.x` or `5.x` |
+| `webpack-hot-middleware` | `2.x`                      |
+| `webpack-plugin-serve`   | `0.x` or `1.x`             |
 
 ## API
 
