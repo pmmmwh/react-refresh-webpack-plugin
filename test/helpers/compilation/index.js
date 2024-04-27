@@ -47,6 +47,7 @@ async function getCompilation(subContext, options = {}) {
     module: {
       rules: [
         {
+          exclude: /node_modules/,
           test: /\.js$/,
           use: [
             {
