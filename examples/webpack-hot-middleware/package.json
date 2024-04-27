@@ -14,11 +14,11 @@
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "babel-loader": "^8.2.4",
     "cross-env": "^7.0.3",
-    "express": "^4.17.3",
+    "express": "^4.19.2",
     "html-webpack-plugin": "^5.5.0",
     "react-refresh": "^0.14.0",
     "webpack": "^5.76.0",
-    "webpack-dev-middleware": "^5.3.1"
+    "webpack-dev-middleware": "^5.3.4"
   },
   "scripts": {
     "start": "node ./server.js",

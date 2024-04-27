@@ -1,6 +1,6 @@
 {
   "name": "@pmmmwh/react-refresh-webpack-plugin",
-  "version": "0.5.11",
+  "version": "0.5.12",
   "description": "An **EXPERIMENTAL** Webpack plugin to enable \"Fast Refresh\" (also previously known as _Hot Reloading_) for React components.",
   "keywords": [
     "react",
@@ -99,15 +99,16 @@
     "semver": "^7.5.2",
     "sourcemap-validator": "^2.1.0",
     "type-fest": "^4.0.0",
-    "typescript": "~5.1.6",
+    "typescript": "~5.4.5",
     "webpack": "^5.76.0",
-    "webpack-cli": "^4.7.2",
-    "webpack-cli.legacy": "npm:webpack-cli@3.x",
-    "webpack-dev-server": "^4.2.1",
-    "webpack-dev-server.legacy": "npm:webpack-dev-server@3.x",
+    "webpack-cli": "^5.1.4",
+    "webpack-cli-v4": "npm:webpack-cli@4.x",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-dev-server-v3": "npm:webpack-dev-server@3.x",
+    "webpack-dev-server-v4": "npm:webpack-dev-server@4.x",
     "webpack-hot-middleware": "^2.25.0",
     "webpack-plugin-serve": "^1.4.1",
-    "webpack.legacy": "npm:webpack@4.x",
+    "webpack-v4": "npm:webpack@4.x",
     "yalc": "^1.0.0-pre.53",
     "yn": "^4.0.0"
   },
@@ -117,7 +118,7 @@
     "sockjs-client": "^1.4.0",
     "type-fest": ">=0.17.0 <5.0.0",
     "webpack": ">=4.43.0 <6.0.0",
-    "webpack-dev-server": "3.x || 4.x",
+    "webpack-dev-server": "3.x || 4.x || 5.x",
     "webpack-hot-middleware": "2.x",
     "webpack-plugin-serve": "0.x || 1.x"
   },
@@ -146,5 +147,6 @@
   },
   "engines": {
     "node": ">= 10.13"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }
