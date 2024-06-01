@@ -39,12 +39,9 @@
   "scripts": {
     "test": "run-s -c test:pre \"test:exec {@}\" test:post --",
     "test:webpack-4": "cross-env WEBPACK_VERSION=4 yarn test",
-    "test:pre": "run-s yalc:publish yalc:add",
+    "test:pre": "yarn add -D file:./",
     "test:exec": "node scripts/test.js",
-    "test:post": "yarn yalc:clean",
-    "yalc:add": "yalc add --dev @pmmmwh/react-refresh-webpack-plugin",
-    "yalc:clean": "yalc remove --all",
-    "yalc:publish": "yalc publish --no-scripts",
+    "test:post": "yarn remove @pmmmwh/react-refresh-webpack-plugin",
     "lint": "eslint --report-unused-disable-directives --ext .js,.jsx .",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
@@ -108,7 +105,6 @@
     "webpack-hot-middleware": "^2.25.0",
     "webpack-plugin-serve": "^1.4.1",
     "webpack-v4": "npm:webpack@4.x",
-    "yalc": "^1.0.0-pre.53",
     "yn": "^4.0.0"
   },
   "peerDependencies": {
