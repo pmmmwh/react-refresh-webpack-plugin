@@ -1,3 +1,15 @@
+## 0.5.14 (1 Jun 2024)
+
+### Fixes
+
+- Moved to `ansi-html` `v0.0.9` and `schema-utils` `v4.x` (#848)
+
+### Internal
+
+- Run tests on latest versions of Node.js 18, 20 and 22 (#848)
+- Bumped `jest` to v29 and some other development dependencies (#848)
+- Removed `yalc` (#849)
+
 ## 0.5.13 (28 Apr 2024)
 
 ### Fixes
