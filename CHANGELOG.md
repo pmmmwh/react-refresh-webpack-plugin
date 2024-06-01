@@ -1,3 +1,7 @@
+## 0.6.0 (Unknown)
+
+### BREAKING
+
 ## 0.5.16 (31 Mar 2025)
 
 ### Fixes
