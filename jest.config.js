@@ -1,6 +1,7 @@
 module.exports = {
   globalSetup: '<rootDir>/jest-global-setup.js',
   globalTeardown: '<rootDir>/jest-global-teardown.js',
+  prettierPath: null,
   resolver: '<rootDir>/jest-resolver.js',
   rootDir: 'test',
   setupFilesAfterEnv: ['<rootDir>/jest-test-setup.js'],

@@ -6,7 +6,6 @@ jest.mock('../../sockets/utils/getCurrentScriptSource');
 
 import getCurrentScriptSource from '../../sockets/utils/getCurrentScriptSource';
 import getSocketUrlParts from '../../sockets/utils/getSocketUrlParts';
-import mockLocation from '../mocks/location';
 
 describe('getSocketUrlParts', () => {
   beforeEach(() => {
@@ -63,7 +62,7 @@ describe('getSocketUrlParts', () => {
   });
 
   it('should work when script source is relative', () => {
-    mockLocation('http://localhost:8080');
+    window.location.assign('http://localhost:8080');
     getCurrentScriptSource.mockImplementationOnce(() => 'main.js');
 
     expect(getSocketUrlParts()).toStrictEqual({
@@ -76,7 +75,7 @@ describe('getSocketUrlParts', () => {
   });
 
   it('should work when script source port is unavailable', () => {
-    mockLocation('http://localhost:8080');
+    window.location.assign('http://localhost:8080');
     getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost');
 
     expect(getSocketUrlParts()).toStrictEqual({
@@ -89,7 +88,7 @@ describe('getSocketUrlParts', () => {
   });
 
   it('should work when current location is about:blank', () => {
-    mockLocation('about:blank');
+    window.location.assign('about:blank');
     getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost:8080');
 
     expect(getSocketUrlParts()).toStrictEqual({
@@ -102,7 +101,7 @@ describe('getSocketUrlParts', () => {
   });
 
   it('should work when current location uses the file protocol', () => {
-    mockLocation('file://test.html');
+    window.location.assign('file://test.html');
     getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost:8080');
 
     expect(getSocketUrlParts()).toStrictEqual({
@@ -115,7 +114,7 @@ describe('getSocketUrlParts', () => {
   });
 
   it('should use HTTPS when current location uses HTTPS', () => {
-    mockLocation('https://localhost:8080');
+    window.location.assign('https://localhost:8080');
     getCurrentScriptSource.mockImplementationOnce(() => 'http://localhost:8080');
 
     expect(getSocketUrlParts()).toStrictEqual({
@@ -202,7 +201,7 @@ describe('getSocketUrlParts', () => {
   });
 
   it('should throw if script source and resource query are not defined', () => {
-    mockLocation('file://test/');
+    window.location.assign('file://test/');
     getCurrentScriptSource.mockImplementationOnce(() => null);
 
     expect(() => getSocketUrlParts(null)).toThrow(
@@ -211,7 +210,7 @@ describe('getSocketUrlParts', () => {
   });
 
   it('should work when script source has no protocol defined and location is https', () => {
-    mockLocation('https://localhost:8080');
+    window.location.assign('https://localhost:8080');
     getCurrentScriptSource.mockImplementationOnce(() => '//localhost:8080/index.js');
 
     expect(getSocketUrlParts()).toStrictEqual({
@@ -224,7 +223,7 @@ describe('getSocketUrlParts', () => {
   });
 
   it('should work when script source has no protocol defined and location is http', () => {
-    mockLocation('http://localhost:8080');
+    window.location.assign('http://localhost:8080');
     getCurrentScriptSource.mockImplementationOnce(() => '//localhost:8080/index.js');
 
     expect(getSocketUrlParts()).toStrictEqual({

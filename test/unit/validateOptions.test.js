@@ -291,17 +291,17 @@ describe('validateOptions', () => {
         overlay: { sockIntegration: true },
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
-         Details:
-          * options.overlay.sockIntegration should be one of these:
-            false | \\"wds\\" | \\"whm\\" | \\"wps\\" | string
-            Details:
-             * options.overlay.sockIntegration should be equal to constant false.
-             * options.overlay.sockIntegration should be one of these:
-               \\"wds\\" | \\"whm\\" | \\"wps\\"
-             * options.overlay.sockIntegration should be a string."
+     "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+      - options.overlay should be one of these:
+        boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
+        Details:
+         * options.overlay.sockIntegration should be one of these:
+           false | "wds" | "whm" | "wps" | string
+           Details:
+            * options.overlay.sockIntegration should be equal to constant false.
+            * options.overlay.sockIntegration should be one of these:
+              "wds" | "whm" | "wps"
+            * options.overlay.sockIntegration should be a string."
     `);
   });
 
@@ -403,9 +403,9 @@ describe('validateOptions', () => {
         overlay: { sockProtocol: true },
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.sockProtocol should be one of these:
-         \\"http\\" | \\"https\\" | \\"ws\\" | \\"wss\\""
+     "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+      - options.overlay.sockProtocol should be one of these:
+        "http" | "https" | "ws" | "wss""
     `);
   });
 

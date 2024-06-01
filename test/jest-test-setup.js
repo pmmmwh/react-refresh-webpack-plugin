@@ -1,3 +1,5 @@
+require('jest-location-mock');
+
 /**
  * Skips a test block conditionally.
  * @param {boolean} condition The condition to skip the test block.

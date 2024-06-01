@@ -1,9 +1,9 @@
-const NodeEnvironment = require('jest-environment-node');
+const { TestEnvironment } = require('jest-environment-node');
 const puppeteer = require('puppeteer');
 const semver = require('semver');
 const yn = require('yn');
 
-class SandboxEnvironment extends NodeEnvironment {
+class SandboxEnvironment extends TestEnvironment {
   async setup() {
     await super.setup();
 
