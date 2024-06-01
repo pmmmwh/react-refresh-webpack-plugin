@@ -1,3 +1,7 @@
+## 0.6.0 (Unknown)
+
+### BREAKING
+
 ## 0.5.14 (1 Jun 2024)
 
 ### Fixes
