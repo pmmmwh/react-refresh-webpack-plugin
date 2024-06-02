@@ -19,6 +19,4 @@ yarn-error.log*
 .vscode
 
 # test artifacts
-*.yalc
 *__tmp__
-yalc.lock
