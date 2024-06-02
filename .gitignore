@@ -5,6 +5,7 @@
 
 # distribution
 *dist
+client-external.js
 
 # misc
 .DS_Store
