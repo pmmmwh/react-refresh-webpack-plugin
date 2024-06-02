@@ -5,7 +5,7 @@ anchors:
     - '18.20'
     - '20.14'
     - '22.2'
-  - &webpack-version-enum
+  - &wds-version-enum
     - '4'
     - '5'
   - &node-version-param
@@ -13,10 +13,10 @@ anchors:
       default: '20.14'
       enum: *node-version-enum
       type: enum
-  - &webpack-version-param
-    webpack-version:
+  - &wds-version-param
+    wds-version:
       default: '5'
-      enum: *webpack-version-enum
+      enum: *wds-version-enum
       type: enum
 
 commands:
@@ -70,26 +70,13 @@ jobs:
       node-version: << parameters.node-version >>
     parameters:
       <<: *node-version-param
-      <<: *webpack-version-param
+      <<: *wds-version-param
     parallelism: 4
     working_directory: ~/project
     steps:
       - checkout
       - install-deps:
           node-version: << parameters.node-version >>
-      - when:
-          condition:
-            equal:
-              - '4'
-              - << parameters.webpack-version >>
-          steps:
-            - run:
-                name: Use legacy OpenSSL provider if necessary
-                command: |-
-                  if node scripts/node-version.js; then
-                    echo "export NODE_OPTIONS=--openssl-legacy-provider" >> $BASH_ENV
-                    source $BASH_ENV
-                  fi
       - run:
           name: Run Tests
           command: |
@@ -99,7 +86,7 @@ jobs:
             JEST_JUNIT_ADD_FILE_ATTRIBUTE: 'true'
             JEST_JUNIT_OUTPUT_DIR: test-results/jest
             JEST_JUNIT_OUTPUT_NAME: results.xml
-            WEBPACK_VERSION: << parameters.webpack-version >>
+            WDS_VERSION: << parameters.wds-version >>
       - store_test_results:
           path: test-results
       - store_artifacts:
@@ -113,5 +100,5 @@ workflows:
           matrix:
             parameters:
               node-version: *node-version-enum
-              webpack-version: *webpack-version-enum
-          name: test/node:<< matrix.node-version >>/webpack:<< matrix.webpack-version >>
+              wds-version: *wds-version-enum
+          name: test/node:<< matrix.node-version >>/wds:<< matrix.wds-version >>
