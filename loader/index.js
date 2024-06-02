@@ -5,7 +5,6 @@
 const originalFetch = global.fetch;
 delete global.fetch;
 
-const { getOptions } = require('loader-utils');
 const { validate: validateOptions } = require('schema-utils');
 const { SourceMapConsumer, SourceNode } = require('source-map');
 const {
@@ -32,7 +31,7 @@ const RefreshRuntimePath = require
  * @returns {void}
  */
 function ReactRefreshLoader(source, inputSourceMap, meta) {
-  let options = getOptions(this);
+  let options = this.getOptions();
   validateOptions(schema, options, {
     baseDataPath: 'options',
     name: 'React Refresh Loader',

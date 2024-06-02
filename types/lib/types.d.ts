@@ -8,31 +8,11 @@ export type ErrorOverlayOptions = {
    */
   module?: string | false | undefined;
   /**
-   * The socket host to use (WDS only).
-   */
-  sockHost?: string | undefined;
-  /**
    * Path to a JS file that sets up the Webpack socket integration.
    */
   sockIntegration?:
     | import('type-fest').LiteralUnion<false | 'wds' | 'whm' | 'wps', string>
     | undefined;
-  /**
-   * The socket path to use (WDS only).
-   */
-  sockPath?: string | undefined;
-  /**
-   * The socket port to use (WDS only).
-   */
-  sockPort?: number | undefined;
-  /**
-   * The socket protocol to use (WDS only).
-   */
-  sockProtocol?: 'http' | 'https' | 'ws' | 'wss' | undefined;
-  /**
-   * Uses a polyfill for the DOM URL API (WDS only).
-   */
-  useURLPolyfill?: boolean | undefined;
 };
 export type NormalizedErrorOverlayOptions = import('type-fest').SetRequired<
   ErrorOverlayOptions,

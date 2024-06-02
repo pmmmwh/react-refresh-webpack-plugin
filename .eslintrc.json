@@ -32,7 +32,6 @@
       "globals": {
         "__DEBUG__": true,
         "WDS_VERSION": true,
-        "WEBPACK_VERSION": true,
         "browser": true,
         "window": true
       },
