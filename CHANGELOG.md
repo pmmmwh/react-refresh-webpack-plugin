@@ -2,6 +2,14 @@
 
 ### BREAKING
 
+- Minimum required Node.js version have been bumped to `18.12.0`.
+- Minimum required `webpack` version have been bumped to `5.0.0`.
+- Minimum supported `webpack-dev-server` version have been bumped to `4.8.0`.
+- Minimum supported `webpack-plugin-serve` version have been bumped to `1.0.0`.
+- `overlay.sockHost`, `overlay.sockPath`, `overlay.sockPort`, `overlay.sockProtocol` and `overlay.useURLPolyfill` have all been removed (#850).
+  It was necessary to support WDS below `4.8.0` (published in April 2022),
+  but is no-longer needed as a direct integration with WDS is now possible.
+
 ## 0.5.14 (1 Jun 2024)
 
 ### Fixes
