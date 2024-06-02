@@ -143,14 +143,14 @@ describe('validateOptions', () => {
     expect(() => {
       new ReactRefreshPlugin({ overlay: 'overlay' });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
-         Details:
-          * options.overlay should be a boolean.
-          * options.overlay should be an object:
-            object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }"
-    `);
+"Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+ - options.overlay should be one of these:
+   boolean | object { entry?, module?, sockIntegration? }
+   Details:
+    * options.overlay should be a boolean.
+    * options.overlay should be an object:
+      object { entry?, module?, sockIntegration? }"
+`);
   });
 
   it('should accept "overlay.entry" when it is an absolute path string', () => {
@@ -183,16 +183,16 @@ describe('validateOptions', () => {
         overlay: { entry: true },
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
-         Details:
-          * options.overlay.entry should be one of these:
-            false | string
-            Details:
-             * options.overlay.entry should be equal to constant false.
-             * options.overlay.entry should be a string."
-    `);
+"Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+ - options.overlay should be one of these:
+   boolean | object { entry?, module?, sockIntegration? }
+   Details:
+    * options.overlay.entry should be one of these:
+      false | string
+      Details:
+       * options.overlay.entry should be equal to constant false.
+       * options.overlay.entry should be a string."
+`);
   });
 
   it('should accept "overlay.module" when it is an absolute path string', () => {
@@ -225,16 +225,16 @@ describe('validateOptions', () => {
         overlay: { module: true },
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay should be one of these:
-         boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
-         Details:
-          * options.overlay.module should be one of these:
-            false | string
-            Details:
-             * options.overlay.module should be equal to constant false.
-             * options.overlay.module should be a string."
-    `);
+"Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+ - options.overlay should be one of these:
+   boolean | object { entry?, module?, sockIntegration? }
+   Details:
+    * options.overlay.module should be one of these:
+      false | string
+      Details:
+       * options.overlay.module should be equal to constant false.
+       * options.overlay.module should be a string."
+`);
   });
 
   it('should accept "overlay.sockIntegration" when it is "wds"', () => {
@@ -291,122 +291,18 @@ describe('validateOptions', () => {
         overlay: { sockIntegration: true },
       });
     }).toThrowErrorMatchingInlineSnapshot(`
-     "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-      - options.overlay should be one of these:
-        boolean | object { entry?, module?, sockIntegration?, sockHost?, sockPath?, sockPort?, sockProtocol?, useURLPolyfill? }
-        Details:
-         * options.overlay.sockIntegration should be one of these:
-           false | "wds" | "whm" | "wps" | string
-           Details:
-            * options.overlay.sockIntegration should be equal to constant false.
-            * options.overlay.sockIntegration should be one of these:
-              "wds" | "whm" | "wps"
-            * options.overlay.sockIntegration should be a string."
-    `);
-  });
-
-  it('should accept "overlay.sockHost" when it is a string', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockHost: 'test' },
-      });
-    }).not.toThrow();
-  });
-
-  it('should reject "overlay.sockHost" when it is not a string', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockHost: true },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.sockHost should be a string."
-    `);
-  });
-
-  it('should accept "overlay.sockPath" when it is a string', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockPath: 'test' },
-      });
-    }).not.toThrow();
-  });
-
-  it('should reject "overlay.sockPath" when it is not a string', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockPath: true },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.sockPath should be a string."
-    `);
-  });
-
-  it('should accept "overlay.sockPort" when it is 0', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockPort: 0 },
-      });
-    }).not.toThrow();
-  });
-
-  it('should accept "overlay.sockPort" when it is a positive number', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockPort: 1 },
-      });
-    }).not.toThrow();
-  });
-
-  it('should reject "overlay.sockPort" when it is a negative number', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockPort: -1 },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.sockPort should be >= 0."
-    `);
-  });
-
-  it('should reject "overlay.sockPort" when it is not a number', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockPort: '1' },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`
-      "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-       - options.overlay.sockPort should be a number (should be >= 0)."
-    `);
-  });
-
-  it('should accept "overlay.sockProtocol" when it is "http"', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockProtocol: 'http' },
-      });
-    }).not.toThrow();
-  });
-
-  it('should accept "overlay.sockProtocol" when it is "https"', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockProtocol: 'https' },
-      });
-    }).not.toThrow();
-  });
-
-  it('should reject "overlay.sockProtocol" when it is not "http", "https", "ws" nor "wss"', () => {
-    expect(() => {
-      new ReactRefreshPlugin({
-        overlay: { sockProtocol: true },
-      });
-    }).toThrowErrorMatchingInlineSnapshot(`
-     "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
-      - options.overlay.sockProtocol should be one of these:
-        "http" | "https" | "ws" | "wss""
-    `);
+"Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+ - options.overlay should be one of these:
+   boolean | object { entry?, module?, sockIntegration? }
+   Details:
+    * options.overlay.sockIntegration should be one of these:
+      false | "wds" | "whm" | "wps" | string
+      Details:
+       * options.overlay.sockIntegration should be equal to constant false.
+       * options.overlay.sockIntegration should be one of these:
+         "wds" | "whm" | "wps"
+       * options.overlay.sockIntegration should be a string."
+`);
   });
 
   it('should reject any unknown options', () => {

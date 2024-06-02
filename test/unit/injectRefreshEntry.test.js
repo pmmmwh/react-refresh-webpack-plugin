@@ -40,30 +40,26 @@ describe('injectRefreshEntry', () => {
     });
   });
 
-  it.skipIf(
-    WEBPACK_VERSION !== 5,
-    'should add entries to an object using entry description',
-    () => {
-      expect(
-        injectRefreshEntry(
-          {
-            main: {
-              dependOn: 'vendors',
-              import: 'test.js',
-            },
-            vendor: ['react', 'react-dom'],
+  it('should add entries to an object using entry description', () => {
+    expect(
+      injectRefreshEntry(
+        {
+          main: {
+            dependOn: 'vendors',
+            import: 'test.js',
           },
-          DEFAULT_ENTRIES
-        )
-      ).toStrictEqual({
-        main: {
-          dependOn: 'vendors',
-          import: [ReactRefreshEntry, ErrorOverlayEntry, 'test.js'],
+          vendor: ['react', 'react-dom'],
         },
-        vendor: [ReactRefreshEntry, ErrorOverlayEntry, 'react', 'react-dom'],
-      });
-    }
-  );
+        DEFAULT_ENTRIES
+      )
+    ).toStrictEqual({
+      main: {
+        dependOn: 'vendors',
+        import: [ReactRefreshEntry, ErrorOverlayEntry, 'test.js'],
+      },
+      vendor: [ReactRefreshEntry, ErrorOverlayEntry, 'react', 'react-dom'],
+    });
+  });
 
   it('should add entries to a synchronous function', () => {
     const returnedEntry = injectRefreshEntry(() => 'test.js', DEFAULT_ENTRIES);

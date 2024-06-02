@@ -63,17 +63,14 @@ describe('getRefreshGlobal', () => {
     expect(typeof refreshGlobal.signature).toBe('function');
   });
 
-  it.skipIf(
-    WEBPACK_VERSION !== 5,
-    'should return working refresh global with provided runtime globals and runtime template',
-    () => {
-      const RuntimeTemplate = require('webpack/lib/RuntimeTemplate');
-      const refreshGlobalTemplate = getRefreshGlobal(
-        Template,
-        RuntimeGlobals,
-        new RuntimeTemplate({}, { environment: { arrowFunction: true, const: true } }, (i) => i)
-      );
-      expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
+  it('should return working refresh global with provided runtime globals and runtime template', () => {
+    const RuntimeTemplate = require('webpack/lib/RuntimeTemplate');
+    const refreshGlobalTemplate = getRefreshGlobal(
+      Template,
+      RuntimeGlobals,
+      new RuntimeTemplate({}, { environment: { arrowFunction: true, const: true } }, (i) => i)
+    );
+    expect(refreshGlobalTemplate).toMatchInlineSnapshot(`
        "__webpack_require__.$Refresh$ = {
        	register: () => (undefined),
        	signature: () => ((type) => (type)),
@@ -107,21 +104,20 @@ describe('getRefreshGlobal', () => {
        	}
        };"
       `);
-      expect(() => {
-        eval(refreshGlobalTemplate);
-      }).not.toThrow();
+    expect(() => {
+      eval(refreshGlobalTemplate);
+    }).not.toThrow();
 
-      const refreshGlobal = global.__webpack_require__.$Refresh$;
-      expect(() => {
-        refreshGlobal.setup('1');
-      }).not.toThrow();
-      expect(refreshGlobal.moduleId).toBe('1');
-      expect(typeof refreshGlobal.runtime).toBe('object');
-      expect(typeof refreshGlobal.runtime.createSignatureFunctionForTransform).toBe('function');
-      expect(typeof refreshGlobal.runtime.register).toBe('function');
-      expect(typeof refreshGlobal.cleanup).toBe('function');
-      expect(typeof refreshGlobal.register).toBe('function');
-      expect(typeof refreshGlobal.signature).toBe('function');
-    }
-  );
+    const refreshGlobal = global.__webpack_require__.$Refresh$;
+    expect(() => {
+      refreshGlobal.setup('1');
+    }).not.toThrow();
+    expect(refreshGlobal.moduleId).toBe('1');
+    expect(typeof refreshGlobal.runtime).toBe('object');
+    expect(typeof refreshGlobal.runtime.createSignatureFunctionForTransform).toBe('function');
+    expect(typeof refreshGlobal.runtime.register).toBe('function');
+    expect(typeof refreshGlobal.cleanup).toBe('function');
+    expect(typeof refreshGlobal.register).toBe('function');
+    expect(typeof refreshGlobal.signature).toBe('function');
+  });
 });

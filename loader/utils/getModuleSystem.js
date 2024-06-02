@@ -1,5 +1,5 @@
-const { promises: fsPromises } = require('fs');
-const path = require('path');
+const fs = require('node:fs/promises');
+const path = require('node:path');
 
 /** @type {Map<string, string | undefined>} */
 let packageJsonTypeMap = new Map();
@@ -86,7 +86,7 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
 
     let packageJsonPath = path.join(searchPath, 'package.json');
     try {
-      const packageSource = await fsPromises.readFile(packageJsonPath, 'utf-8');
+      const packageSource = await fs.readFile(packageJsonPath, 'utf-8');
       try {
         const packageObject = JSON.parse(packageSource);
 

@@ -1,8 +1,7 @@
-/* global __react_refresh_error_overlay__, __react_refresh_socket__, __resourceQuery */
+/* global __react_refresh_error_overlay__, __react_refresh_socket__ */
 
 const events = require('./utils/errorEventHandlers.js');
 const formatWebpackErrors = require('./utils/formatWebpackErrors.js');
-const runWithPatchedUrl = require('./utils/patchUrl.js');
 const runWithRetry = require('./utils/retry.js');
 
 // Setup error states
@@ -74,27 +73,29 @@ function compileMessageHandler(message) {
 
 if (process.env.NODE_ENV !== 'production') {
   if (typeof window !== 'undefined') {
-    runWithPatchedUrl(function setupOverlay() {
-      // Only register if no other overlay have been registered
-      if (!window.__reactRefreshOverlayInjected && __react_refresh_socket__) {
-        // Registers handlers for compile errors with retry -
-        // This is to prevent mismatching injection order causing errors to be thrown
-        runWithRetry(function initSocket() {
-          __react_refresh_socket__.init(compileMessageHandler, __resourceQuery);
-        }, 3);
-        // Registers handlers for runtime errors
-        events.handleError(function handleError(error) {
-          hasRuntimeErrors = true;
-          __react_refresh_error_overlay__.handleRuntimeError(error);
-        });
-        events.handleUnhandledRejection(function handleUnhandledPromiseRejection(error) {
-          hasRuntimeErrors = true;
-          __react_refresh_error_overlay__.handleRuntimeError(error);
-        });
+    // Only register if no other overlay have been registered
+    if (!window.__reactRefreshOverlayInjected && __react_refresh_socket__) {
+      // Registers handlers for compile errors with retry -
+      // This is to prevent mismatching injection order causing errors to be thrown
+      runWithRetry(
+        function initSocket() {
+          __react_refresh_socket__.init(compileMessageHandler);
+        },
+        3,
+        'Failed to set up the socket connection.'
+      );
+      // Registers handlers for runtime errors
+      events.handleError(function handleError(error) {
+        hasRuntimeErrors = true;
+        __react_refresh_error_overlay__.handleRuntimeError(error);
+      });
+      events.handleUnhandledRejection(function handleUnhandledPromiseRejection(error) {
+        hasRuntimeErrors = true;
+        __react_refresh_error_overlay__.handleRuntimeError(error);
+      });
 
-        // Mark overlay as injected to prevent double-injection
-        window.__reactRefreshOverlayInjected = true;
-      }
-    });
+      // Mark overlay as injected to prevent double-injection
+      window.__reactRefreshOverlayInjected = true;
+    }
   }
 }

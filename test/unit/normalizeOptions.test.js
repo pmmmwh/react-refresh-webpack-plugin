@@ -26,12 +26,7 @@ describe('normalizeOptions', () => {
         overlay: {
           entry: 'entry',
           module: 'overlay',
-          sockHost: 'localhost',
           sockIntegration: 'whm',
-          sockPath: '/socket',
-          sockPort: 9000,
-          sockProtocol: 'https',
-          useURLPolyfill: true,
         },
       })
     ).toStrictEqual({
@@ -42,12 +37,7 @@ describe('normalizeOptions', () => {
       overlay: {
         entry: 'entry',
         module: 'overlay',
-        sockHost: 'localhost',
         sockIntegration: 'whm',
-        sockPath: '/socket',
-        sockPort: 9000,
-        sockProtocol: 'https',
-        useURLPolyfill: true,
       },
     });
   });
