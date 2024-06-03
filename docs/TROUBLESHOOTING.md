@@ -268,9 +268,21 @@ but do note that React DevTools does not inject hooks over a frame boundary (`if
 **Externalise React Refresh**
 
 If all solutions above are not applicable, you can also externalise `react-refresh/runtime` together with React.
+We provide an entrypoint to easily achieve this - `@pmmmwh/react-refresh-webpack-plugin/umd/client.min.js`.
 
-Using this, however, would require you to ensure the injected entry from this plugin is executed before React.
-You can check out [this sandbox](https://codesandbox.io/s/react-refresh-externals-14fpn) for an example on how this could be done.
+If you would like to use the provided script, ensure that it is loaded before React and/or React-DOM.
+You can load this script via any CDN for `npm`, such as `jsDelivr` and `unpkg`:
+
+```html
+<!-- if you prefer jsDelivr -->
+<script src=" https://cdn.jsdelivr.net/npm/@pmmmwh/react-refresh-webpack-plugin@^0.6.0/umd/client.min.js "></script>
+
+<!-- if you prefer unpkg -->
+<script src="https://unpkg.com/@pmmmwh/react-refresh-webpack-plugin@^0.6.0/umd/client.min.js"></script>
+```
+
+If you don't want to use the provided script,
+you can check out [this sandbox](https://codesandbox.io/s/react-refresh-externals-14fpn) for an example on how this could be done manually.
 
 ## Running multiple instances of React Refresh simultaneously
 

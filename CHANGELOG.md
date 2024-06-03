@@ -10,6 +10,10 @@
   It was necessary to support WDS below `4.8.0` (published in April 2022),
   but is no-longer needed as a direct integration with WDS is now possible.
 
+### Features
+
+- Added helper script to better support use cases where React and/or React-DOM are externalized (#852)
+
 ## 0.5.16 (31 Mar 2025)
 
 ### Fixes
