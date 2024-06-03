@@ -34,7 +34,8 @@
     "options",
     "overlay",
     "sockets",
-    "types"
+    "types",
+    "umd"
   ],
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610",
   "scripts": {
@@ -54,8 +55,9 @@
     "types:clean": "rimraf types",
     "types:compile": "tsc -p tsconfig.json",
     "types:prune-private": "del \"types/*/*\" \"!types/{lib,loader,options}/{index,types}.d.ts\"",
-    "generate-types": "run-s types:clean types:compile types:prune-private \"format --loglevel silent\"",
-    "prepublishOnly": "yarn generate-types"
+    "generate:client-external": "webpack",
+    "generate:types": "run-s types:clean types:compile types:prune-private \"format --log-level silent\"",
+    "prepublishOnly": "run-p generate:*"
   },
   "dependencies": {
     "ansi-html": "^0.0.9",
@@ -97,6 +99,7 @@
     "puppeteer": "^22.10.0",
     "react-refresh": "^0.14.2",
     "sourcemap-validator": "^2.1.0",
+    "terser-webpack-plugin": "^5.3.10",
     "type-fest": "^4.18.3",
     "typescript": "~5.4.5",
     "webpack": "^5.91.0",
