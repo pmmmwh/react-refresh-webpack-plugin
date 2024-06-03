@@ -5,7 +5,7 @@
 
 # distribution
 *dist
-client-external.js
+*umd
 
 # misc
 .DS_Store

@@ -4,13 +4,22 @@ const TerserPlugin = require('terser-webpack-plugin');
 module.exports = {
   mode: 'production',
   entry: {
-    'client-external': './client/ReactRefreshEntry.js',
+    client: './client/ReactRefreshEntry.js',
   },
   optimization: {
     minimize: true,
-    minimizer: [new TerserPlugin({ extractComments: false })],
+    minimizer: [
+      new TerserPlugin({
+        extractComments: false,
+        terserOptions: {
+          format: { comments: false },
+        },
+      }),
+    ],
+    nodeEnv: 'development',
   },
   output: {
-    path: path.resolve(__dirname),
+    filename: '[name].min.js',
+    path: path.resolve(__dirname, 'umd'),
   },
 };
