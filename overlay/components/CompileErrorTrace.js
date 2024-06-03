@@ -1,4 +1,4 @@
-const ansiHTML = require('ansi-html-community');
+const ansiHTML = require('ansi-html');
 const entities = require('html-entities');
 const theme = require('../theme.js');
 const utils = require('../utils.js');
