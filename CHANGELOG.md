@@ -1,3 +1,9 @@
+## 0.5.15 (3 Jun 2024)
+
+### Fixes
+
+- Fixed wrong import in error overlay for `ansi-html` (#853)
+
 ## 0.5.14 (1 Jun 2024)
 
 ### Fixes
