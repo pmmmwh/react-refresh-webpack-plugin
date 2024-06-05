@@ -40,19 +40,14 @@ function RuntimeErrorStack(document, root, props) {
     const currentStack = errorStacks[i];
 
     const functionName = document.createElement('code');
-    functionName.innerHTML = `&emsp;${(currentStack.functionName || '(anonymous function)')}`;
+    functionName.innerHTML = `&emsp;${currentStack.functionName || '(anonymous function)'}`;
     functionName.style.color = theme.yellow;
     functionName.style.fontFamily = [
-      '"Operator Mono SSm"',
-      '"Operator Mono"',
-      '"Fira Code Retina"',
-      '"Fira Code"',
-      '"FiraCode-Retina"',
-      '"Andale Mono"',
-      '"Lucida Console"',
-      'Menlo',
+      '"SFMono-Regular"',
       'Consolas',
-      'Monaco',
+      'Liberation Mono',
+      'Menlo',
+      'Courier',
       'monospace',
     ].join(', ');
 

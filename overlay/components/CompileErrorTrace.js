@@ -30,16 +30,11 @@ function CompileErrorTrace(document, root, props) {
 
   const stackContainer = document.createElement('pre');
   stackContainer.style.fontFamily = [
-    '"Operator Mono SSm"',
-    '"Operator Mono"',
-    '"Fira Code Retina"',
-    '"Fira Code"',
-    '"FiraCode-Retina"',
-    '"Andale Mono"',
-    '"Lucida Console"',
-    'Menlo',
+    '"SFMono-Regular"',
     'Consolas',
-    'Monaco',
+    'Liberation Mono',
+    'Menlo',
+    'Courier',
     'monospace',
   ].join(', ');
   stackContainer.style.margin = '0';

@@ -127,18 +127,7 @@ function OverlayRoot(document, root) {
   div.style.backgroundColor = theme.background;
   div.style.boxSizing = 'border-box';
   div.style.color = theme.white;
-  div.style.fontFamily = [
-    '-apple-system',
-    'BlinkMacSystemFont',
-    '"Segoe UI"',
-    '"Helvetica Neue"',
-    'Helvetica',
-    'Arial',
-    'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    'Segoe UI Symbol',
-  ].join(', ');
+  div.style.fontFamily = ['-apple-system', '"Source Sans Pro"', 'sans-serif'].join(', ');
   div.style.fontSize = '0.875rem';
   div.style.height = '100%';
   div.style.lineHeight = '1.3';
