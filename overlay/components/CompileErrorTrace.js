@@ -1,9 +1,6 @@
-const ansiHTML = require('ansi-html');
+const Anser = require('anser');
 const entities = require('html-entities');
-const theme = require('../theme.js');
 const utils = require('../utils.js');
-
-ansiHTML.setColors(theme);
 
 /**
  * @typedef {Object} CompileErrorTraceProps
@@ -32,25 +29,42 @@ function CompileErrorTrace(document, root, props) {
   }
 
   const stackContainer = document.createElement('pre');
-  stackContainer.innerHTML = entities.decode(
-    ansiHTML(entities.encode(errorParts.join('\n'), { level: 'html5', mode: 'nonAscii' })),
-    { level: 'html5' }
-  );
   stackContainer.style.fontFamily = [
-    '"Operator Mono SSm"',
-    '"Operator Mono"',
-    '"Fira Code Retina"',
-    '"Fira Code"',
-    '"FiraCode-Retina"',
-    '"Andale Mono"',
-    '"Lucida Console"',
-    'Menlo',
+    '"SFMono-Regular"',
     'Consolas',
-    'Monaco',
+    'Liberation Mono',
+    'Menlo',
+    'Courier',
     'monospace',
   ].join(', ');
   stackContainer.style.margin = '0';
   stackContainer.style.whiteSpace = 'pre-wrap';
+
+  const entries = Anser.ansiToJson(
+    entities.encode(errorParts.join('\n'), { level: 'html5', mode: 'nonAscii' }),
+    {
+      json: true,
+      remove_empty: true,
+      use_classes: true,
+    }
+  );
+  for (let i = 0; i < entries.length; i += 1) {
+    const entry = entries[i];
+    const elem = document.createElement('span');
+    elem.innerHTML = entry.content;
+    elem.style.color = entry.fg ? `var(--color-${entry.fg})` : undefined;
+    elem.style.wordBreak = 'break-word';
+    switch (entry.decoration) {
+      case 'bold':
+        elem.style.fontWeight = 800;
+        break;
+      case 'italic':
+        elem.style.fontStyle = 'italic';
+        break;
+    }
+
+    stackContainer.appendChild(elem);
+  }
 
   root.appendChild(stackContainer);
 }
