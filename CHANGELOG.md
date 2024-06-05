@@ -13,6 +13,7 @@
 ### Features
 
 - Added helper script to better support use cases where React and/or React-DOM are externalized (#852)
+- Migrated from `ansi-html` to `anser` in error overlay (#854)
 
 ## 0.5.15 (3 Jun 2024)
 
