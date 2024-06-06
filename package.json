@@ -56,7 +56,7 @@
     "types:compile": "tsc -p tsconfig.json",
     "types:prune-private": "del \"types/*/*\" \"!types/{lib,loader,options}/{index,types}.d.ts\"",
     "generate:client-external": "webpack",
-    "generate:types": "run-s types:clean types:compile types:prune-private \"format --log-level silent\"",
+    "generate:types": "run-s types:clean types:compile types:prune-private \"format --log-level=silent\"",
     "prepublishOnly": "run-p generate:*"
   },
   "dependencies": {
