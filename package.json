@@ -141,7 +141,9 @@
     }
   },
   "resolutions": {
-    "type-fest": "^4.0.0"
+    "memfs": "^4.0.0",
+    "rimraf": "^5.0.0",
+    "type-fest": "^4.20.0"
   },
   "engines": {
     "node": ">=18.12"
