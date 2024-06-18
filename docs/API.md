@@ -150,11 +150,6 @@ interface ErrorOverlayOptions {
   entry?: string | false;
   module?: string | false;
   sockIntegration?: 'wds' | 'whm' | 'wps' | false | string;
-  sockHost?: string;
-  sockPath?: string;
-  sockPort?: number;
-  sockProtocol?: 'http' | 'https' | 'ws' | 'wss';
-  useURLPolyfill?: boolean;
 }
 ```
 
@@ -223,58 +218,3 @@ Common HMR integrations (for Webpack) are support by this plugin out-of-the-box:
 If you use any other HMR integrations (e.g. custom ones), or if you want to customise how the connection is being setup,
 you will need to implement a message client in the provided file/module.
 You can reference implementations inside the [`sockets`](https://github.com/pmmmwh/react-refresh-webpack-plugin/tree/main/sockets) directory.
-
-#### `sockHost`
-
-Default: Parsed from current URL
-
-Type: `string`
-
-**This is relevant for `webpack-dev-server` only.**
-
-Set a custom host for the error overlay to listen to Webpack build messages.
-Useful if you set `devServer.sockHost` to something other than `window.location.hostname`.
-
-#### `sockPort`
-
-Default: Parsed from current URL
-
-Type: `number`
-
-**This is relevant for `webpack-dev-server` only.**
-
-Set a custom port for the error overlay to listen to Webpack build messages.
-Useful if you set `devServer.sockPort` to something other than `window.location.port`.
-
-#### `sockPath`
-
-Default: `/ws` for WDS v4, `/sockjs-node` for WDS v3
-
-Type: `string`
-
-**This is relevant for `webpack-dev-server` only.**
-
-Set a custom path for the error overlay to listen to Webpack build messages.
-Useful if you set `devServer.sockPath` to something other than `/sockjs-node`.
-
-#### `sockProtocol`
-
-Default: Parsed from current URL
-
-Type: `http`, `https`, `ws` or `wss`
-
-**This is relevant for `webpack-dev-server` only.**
-
-Force a protocol for the error overlay to listen for Webpack build messages.
-Useful if you want to enforce https communication, or if you're working under a non-HTTP path.
-
-#### `useURLPolyfill`
-
-Default: Detected from availability in the global scope
-
-Type: `boolean`
-
-**This is relevant for `webpack-dev-server` only.**
-
-Uses a polyfill for the DOM URL API to maintain compatibility in IE11.
-This is only applied to code from the plugin.

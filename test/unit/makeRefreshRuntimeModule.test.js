@@ -1,6 +1,6 @@
 const makeRefreshRuntimeModule = require('../../lib/utils/makeRefreshRuntimeModule');
 
-describe.skipIf(WEBPACK_VERSION !== 5, 'makeRefreshRuntimeModule', () => {
+describe('makeRefreshRuntimeModule', () => {
   beforeEach(() => {
     global.__webpack_require__ = { i: [] };
   });
