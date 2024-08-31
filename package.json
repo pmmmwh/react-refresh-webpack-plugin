@@ -96,7 +96,7 @@
     "sourcemap-validator": "^2.1.0",
     "type-fest": "^4.0.0",
     "typescript": "~5.4.5",
-    "webpack": "^5.76.0",
+    "webpack": "^5.94.0",
     "webpack-cli": "^5.1.4",
     "webpack-cli-v4": "npm:webpack-cli@4.x",
     "webpack-dev-server": "^5.0.4",
