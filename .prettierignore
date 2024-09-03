@@ -1,3 +1,4 @@
 *dist/
 *node_modules/
+*umd/
 *__tmp__

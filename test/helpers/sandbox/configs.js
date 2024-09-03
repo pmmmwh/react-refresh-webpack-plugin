@@ -71,7 +71,7 @@ module.exports = {
     ],
   },
   output: {
-    hashFunction: ${WEBPACK_VERSION === 4 ? "'sha1'" : "'xxhash64'"},
+    hashFunction: 'xxhash64',
   },
   plugins: [
     new DefinePlugin({ __react_refresh_test__: true }),
@@ -85,8 +85,6 @@ module.exports = {
   resolve: {
     alias: ${JSON.stringify(
       {
-        ...(WEBPACK_VERSION === 4 && { webpack: 'webpack-v4' }),
-        ...(WDS_VERSION === 3 && { 'webpack-dev-server': 'webpack-dev-server-v3' }),
         ...(WDS_VERSION === 4 && { 'webpack-dev-server': 'webpack-dev-server-v4' }),
       },
       null,

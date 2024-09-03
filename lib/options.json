@@ -45,12 +45,7 @@
             { "enum": ["wds", "whm", "wps"] },
             { "$ref": "#/definitions/Path" }
           ]
-        },
-        "sockHost": { "type": "string" },
-        "sockPath": { "type": "string" },
-        "sockPort": { "type": "number", "minimum": 0 },
-        "sockProtocol": { "enum": ["http", "https", "ws", "wss"] },
-        "useURLPolyfill": { "type": "boolean" }
+        }
       }
     }
   },

@@ -16,9 +16,9 @@ const theme = require('../theme.js');
  */
 function RuntimeErrorHeader(document, root, props) {
   const header = document.createElement('div');
-  header.innerText = 'Error ' + (props.currentErrorIndex + 1) + ' of ' + props.totalErrors;
-  header.style.backgroundColor = '#' + theme.red;
-  header.style.color = '#' + theme.white;
+  header.innerText = `Error ${props.currentErrorIndex + 1} of ${props.totalErrors}`;
+  header.style.backgroundColor = theme.red;
+  header.style.color = theme.white;
   header.style.fontWeight = '500';
   header.style.height = '2.5rem';
   header.style.left = '0';
