@@ -13,9 +13,6 @@ const yn = require('yn');
 let argv = process.argv.slice(2);
 
 if (yn(process.env.CI)) {
-  // Force headless mode in CI environments
-  process.env.HEADLESS = 'true';
-
   // Use CI mode
   argv.push('--ci');
   // Parallelized puppeteer tests have high memory overhead in CI environments.

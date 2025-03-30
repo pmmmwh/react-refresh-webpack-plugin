@@ -1,3 +1,7 @@
+/**
+ * @jest-environment <rootDir>/conformance/environment
+ */
+
 const getSandbox = require('../helpers/sandbox');
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1028-L1087
