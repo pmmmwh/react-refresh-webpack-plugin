@@ -29,6 +29,7 @@ We recommend using the following versions:
 
 | Dependency      | Version                              |
 | --------------- | ------------------------------------ |
+| `Node.js`       | `18.12.0`+, `20.x`, `22.x`           |
 | `react`         | `16.13.0`+, `17.x`, `18.x` or `19.x` |
 | `react-dom`     | `16.13.0`+, `17.x`, `18.x` or `19.x  |
 | `react-refresh` | `0.10.0`+                            |
@@ -38,12 +39,13 @@ We recommend using the following versions:
 <summary>Minimum requirements</summary>
 <br />
 
-| Dependency      | Version  |
-| --------------- | -------- |
-| `react`         | `16.9.0` |
-| `react-dom`     | `16.9.0` |
-| `react-refresh` | `0.10.0` |
-| `webpack`       | `5.2.0`  |
+| Dependency      | Version   |
+| --------------- | --------- |
+| `Node.js`       | `18.12.0` |
+| `react`         | `16.9.0`  |
+| `react-dom`     | `16.9.0`  |
+| `react-refresh` | `0.10.0`  |
+| `webpack`       | `5.2.0`   |
 
 </details>
 
