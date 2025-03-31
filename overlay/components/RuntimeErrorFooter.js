@@ -19,7 +19,7 @@ const theme = require('../theme.js');
  */
 function RuntimeErrorFooter(document, root, props) {
   const footer = document.createElement('div');
-  footer.style.backgroundColor = '#' + theme.dimgrey;
+  footer.style.backgroundColor = theme['dark-background'];
   footer.style.bottom = '0';
   footer.style.boxShadow = '0 -1px 4px rgba(0, 0, 0, 0.3)';
   footer.style.height = '2.5rem';
@@ -64,14 +64,14 @@ function RuntimeErrorFooter(document, root, props) {
     button.id = buttonConfig.id;
     button.innerHTML = buttonConfig.label;
     button.tabIndex = 1;
-    button.style.backgroundColor = '#' + theme.dimgrey;
+    button.style.backgroundColor = theme['dark-background'];
     button.style.border = 'none';
-    button.style.color = '#' + theme.white;
+    button.style.color = theme.white;
     button.style.cursor = 'pointer';
     button.style.fontSize = 'inherit';
     button.style.height = '100%';
     button.style.padding = '0.5rem 0.75rem';
-    button.style.width = (100 / buttons.length).toString(10) + '%';
+    button.style.width = `${(100 / buttons.length).toString(10)}%`;
     button.addEventListener('click', buttonConfig.onClick);
 
     if (buttonConfig.id === props.initialFocus) {

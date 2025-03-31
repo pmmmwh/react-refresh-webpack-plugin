@@ -102,22 +102,32 @@ function OverlayRoot(document, root) {
   const div = document.createElement('div');
   div.id = 'react-refresh-overlay-error';
 
+  // Apply ANSI theme
+  div.style.setProperty('--color-ansi-selection', theme.selection);
+  div.style.setProperty('--color-ansi-bg', theme.background);
+  div.style.setProperty('--color-ansi-fg', theme.white);
+  div.style.setProperty('--color-ansi-white', theme.white);
+  div.style.setProperty('--color-ansi-black', theme.black);
+  div.style.setProperty('--color-ansi-blue', theme.blue);
+  div.style.setProperty('--color-ansi-cyan', theme.cyan);
+  div.style.setProperty('--color-ansi-green', theme.green);
+  div.style.setProperty('--color-ansi-magenta', theme.magenta);
+  div.style.setProperty('--color-ansi-red', theme.red);
+  div.style.setProperty('--color-ansi-yellow', theme.yellow);
+  div.style.setProperty('--color-ansi-bright-white', theme['bright-white']);
+  div.style.setProperty('--color-ansi-bright-black', theme['bright-black']);
+  div.style.setProperty('--color-ansi-bright-blue', theme['bright-blue']);
+  div.style.setProperty('--color-ansi-bright-cyan', theme['bright-cyan']);
+  div.style.setProperty('--color-ansi-bright-green', theme['bright-green']);
+  div.style.setProperty('--color-ansi-bright-magenta', theme['bright-magenta']);
+  div.style.setProperty('--color-ansi-bright-red', theme['bright-red']);
+  div.style.setProperty('--color-ansi-bright-yellow', theme['bright-yellow']);
+
   // Style the contents container
-  div.style.backgroundColor = '#' + theme.grey;
+  div.style.backgroundColor = theme.background;
   div.style.boxSizing = 'border-box';
-  div.style.color = '#' + theme.white;
-  div.style.fontFamily = [
-    '-apple-system',
-    'BlinkMacSystemFont',
-    '"Segoe UI"',
-    '"Helvetica Neue"',
-    'Helvetica',
-    'Arial',
-    'sans-serif',
-    '"Apple Color Emoji"',
-    '"Segoe UI Emoji"',
-    'Segoe UI Symbol',
-  ].join(', ');
+  div.style.color = theme.white;
+  div.style.fontFamily = ['-apple-system', '"Source Sans Pro"', 'sans-serif'].join(', ');
   div.style.fontSize = '0.875rem';
   div.style.height = '100%';
   div.style.lineHeight = '1.3';

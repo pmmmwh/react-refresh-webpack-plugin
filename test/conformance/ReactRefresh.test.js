@@ -406,7 +406,7 @@ it('provides fresh value for exports.* in parents', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1631-L1727
 it('provides fresh value for ES6 named import in parents', async () => {
-  const [session] = await getSandbox({ esModule: WEBPACK_VERSION === 5 });
+  const [session] = await getSandbox({ esModule: true });
 
   await session.write('root.js', `export default function Noop() { return null; };`);
   await session.write('index.js', `import Root from './root.js'; Root();`);
@@ -468,7 +468,7 @@ it('provides fresh value for ES6 named import in parents', async () => {
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L1729-L1825
 it('provides fresh value for ES6 default import in parents', async () => {
-  const [session] = await getSandbox({ esModule: WEBPACK_VERSION === 5 });
+  const [session] = await getSandbox({ esModule: true });
 
   await session.write('root.js', `export default function Noop() { return null; };`);
   await session.write('index.js', `import Root from './root.js'; Root();`);
@@ -638,7 +638,7 @@ it('can continue hot updates after module-level errors with module.exports', asy
 
 // https://github.com/facebook/metro/blob/c083da2a9465ef53f10ded04bb7c0b748c8b90cb/packages/metro/src/lib/polyfills/__tests__/require-test.js#L2051-L2162
 it('can continue hot updates after module-level errors with ES6 exports', async () => {
-  const [session] = await getSandbox({ esModule: WEBPACK_VERSION === 5 });
+  const [session] = await getSandbox({ esModule: true });
 
   await session.write('root.js', `export default function Noop() { return null; };`);
   await session.write('index.js', `import Root from './root.js'; Root();`);

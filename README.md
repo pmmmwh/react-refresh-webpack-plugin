@@ -13,9 +13,8 @@
 [![Latest Version][npm:latest:badge]][npm:latest]
 [![Next Version][npm:next:badge]][npm:next]
 
-An **EXPERIMENTAL** Webpack plugin to enable "Fast Refresh" (also known as _Hot Reloading_) for React components.
+A Webpack plugin to enable "Fast Refresh" (also known as _Hot Reloading_) for React components.
 
-> This plugin is not 100% stable.
 > We're hoping to land a v1 release soon - please help us by reporting any issues you've encountered!
 
 ## Getting Started
@@ -28,23 +27,25 @@ and thus cannot be made compatible.
 
 We recommend using the following versions:
 
-| Dependency      | Version                      |
-| --------------- | ---------------------------- |
-| `react`         | `16.13.0`+, `17.x` or `18.x` |
-| `react-dom`     | `16.13.0`+, `17.x` or `18.x` |
-| `react-refresh` | `0.10.0`+                    |
-| `webpack`       | `4.46.0`+ or `5.2.0`+        |
+| Dependency      | Version                              |
+| --------------- | ------------------------------------ |
+| `Node.js`       | `18.12.0`+, `20.x`, `22.x`           |
+| `react`         | `16.13.0`+, `17.x`, `18.x` or `19.x` |
+| `react-dom`     | `16.13.0`+, `17.x`, `18.x` or `19.x  |
+| `react-refresh` | `0.10.0`+                            |
+| `webpack`       | `5.2.0`+                             |
 
 <details>
 <summary>Minimum requirements</summary>
 <br />
 
-| Dependency      | Version  |
-| --------------- | -------- |
-| `react`         | `16.9.0` |
-| `react-dom`     | `16.9.0` |
-| `react-refresh` | `0.10.0` |
-| `webpack`       | `4.43.0` |
+| Dependency      | Version   |
+| --------------- | --------- |
+| `Node.js`       | `18.12.0` |
+| `react`         | `16.9.0`  |
+| `react-dom`     | `16.9.0`  |
+| `react-refresh` | `0.10.0`  |
+| `webpack`       | `5.2.0`   |
 
 </details>
 
@@ -319,11 +320,11 @@ but you can set the [`overlay.sockIntegration`](docs/API.md#sockintegration) opt
 
 The supported versions are as follows:
 
-| Dependency               | Version                    |
-| ------------------------ | -------------------------- |
-| `webpack-dev-server`     | `3.6.0`+ or `4.x` or `5.x` |
-| `webpack-hot-middleware` | `2.x`                      |
-| `webpack-plugin-serve`   | `0.x` or `1.x`             |
+| Dependency               | Version           |
+| ------------------------ | ----------------- |
+| `webpack-dev-server`     | `4.8.0`+ or `5.x` |
+| `webpack-hot-middleware` | `2.x`             |
+| `webpack-plugin-serve`   | `1.x`             |
 
 ## API
 
