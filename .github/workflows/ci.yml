@@ -1,0 +1,89 @@
+name: CI
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-format:
+    name: Lint and Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: yarn
+          node-version: 22
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Check Linting
+        run: yarn lint
+      - name: Check Formatting
+        run: yarn format:check
+
+  test:
+    name: Tests (Node ${{ matrix.node-version }} - WDS ${{ matrix.wds-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - '18'
+          - '20'
+          - '22'
+        wds-version:
+          - '4'
+          - '5'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: yarn
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run Tests
+        run: yarn test --testPathIgnorePatterns conformance
+        env:
+          BROWSER: false
+          WDS_VERSION: ${{ matrix.wds-version }}
+
+  conformance:
+    name: Conformance (Node ${{ matrix.node-version }} - WDS ${{ matrix.wds-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version:
+          - '18'
+          - '20'
+          - '22'
+        wds-version:
+          - '4'
+          - '5'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          cache: yarn
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+      - name: Disable AppArmor
+        run: echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
+      - name: Run Conformance Tests
+        run: yarn test conformance
+        env:
+          WDS_VERSION: ${{ matrix.wds-version }}
