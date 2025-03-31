@@ -2,17 +2,25 @@
 
 ### BREAKING
 
-- Minimum required Node.js version have been bumped to `18.12.0`.
-- Minimum required `webpack` version have been bumped to `5.2.0`.
-- Minimum supported `webpack-dev-server` version have been bumped to `4.8.0`.
-- Minimum supported `webpack-plugin-serve` version have been bumped to `1.0.0`.
+- Minimum required Node.js version has been bumped to `18.12.0`.
+- Minimum required `webpack` version has been bumped to `5.2.0`.
+- Minimum supported `webpack-dev-server` version has been bumped to `4.8.0`.
+- Minimum supported `webpack-plugin-serve` version has been bumped to `1.0.0`.
 - `overlay.sockHost`, `overlay.sockPath`, `overlay.sockPort`, `overlay.sockProtocol` and `overlay.useURLPolyfill` have all been removed (#850).
-  It was necessary to support WDS below `4.8.0` (published in April 2022),
-  but is no-longer needed as a direct integration with WDS is now possible.
+  It was necessary to support WDS below `4.8.0` (published in April 2022).
+  It is no-longer necessary as a direct integration with WDS is now possible.
 
 ### Features
 
 - Added helper script to better support use cases where React and/or React-DOM are externalized (#852)
+
+### Fixes
+
+- Ensure plugin injected entries are no-op in production (#900)
+
+### Internal
+
+- Dropped support for Webpack 4 / WDS 3 (#850, #904)
 - Migrated from `ansi-html` to `anser` in error overlay (#854)
 
 ## 0.5.16 (31 Mar 2025)
