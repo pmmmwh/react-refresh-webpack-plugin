@@ -1,14 +1,14 @@
 # React Refresh Webpack Plugin
 
-[circleci]: https://app.circleci.com/pipelines/github/pmmmwh/react-refresh-webpack-plugin
-[circleci:badge]: https://img.shields.io/circleci/project/github/pmmmwh/react-refresh-webpack-plugin/main
+[actions]: https://github.com/pmmmwh/react-refresh-webpack-plugin/actions/workflows/ci.yml
+[actions:badge]: https://img.shields.io/github/actions/workflow/status/pmmmwh/react-refresh-webpack-plugin/ci.yml?branch=main
 [license:badge]: https://img.shields.io/github/license/pmmmwh/react-refresh-webpack-plugin
 [npm:latest]: https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/latest
 [npm:latest:badge]: https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/latest
 [npm:next]: https://www.npmjs.com/package/@pmmmwh/react-refresh-webpack-plugin/v/next
 [npm:next:badge]: https://img.shields.io/npm/v/@pmmmwh/react-refresh-webpack-plugin/next
 
-[![CircleCI][circleci:badge]][circleci]
+[![GitHub Actions][actions:badge]][actions]
 [![License][license:badge]](./LICENSE)
 [![Latest Version][npm:latest:badge]][npm:latest]
 [![Next Version][npm:next:badge]][npm:next]
