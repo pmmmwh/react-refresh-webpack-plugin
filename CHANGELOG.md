@@ -1,3 +1,9 @@
+## 0.5.16 (31 Mar 2025)
+
+### Fixes
+
+- Fixed out of order cleanup when using top-level await (#898)
+
 ## 0.5.15 (3 Jun 2024)
 
 ### Fixes
