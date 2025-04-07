@@ -26,7 +26,7 @@ describe('validateOptions', () => {
     `);
   });
 
-  it.skipIf(WEBPACK_VERSION !== 5, 'should accept "esModule" when it is true', async () => {
+  it('should accept "esModule" when it is true', async () => {
     const compilation = await getCompilation('esm', {
       loaderOptions: { esModule: true },
     });
@@ -116,49 +116,33 @@ describe('validateOptions', () => {
     `);
   });
 
-  it.skipIf(
-    WEBPACK_VERSION !== 5,
-    'should accept "esModule.include" when it is a RegExp',
-    async () => {
-      const compilation = await getCompilation('esm', {
-        loaderOptions: { esModule: { include: /index\.js/ } },
-      });
-      expect(compilation.errors).toStrictEqual([]);
-    }
-  );
+  it('should accept "esModule.include" when it is a RegExp', async () => {
+    const compilation = await getCompilation('esm', {
+      loaderOptions: { esModule: { include: /index\.js/ } },
+    });
+    expect(compilation.errors).toStrictEqual([]);
+  });
 
-  it.skipIf(
-    WEBPACK_VERSION !== 5,
-    'should accept "esModule.include" when it is an absolute path string',
-    async () => {
-      const compilation = await getCompilation('esm', {
-        loaderOptions: { esModule: { include: '/index.js' } },
-      });
-      expect(compilation.errors).toStrictEqual([]);
-    }
-  );
+  it('should accept "esModule.include" when it is an absolute path string', async () => {
+    const compilation = await getCompilation('esm', {
+      loaderOptions: { esModule: { include: '/index.js' } },
+    });
+    expect(compilation.errors).toStrictEqual([]);
+  });
 
-  it.skipIf(
-    WEBPACK_VERSION !== 5,
-    'should accept "esModule.include" when it is a string',
-    async () => {
-      const compilation = await getCompilation('esm', {
-        loaderOptions: { esModule: { include: 'index.js' } },
-      });
-      expect(compilation.errors).toStrictEqual([]);
-    }
-  );
+  it('should accept "esModule.include" when it is a string', async () => {
+    const compilation = await getCompilation('esm', {
+      loaderOptions: { esModule: { include: 'index.js' } },
+    });
+    expect(compilation.errors).toStrictEqual([]);
+  });
 
-  it.skipIf(
-    WEBPACK_VERSION !== 5,
-    'should accept "esModule.include" when it is an array of RegExp or strings',
-    async () => {
-      const compilation = await getCompilation('esm', {
-        loaderOptions: { esModule: { include: [/index\.js/, 'index.js'] } },
-      });
-      expect(compilation.errors).toStrictEqual([]);
-    }
-  );
+  it('should accept "esModule.include" when it is an array of RegExp or strings', async () => {
+    const compilation = await getCompilation('esm', {
+      loaderOptions: { esModule: { include: [/index\.js/, 'index.js'] } },
+    });
+    expect(compilation.errors).toStrictEqual([]);
+  });
 
   it('should reject "esModule.include" when it is an object', async () => {
     const compilation = await getCompilation('esm', {

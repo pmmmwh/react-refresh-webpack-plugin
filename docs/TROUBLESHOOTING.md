@@ -15,30 +15,6 @@ This has to be done because, internally,
 `react-hot-loader` intercepts and reconciles the React tree before React can try to re-render it.
 That in turn breaks mechanisms the plugin depends on to deliver the experience.
 
-## Compatibility with IE11 (`webpack-dev-server` only)
-
-Our socket implementation depends on the DOM URL API,
-and as a consequence, a polyfill is needed when running in IE11.
-
-The plugin by default will detect whether the `URL` and `URLSearchParams` constructors are available on the global scope,
-and will fallback to a pony-fill approach (polyfill without global scope pollution) when it is not.
-
-If for some reason you need to force this behaviour,
-e.g. working on browsers with a broken URL implementation,
-you can use the `overlay.useURLPolyfill` option:
-
-```js
-module.exports = {
-  plugins: [
-    new ReactRefreshPlugin({
-      overlay: {
-        useURLPolyfill: true,
-      },
-    }),
-  ],
-};
-```
-
 ## Compatibility with `npm@7`
 
 `npm@7` have brought back the behaviour of auto-installing peer dependencies with new semantics,
@@ -292,9 +268,21 @@ but do note that React DevTools does not inject hooks over a frame boundary (`if
 **Externalise React Refresh**
 
 If all solutions above are not applicable, you can also externalise `react-refresh/runtime` together with React.
+We provide an entrypoint to easily achieve this - `@pmmmwh/react-refresh-webpack-plugin/umd/client.min.js`.
 
-Using this, however, would require you to ensure the injected entry from this plugin is executed before React.
-You can check out [this sandbox](https://codesandbox.io/s/react-refresh-externals-14fpn) for an example on how this could be done.
+If you would like to use the provided script, ensure that it is loaded before React and/or React-DOM.
+You can load this script via any CDN for `npm`, such as `jsDelivr` and `unpkg`:
+
+```html
+<!-- if you prefer jsDelivr -->
+<script src=" https://cdn.jsdelivr.net/npm/@pmmmwh/react-refresh-webpack-plugin@^0.6.0/umd/client.min.js "></script>
+
+<!-- if you prefer unpkg -->
+<script src="https://unpkg.com/@pmmmwh/react-refresh-webpack-plugin@^0.6.0/umd/client.min.js"></script>
+```
+
+If you don't want to use the provided script,
+you can check out [this sandbox](https://codesandbox.io/s/react-refresh-externals-14fpn) for an example on how this could be done manually.
 
 ## Running multiple instances of React Refresh simultaneously
 
@@ -330,23 +318,5 @@ module.exports = {
       library: 'YourLibrary',
     }),
   ],
-};
-```
-
-## Webpack 5 compatibility issues with `webpack-dev-server@3`
-
-In `webpack-dev-server@3`,
-there is a bug causing it to mis-judge the runtime environment when the Webpack 5 `browserslist` target is used.
-
-It then fallbacks to thinking a non-browser target is being used,
-in turn skipping injection of the HMR runtime,
-and thus breaking downstream integrations like this plugin.
-
-To overcome this,
-you can conditionally apply the `browserslist` only in production modes in your Webpack configuration:
-
-```js
-module.exports = {
-  target: process.env.NODE_ENV !== 'production' ? 'web' : 'browserslist',
 };
 ```
