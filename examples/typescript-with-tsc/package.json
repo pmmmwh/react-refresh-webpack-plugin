@@ -7,7 +7,7 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.13",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "cross-env": "^7.0.3",
