@@ -31,7 +31,7 @@ We recommend using the following versions:
 | --------------- | ------------------------------------ |
 | `Node.js`       | `18.12.0`+, `20.x`, `22.x`           |
 | `react`         | `16.13.0`+, `17.x`, `18.x` or `19.x` |
-| `react-dom`     | `16.13.0`+, `17.x`, `18.x` or `19.x  |
+| `react-dom`     | `16.13.0`+, `17.x`, `18.x` or `19.x` |
 | `react-refresh` | `0.10.0`+                            |
 | `webpack`       | `5.2.0`+                             |
 
