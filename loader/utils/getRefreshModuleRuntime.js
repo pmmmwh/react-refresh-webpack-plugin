@@ -12,7 +12,7 @@
  * [Reference for Runtime Injection](https://github.com/webpack/webpack/blob/b07d3b67d2252f08e4bb65d354a11c9b69f8b434/lib/HotModuleReplacementPlugin.js#L419)
  * [Reference for HMR Error Recovery](https://github.com/webpack/webpack/issues/418#issuecomment-490296365)
  *
- * @param {import('webpack').Template} Webpack's templating helpers.
+ * @param {typeof import('webpack').Template} Template Webpack's templating helpers.
  * @param {ModuleRuntimeOptions} options The refresh module runtime options.
  * @returns {string} The refresh module runtime template.
  */
