@@ -275,10 +275,10 @@ You can load this script via any CDN for `npm`, such as `jsDelivr` and `unpkg`:
 
 ```html
 <!-- if you prefer jsDelivr -->
-<script src=" https://cdn.jsdelivr.net/npm/@pmmmwh/react-refresh-webpack-plugin@^0.6.0/umd/client.min.js "></script>
+<script src=" https://cdn.jsdelivr.net/npm/@pmmmwh/react-refresh-webpack-plugin@^0.6.1/umd/client.min.js "></script>
 
 <!-- if you prefer unpkg -->
-<script src="https://unpkg.com/@pmmmwh/react-refresh-webpack-plugin@^0.6.0/umd/client.min.js"></script>
+<script src="https://unpkg.com/@pmmmwh/react-refresh-webpack-plugin@^0.6.1/umd/client.min.js"></script>
 ```
 
 If you don't want to use the provided script,
