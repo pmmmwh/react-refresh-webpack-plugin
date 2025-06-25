@@ -1,3 +1,9 @@
+## 0.6.1 (26 Jun 2025)
+
+### Fixes
+
+- Ensure `this` propagates into module factory properly (#921)
+
 ## 0.6.0 (28 Apr 2025)
 
 ### BREAKING
@@ -23,6 +29,12 @@
 - Dropped support for Webpack 4 / WDS 3 (#850, #904)
 - Migrated from `ansi-html` to `anser` in error overlay (#854)
 - Bumped all development dependencies (#905)
+
+## 0.5.17 (26 Jun 2025)
+
+### Fixes
+
+- Ensure `this` propagates into module factory properly (#922)
 
 ## 0.5.16 (31 Mar 2025)
 
