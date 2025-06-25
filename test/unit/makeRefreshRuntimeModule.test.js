@@ -118,7 +118,7 @@ __webpack_require__.i.push(function(options) {
 
 __webpack_require__.i.push((options) => {
 	const originalFactory = options.factory;
-	options.factory = (moduleObject, moduleExports, webpackRequire) => {
+	options.factory = function(moduleObject, moduleExports, webpackRequire) {
 		const hotRequire = (request) => (webpackRequire(request));
 		const createPropertyDescriptor = (name) => {
 			return {
