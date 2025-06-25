@@ -1,3 +1,9 @@
+## 0.5.17 (26 Jun 2025)
+
+### Fixes
+
+- Ensure `this` propagates into module factory properly (#922)
+
 ## 0.5.16 (31 Mar 2025)
 
 ### Fixes
