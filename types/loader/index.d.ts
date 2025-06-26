@@ -12,6 +12,6 @@ export = ReactRefreshLoader;
 declare function ReactRefreshLoader(
   this: import('webpack').LoaderContext<import('./types').ReactRefreshLoaderOptions>,
   source: string,
-  inputSourceMap?: import('source-map').RawSourceMap | undefined,
+  inputSourceMap?: import('source-map').RawSourceMap,
   meta?: any
 ): void;
