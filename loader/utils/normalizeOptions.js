@@ -19,7 +19,7 @@ const normalizeOptions = (options) => {
     return esModule;
   });
 
-  return options;
+  return /** @type {import('../types').NormalizedLoaderOptions} */ (options);
 };
 
 module.exports = normalizeOptions;

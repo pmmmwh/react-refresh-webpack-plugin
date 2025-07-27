@@ -3,6 +3,7 @@
 // That check, however, will break when `fetch` polyfills are used for SSR setups.
 // We "reset" the polyfill here to ensure it won't interfere with source-map generation.
 const originalFetch = global.fetch;
+// @ts-expect-error
 delete global.fetch;
 
 const { validate: validateOptions } = require('schema-utils');
@@ -31,17 +32,22 @@ const RefreshRuntimePath = require
  * @returns {void}
  */
 function ReactRefreshLoader(source, inputSourceMap, meta) {
-  let options = this.getOptions();
-  validateOptions(schema, options, {
+  const _options = this.getOptions();
+  validateOptions(/** @type {Parameters<typeof validateOptions>[0]} */ (schema), _options, {
     baseDataPath: 'options',
     name: 'React Refresh Loader',
   });
 
-  options = normalizeOptions(options);
+  const options = normalizeOptions(_options);
 
   const callback = this.async();
 
-  const { ModuleFilenameHelpers, Template } = this._compiler.webpack || require('webpack');
+  /** @type {import('webpack')} */
+  let webpack;
+  if (this._compiler != null && this._compiler.webpack) webpack = this._compiler.webpack;
+  else webpack = require('webpack');
+
+  const { ModuleFilenameHelpers, Template } = webpack;
 
   const RefreshSetupRuntimes = {
     cjs: Template.asString(
@@ -57,7 +63,7 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
    * @this {import('webpack').LoaderContext<import('./types').ReactRefreshLoaderOptions>}
    * @param {string} source
    * @param {import('source-map').RawSourceMap} [inputSourceMap]
-   * @returns {Promise<[string, import('source-map').RawSourceMap]>}
+   * @returns {Promise<[string, import('source-map').RawSourceMap?]>}
    */
   async function _loader(source, inputSourceMap) {
     /** @type {'esm' | 'cjs'} */
