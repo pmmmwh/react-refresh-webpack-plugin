@@ -6,7 +6,7 @@ let packageJsonTypeMap = new Map();
 
 /**
  * Infers the current active module system from loader context and options.
- * @this {import('webpack').loader.LoaderContext}
+ * @this {import('webpack').LoaderContext<import('../types').ReactRefreshLoaderOptions>}
  * @param {import('webpack').ModuleFilenameHelpers} ModuleFilenameHelpers Webpack's module filename helpers.
  * @param {import('../types').NormalizedLoaderOptions} options The normalized loader options.
  * @return {Promise<'esm' | 'cjs'>} The inferred module system.
@@ -73,7 +73,7 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
     // from the `resourcePath` folder up to the matching `searchPath`,
     // to avoid retracing these steps when processing sibling resources.
     if (packageJsonTypeMap.has(searchPath)) {
-      packageJsonType = packageJsonTypeMap.get(searchPath);
+      packageJsonType = /** @type {string} */ (packageJsonTypeMap.get(searchPath));
 
       let currentPath = resourceContext;
       while (currentPath !== searchPath) {

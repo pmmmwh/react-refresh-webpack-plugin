@@ -18,11 +18,10 @@ const d = (object, property, defaultValue) => {
  * Resolves the value for a nested object option.
  * @template T
  * @template {keyof T} Property
- * @template Result
  * @param {T} object An object.
  * @param {Property} property A property of the provided object.
- * @param {function(T | undefined): Result} fn The handler to resolve the property's value.
- * @returns {Result} The resolved option value.
+ * @param {function(T[Property] | undefined): T[Property]} fn The handler to resolve the property's value.
+ * @returns {T[Property]} The resolved option value.
  */
 const n = (object, property, fn) => {
   object[property] = fn(object[property]);

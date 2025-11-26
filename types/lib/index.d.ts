@@ -3,7 +3,7 @@ declare class ReactRefreshPlugin {
   /**
    * @param {import('./types').ReactRefreshPluginOptions} [options] Options for react-refresh-plugin.
    */
-  constructor(options?: import('./types').ReactRefreshPluginOptions | undefined);
+  constructor(options?: import('./types').ReactRefreshPluginOptions);
   /**
    * @readonly
    * @type {import('./types').NormalizedPluginOptions}
