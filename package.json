@@ -41,7 +41,7 @@
   "scripts": {
     "test": "run-s -c test:pre \"test:exec {@}\" test:post --",
     "test:wds-4": "cross-env WDS_VERSION=4 yarn test",
-    "test:exec": "node scripts/test.js",
+    "test:exec": "node --experimental-vm-modules scripts/test.js",
     "test:pre": "run-s -c test:pre:*",
     "test:pre:0": "yarn link",
     "test:pre:1": "yarn link @pmmmwh/react-refresh-webpack-plugin",
@@ -75,7 +75,7 @@
     "@types/jest": "^29.5.12",
     "@types/json-schema": "^7.0.15",
     "@types/module-alias": "^2.0.4",
-    "@types/node": "^22.13.14",
+    "@types/node": "^24.10.1",
     "@types/webpack": "^5.28.5",
     "babel-loader": "^10.0.0",
     "cross-env": "^7.0.3",
@@ -85,7 +85,7 @@
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-prettier": "^5.1.3",
     "fs-extra": "^11.2.0",
-    "get-port": "^5.1.1",
+    "get-port": "^7.1.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "jest-environment-node": "^29.7.0",
@@ -97,13 +97,13 @@
     "npm-run-all2": "^7.0.2",
     "prettier": "^3.3.0",
     "puppeteer": "^24.4.0",
-    "react-refresh": "^0.17.0",
+    "react-refresh": "^0.18.0",
     "sourcemap-validator": "^2.1.0",
     "terser-webpack-plugin": "^5.3.10",
-    "type-fest": "^4.18.3",
-    "typescript": "~5.4.5",
+    "type-fest": "^4.41.0",
+    "typescript": "~5.9.3",
     "webpack": "^5.94.0",
-    "webpack-cli": "^5.1.4",
+    "webpack-cli": "^6.0.1",
     "webpack-dev-server": "^5.0.4",
     "webpack-dev-server-v4": "npm:webpack-dev-server@^4.8.0",
     "webpack-hot-middleware": "^2.26.1",
@@ -114,7 +114,7 @@
     "@types/webpack": "5.x",
     "react-refresh": ">=0.10.0 <1.0.0",
     "sockjs-client": "^1.4.0",
-    "type-fest": ">=0.17.0 <5.0.0",
+    "type-fest": ">=0.17.0 <6.0.0",
     "webpack": "^5.0.0",
     "webpack-dev-server": "^4.8.0 || 5.x",
     "webpack-hot-middleware": "2.x",
@@ -143,7 +143,7 @@
   "resolutions": {
     "memfs": "^4.0.0",
     "rimraf": "^5.0.0",
-    "type-fest": "^4.20.0"
+    "type-fest": "^4.41.0"
   },
   "engines": {
     "node": ">=18.12"

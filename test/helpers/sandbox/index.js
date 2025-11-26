@@ -1,6 +1,5 @@
 const path = require('path');
 const fse = require('fs-extra');
-const getPort = require('get-port');
 const { nanoid } = require('nanoid');
 const { getIndexHTML, getPackageJson, getWDSConfig } = require('./configs');
 const { killTestProcess, spawnWebpackServe } = require('./spawn');
@@ -64,6 +63,7 @@ const rootSandboxDir = path.join(__dirname, '../..', '__tmp__');
  * @returns {Promise<[SandboxSession, function(): Promise<void>]>}
  */
 async function getSandbox({ esModule = false, id = nanoid(), initialFiles = new Map() } = {}) {
+  const { default: getPort } = await import('get-port');
   const port = await getPort();
 
   // Get sandbox directory paths

@@ -227,20 +227,21 @@ describe('loader', () => {
       const { execution, sourceMap } = compilation.module;
 
       expect(sourceMap).toMatchInlineSnapshot(`
-       "{
-         "version": 3,
-         "file": "main.js",
-         "mappings": ";;;;;;;;;;AAAA",
-         "sources": [
-           "webpack://cjs/./index.js"
-         ],
-         "sourcesContent": [
-           "module.exports = 'Test';\\n"
-         ],
-         "names": [],
-         "sourceRoot": ""
-       }"
-      `);
+"{
+  "version": 3,
+  "file": "main.js",
+  "mappings": ";;;;;;;;;;AAAA",
+  "sources": [
+    "webpack://cjs/./index.js"
+  ],
+  "sourcesContent": [
+    "module.exports = 'Test';\\n"
+  ],
+  "names": [],
+  "ignoreList": [],
+  "sourceRoot": ""
+}"
+`);
       expect(() => {
         validate(execution, sourceMap);
       }).not.toThrow();

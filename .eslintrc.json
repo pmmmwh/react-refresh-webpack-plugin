@@ -1,11 +1,11 @@
 {
   "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parserOptions": {
-    "ecmaVersion": 2018
+    "ecmaVersion": 2022
   },
   "env": {
     "commonjs": true,
-    "es2017": true,
+    "es2022": true,
     "node": true
   },
   "overrides": [
@@ -21,6 +21,7 @@
     },
     {
       "files": [
+        "scripts/test.mjs",
         "test/jest-test-setup.js",
         "test/helpers/{,!(fixtures)*/}*.js",
         "test/mocks/**/*.js",
