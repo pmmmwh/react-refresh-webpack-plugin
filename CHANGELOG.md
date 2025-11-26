@@ -1,3 +1,10 @@
+## 0.6.2 (26 Nov 2025)
+
+### Fixes
+
+- Relaxed peer dependency requirement on `type-fest` to allow v5.x
+  ([#934](https://github.com/pmmmwh/react-refresh-webpack-plugin/pull/934))
+
 ## 0.6.1 (26 Jun 2025)
 
 ### Fixes
