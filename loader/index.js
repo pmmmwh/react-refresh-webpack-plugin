@@ -41,15 +41,20 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
 
   const callback = this.async();
 
-  const { ModuleFilenameHelpers, Template } = this._compiler.webpack || require('webpack');
+  const { ModuleFilenameHelpers, Template, RuntimeGlobals } =
+    this._compiler.webpack || require('webpack');
+
+  // When available, use `__webpack_global__` which is a stable runtime function to use `__webpack_require__` in this compilation
+  // See: https://github.com/webpack/webpack/issues/20139
+  const RefreshGlobals = `(typeof __webpack_global__ === 'function' ? __webpack_global__ : __webpack_require__)`;
 
   const RefreshSetupRuntimes = {
     cjs: Template.asString(
-      `__webpack_require__.$Refresh$.runtime = require('${RefreshRuntimePath}');`
+      `${RefreshGlobals}.$Refresh$.runtime = require('${RefreshRuntimePath}');`
     ),
     esm: Template.asString([
       `import * as __react_refresh_runtime__ from '${RefreshRuntimePath}';`,
-      `__webpack_require__.$Refresh$.runtime = __react_refresh_runtime__;`,
+      `${RefreshGlobals}.$Refresh$.runtime = __react_refresh_runtime__;`,
     ]),
   };
 
@@ -67,6 +72,7 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
     const RefreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: options.const,
       moduleSystem,
+      refreshGlobals: RefreshGlobals,
     });
 
     if (this.sourceMap) {
