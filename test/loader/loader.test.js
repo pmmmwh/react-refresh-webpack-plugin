@@ -16,12 +16,12 @@ describe('loader', () => {
       const { execution, parsed } = compilation.module;
 
       expect(parsed).toMatchInlineSnapshot(`
-        "__webpack_require__.$Refresh$.runtime = require('react-refresh');
+        "(typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.runtime = require('react-refresh');
 
         module.exports = 'Test';
 
 
-        var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+        var $ReactRefreshModuleId$ = (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.moduleId;
         var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
         	$ReactRefreshModuleId$
         );
@@ -61,12 +61,12 @@ describe('loader', () => {
          \\******************/
        /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-       __webpack_require__.$Refresh$.runtime = __webpack_require__(/*! react-refresh */ "../../../../node_modules/react-refresh/runtime.js");
+       (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.runtime = __webpack_require__(/*! react-refresh */ "../../../../node_modules/react-refresh/runtime.js");
 
        module.exports = 'Test';
 
 
-       var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+       var $ReactRefreshModuleId$ = (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.moduleId;
        var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
        	$ReactRefreshModuleId$
        );
@@ -118,12 +118,12 @@ describe('loader', () => {
 
       expect(parsed).toMatchInlineSnapshot(`
         "import * as __react_refresh_runtime__ from 'react-refresh';
-        __webpack_require__.$Refresh$.runtime = __react_refresh_runtime__;
+        (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.runtime = __react_refresh_runtime__;
 
         export default 'Test';
 
 
-        var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+        var $ReactRefreshModuleId$ = (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.moduleId;
         var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
         	$ReactRefreshModuleId$
         );
@@ -171,12 +171,12 @@ describe('loader', () => {
        /* harmony export */ });
        /* harmony import */ var react_refresh__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-refresh */ "../../../../node_modules/react-refresh/runtime.js");
 
-       __webpack_require__.$Refresh$.runtime = /*#__PURE__*/ (react_refresh__WEBPACK_IMPORTED_MODULE_0___namespace_cache || (react_refresh__WEBPACK_IMPORTED_MODULE_0___namespace_cache = __webpack_require__.t(react_refresh__WEBPACK_IMPORTED_MODULE_0__, 2)));
+       (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.runtime = /*#__PURE__*/ (react_refresh__WEBPACK_IMPORTED_MODULE_0___namespace_cache || (react_refresh__WEBPACK_IMPORTED_MODULE_0___namespace_cache = __webpack_require__.t(react_refresh__WEBPACK_IMPORTED_MODULE_0__, 2)));
 
        /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ('Test');
 
 
-       var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+       var $ReactRefreshModuleId$ = (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.moduleId;
        var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
        	$ReactRefreshModuleId$
        );

@@ -1,11 +1,15 @@
 const { Template } = require('webpack');
-const getRefreshModuleRuntime = require('../../../loader/utils/getRefreshModuleRuntime');
+const {
+  getRefreshModuleRuntime,
+  RefreshGlobals: refreshGlobals,
+} = require('../../../loader/utils');
 
 describe('getRefreshModuleRuntime', () => {
   it('should return working refresh module runtime without const using CommonJS', () => {
     const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: false,
       moduleSystem: 'cjs',
+      refreshGlobals,
     });
 
     expect(refreshModuleRuntime.indexOf('var')).not.toBe(-1);
@@ -14,7 +18,7 @@ describe('getRefreshModuleRuntime', () => {
     expect(refreshModuleRuntime.indexOf('module.hot')).not.toBe(-1);
     expect(refreshModuleRuntime.indexOf('import.meta.webpackHot')).toBe(-1);
     expect(refreshModuleRuntime).toMatchInlineSnapshot(`
-      "var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+      "var $ReactRefreshModuleId$ = (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.moduleId;
       var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
       	$ReactRefreshModuleId$
       );
@@ -51,6 +55,7 @@ describe('getRefreshModuleRuntime', () => {
     const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: true,
       moduleSystem: 'cjs',
+      refreshGlobals,
     });
 
     expect(refreshModuleRuntime.indexOf('var')).toBe(-1);
@@ -59,7 +64,7 @@ describe('getRefreshModuleRuntime', () => {
     expect(refreshModuleRuntime.indexOf('module.hot')).not.toBe(-1);
     expect(refreshModuleRuntime.indexOf('import.meta.webpackHot')).toBe(-1);
     expect(refreshModuleRuntime).toMatchInlineSnapshot(`
-      "const $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+      "const $ReactRefreshModuleId$ = (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.moduleId;
       const $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
       	$ReactRefreshModuleId$
       );
@@ -96,6 +101,7 @@ describe('getRefreshModuleRuntime', () => {
     const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: false,
       moduleSystem: 'esm',
+      refreshGlobals,
     });
 
     expect(refreshModuleRuntime.indexOf('var')).not.toBe(-1);
@@ -104,7 +110,7 @@ describe('getRefreshModuleRuntime', () => {
     expect(refreshModuleRuntime.indexOf('module.hot')).toBe(-1);
     expect(refreshModuleRuntime.indexOf('import.meta.webpackHot')).not.toBe(-1);
     expect(refreshModuleRuntime).toMatchInlineSnapshot(`
-      "var $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+      "var $ReactRefreshModuleId$ = (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.moduleId;
       var $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
       	$ReactRefreshModuleId$
       );
@@ -141,6 +147,7 @@ describe('getRefreshModuleRuntime', () => {
     const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: true,
       moduleSystem: 'esm',
+      refreshGlobals,
     });
 
     expect(refreshModuleRuntime.indexOf('var')).toBe(-1);
@@ -149,7 +156,7 @@ describe('getRefreshModuleRuntime', () => {
     expect(refreshModuleRuntime.indexOf('module.hot')).toBe(-1);
     expect(refreshModuleRuntime.indexOf('import.meta.webpackHot')).not.toBe(-1);
     expect(refreshModuleRuntime).toMatchInlineSnapshot(`
-      "const $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;
+      "const $ReactRefreshModuleId$ = (typeof __webpack_global__ !== 'undefined' ? __webpack_global__ : __webpack_require__).$Refresh$.moduleId;
       const $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(
       	$ReactRefreshModuleId$
       );
