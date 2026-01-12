@@ -12,7 +12,7 @@ const {
   getModuleSystem,
   getRefreshModuleRuntime,
   normalizeOptions,
-  RefreshGlobals,
+  webpackGlobal,
 } = require('./utils');
 const schema = require('./options.json');
 
@@ -46,11 +46,11 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
 
   const RefreshSetupRuntimes = {
     cjs: Template.asString(
-      `${RefreshGlobals}.$Refresh$.runtime = require('${RefreshRuntimePath}');`
+      `${webpackGlobal}.$Refresh$.runtime = require('${RefreshRuntimePath}');`
     ),
     esm: Template.asString([
       `import * as __react_refresh_runtime__ from '${RefreshRuntimePath}';`,
-      `${RefreshGlobals}.$Refresh$.runtime = __react_refresh_runtime__;`,
+      `${webpackGlobal}.$Refresh$.runtime = __react_refresh_runtime__;`,
     ]),
   };
 
@@ -68,7 +68,6 @@ function ReactRefreshLoader(source, inputSourceMap, meta) {
     const RefreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: options.const,
       moduleSystem,
-      refreshGlobals: RefreshGlobals,
     });
 
     if (this.sourceMap) {

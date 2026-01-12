@@ -1,15 +1,11 @@
 const { Template } = require('webpack');
-const {
-  getRefreshModuleRuntime,
-  RefreshGlobals: refreshGlobals,
-} = require('../../../loader/utils');
+const { getRefreshModuleRuntime } = require('../../../loader/utils');
 
 describe('getRefreshModuleRuntime', () => {
   it('should return working refresh module runtime without const using CommonJS', () => {
     const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: false,
       moduleSystem: 'cjs',
-      refreshGlobals,
     });
 
     expect(refreshModuleRuntime.indexOf('var')).not.toBe(-1);
@@ -55,7 +51,6 @@ describe('getRefreshModuleRuntime', () => {
     const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: true,
       moduleSystem: 'cjs',
-      refreshGlobals,
     });
 
     expect(refreshModuleRuntime.indexOf('var')).toBe(-1);
@@ -101,7 +96,6 @@ describe('getRefreshModuleRuntime', () => {
     const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: false,
       moduleSystem: 'esm',
-      refreshGlobals,
     });
 
     expect(refreshModuleRuntime.indexOf('var')).not.toBe(-1);
@@ -147,7 +141,6 @@ describe('getRefreshModuleRuntime', () => {
     const refreshModuleRuntime = getRefreshModuleRuntime(Template, {
       const: true,
       moduleSystem: 'esm',
-      refreshGlobals,
     });
 
     expect(refreshModuleRuntime.indexOf('var')).toBe(-1);
