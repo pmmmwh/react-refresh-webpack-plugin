@@ -1,5 +1,5 @@
 const { Template } = require('webpack');
-const { getRefreshModuleRuntime } = require('../../../loader/utils');
+const getRefreshModuleRuntime = require('../../../loader/utils/getRefreshModuleRuntime');
 
 describe('getRefreshModuleRuntime', () => {
   it('should return working refresh module runtime without const using CommonJS', () => {
