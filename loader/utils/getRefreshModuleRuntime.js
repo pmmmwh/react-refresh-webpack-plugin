@@ -1,3 +1,5 @@
+const webpackGlobal = require('./webpackGlobal');
+
 /**
  * @typedef ModuleRuntimeOptions {Object}
  * @property {boolean} const Use ES6 `const` and `let` in generated runtime code.
@@ -21,7 +23,7 @@ function getRefreshModuleRuntime(Template, options) {
   const letDeclaration = options.const ? 'let' : 'var';
   const webpackHot = options.moduleSystem === 'esm' ? 'import.meta.webpackHot' : 'module.hot';
   return Template.asString([
-    `${constDeclaration} $ReactRefreshModuleId$ = __webpack_require__.$Refresh$.moduleId;`,
+    `${constDeclaration} $ReactRefreshModuleId$ = ${webpackGlobal}.$Refresh$.moduleId;`,
     `${constDeclaration} $ReactRefreshCurrentExports$ = __react_refresh_utils__.getModuleExports(`,
     Template.indent('$ReactRefreshModuleId$'),
     ');',
