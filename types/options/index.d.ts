@@ -10,7 +10,7 @@
 export function d<T, Property extends keyof T>(
   object: T,
   property: Property,
-  defaultValue?: T[Property] | undefined
+  defaultValue?: T[Property]
 ): T[Property];
 /**
  * Resolves the value for a nested object option.

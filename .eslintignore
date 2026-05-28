@@ -1,5 +1,6 @@
 *dist/
 *node_modules/
+*types/
 *umd/
 *__tmp__
 
