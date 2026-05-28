@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           cache: yarn
-          node-version: 24
+          node-version: 22
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Check Linting
@@ -39,7 +39,6 @@ jobs:
           - '18'
           - '20'
           - '22'
-          - '24'
         wds-version:
           - '4'
           - '5'
@@ -69,7 +68,6 @@ jobs:
           - '18'
           - '20'
           - '22'
-          - '24'
         wds-version:
           - '4'
           - '5'
