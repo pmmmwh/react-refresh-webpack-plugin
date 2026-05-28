@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           cache: yarn
-          node-version: 22
+          node-version: 24
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
       - name: Check Linting
@@ -39,6 +39,7 @@ jobs:
           - '18'
           - '20'
           - '22'
+          - '24'
         wds-version:
           - '4'
           - '5'
@@ -51,7 +52,7 @@ jobs:
           cache: yarn
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile${{ matrix.node-version == '18' && ' --ignore-engines' || '' }}
       - name: Run Tests
         run: yarn test --testPathIgnorePatterns conformance
         env:
@@ -68,6 +69,7 @@ jobs:
           - '18'
           - '20'
           - '22'
+          - '24'
         wds-version:
           - '4'
           - '5'
@@ -80,7 +82,7 @@ jobs:
           cache: yarn
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile${{ matrix.node-version == '18' && ' --ignore-engines' || '' }}
       - name: Disable AppArmor
         run: echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
       - name: Run Conformance Tests
