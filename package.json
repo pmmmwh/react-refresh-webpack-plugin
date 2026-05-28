@@ -104,7 +104,7 @@
     "typescript": "~5.9.3",
     "webpack": "^5.104.1",
     "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.0.4",
+    "webpack-dev-server": "^5.2.4",
     "webpack-dev-server-v4": "npm:webpack-dev-server@^4.8.0",
     "webpack-hot-middleware": "^2.26.1",
     "webpack-plugin-serve": "^1.6.0",

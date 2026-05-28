@@ -51,7 +51,7 @@ jobs:
           cache: yarn
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile${{ matrix.node-version == '18' && ' --ignore-engines' || '' }}
       - name: Run Tests
         run: yarn test --testPathIgnorePatterns conformance
         env:
@@ -80,7 +80,7 @@ jobs:
           cache: yarn
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile${{ matrix.node-version == '18' && ' --ignore-engines' || '' }}
       - name: Disable AppArmor
         run: echo 0 | sudo tee /proc/sys/kernel/apparmor_restrict_unprivileged_userns
       - name: Run Conformance Tests
