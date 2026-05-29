@@ -4889,7 +4889,7 @@ puppeteer-core@24.43.1:
     webdriver-bidi-protocol "0.4.1"
     ws "^8.20.0"
 
-puppeteer@^24:
+puppeteer@^24.43.1:
   version "24.43.1"
   resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-24.43.1.tgz#86cad9170ce2dec2db3b8d1d34c0c91424bbe3e3"
   integrity sha512-/FSOViCrqRdb1HDocpsM9Z1giA71gTQPUt3SpHGVRALKAy/rJr1fLFYZW9F23qPxqVxTHQnbh/5B5opJST3kAw==
