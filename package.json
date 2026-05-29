@@ -96,7 +96,7 @@
     "nanoid": "^3.3.12",
     "npm-run-all2": "^9.0.1",
     "prettier": "^3.3.0",
-    "puppeteer": "^25.1.0",
+    "puppeteer": "^24.43.1",
     "react-refresh": "^0.18.0",
     "sourcemap-validator": "^2.1.0",
     "terser-webpack-plugin": "^5.3.10",
