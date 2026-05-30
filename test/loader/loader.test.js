@@ -238,7 +238,6 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
     "module.exports = 'Test';\\n"
   ],
   "names": [],
-  "ignoreList": [],
   "sourceRoot": ""
 }"
 `);
