@@ -67,6 +67,9 @@
       ]
     },
     "library": { "type": "string" },
+    "runtimeEntry": {
+      "anyOf": [{ "const": false }, { "$ref": "#/definitions/Path" }]
+    },
     "overlay": {
       "anyOf": [{ "type": "boolean" }, { "$ref": "#/definitions/OverlayOptions" }]
     }
