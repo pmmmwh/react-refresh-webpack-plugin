@@ -86,6 +86,7 @@ module.exports = {
     alias: ${JSON.stringify(
       {
         ...(WDS_VERSION === 4 && { 'webpack-dev-server': 'webpack-dev-server-v4' }),
+        ...(WDS_VERSION === 6 && { 'webpack-dev-server': 'webpack-dev-server-v6' }),
       },
       null,
       2

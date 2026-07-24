@@ -4,15 +4,16 @@
  * @returns {void}
  */
 function initWDSSocket(messageHandler) {
-  const { default: SockJSClient } = require('webpack-dev-server/client/clients/SockJSClient');
-  const { default: WebSocketClient } = require('webpack-dev-server/client/clients/WebSocketClient');
   const { client } = require('webpack-dev-server/client/socket');
 
   /** @type {WebSocket} */
   let connection;
-  if (client instanceof SockJSClient) {
+  if (client.sock) {
+    // SockJSClient exposes the underlying socket via `.sock`.
+    // WDS 6.0.0 dropped SockJS support, so this branch is dead in WDS 6+.
     connection = client.sock;
-  } else if (client instanceof WebSocketClient) {
+  } else if (client.client) {
+    // WebSocketClient exposes the underlying socket via `.client`.
     connection = client.client;
   } else {
     throw new Error('Failed to determine WDS client type');
