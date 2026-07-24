@@ -133,9 +133,10 @@ function spawnWebpackServe(port, dirs, options = {}) {
 
   const NODE_OPTIONS = [
     // This requires a script to alias `webpack-dev-server` -
-    // both v4 and v5 are installed,
+    // v4, v5 and v6 are all installed,
     // so we have to ensure that they resolve to the correct variant.
     WDS_VERSION === 4 && `--require "${require.resolve('./aliasWDSv4')}"`,
+    WDS_VERSION === 6 && `--require "${require.resolve('./aliasWDSv6')}"`,
   ]
     .filter(Boolean)
     .join(' ');
