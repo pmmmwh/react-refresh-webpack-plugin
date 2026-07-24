@@ -43,6 +43,10 @@ export type ReactRefreshPluginOptions = {
    * Modifies how the error overlay integration works in the plugin.
    */
   overlay?: boolean | ErrorOverlayOptions | undefined;
+  /**
+   * Runtime entry to prepend to Webpack entries, or false to disable automatic injection.
+   */
+  runtimeEntry?: string | false | undefined;
 };
 export type OverlayOverrides = {
   /**
@@ -52,6 +56,6 @@ export type OverlayOverrides = {
 };
 export type NormalizedPluginOptions = import('type-fest').SetRequired<
   import('type-fest').Except<ReactRefreshPluginOptions, 'overlay'>,
-  'exclude' | 'include'
+  'exclude' | 'include' | 'runtimeEntry'
 > &
   OverlayOverrides;

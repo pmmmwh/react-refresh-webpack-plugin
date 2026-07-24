@@ -29,6 +29,7 @@ interface ReactRefreshPluginOptions {
   exclude?: string | RegExp | Array<string | RegExp>;
   include?: string | RegExp | Array<string | RegExp>;
   library?: string;
+  runtimeEntry?: string | false;
   esModule?: boolean | ESModuleOptions;
   overlay?: boolean | ErrorOverlayOptions;
 }
@@ -77,6 +78,17 @@ Sets a namespace for the React Refresh runtime.
 This is similar to the `output.uniqueName` in Webpack 5 or the `output.library` option in Webpack 4/5.
 
 It is most useful when multiple instances of React Refresh is running together simultaneously.
+
+#### `runtimeEntry`
+
+Type: `string | false`
+
+Default: `'@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry'`
+
+The **PATH** to a file/module that sets up the React Refresh runtime integration.
+
+This entry is prepended to Webpack entries by default. When set to `false`, no runtime entry will be injected automatically.
+This is useful when the runtime needs to be registered manually, or when a target does not need it, such as a service worker entry.
 
 #### `esModule`
 
