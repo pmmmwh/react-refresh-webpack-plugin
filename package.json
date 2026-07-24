@@ -106,6 +106,7 @@
     "webpack-cli": "^7.0.3",
     "webpack-dev-server": "^5.2.6",
     "webpack-dev-server-v4": "npm:webpack-dev-server@^4.8.0",
+    "webpack-dev-server-v6": "npm:webpack-dev-server@^6.0.0",
     "webpack-hot-middleware": "^2.26.1",
     "webpack-plugin-serve": "^1.6.0",
     "yn": "^4.0.0"
@@ -116,7 +117,7 @@
     "sockjs-client": "^1.4.0",
     "type-fest": ">=0.17.0 <6.0.0",
     "webpack": "^5.0.0",
-    "webpack-dev-server": "^4.8.0 || 5.x",
+    "webpack-dev-server": "^4.8.0 || 5.x || 6.x",
     "webpack-hot-middleware": "2.x",
     "webpack-plugin-serve": "1.x"
   },
