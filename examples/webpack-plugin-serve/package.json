@@ -19,6 +19,10 @@
     "webpack-cli": "^6.0.1",
     "webpack-plugin-serve": "^1.6.0"
   },
+  "resolutions": {
+    "http-proxy-middleware": "^2.0.10",
+    "serialize-javascript": "^7.0.5"
+  },
   "scripts": {
     "start": "webpack --watch",
     "build": "cross-env NODE_ENV=production webpack"

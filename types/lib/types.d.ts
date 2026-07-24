@@ -11,8 +11,7 @@ export type ErrorOverlayOptions = {
    * Path to a JS file that sets up the Webpack socket integration.
    */
   sockIntegration?:
-    | import('type-fest').LiteralUnion<false | 'wds' | 'whm' | 'wps', string>
-    | undefined;
+    import('type-fest').LiteralUnion<false | 'wds' | 'whm' | 'wps', string> | undefined;
 };
 export type NormalizedErrorOverlayOptions = import('type-fest').SetRequired<
   ErrorOverlayOptions,

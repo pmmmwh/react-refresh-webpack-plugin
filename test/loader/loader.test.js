@@ -164,7 +164,7 @@ if (typeof Promise !== 'undefined' && $ReactRefreshCurrentExports$ instanceof Pr
   \\******************/
 (__webpack_module__, __webpack_exports__, __webpack_require__) {
 
-var react_refresh__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
+let react_refresh__WEBPACK_IMPORTED_MODULE_0___namespace_cache;
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
