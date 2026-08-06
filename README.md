@@ -320,11 +320,11 @@ but you can set the [`overlay.sockIntegration`](docs/API.md#sockintegration) opt
 
 The supported versions are as follows:
 
-| Dependency               | Version           |
-| ------------------------ | ----------------- |
-| `webpack-dev-server`     | `4.8.0`+ or `5.x` |
-| `webpack-hot-middleware` | `2.x`             |
-| `webpack-plugin-serve`   | `1.x`             |
+| Dependency               | Version                    |
+| ------------------------ | -------------------------- |
+| `webpack-dev-server`     | `4.8.0`+ or `5.x` or `6.x` |
+| `webpack-hot-middleware` | `2.x`                      |
+| `webpack-plugin-serve`   | `1.x`                      |
 
 ## API
 
