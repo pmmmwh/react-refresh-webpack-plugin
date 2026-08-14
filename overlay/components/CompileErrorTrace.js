@@ -51,7 +51,7 @@ function CompileErrorTrace(document, root, props) {
   for (let i = 0; i < entries.length; i += 1) {
     const entry = entries[i];
     const elem = document.createElement('span');
-    elem.innerHTML = entry.content;
+    elem.textContent = entities.decode(entry.content);
     elem.style.color = entry.fg ? `var(--color-${entry.fg})` : undefined;
     elem.style.wordBreak = 'break-word';
     switch (entry.decoration) {
