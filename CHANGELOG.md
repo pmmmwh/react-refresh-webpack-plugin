@@ -1,3 +1,19 @@
+## 0.6.3 (27 Aug 2026)
+
+### Features
+
+- Use `__webpack_global__` if available, to prevent issues with multi-pass bundling
+  ([#940](https://github.com/pmmmwh/react-refresh-webpack-plugin/pull/940))
+
+- Added support for `webpack-dev-server` 6.x
+  ([#1046](https://github.com/pmmmwh/react-refresh-webpack-plugin/pull/1046))
+
+### Internal
+
+- Bumped all development dependencies
+  ([#995](https://github.com/pmmmwh/react-refresh-webpack-plugin/pull/995),
+  [#1045](https://github.com/pmmmwh/react-refresh-webpack-plugin/pull/1045))
+
 ## 0.6.2 (26 Nov 2025)
 
 ### Fixes
