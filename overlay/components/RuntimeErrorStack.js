@@ -33,14 +33,14 @@ function RuntimeErrorStack(document, root, props) {
     errorStacks = ErrorStackParser.parse(props.error);
   } catch (e) {
     errorStacks = [];
-    stackContainer.innerHTML = 'No stack trace is available for this error!';
+    stackContainer.textContent = 'No stack trace is available for this error!';
   }
 
   for (let i = 0; i < Math.min(errorStacks.length, 10); i += 1) {
     const currentStack = errorStacks[i];
 
     const functionName = document.createElement('code');
-    functionName.innerHTML = `&emsp;${currentStack.functionName || '(anonymous function)'}`;
+    functionName.textContent = `\u2003${currentStack.functionName || '(anonymous function)'}`;
     functionName.style.color = theme.yellow;
     functionName.style.fontFamily = [
       '"SFMono-Regular"',
@@ -52,8 +52,8 @@ function RuntimeErrorStack(document, root, props) {
     ].join(', ');
 
     const fileName = document.createElement('div');
-    fileName.innerHTML =
-      '&emsp;&emsp;' +
+    fileName.textContent =
+      '\u2003\u2003' +
       utils.formatFilename(currentStack.fileName) +
       ':' +
       currentStack.lineNumber +
