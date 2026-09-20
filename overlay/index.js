@@ -82,6 +82,9 @@ function IframeRoot(document, root, props) {
   iframe.style.width = '100vw';
   iframe.style.zIndex = '2147483647';
   iframe.addEventListener('load', function onLoad() {
+    if (iframe !== iframeRoot) {
+      return;
+    }
     // Reset margin of iframe body
     iframe.contentDocument.body.style.margin = '0';
     props.onIframeLoad();
@@ -241,8 +244,11 @@ function render() {
  */
 function cleanup() {
   // Clean up and reset all internal state.
-  document.body.removeChild(iframeRoot);
+  if (iframeRoot && iframeRoot.parentNode) {
+    iframeRoot.parentNode.removeChild(iframeRoot);
+  }
   scheduledRenderFn = null;
+  rootDocument = null;
   root = null;
   iframeRoot = null;
 }
@@ -252,7 +258,14 @@ function cleanup() {
  * @returns {void}
  */
 function clearCompileError() {
-  if (!root || currentMode !== 'compileError') {
+  if (!root) {
+    currentCompileErrorMessage = '';
+    if (iframeRoot && currentRuntimeErrors.length === 0) {
+      cleanup();
+    }
+    return;
+  }
+  if (currentMode !== 'compileError') {
     return;
   }
 
@@ -267,7 +280,19 @@ function clearCompileError() {
  * @returns {void}
  */
 function clearRuntimeErrors(dismissOverlay) {
-  if (!root || currentMode !== 'runtimeError') {
+  if (!root) {
+    currentRuntimeErrorIndex = 0;
+    currentRuntimeErrors = [];
+    if (
+      (typeof dismissOverlay === 'undefined' || dismissOverlay) &&
+      iframeRoot &&
+      !currentCompileErrorMessage
+    ) {
+      cleanup();
+    }
+    return;
+  }
+  if (currentMode !== 'runtimeError') {
     return;
   }
 
@@ -316,7 +341,9 @@ function showRuntimeErrors(errors) {
  * @param {Error[]} errors
  * @returns {void}
  */
-const debouncedShowRuntimeErrors = utils.debounce(showRuntimeErrors, 30);
+const debouncedShowRuntimeErrors = utils.debounce(function () {
+  showRuntimeErrors(currentRuntimeErrors);
+}, 30);
 
 /**
  * Detects if an error is a Webpack compilation error.
@@ -337,7 +364,7 @@ function handleRuntimeError(error) {
   if (error && !isWebpackCompileError(error) && currentRuntimeErrors.indexOf(error) === -1) {
     currentRuntimeErrors = currentRuntimeErrors.concat(error);
   }
-  debouncedShowRuntimeErrors(currentRuntimeErrors);
+  debouncedShowRuntimeErrors();
 }
 
 module.exports = Object.freeze({
