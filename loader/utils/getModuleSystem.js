@@ -1,8 +1,20 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
 
-/** @type {Map<string, string | undefined>} */
-let packageJsonTypeMap = new Map();
+/** @type {WeakMap<object, Map<string, string | undefined>>} */
+const compilationPackageJsonTypeMaps = new WeakMap();
+
+function getPackageJsonTypeMap(compilation) {
+  if (!compilation) return new Map();
+
+  let packageJsonTypeMap = compilationPackageJsonTypeMaps.get(compilation);
+  if (!packageJsonTypeMap) {
+    packageJsonTypeMap = new Map();
+    compilationPackageJsonTypeMaps.set(compilation, packageJsonTypeMap);
+  }
+
+  return packageJsonTypeMap;
+}
 
 /**
  * Infers the current active module system from loader context and options.
@@ -46,6 +58,8 @@ async function getModuleSystem(ModuleFilenameHelpers, options) {
     // We assume `.js` files are CommonJS because the output cannot be ESM anyway.
     return 'cjs';
   }
+
+  const packageJsonTypeMap = getPackageJsonTypeMap(this._compilation);
 
   // We will assume CommonJS if we cannot determine otherwise
   let packageJsonType = '';
