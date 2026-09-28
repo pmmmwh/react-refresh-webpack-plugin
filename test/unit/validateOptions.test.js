@@ -121,6 +121,37 @@ describe('validateOptions', () => {
     `);
   });
 
+  it('should accept "runtimeEntry" when it is an absolute path string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({ runtimeEntry: '/test' });
+    }).not.toThrow();
+  });
+
+  it('should accept "runtimeEntry" when it is a string', () => {
+    expect(() => {
+      new ReactRefreshPlugin({ runtimeEntry: 'test' });
+    }).not.toThrow();
+  });
+
+  it('should accept "runtimeEntry" when it is false', () => {
+    expect(() => {
+      new ReactRefreshPlugin({ runtimeEntry: false });
+    }).not.toThrow();
+  });
+
+  it('should reject "runtimeEntry" when it is not a string nor false', () => {
+    expect(() => {
+      new ReactRefreshPlugin({ runtimeEntry: true });
+    }).toThrowErrorMatchingInlineSnapshot(`
+"Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
+ - options.runtimeEntry should be one of these:
+   false | string
+   Details:
+    * options.runtimeEntry should be equal to constant false.
+    * options.runtimeEntry should be a string."
+`);
+  });
+
   it('should accept "overlay" when it is true', () => {
     expect(() => {
       new ReactRefreshPlugin({ overlay: true });
@@ -311,7 +342,7 @@ describe('validateOptions', () => {
     }).toThrowErrorMatchingInlineSnapshot(`
       "Invalid options object. React Refresh Plugin has been initialized using an options object that does not match the API schema.
        - options has an unknown property 'unknown'. These properties are valid:
-         object { esModule?, exclude?, forceEnable?, include?, library?, overlay? }"
+         object { esModule?, exclude?, forceEnable?, include?, library?, runtimeEntry?, overlay? }"
     `);
   });
 });
