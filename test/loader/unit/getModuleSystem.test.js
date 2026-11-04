@@ -1,3 +1,5 @@
+const fs = require('fs/promises');
+const os = require('os');
 const path = require('path');
 const { ModuleFilenameHelpers } = require('webpack');
 
@@ -131,5 +133,30 @@ describe('getModuleSystem', () => {
         { esModule: {} }
       )
     ).resolves.toBe('cjs');
+  });
+
+  it('should re-read package type for a new compilation', async () => {
+    const fixturePath = await fs.mkdtemp(path.join(os.tmpdir(), 'react-refresh-module-system-'));
+    const packageJsonPath = path.join(fixturePath, 'package.json');
+    const loaderContext = {
+      resourcePath: path.join(fixturePath, 'index.js'),
+      rootContext: fixturePath,
+      addDependency: () => {},
+      addMissingDependency: () => {},
+    };
+
+    try {
+      await fs.writeFile(packageJsonPath, JSON.stringify({ type: 'module' }));
+      await expect(
+        getModuleSystem.call({ ...loaderContext, _compilation: {} }, ModuleFilenameHelpers, {})
+      ).resolves.toBe('esm');
+
+      await fs.writeFile(packageJsonPath, JSON.stringify({ type: 'commonjs' }));
+      await expect(
+        getModuleSystem.call({ ...loaderContext, _compilation: {} }, ModuleFilenameHelpers, {})
+      ).resolves.toBe('cjs');
+    } finally {
+      await fs.rm(fixturePath, { recursive: true, force: true });
+    }
   });
 });
