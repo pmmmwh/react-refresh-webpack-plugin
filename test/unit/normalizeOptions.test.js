@@ -1,9 +1,12 @@
 const normalizeOptions = require('../../lib/utils/normalizeOptions');
 
+const ReactRefreshEntry = require.resolve('../../client/ReactRefreshEntry');
+
 /** @type {Partial<import('../../types/types').ReactRefreshPluginOptions>} */
 const DEFAULT_OPTIONS = {
   exclude: /node_modules/i,
   include: /\.([cm]js|[jt]sx?|flow)$/i,
+  runtimeEntry: ReactRefreshEntry,
   overlay: {
     entry: require.resolve('../../client/ErrorOverlayEntry'),
     module: require.resolve('../../overlay'),
@@ -23,6 +26,7 @@ describe('normalizeOptions', () => {
         forceEnable: true,
         include: 'include',
         library: 'library',
+        runtimeEntry: 'runtimeEntry',
         overlay: {
           entry: 'entry',
           module: 'overlay',
@@ -34,6 +38,7 @@ describe('normalizeOptions', () => {
       forceEnable: true,
       include: 'include',
       library: 'library',
+      runtimeEntry: 'runtimeEntry',
       overlay: {
         entry: 'entry',
         module: 'overlay',
@@ -50,6 +55,13 @@ describe('normalizeOptions', () => {
     expect(normalizeOptions({ overlay: false })).toStrictEqual({
       ...DEFAULT_OPTIONS,
       overlay: false,
+    });
+  });
+
+  it('should keep "runtimeEntry" when it is false', () => {
+    expect(normalizeOptions({ runtimeEntry: false })).toStrictEqual({
+      ...DEFAULT_OPTIONS,
+      runtimeEntry: false,
     });
   });
 
